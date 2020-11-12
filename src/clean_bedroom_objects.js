@@ -1,0 +1,4 @@
+export const objectData = {
+    "sceneObjects": ["desk", "wardrobe", "drawer", "rug", "dresser", "window", "mattress", "lamp", "curtain", "fan", "shelf", "blind", "table", "bookshelf", "nightstand", "lampshade", "bulb", "chair"],
+    "nonsceneObjects": ["box", "shirt", "pant", "dress", "sweater", "dust", "wardrobe", "floor", "wall", "bag", "trash", "book", "sheet", "poster", "vacuum", "duster", "pillow", "paper", "picture", "tape", "blanket", "toy", "shoe", "laundry", "towel", "bin", "frame", "hook", "broom", "mirror", "mop", "hanger", "comforter", "pillowcase", "cleaning fluid", "freshener", "food", "pencil", "art", "marker", "deodorant", "jewelry", "suitcase", "trophy", "dress", "bedsheet", "duvet", "bleach", "notebook"]
+}
