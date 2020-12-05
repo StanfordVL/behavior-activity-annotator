@@ -1,8 +1,8 @@
 const INITIAL_XML = '<xml xmlns="http://www.w3.org/1999/xhtml"><block type="text" x="70" y="30"><field name="TEXT"></field></block></xml>';
 
 const INITIAL_TOOLBOX_XML = '<xml xmlns="http://www.w3.org/1999/xhtml" id="toolbox" style="display: none;">\n'
-  + '  <category name="Logic" colour="#5C81A6">\n'
-  + '    <block type="controls_if"></block>\n'
+  + '  <category name="Sentence blocks" colour="#5C81A6">\n'
+  // + '    <block type="controls_if"></block>\n'
   + '    <block type="logic_compare">\n'
   + '      <field name="OP">EQ</field>\n'
   + '    </block>\n'
@@ -13,7 +13,7 @@ const INITIAL_TOOLBOX_XML = '<xml xmlns="http://www.w3.org/1999/xhtml" id="toolb
   + '    <block type="logic_boolean">\n'
   + '      <field name="BOOL">TRUE</field>\n'
   + '    </block>\n'
-  + '    <block type="logic_null"></block>\n'
+  // + '    <block type="logic_null"></block>\n'
   + '    <block type="logic_ternary"></block>\n'
   + '  </category>\n'
   + '  <category name="Loops" colour="#5CA65C">\n'
@@ -358,7 +358,7 @@ const INITIAL_TOOLBOX_XML = '<xml xmlns="http://www.w3.org/1999/xhtml" id="toolb
   + '  <category name="Custom Button" colour="#A6745C">\n'
   + '    <button text="A button" callbackKey="myFirstButtonPressed"></button>\n'
   + '  </category>\n'
-  + '  <category name="Variables" colour="#A65C81" custom="VARIABLE"></category>\n'
+  + '  <category name="Object and List blocks" colour="#A65C81" custom="VARIABLE"></category>\n'
   + '  <category name="Functions" colour="#9A5CA6" custom="PROCEDURE"></category>\n'
   + '</xml>';
 
