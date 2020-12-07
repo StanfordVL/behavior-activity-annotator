@@ -1,0 +1,280 @@
+{
+    "name": "object",
+    "children": [
+        {
+            "name": "container",
+            "children": [
+                {
+                    "name": "bag",
+                    "children": []
+                },
+                {
+                    "name": "box",
+                    "children": []
+                }
+            ]
+        },
+        {
+            "name": "dish",
+            "children": [
+                {
+                    "name": "bottle",
+                    "children": []
+                },
+                {
+                    "name": "bowl",
+                    "children": []
+                },
+                {
+                    "name": "casserole_dish",
+                    "children": []
+                },
+                {
+                    "name": "cup",
+                    "children": []
+                },
+                {
+                    "name": "mug",
+                    "children": []
+                },
+                {
+                    "name": "tureen",
+                    "children": []
+                }
+            ]
+        },
+        {
+            "name": "drink",
+            "children": [
+                {
+                    "name": "juice",
+                    "children": []
+                },
+                {
+                    "name": "milk",
+                    "children": []
+                },
+                {
+                    "name": "soda",
+                    "children": []
+                },
+                {
+                    "name": "water",
+                    "children": []
+                }
+            ]
+        },
+        {
+            "name": "food",
+            "children": [
+                {
+                    "name": "cereal", 
+                    "children": []
+                },
+                {
+                    "name": "chives", 
+                    "children": []
+                },
+                {
+                    "name": "dairy", 
+                    "children": [
+                        {
+                            "name": "butter", 
+                            "children": []
+                        },
+                        {
+                            "name": "cheese", 
+                            "children": []
+                        },
+                        {
+                            "name": "yogurt", 
+                            "children": []
+                        }
+                    ]
+                },
+                {
+                    "name": "dressing", 
+                    "children": []
+                },
+                {
+                    "name": "fruit", 
+                    "children": [
+                        {
+                            "name": "apple", 
+                            "children": []
+                        },
+                        {
+                            "name": "apricot", 
+                            "children": []
+                        },
+                        {
+                            "name": "cherry", 
+                            "children": []
+                        },
+                        {
+                            "name": "lemon", 
+                            "children": []
+                        },
+                        {
+                            "name": "orange", 
+                            "children": []
+                        },
+                        {
+                            "name": "pear", 
+                            "children": []
+                        },
+                        {
+                            "name": "pineapple", 
+                            "children": []
+                        },
+                        {
+                            "name": "plum", 
+                            "children": []
+                        },
+                        {
+                            "name": "pomegranate", 
+                            "children": []
+                        },
+                        {
+                            "name": "raspberry", 
+                            "children": []
+                        },
+                        {
+                            "name": "strawberry", 
+                            "children": []
+                        }
+                    ]
+                },
+                {
+                    "name": "grain", 
+                    "children": []
+                },
+                {
+                    "name": "granola", 
+                    "children": []
+                },
+                {
+                    "name": "meal", 
+                    "children": [
+                        {
+                            "name": "salad", 
+                            "children": []
+                        },
+                        {
+                            "name": "sandwich", 
+                            "children": []
+                        },
+                        {
+                            "name": "soup", 
+                            "children": []
+                        },
+                        {
+                            "name": "wrap", 
+                            "children": []
+                        }
+                    ]
+                },
+                {
+                    "name": "parsley", 
+                    "children": []
+                },
+                {
+                    "name": "pepper", 
+                    "children": []
+                },
+                {
+                    "name": "protein", 
+                    "children": [
+                        {
+                            "name": "eggs", 
+                            "children": []
+                        },
+                        {
+                            "name": "nuts", 
+                            "children": []
+                        }
+                    ]
+                },
+                {
+                    "name": "sauce", 
+                    "children": [
+                        {
+                            "name": "pepper_sauce", 
+                            "children": []
+                        },
+                        {
+                            "name": "tomato_sauce", 
+                            "children": []
+                        }
+                    ]
+                },
+                {
+                    "name": "side", 
+                    "children": []
+                },
+                {
+                    "name": "snack", 
+                    "children": [
+                        {
+                            "name": "chips", 
+                            "children": []
+                        }
+                    ]
+                },
+                {
+                    "name": "sugar", 
+                    "children": []
+                },
+                {
+                    "name": "vegetable", 
+                    "children": [
+                        {
+                            "name": "broccoli", 
+                            "children": []
+                        },
+                        {
+                            "name": "cabbage", 
+                            "children": []
+                        },
+                        {
+                            "name": "corn", 
+                            "children": []
+                        },
+                        {
+                            "name": "cucumber", 
+                            "children": []
+                        },
+                        {
+                            "name": "eggplant", 
+                            "children": []
+                        },
+                        {
+                            "name": "garlic", 
+                            "children": []
+                        },
+                        {
+                            "name": "jar_olives", 
+                            "children": []
+                        },
+                        {
+                            "name": "olives", 
+                            "children": []
+                        },
+                        {
+                            "name": "pepper", 
+                            "children": []
+                        },
+                        {
+                            "name": "tomato", 
+                            "children": []
+                        },
+                        {
+                            "name": "zucchini", 
+                            "children": []
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

@@ -17,6 +17,9 @@ import ReactBlockly from 'react-blockly';
 import ConfigFiles from './blockly_content';
 import parseWorkspaceXml from './blockly_helper';
 import { BlocklyToolboxBlock, BlocklyEditor, BlocklyToolbox, BlocklyToolboxCategory, BlocklyWorkspace } from 'react-blockly';
+// import Tree from 'react-tree-graph';
+import Tree from "react-d3-tree";
+import CenteredTree from "./centered_tree.js";
 
 import { objectData } from "./clean_bedroom_objects";
 let resultCodeObj;
@@ -121,13 +124,13 @@ class Instructions extends React.Component {
     super(props);
     this.state = {
       title: 'Create initial conditions.',
-      activityName: 'Clean the bedroom.',
+      activityName: 'Pack lunch for four people.',
       objectRows: 6,
       toolboxCategories: parseWorkspaceXml(ConfigFiles.INITIAL_TOOLBOX_XML),
-      exampleSuperCat: "clothing",
-      exampleSubCat1: "shirt",
-      exampleSubCat2: "dress",
-      exampleDescriptor: "folded"
+      exampleSuperCat: "meat",
+      exampleSubCat1: "chicken",
+      exampleSubCat2: "turkey",
+      exampleDescriptor: "cooked"
 
     };
     this.createObjectTable = this.createObjectTable.bind(this);
@@ -139,12 +142,32 @@ class Instructions extends React.Component {
     // this.onClickExample = this.onClickExample.bind(this);
   }
 
+  treeOnClick(event, nodeKey) {
+    alert(`Left clicked ${nodeKey}`);
+  }
+  
+  treeOnRightClick(event, nodeKey) {
+    event.preventDefault();
+    alert(`Right clicked ${nodeKey}`);
+  }
+
   render() {
+
+    let data = {
+      name: 'Parent',
+      children: [{
+          name: 'Child One'
+      }, {
+          name: 'Child Two'
+      }]
+  };
+   
 
     console.log('render is called');
  
     return (
       <div>
+
         <div id='experimenttitle'>
           <h1>Defining household activities.</h1>
         </div>
@@ -253,11 +276,25 @@ class Instructions extends React.Component {
             {this.state.exampleSubCat1}, or {this.state.exampleSubCat2} in your description. The important thing 
             to remember is that if you say something applies to {this.state.exampleSuperCat}, e.g. 
             "{this.state.exampleSuperCat} is {this.state.exampleDescriptor}", that will apply to everything that is 
-            {this.state.exampleSuperCat}, including {this.state.exampleSubCat1} and {this.state.exampleSubCat2}.
+             {this.state.exampleSuperCat}, including {this.state.exampleSubCat1} and {this.state.exampleSubCat2}.
           </p>
           <p>
             [TODO: an interactive tree that lays out object taxonomy. When an object label is clicked,
             it gives an option to add and asks how many, then spawns that many ground terms of the type.]
+            {/* <div className="custom-container">
+              <Tree
+                  data={data}
+                  height={400}
+                  width={400}
+                  gProps={{
+                    onClick: this.treeOnClick,
+                    onContextMenu: this.treeOnRightClick}}
+                  svgProps={{
+                    className: 'custom'}}
+              />
+            </div> */}
+            <CenteredTree/>
+            
             {this.createObjectTable(objectData.nonsceneObjects)}
           </p>
           <p>
