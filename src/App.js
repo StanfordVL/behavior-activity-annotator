@@ -20,105 +20,13 @@ import { BlocklyToolboxBlock, BlocklyEditor, BlocklyToolbox, BlocklyToolboxCateg
 // import Tree from 'react-tree-graph';
 import Tree from "react-d3-tree";
 import CenteredTree from "./centered_tree.js";
+import BlocklyDrawer, { Block, Category } from 'react-blockly-drawer';
+import { helloWorld } from './custom_blocks'
 
 import { objectData } from "./clean_bedroom_objects";
 let resultCodeObj;
 
-export default class TestEditor extends React.Component {
-  constructor(props) {
-    super(props);
-    let allToolboxCategories = parseWorkspaceXml(ConfigFiles.INITIAL_TOOLBOX_XML);
-    let ourToolboxCategories = [allToolboxCategories[0], allToolboxCategories[1], allToolboxCategories[7]];
-    this.state = {
-      toolboxCategories: ourToolboxCategories,
-      resultCode: {}
-    };
-    console.log(this.state.toolboxCategories);
-  }
-
-  componentDidMount = () => {
-    window.setTimeout(() => {
-      this.setState({
-        toolboxCategories: this.state.toolboxCategories.concat([
-          {
-            blocks: [
-              { type: 'text' },
-              {
-                type: 'text_print',
-                values: {
-                  TEXT: {
-                    type: 'text',
-                    shadow: true,
-                    fields: {
-                      TEXT: 'abc',
-                    },
-                  },
-                },
-              },
-            ],
-          },
-        ]),
-      });
-    }, 2000);
-
-    window.setTimeout(() => {
-      this.setState({
-        toolboxCategories: [
-          ...this.state.toolboxCategories.slice(0, this.state.toolboxCategories.length - 1),
-          {
-            ...this.state.toolboxCategories[this.state.toolboxCategories.length - 1],
-            blocks: [
-              { type: 'text' },
-            ],
-          },
-        ],
-      });
-    }, 4000);
-
-    window.setTimeout(() => {
-      this.setState({
-        toolboxCategories: this.state.toolboxCategories.slice(0, this.state.toolboxCategories.length - 1),
-      });
-    }, 10000);
-  }
-
-  workspaceDidChange = (workspace) => {
-    workspace.registerButtonCallback('myFirstButtonPressed', () => {
-      alert('button is pressed');
-    });
-    const newXml = Blockly.Xml.domToText(Blockly.Xml.workspaceToDom(workspace));
-    document.getElementById('generated-xml').innerText = newXml;
-
-    const code = Blockly.JavaScript.workspaceToCode(workspace);
-    document.getElementById('code').value = code;
-    resultCodeObj = code;
-    this.setState({resultCode: code})
-  }
-
-  render = () => (
-
-    <ReactBlockly
-      toolboxCategories={this.state.toolboxCategories}
-      workspaceConfiguration={{
-        grid: {
-          spacing: 20,
-          length: 3,
-          colour: '#ccc',
-          snap: true,
-        },
-      }}
-      initialXml={ConfigFiles.INITIAL_XML}
-      wrapperDivClassName="fill-height"
-      workspaceDidChange={this.workspaceDidChange}
-    />
-  )
-}
-
-// class BlocklyEditor extends React.Component {
-
-// }
-
-class Instructions extends React.Component {
+export default class Instructions extends React.Component {
 
   constructor(props) {
     super(props);
@@ -316,6 +224,31 @@ class Instructions extends React.Component {
           </p>
         </div>
 
+        <div>
+          <BlocklyDrawer
+            tools={[helloWorld]}
+            onChange={(code, workspace) => {
+              console.log(code);
+              resultCodeObj = code;
+            }}
+            appearance={
+              {
+                categories: {
+                  Demo: {
+                    colour: '270'
+                  }
+                }
+              }
+            }
+          >
+            <Category name="Variables" custom="VARIABLE"/>
+            <Category name="Values">
+              <Block type="math_number" />
+              <Block type="text" />
+            </Category>
+          </BlocklyDrawer>
+        </div>
+
         <div id='submit'>
           <button onClick={this.handleSave} id="create">
             Save
@@ -415,7 +348,7 @@ class Instructions extends React.Component {
 
 window.addEventListener('load', () => {
   const instructions = React.createElement(Instructions);
-  const editor = React.createElement(TestEditor);
+  // const editor = React.createElement(TestEditor);
   ReactDOM.render(instructions, document.getElementById('root'));
-  ReactDOM.render(editor, document.getElementById('blockly'));
+  // ReactDOM.render(editor, document.getElementById('blockly'));
 });
