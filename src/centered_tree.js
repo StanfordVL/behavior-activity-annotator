@@ -19,7 +19,8 @@ const sceneObjects = require('./pack_lunch_objects.json')
 
 const containerStyles = {
   width: '100%',
-  height: '50vh',
+  height: '100vh',
+  fontSize: 40
 }
 
 export default class CenteredTree extends React.PureComponent {
@@ -41,7 +42,23 @@ export default class CenteredTree extends React.PureComponent {
         <Tree 
           data={sceneObjects} 
           translate={this.state.translate} 
-          orientation={'vertical'}
+          orientation={'horizontal'}
+          nodeSvgShape = {
+              {
+                  shape: 'circle', 
+                  shapeProps: {
+                      r: 15,
+                  }
+              }
+          }
+          separation={{
+              siblings: 0.25,
+              nonSiblings: 0.5
+          }}
+          depthFactor={800}
+          textLayout={
+            {textAnchor: "start", x: 15, y: -10, transform: undefined }
+          }
         />
       </div>
     );
