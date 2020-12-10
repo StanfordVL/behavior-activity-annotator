@@ -59,6 +59,11 @@ export default class CenteredTree extends React.PureComponent {
           textLayout={
             {textAnchor: "start", x: 15, y: -10, transform: undefined }
           }
+          onRightClick={
+            function(nodeData, evt) {
+              console.log('right clicked!')
+            }
+          }
         />
       </div>
     );

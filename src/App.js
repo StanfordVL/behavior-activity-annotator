@@ -2,7 +2,8 @@
 
 import React from 'react';
 import ReactDOM from 'react-dom'
-import Blockly from 'blockly';
+// import Blockly from 'blockly';
+import Blockly from 'node-blockly/browser'
 import AirTable from 'airtable';
 import $ from 'jquery'; 
 import AirTableError from 'airtable/build/airtable.browser'
@@ -13,15 +14,15 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 // import Dropdown from 'react-bootstrap/Dropdown';
 import Table from 'react-bootstrap/Table';
 import Form from 'react-bootstrap/Form';
-import ReactBlockly from 'react-blockly';
+// import ReactBlockly from 'react-blockly';
 import ConfigFiles from './blockly_content';
 import parseWorkspaceXml from './blockly_helper';
 import { BlocklyToolboxBlock, BlocklyEditor, BlocklyToolbox, BlocklyToolboxCategory, BlocklyWorkspace } from 'react-blockly';
 // import Tree from 'react-tree-graph';
-import Tree from "react-d3-tree";
+// import Tree from "react-d3-tree";
 import CenteredTree from "./centered_tree.js";
 import BlocklyDrawer, { Block, Category } from 'react-blockly-drawer';
-import { helloWorld } from './custom_blocks'
+import FinalConditionDrawer from './custom_blocks'
 
 import { objectData } from "./clean_bedroom_objects";
 let resultCodeObj;
@@ -46,30 +47,9 @@ export default class Instructions extends React.Component {
     this.createObjectTableRow = this.createObjectTableRow.bind(this);
     this.createObjectTableCell = this.createObjectTableCell.bind(this);
     this.handleSave = this.handleSave.bind(this);
-
-    // this.onClickExample = this.onClickExample.bind(this);
-  }
-
-  treeOnClick(event, nodeKey) {
-    alert(`Left clicked ${nodeKey}`);
-  }
-  
-  treeOnRightClick(event, nodeKey) {
-    event.preventDefault();
-    alert(`Right clicked ${nodeKey}`);
   }
 
   render() {
-
-    let data = {
-      name: 'Parent',
-      children: [{
-          name: 'Child One'
-      }, {
-          name: 'Child Two'
-      }]
-  };
-   
 
     console.log('render is called');
  
@@ -116,15 +96,15 @@ export default class Instructions extends React.Component {
           <p>
             First, I'll introduce you to the scene you have available for doing this task.
           </p>
-        </div>
-          <p>
+          {/* <p>
             Select the room(s) you think "{this.state.activityName}" would be done in.
             We think the majority of these activities can be done in one room, but there are 
             clear exceptions - e.g. bringing in groceries from the garage would probably need 
             both a garage and a kitchen. So only pick what you really need to make a reasonable 
             setup, but if that involves more than one room, that works!
-          </p>
-        <div id='roomselection'>
+          </p> */}
+        </div>
+        {/* <div id='roomselection'>
           <p>
             <Form>
               <div key={`room-options`} className="mb-3">
@@ -156,18 +136,24 @@ export default class Instructions extends React.Component {
               </div>
             </Form>
           </p>
-        </div>
+        </div> */}
 
         <div id='sceneImages'>
-          <p>[TODO Once rooms are selected, examples of those rooms in iG will appear here.
-            Images, or navigable rooms if possible.]</p>
+          <p>[TODO click and drag interface of a few iGibson scenes]</p>
         </div>
 
         <div id='sceneObjects'> 
-          <h5>Objects you see in the scene above.</h5> 
-          These will be present in the scene no matter what, 
-          so your conditions cannot ask for them to not exist in the scene. However, you don't have to 
-          use them in your conditions. [TODO refine this]
+          <h5>Objects that make up your scene.</h5> 
+          <p>
+            First, choose the which furniture objects are relevant for your 
+            initial and goal conditions. Don't worry about picking all the furniture
+            and other scene objects you want for the house - we'll make sure to have a 
+            realistic looking scene overall!
+            Just tell us which ones you need for {this.state.activityName}. For example,
+            if you need a table to do {this.state.activityName} and don't need a sofa, 
+            even if you like the idea of having a sofa in the environment for aesthetics,
+            add the table but not the sofa. 
+          </p>
           {this.createObjectTable(objectData.sceneObjects)}
         </div>
 
@@ -187,23 +173,10 @@ export default class Instructions extends React.Component {
              {this.state.exampleSuperCat}, including {this.state.exampleSubCat1} and {this.state.exampleSubCat2}.
           </p>
           <p>
-            [TODO: an interactive tree that lays out object taxonomy. When an object label is clicked,
-            it gives an option to add and asks how many, then spawns that many ground terms of the type.]
-            {/* <div className="custom-container">
-              <Tree
-                  data={data}
-                  height={400}
-                  width={400}
-                  gProps={{
-                    onClick: this.treeOnClick,
-                    onContextMenu: this.treeOnRightClick}}
-                  svgProps={{
-                    className: 'custom'}}
-              />
-            </div> */}
+            [TODO:S. When an object label is clicked, it gives an option to add and asks how many, then spawns that many ground terms of the type.]
             <CenteredTree/>
             
-            {this.createObjectTable(objectData.nonsceneObjects)}
+            {/* {this.createObjectTable(objectData.nonsceneObjects)} */}
           </p>
           <p>
             You don't have to use all these objects! Just use the ones you find useful. If there's an object
@@ -225,28 +198,7 @@ export default class Instructions extends React.Component {
         </div>
 
         <div>
-          <BlocklyDrawer
-            tools={[helloWorld]}
-            onChange={(code, workspace) => {
-              console.log(code);
-              resultCodeObj = code;
-            }}
-            appearance={
-              {
-                categories: {
-                  Demo: {
-                    colour: '270'
-                  }
-                }
-              }
-            }
-          >
-            <Category name="Variables" custom="VARIABLE"/>
-            <Category name="Values">
-              <Block type="math_number" />
-              <Block type="text" />
-            </Category>
-          </BlocklyDrawer>
+          {<FinalConditionDrawer/>}
         </div>
 
         <div id='submit'>
@@ -285,9 +237,6 @@ export default class Instructions extends React.Component {
 
     console.log('sucess');
   }
-
-
-
 
 
   createObjectTableCell(objectArray, r, c, cols) {
