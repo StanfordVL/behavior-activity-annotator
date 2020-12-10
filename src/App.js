@@ -2,29 +2,17 @@
 
 import React from 'react';
 import ReactDOM from 'react-dom'
-// import Blockly from 'blockly';
-import Blockly from 'node-blockly/browser'
 import AirTable from 'airtable';
 import $ from 'jquery'; 
 import AirTableError from 'airtable/build/airtable.browser'
-import logo from './logo.svg';
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-// import Dropdown from 'react-bootstrap/Dropdown';
-import Table from 'react-bootstrap/Table';
-import Form from 'react-bootstrap/Form';
-// import ReactBlockly from 'react-blockly';
-import ConfigFiles from './blockly_content';
-import parseWorkspaceXml from './blockly_helper';
-import { BlocklyToolboxBlock, BlocklyEditor, BlocklyToolbox, BlocklyToolboxCategory, BlocklyWorkspace } from 'react-blockly';
-// import Tree from 'react-tree-graph';
-// import Tree from "react-d3-tree";
-import CenteredTree from "./centered_tree.js";
-import BlocklyDrawer, { Block, Category } from 'react-blockly-drawer';
+import CenteredTree from "./object_hierarchy.js";
 import FinalConditionDrawer from './custom_blocks'
+import SceneObjectTable from './scene_object_table';
+import Button from 'react-bootstrap/Button'
 
-import { objectData } from "./clean_bedroom_objects";
 let resultCodeObj;
 
 export default class Instructions extends React.Component {
@@ -34,18 +22,12 @@ export default class Instructions extends React.Component {
     this.state = {
       title: 'Create initial conditions.',
       activityName: 'Pack lunch for four people.',
-      objectRows: 6,
-      toolboxCategories: parseWorkspaceXml(ConfigFiles.INITIAL_TOOLBOX_XML),
       exampleSuperCat: "meat",
       exampleSubCat1: "chicken",
       exampleSubCat2: "turkey",
       exampleDescriptor: "cooked"
 
     };
-    this.createObjectTable = this.createObjectTable.bind(this);
-    this.createObjectTableBody = this.createObjectTableBody.bind(this);
-    this.createObjectTableRow = this.createObjectTableRow.bind(this);
-    this.createObjectTableCell = this.createObjectTableCell.bind(this);
     this.handleSave = this.handleSave.bind(this);
   }
 
@@ -96,48 +78,7 @@ export default class Instructions extends React.Component {
           <p>
             First, I'll introduce you to the scene you have available for doing this task.
           </p>
-          {/* <p>
-            Select the room(s) you think "{this.state.activityName}" would be done in.
-            We think the majority of these activities can be done in one room, but there are 
-            clear exceptions - e.g. bringing in groceries from the garage would probably need 
-            both a garage and a kitchen. So only pick what you really need to make a reasonable 
-            setup, but if that involves more than one room, that works!
-          </p> */}
         </div>
-        {/* <div id='roomselection'>
-          <p>
-            <Form>
-              <div key={`room-options`} className="mb-3">
-                <Form.Check
-                  type='checkbox'
-                  id={`kitchen-checkbox`}
-                  label={`kitchen`}
-                />
-                <Form.Check
-                  type='checkbox'
-                  id={`bedroom-checkbox`}
-                  label={`bedroom`}
-                />
-                <Form.Check
-                  type='checkbox'
-                  id={`bathroom-checkbox`}
-                  label={`bathroom`}
-                />
-                <Form.Check
-                  type='checkbox'
-                  id={`garage-checkbox`}
-                  label={`garage`}
-                />
-                <Form.Check
-                  type='checkbox'
-                  id={`livingroom-checkbox`}
-                  label={`living room`}
-                />
-              </div>
-            </Form>
-          </p>
-        </div> */}
-
         <div id='sceneImages'>
           <p>[TODO click and drag interface of a few iGibson scenes]</p>
         </div>
@@ -154,7 +95,7 @@ export default class Instructions extends React.Component {
             even if you like the idea of having a sofa in the environment for aesthetics,
             add the table but not the sofa. 
           </p>
-          {this.createObjectTable(objectData.sceneObjects)}
+          {<SceneObjectTable/>}
         </div>
 
         <div id='nonsceneObjects'>
@@ -202,10 +143,14 @@ export default class Instructions extends React.Component {
         </div>
 
         <div id='submit'>
-          <button onClick={this.handleSave} id="create">
-            Save
-
-          </button>
+          <Button 
+            onClick={this.handleSave} 
+            id="submitbutton"
+            variant="outline-primary"
+            size="lg"
+          >
+            Save Final State
+          </Button>
         </div>
       </div>
     )
@@ -237,67 +182,10 @@ export default class Instructions extends React.Component {
 
     console.log('sucess');
   }
-
-
-  createObjectTableCell(objectArray, r, c, cols) {
-    let numObjects = objectArray.length;
-    let objectIndex = (cols * r) + c;
-    var cellValue;
-    if (objectIndex < numObjects) {
-      cellValue = objectArray[objectIndex];
-    } else {
-      cellValue = '';
-    }
-    return (cellValue);
-  }
-
-  createObjectTableRow(objectArray, r, cols) {
-    return (Array.from({ length: cols }).map((_, c) => (
-      <td key={c}>
-        {this.createObjectTableCell(objectArray, r, c, cols)}
-      </td>
-    )))
-  }
-
-  createObjectTableBody(objectArray, cols) {
-    return (
-      Array.from({ length: this.state.objectRows }).map((_, r) => (
-        <tr key={r}>
-          {this.createObjectTableRow(objectArray, r, cols)}
-        </tr>
-      ))
-    )
-  }
-
-  createObjectTable(objectArray) {
-
-    var rows = this.state.objectRows;
-    let cols = Math.ceil(objectArray.length / rows);
-    return (
-      <Table striped bordered responsive>
-        <tbody>
-          {/* {this.createObjectTableBody(objectArray, cols)} */}
-          {Array.from({ length: this.state.objectRows }).map((_, r) => (
-            <tr key={r}>
-              {Array.from({ length: cols }).map((_, c) => (
-                <td key={c}>
-                  {this.createObjectTableCell(objectArray, r, c, cols)}
-                </td>
-              ))}
-            </tr>
-          ))}
-          
-        </tbody>
-      </Table>
-    )
-  } 
-
 }
 
 
 window.addEventListener('load', () => {
   const instructions = React.createElement(Instructions);
-  // const editor = React.createElement(TestEditor);
   ReactDOM.render(instructions, document.getElementById('root'));
-  // ReactDOM.render(editor, document.getElementById('blockly'));
 });
