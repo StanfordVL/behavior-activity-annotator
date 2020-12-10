@@ -4,6 +4,7 @@ import Form from 'react-bootstrap/Form'
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger'
 import Popover from 'react-bootstrap/Popover'
 import Table from 'react-bootstrap/Table'
+
 const objectData = require('./scene_objects.json')
 
 
@@ -11,12 +12,13 @@ export default class SceneObjectTable extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            objectRows: 6
+            objectRows: 6,
+            selectedObject: null
         }
         this.createObjectTable = this.createObjectTable.bind(this);
         this.createObjectTableCellValue = this.createObjectTableCellValue.bind(this);
-        this.selectedObjects = [];
         this.createObjectTableCell = this.createObjectTableCell.bind(this);
+        this.handleObjectAddChange = this.handleObjectAddChange.bind(this);
     }
 
     createObjectTable(objectArray) {
@@ -37,11 +39,17 @@ export default class SceneObjectTable extends React.Component {
         )
     }
 
+    handleObjectAddChange(event) {
+        console.log(event.target.value)
+        this.selectedObject = event.target.value
+        console.log(this.state)
+    }
+
     createObjectTableCell(objectArray, r, c, cols) {
         return(
             <OverlayTrigger
                 trigger="click"
-                placement="right"
+                placement="bottom"
                 overlay={
                     <Popover id="add-object-popover">
                         <Popover.Title as="h3">
@@ -49,7 +57,7 @@ export default class SceneObjectTable extends React.Component {
                         </Popover.Title>
                         <Popover.Content>
                             how many do you want? {
-                                <Form>
+                                <Form onChange={this.handleObjectAddChange}>
                                     <Form.Control type='text' placeholder='0'/>
                                     <Button 
                                         variant="outline-dark" 

@@ -12,6 +12,7 @@ import CenteredTree from "./object_hierarchy.js";
 import FinalConditionDrawer from './custom_blocks'
 import SceneObjectTable from './scene_object_table';
 import Button from 'react-bootstrap/Button'
+import Form from 'react-bootstrap/Form'
 
 let resultCodeObj;
 
@@ -146,7 +147,7 @@ export default class Instructions extends React.Component {
           <Button 
             onClick={this.handleSave} 
             id="submitbutton"
-            variant="outline-primary"
+            variant="outline-dark"
             size="lg"
           >
             Save Final State
