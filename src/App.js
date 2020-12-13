@@ -13,9 +13,12 @@ import FinalConditionDrawer from './custom_blocks'
 import SceneObjectTable from './scene_object_table';
 import Button from 'react-bootstrap/Button'
 import Form from 'react-bootstrap/Form'
+import Card from 'react-bootstrap/Card'
 import SelectedObjectsList from './selected_objects_list';
+import { InitialConditionInstruction, Introduction, SceneObjectSetup } from './instruction_sections'
 
 let resultCodeObj;
+const activityParameters = require('./pack_lunch_params.json')
 
 export default class Instructions extends React.Component {
 
@@ -45,15 +48,16 @@ export default class Instructions extends React.Component {
  
     return (
       <div>
+        <Card>
+          <Card.Body>
+            <h1>Defining household activities</h1>
+            <h2>Activity: {activityParameters.activity_name}</h2>
+          </Card.Body>
+        </Card>
+        <Introduction params={activityParameters}/>
+        <SceneObjectSetup params={activityParameters}/>
+        <InitialConditionInstruction params={activityParameters}/>
 
-        <div id='experimenttitle'>
-          <h1>Defining household activities.</h1>
-        </div>
-
-        {/* Section 1: Describe the activity and annotation process */}
-        <div id='activityname'>
-          <h3>Activity: {this.state.activityName} </h3>
-        </div>
 
         <div id='conditiondescription'>
           <p>

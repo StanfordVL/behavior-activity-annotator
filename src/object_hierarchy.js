@@ -1,5 +1,5 @@
 import React from "react";
-import Tree from "react-d3-tree";
+import Tree from "./react-d3-src";
 
 
 const sceneObjects = require('./pack_lunch_objects.json')
@@ -9,15 +9,6 @@ const containerStyles = {
   height: '100vh',
   fontSize: 40
 }
-
-// const getDepth = ({ children }) => 1 + (children ? Math.max(...children.map(getDepth)) : 0)
-
-// function getObjectJSONDepth(jsonData, depth=0) {
-//   var totalDepth = depth;
-//   for (let prop in jsonData) {
-    
-//   }
-// }
 
 const getJSONDepth = ({ children }) => 1 + (children ? Math.max(...children.map(getJSONDepth)) : 0)
 let sceneObjectsDepth = getJSONDepth(sceneObjects);
@@ -37,7 +28,6 @@ export default class CenteredTree extends React.PureComponent {
   }
 
   render() {
-    console.log('DEPTH:', sceneObjectsDepth);
     return (
       <div style={containerStyles} ref={tc => (this.treeContainer = tc)}>
         <Tree 

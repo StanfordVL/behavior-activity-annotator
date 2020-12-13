@@ -19,10 +19,10 @@ export default class SceneObjectTable extends React.Component {
                 map[sceneObj] = "";
                 return map;
             }, {}),
-            buttonDisables: objectData.sceneObjects.reduce((map, sceneObj) => {
-                map[sceneObj] = true;
-                return map;
-            }, {})
+            // buttonDisables: objectData.sceneObjects.reduce((map, sceneObj) => {
+            //     map[sceneObj] = true;
+            //     return map;
+            // }, {})
         }
         this.createObjectTable = this.createObjectTable.bind(this);
         this.createObjectTableCellValue = this.createObjectTableCellValue.bind(this);
@@ -65,7 +65,7 @@ export default class SceneObjectTable extends React.Component {
                         <Popover.Content>
                             how many do you want? {
                                 // <Form onChange={this.handleObjectAddChange}>
-                                <Form 
+                                <Form
                                     // onChange={(event) => {this.setState({singleSelectedObjects: event.target.value}); }}
                                     onChange={(event) => {
                                         this.updateSingleSelectedObjects(cellValue, event.target.value);
@@ -87,6 +87,7 @@ export default class SceneObjectTable extends React.Component {
                                         variant="outline-dark" 
                                         size="sm"
                                         type="submit"
+                                        disabled={this.state.categorySelectedValues[cellValue] === ""}
                                         // disabled={this.state.buttonDisables[cellValue]}
                                         // onClick={(event) => {this.setState({selectedObjects: this.state.selectedObjects.push(this.state.selectedObject)}); console.log(this.state)}}
                                     >
@@ -105,21 +106,35 @@ export default class SceneObjectTable extends React.Component {
         )
     }
 
+    
+
     clearSingleSelectedObjectValue(object) {
         this.state.singleSelectedObjects[object] = 0;
         console.log('FROM RESET FUNCTION:', this.state.singleSelectedObjects)
     }
 
     updateSelectedObjects(object) {
+        // if (object in this.state.selectedObjects) {
+        //     this.state.selectedObjects[object] += this.state.singleSelectedObjects[object]
+        // } else {
+        //     this.state.selectedObjects[object] = this.state.singleSelectedObjects[object]
+        // }
+
+        let newSelections = {...this.state.selectedObjects};
         if (object in this.state.selectedObjects) {
-            this.state.selectedObjects[object] += this.state.singleSelectedObjects[object]
+            newSelections[object] += this.state.selectedObjects[object]
+            this.setState({ selectedObjects: newSelections })
         } else {
-            this.state.selectedObjects[object] = this.state.singleSelectedObjects[object]
+            newSelections[object] = this.state.selectedObjects[object]
+            this.setState({ selectedObjects: newSelections })
         }
     }
 
     updateSingleSelectedObjects(object, number) {
-        this.state.singleSelectedObjects[object] = parseInt(number);
+        this.state.categorySelectedValues[object] = parseInt(number);
+        let newSelections = {...this.state.categorySelectedValues};
+        newSelections[object] = parseInt(number);
+        this.setState({categorySelectedValues: newSelections})
     }
 
     createObjectTableCellValue(objectArray, r, c, cols) {

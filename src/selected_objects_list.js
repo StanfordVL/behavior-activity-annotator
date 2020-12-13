@@ -19,19 +19,21 @@ export default class SelectedObjectsList extends React.Component {
     createSingleCategoryList(category, i) {
         console.log(this.props.selectedObjects)
         return (
-            <ButtonGroup key={i}>
-                {(() => {
-                    if (this.props.selectedObjects[category] !== 0) {
-                        return <Button variant="secondary">{category}</Button>
-                    }
-                })()}
-                {Array.from(
-                    {length: this.props.selectedObjects[category]}).map((_, j) => (
-                    <Button key={j} variant="light" onClick={() => this.handleSelectionButtonClick(category)}>
-                        {category}{j + 1}
-                    </Button>
-                ))}
-            </ButtonGroup>
+            <ListGroup.Item>
+                <ButtonGroup key={i}>
+                    {(() => {
+                        if (this.props.selectedObjects[category] !== 0) {
+                            return <Button variant="secondary">{category}</Button>
+                        }
+                    })()}
+                    {Array.from(
+                        {length: this.props.selectedObjects[category]}).map((_, j) => (
+                        <Button key={j} variant="light" onClick={() => this.handleSelectionButtonClick(category)}>
+                            {category}{j + 1}
+                        </Button>
+                    ))}
+                </ButtonGroup>
+            </ListGroup.Item>
         )
     }
 
@@ -49,9 +51,11 @@ export default class SelectedObjectsList extends React.Component {
                     <Card.Text style={{fontSize: 13}} className="text-muted">
                         Click a numbered object instance to delete (this will shift the numbers so there aren't any skipped numbers). Click a category to delete all instances from that category.
                     </Card.Text>
-                    {Object.keys(this.props.selectedObjects).map((category, i) => (
-                        this.createSingleCategoryList(category, i)
-                    ))}
+                    <ListGroup>
+                        {Object.keys(this.props.selectedObjects).map((category, i) => (
+                            this.createSingleCategoryList(category, i)
+                        ))}
+                    </ListGroup>
                 </Card.Body>
             </Card>
         )
