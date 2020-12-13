@@ -13,6 +13,7 @@ import FinalConditionDrawer from './custom_blocks'
 import SceneObjectTable from './scene_object_table';
 import Button from 'react-bootstrap/Button'
 import Form from 'react-bootstrap/Form'
+import SelectedObjectsList from './selected_objects_list';
 
 let resultCodeObj;
 
@@ -26,10 +27,16 @@ export default class Instructions extends React.Component {
       exampleSuperCat: "meat",
       exampleSubCat1: "chicken",
       exampleSubCat2: "turkey",
-      exampleDescriptor: "cooked"
+      exampleDescriptor: "cooked",
+      allSelectedObjects: {}
 
     };
     this.handleSave = this.handleSave.bind(this);
+    this.getSelectedObjects = this.getSelectedObjects.bind(this);
+  }
+
+  getSelectedObjects(selectedObjects) {
+    this.setState({ allSelectedObjects: selectedObjects})
   }
 
   render() {
@@ -96,7 +103,12 @@ export default class Instructions extends React.Component {
             even if you like the idea of having a sofa in the environment for aesthetics,
             add the table but not the sofa. 
           </p>
-          {<SceneObjectTable/>}
+          {<SceneObjectTable onObjectSelect={this.getSelectedObjects}/>}
+          {console.log('FROM MAIN APP:', this.state.allSelectedObjects)}
+        </div>
+
+        <div id="selectedobjects">
+          <SelectedObjectsList selectedObjects={this.state.allSelectedObjects}/>
         </div>
 
         <div id='nonsceneObjects'>

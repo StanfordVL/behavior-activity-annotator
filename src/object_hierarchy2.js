@@ -24,7 +24,11 @@ let sceneObjectsDepth = getJSONDepth(sceneObjects);
 
 
 export default class CenteredTree extends React.PureComponent {
-  state = {}
+  constructor(props) {
+    super(props);
+    this.state = {}
+    this.handleRightClick = this.handleRightClick.bind(this);
+  }
 
   componentDidMount() {
     const dimensions = this.treeContainer.getBoundingClientRect();
@@ -34,6 +38,9 @@ export default class CenteredTree extends React.PureComponent {
         y: dimensions.height / 2
       }
     });
+
+    // add right click listener 
+
   }
 
   render() {
@@ -70,5 +77,41 @@ export default class CenteredTree extends React.PureComponent {
         />
       </div>
     );
+  }
+}
+
+
+class TreeContextMenu extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      xPos: "0px",
+      ypos: "0px",
+      showMenu: false
+    }
+
+    this.handleContextMenu = this.handleContextMenu.bind(this);
+  }
+
+  componentDidMount() {
+    // document.addEventListener("click", this.handleClick);
+    document.addEventListener("contextmenu", this.handleContextMenu);
+  }
+
+  componentWillUnmount() {
+    document.removeEventListener("contextmenu", this.handleContextMenu);
+  }
+
+  handleContextMenu(event) {
+    event.preventDefault();
+    this.setState({
+      xPos: `${e.pageX}px`,
+      yPos: `${e.pageY}px`,
+      showMenu: true
+    })
+  }
+
+  render() {
+
   }
 }
