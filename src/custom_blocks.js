@@ -51,22 +51,27 @@ export default class ConditionDrawer extends React.Component {
 
         this.onSave = this.onSave.bind(this)
         this.onWorkspaceChange = this.onWorkspaceChange.bind(this)
+        this.makeUnarySentence = this.makeUnarySentence.bind(this)
+        this.getObjectInstances = this.getObjectInstances.bind(this)
     }
 
-    getSelectedObjects() {
+    getObjectInstances() {
         let selectedObjects = this.props.selectedObjects;
-        objectLabelToCategory = {}
+        let objectInstanceLabels = []
         for (const [category, number] of Object.entries(selectedObjects)) {
-            console.log(category, number)
+            for (let i = 0; i < number; i++) {
+                objectInstanceLabels.push(category + (i + 1).toString())
+            }
         }
+        return(objectInstanceLabels)
     }
 
     onWorkspaceChange(code, workspace) {
-        console.log('CODE:', code);
+        // console.log('CODE:', code);
         const domparser = new DOMParser();
         const xml = domparser.parseFromString(workspace, 'text/xml')
-        console.log(xml)
-        console.log(xml.getElementsByName('OBJECT1'))
+        // console.log(xml)
+        // console.log(xml.getElementsByName('OBJECT1'))
         if (this.props.drawerType == "initial") {
             updatedInitialConditions = code;
         } else {
@@ -76,7 +81,7 @@ export default class ConditionDrawer extends React.Component {
 
     onSave() {
         var base = new AirTable({apiKey: 'keyeaIvUAzmIaj3ma'}).base('appIh5qQ5m4UMrcps');
-        console.log('updated init code during save', updatedInitialConditions)
+        // console.log('updated init code during save', updatedInitialConditions)
 
         const requestOptions = {
             method: 'POST',
@@ -106,7 +111,8 @@ export default class ConditionDrawer extends React.Component {
     getBlockTypes(drawerType) {
         if (drawerType === "initial") {
             return ([
-                basicUnarySentence,
+                // basicUnarySentence,
+                this.makeUnarySentence(),
                 basicBinarySentence,
                 conjunction,
                 disjunction,
@@ -117,7 +123,8 @@ export default class ConditionDrawer extends React.Component {
             ])
         } else {        // goal drawer 
             return ([
-                basicUnarySentence,
+                // basicUnarySentence,
+                this.makeUnarySentence(),
                 basicBinarySentence,
                 conjunction,
                 disjunction,
@@ -130,7 +137,7 @@ export default class ConditionDrawer extends React.Component {
     }
 
     render() {
-        console.log(this.props.selectedObjects)
+        // console.log(this.props.selectedObjects)
         return(
             <div>
                 <BlocklyDrawer
@@ -160,6 +167,46 @@ export default class ConditionDrawer extends React.Component {
             </div>
         )
     }
+
+    makeUnarySentence() {
+        console.log('OBJECT INSTANCES:', this.getObjectInstances())
+        let objectInstanceList = this.getObjectInstances()
+        let basicUnarySentence = {
+            name: 'BasicUnarySentence',
+            category: 'Basic Sentences',
+            block: {
+                init: function () {
+                    this.jsonInit({
+                        message0: '%1 is %2', 
+                        args0: [
+                            {
+                                type: 'field_dropdown',
+                                name: 'OBJECT',
+                                // options: generateDropdownArray(Object.keys(objectLabelToCategory))
+                                // options: this.getObjectInstances()
+                                options: generateDropdownArray(objectInstanceList)
+                            },
+                            {
+                                type: 'field_dropdown',
+                                name: 'DESCRIPTOR',
+                                options: generateDropdownArray(objectCategoryToProperties['apple'])
+                            }
+                        ],
+                        output: null,
+                        colour: basicSentenceColor,
+                        tooltip: 'Applies a descriptor to an object'
+                    });
+                }
+            },
+            generator: (block) => {
+                const object = block.getFieldValue('OBJECT').toLowerCase() || '\'\'';
+                const adjective = convertName(block.getFieldValue('DESCRIPTOR').toLowerCase()) || '\'\'';
+                const code = `(${adjective} ${object})`;
+                return [code, Blockly.JavaScript.ORDER_MEMBER];
+            }
+        };
+        return(basicUnarySentence)
+    }
 }
 
 
@@ -177,38 +224,38 @@ function convertName(name) {
 }
 
 
-export const basicUnarySentence = {
-    name: 'BasicUnarySentence',
-    category: 'Basic Sentences',
-    block: {
-        init: function () {
-            this.jsonInit({
-                message0: '%1 is %2', 
-                args0: [
-                    {
-                        type: 'field_dropdown',
-                        name: 'OBJECT',
-                        options: generateDropdownArray(Object.keys(objectLabelToCategory))
-                    },
-                    {
-                        type: 'field_dropdown',
-                        name: 'DESCRIPTOR',
-                        options: generateDropdownArray(objectCategoryToProperties['apple'])
-                    }
-                ],
-                output: null,
-                colour: basicSentenceColor,
-                tooltip: 'Applies a descriptor to an object'
-            });
-        }
-    },
-    generator: (block) => {
-        const object = block.getFieldValue('OBJECT').toLowerCase() || '\'\'';
-        const adjective = convertName(block.getFieldValue('DESCRIPTOR').toLowerCase()) || '\'\'';
-        const code = `(${adjective} ${object})`;
-        return [code, Blockly.JavaScript.ORDER_MEMBER];
-    }
-};
+// export const basicUnarySentence = {
+//     name: 'BasicUnarySentence',
+//     category: 'Basic Sentences',
+//     block: {
+//         init: function () {
+//             this.jsonInit({
+//                 message0: '%1 is %2', 
+//                 args0: [
+//                     {
+//                         type: 'field_dropdown',
+//                         name: 'OBJECT',
+//                         options: generateDropdownArray(Object.keys(objectLabelToCategory))
+//                     },
+//                     {
+//                         type: 'field_dropdown',
+//                         name: 'DESCRIPTOR',
+//                         options: generateDropdownArray(objectCategoryToProperties['apple'])
+//                     }
+//                 ],
+//                 output: null,
+//                 colour: basicSentenceColor,
+//                 tooltip: 'Applies a descriptor to an object'
+//             });
+//         }
+//     },
+//     generator: (block) => {
+//         const object = block.getFieldValue('OBJECT').toLowerCase() || '\'\'';
+//         const adjective = convertName(block.getFieldValue('DESCRIPTOR').toLowerCase()) || '\'\'';
+//         const code = `(${adjective} ${object})`;
+//         return [code, Blockly.JavaScript.ORDER_MEMBER];
+//     }
+// };
 
 
 export const basicBinarySentence = {
