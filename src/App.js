@@ -9,13 +9,13 @@ import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 import CenteredTree from "./object_hierarchy.js";
-import FinalConditionDrawer from './custom_blocks'
+// import FinalConditionDrawer from './custom_blocks'
 import SceneObjectTable from './scene_object_table';
 import Button from 'react-bootstrap/Button'
 import Form from 'react-bootstrap/Form'
 import Card from 'react-bootstrap/Card'
 import SelectedObjectsList from './selected_objects_list';
-import { InitialConditionInstruction, Introduction, SceneObjectSetup } from './instruction_sections'
+import { InitialConditionInstruction, Introduction, ObjectSelectionWorkspace, InitialConditionWorkspace } from './instruction_sections'
 
 let resultCodeObj;
 const activityParameters = require('./pack_lunch_params.json')
@@ -55,11 +55,12 @@ export default class Instructions extends React.Component {
           </Card.Body>
         </Card>
         <Introduction params={activityParameters}/>
-        <SceneObjectSetup params={activityParameters}/>
+        <ObjectSelectionWorkspace params={activityParameters}/>
         <InitialConditionInstruction params={activityParameters}/>
+        <InitialConditionWorkspace/>
 
 
-        <div id='conditiondescription'>
+        {/* <div id='conditiondescription'>
           <p>
             First, I need you to tell me what the world looks like when I have all 
             the objects I need to {this.state.activityName}, but before I have actually 
@@ -156,7 +157,7 @@ export default class Instructions extends React.Component {
         </div>
 
         <div>
-          {<FinalConditionDrawer/>}
+          {/* {<FinalConditionDrawer/>} */}
         </div>
 
         <div id='submit'>
@@ -168,7 +169,7 @@ export default class Instructions extends React.Component {
           >
             Save Final State
           </Button>
-        </div>
+        </div> */}
       </div>
     )
   }

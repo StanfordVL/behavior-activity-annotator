@@ -20,33 +20,38 @@ export default class ObjectSelector extends React.Component {
         this.props.onClick(parseInt(this.state.inputText))
     }
 
-    updateSelectedNumber(event) {
+    handleInputChange(event) {
         this.setState({ inputText: event.target.value })
+    }
+
+    handleSubmit(event) {
+        console.log('submitted!')
+        event.preventDefault();
     }
 
     render() {
         return (
             <Popover>
                 <Popover.Title as="h3">
-                    Add {this.props.categoryLabel}
+                    Add {this.props.objectCategory}
                 </Popover.Title>
                 <Popover.Content>
                     how many do you want?
                     <Form
-                        onChange={(event) => this.updateSelectedNumber(event)}
+                        onChange={(event) => this.handleInputChange(event)}
+                        onSubmit={(event) => this.handleSubmit(event)}
                     >
-                        
+                        <Form.Control type="number"/>
+                        <Button
+                            disabled={this.state.inputText.length == 0}
+                            onClick={this.handleOnClick}
+                            variant="outline-dark" 
+                            size="sm"
+                            type="submit"
+                        >
+                            add
+                        </Button>
                     </Form>
-
-                    <input 
-                        type="number" 
-                        onChange={this.handleOnChange}
-                        value={this.state.inputText}
-                    />
-                    <Button 
-                        disabled={this.state.inputText.length > 0}
-                        onClick={this.handleOnClick}
-                    >add</Button>
                 </Popover.Content>
             </Popover>
         )

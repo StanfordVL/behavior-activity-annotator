@@ -3,7 +3,8 @@ import Card from 'react-bootstrap/Card';
 import CenteredTree from './object_hierarchy';
 
 import SceneObjectTable from './scene_object_table';
-import SelectedObjectsList from './selected_objects_list';
+import SelectedObjectsList from './selected_objects_list'
+import InitialConditionDrawer from './custom_blocks'
 
 
 export class Introduction extends React.Component {
@@ -38,18 +39,29 @@ export class Introduction extends React.Component {
     }
 }
 
-export class SceneObjectSetup extends React.Component {
+export class ObjectSelectionWorkspace extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             allSelectedObjects: {}
         }
 
-        this.getSelectedObjects = this.getSelectedObjects.bind(this);
+        // this.getSelectedObjects = this.getSelectedObjects.bind(this);
     }
 
-    getSelectedObjects(selectedObjects) {
-        this.setState({ allSelectedObjects: selectedObjects })
+    // getSelectedObjects(selectedObjects) {
+    //     this.setState({ allSelectedObjects: selectedObjects })
+    // }
+
+    updateSelectedObjects(numObjects, objectCategory) {
+        console.log('submitted in SceneObjectSetup')
+        let updatedSelectedObjects = {...this.state.allSelectedObjects};
+        if (objectCategory in updatedSelectedObjects) {
+            updatedSelectedObjects[objectCategory] += numObjects
+        } else {
+            updatedSelectedObjects[objectCategory] = numObjects
+        }
+        this.setState({ allSelectedObjects: updatedSelectedObjects })
     }
 
     render() {
@@ -75,8 +87,11 @@ export class SceneObjectSetup extends React.Component {
                         <p>
                             First, choose which scene objects are relevant for your initial and goal conditions. Scene objects (listed in the table below) are generally furniture or other background objects you see in a clean home. Don't worry about picking all the furniture and other scene objects you want for the house - as you can see, we've already set up realistic looking scenes. Just tell us which ones you need to do {this.props.params.activityName}. For example, if you need a table to do {this.props.params.activityName} but don't need a sofa, even if you like the idea of having a sofa in the environment for aesthetic reasons, choose the table but not the sofa. 
                         </p>
-                        <SceneObjectTable onObjectSelect={this.getSelectedObjects}/>
-                        <SelectedObjectsList selectedObjects={this.state.allSelectedObjects}/>
+                        <SceneObjectTable onObjectSubmit={(numObjects, objectCategory) => this.updateSelectedObjects(numObjects, objectCategory)}/>
+                        <SelectedObjectsList
+                            onObjectDelete={(numObjects, objectCategory) => this.updateSelectedObjects(numObjects, objectCategory)}
+                            selectedObjects={this.state.allSelectedObjects}
+                        />
                         </Card.Text>
                     </Card.Body>
                 </Card>
@@ -254,6 +269,15 @@ export class InitialConditionInstruction extends React.Component {
                     </Card.Text>
                 </Card.Body>
             </Card>
+        )
+    }
+}
+
+
+export class InitialConditionWorkspace extends React.Component {
+    render() {
+        return(
+            <InitialConditionDrawer/>
         )
     }
 }

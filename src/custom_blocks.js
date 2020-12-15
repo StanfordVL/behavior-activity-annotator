@@ -31,14 +31,6 @@ function generateDropdownArray(labels) {
     return(labels.map(label => [label, label.toUpperCase()]))
 }
 
-// getAllCategories(objectsArray) {
-//     Object.keys(flatObjects).forEach(k => {
-//         if (!(flatObjects[k] instanceof Array)) {
-//             console.log(flatObjects[k]);     // TODO append to array rather than logging
-//         }
-//     })
-// };
-
 
 /* COLORS */
 const sentenceConstructorColor = "#D39953";
@@ -170,190 +162,123 @@ Blockly.Blocks['high_level_root'] = {
         i++;
       }
     }
+
+
   };
 
 
-Blockly.defineBlocksWithJsonArray([
-    // Basic unary sentence 
-    {
-        "type": "basic_unary_sentence",
-        "message0": "%1 is %2",
-        "args0": [
-            {
-                "type": "field_dropdown",
-                "name": "OBJECT", 
-                "options": generateDropdownArray(Object.keys(objectLabelToCategory))
-            },
-            {
-                "type": "field_dropdown",
-                "name": "DESCRIPTOR", 
-                "options": generateDropdownArray(objectCategoryToProperties["apple"])
-            }
-        ],
-        "output": "Boolean",
-        "colour": basicSentenceColor,
-        "tooltip": "Applies a descriptor to an object."
-    },
-
-    // Basic binary sentence
-    {
-        "type": "basic_binary_sentence",
-        "message0": "%1 is %2 %3",
-        "args0": [
-            {
-                "type": "field_dropdown",
-                "name": "OBJECT1",
-                "options": generateDropdownArray(Object.keys(objectLabelToCategory))
-            },
-            {
-                "type": "field_dropdown", 
-                "name": "DESCRIPTOR", 
-                "options": generateDropdownArray(['on top of', 'inside', 'next to', 'under'])
-            },
-            {
-                "type": "field_dropdown", 
-                "name": "OBJECT2", 
-                "options": generateDropdownArray(Object.keys(objectLabelToCategory))
-            }
-        ],
-        "output": "Boolean",
-        "colour": basicSentenceColor,
-        "tooltip": 'Applies a relationship to two objects'
-    },
-    {
-        "type": "conjunction",
-        "message0": '%1 and %2',
-        "args0": [
-            {
-                "type": 'input_value',
-                "name": 'CONJUNCT1',
-            },
-            {
-                "type": 'input_value',
-                "name": 'CONJUNCT2',
-            }
-        ],
-        "output": "Boolean",
-        "colour": sentenceConstructorColor,
-        "tooltip": 'Applies a descriptor to an object',
-    },
-    {
-        "type": "disjunction",
-        "message0": '%1 or %2',
-        "args0": [
-            {
-                "type": 'input_value',
-                "name": 'DISJUNCT1',
-                "check": "Boolean"
-            },
-            {
-                "type": 'input_value',
-                "name": 'DISJUNCT2',
-                "check": "Boolean"
-            }
-        ],
-        "output": "Boolean",
-        "colour": sentenceConstructorColor,
-        "tooltip": 'Applies a descriptor to an object',
-    },
-    {
-        "type": "negation",
-        "message0": "not %1",
-        "args0": [
-            {
-            "type": "input_value",
-            "name": "BOOL",
-            "check": "Boolean"
-            }
-        ],
-        "output": "Boolean",
-        "colour": sentenceConstructorColor
-    },
-    {
-        "type": "universal_quantifier",
-        "message0": "for all %1: %2",
-        "args0": [
-            {
-                "type": "field_dropdown",
-                "name": "CATEGORY", 
-                "options": generateDropdownArray(Object.keys(objectCategoryToProperties))
-            },
-            {
-                "type": "input_value", 
-                "name": "SENTENCE",
-                "check": "Boolean"
-            }
-        ],
-        "output": "Boolean",
-        "colour": sentenceConstructorColor
-    },
-    {
-        "type": "existential_quantifier",
-        "message0": "there exists some %1 such that %2",
-        "args0": [
-            {
-                "type": "field_dropdown",
-                "name": "CATEGORY", 
-                "options": generateDropdownArray(Object.keys(objectCategoryToProperties))
-            },
-            {
-                "type": "input_value", 
-                "name": "SENTENCE",
-                "check": "Boolean"
-            }
-        ],
-        "output": "Boolean",
-        "colour": sentenceConstructorColor
-    },
-    {
-        "type": "implication",
-        "message0": "if %1 then %2",
-        "args0": [
-            {
-                "type": "input_value",
-                "name": "ANTECEDENT",
-                "check": "Boolean"
-            },
-            {
-                "type": "input_value",
-                "name": "CONSEQUENT", 
-                "check": "Boolean"
-            }
-        ],
-        "output": "Boolean",
-        "colour": sentenceConstructorColor
+Blockly.Blocks['test_sentence'] = {
+    init: function() {
+        this.setColour(basicSentenceColor);
+        this.appendDummyInput()
+            .appendField('')
+            .appendField(
+                new Blockly.FieldDropdown(
+                    generateDropdownArray(Object.keys(objectLabelToCategory))
+                ), 'OBJECT');
+        this.appendDummyInput()
+            .appendField('is')
+            .appendField(
+                new Blockly.FieldDropdown(
+                    generateDropdownArray(objectCategoryToProperties["apple"])
+                ), 'ADJECTIVE');
+        this.setOutput(true, 'Boolean')
     }
-])
+}
 
 
-export default class FinalConditionDrawer extends React.Component {
+const helloWorld =  {
+    name: 'HelloWorld',
+    category: 'Demo',
+    block: {
+      init: function () {
+        this.jsonInit({
+          message0: 'Hello %1',
+          args0: [
+            {
+              type: 'field_input',
+              name: 'NAME',
+              check: 'String',
+            },
+          ],
+          output: 'String',
+          colour: 160,
+          tooltip: 'Says Hello',
+        });
+      },
+    },
+    generator: (block) => {
+      const message = `'${block.getFieldValue('NAME')}'` || '\'\'';
+      const code = `console.log('Hello ${message}')`;
+      return [code, Blockly.JavaScript.ORDER_MEMBER];
+    }
+  };
+
+
+export class MyBlock extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            blockType: "basic_unary_sentence"
+        }
+    }
+
+    render() {
+        return(<Block type={this.state.blockType}/>)
+    }
+}
+
+
+
+export default class InitialConditionDrawer extends React.Component {
     state = {}
+
+    onWorkspaceChange(code, workspace) {
+        console.log(code);
+        const domparser = new DOMParser();
+        const xml = domparser.parseFromString(workspace, 'text/xml')
+        console.log(xml)
+        console.log(xml.getElementsByName('OBJECT1'))
+    }
 
     render() {
         return(
             <BlocklyDrawer
-
-                onChange={(code, workspace) => {
-                    console.log(code);
-                    // resultCodeObj = code;
-                }}
-                language={Blockly.Python}
+                // onChange={(code, workspace) => {
+                //     console.log('CHANGE TO WORKSPACE')
+                //     console.log(code);
+                //     console.log(workspace);
+                //     // resultCodeObj = code;
+                // }}
+                onChange={this.onWorkspaceChange}
+                language={Blockly.JavaScript}
                 appearance={
                     {
                         categories: {
-                        Root: {
-                            colour: basicSentenceColor
-                        }
+                            Root: {colour: basicSentenceColor}
                         }
                     }
                 }
+                tools={[
+                    basicUnarySentence,
+                    basicBinarySentence,
+                    conjunction,
+                    disjunction,
+                    negation,
+                    implication,
+                    universal,
+                    existential
+                ]}
             >
                 <Category name="Root">
                     <Block type="high_level_root"/>
                 </Category>
-                <Category name="Basic Sentences">
-                    <Block type="basic_unary_sentence"/>
+                {/* <Category name="Basic Sentences">
+                    <Block type="basic_unary_sentence"
+                        onChange={() => console.log('change occurred')}
+                    />
                     <Block type="basic_binary_sentence"/>
+                    <Block type="test_sentence"/>
                 </Category>
                 <Category name="Sentence Constructors">
                     <Block type='conjunction'/>
@@ -363,251 +288,442 @@ export default class FinalConditionDrawer extends React.Component {
                     <Block type='universal_quantifier'/>
                     <Block type='existential_quantifier'/>
                 </Category>
+                <Category name="Values">
+                    <Block type="math_number"/>
+                </Category> */}
             </BlocklyDrawer>
         )
     }
 }
 
-// export const basicUnarySentence = {
-//     name: 'BasicUnarySentence',
-//     category: 'Basic Sentences',
-//     block: {
-//         init: function () {
-//             this.jsonInit({
-//                 message0: '%1 is %2', 
-//                 args0: [
-//                     {
-//                         type: 'field_dropdown',
-//                         name: 'OBJECT',
-//                         options: generateDropdownArray(Object.keys(objectLabelToCategory))
-//                     },
-//                     {
-//                         type: 'field_dropdown',
-//                         name: 'DESCRIPTOR',
-//                         options: generateDropdownArray(objectCategoryToProperties['apple'])
-//                     }
-//                 ],
-//                 output: null,
-//                 colour: basicSentenceColor,
-//                 tooltip: 'Applies a descriptor to an object'
-//             });
-//         },
-//         generator: (block) => {
-//             const message = `'${block.getFieldValue('DESCRIPTOR')}'` || '\'\'';
-//             console.log('MESSAGE:', message)
-//             // const code = `console.log('Hello ${message}')`;
-//             const code = 'print("hello world")'
-//             return [code, Blockly.Python.ORDER_MEMBER];
-//         }
+
+const blocklyNameToPDDLName = {
+    'on top of': 'ontop',
+    'next to': 'nextto'
+}
+
+function convertName(name) {
+    if (name in blocklyNameToPDDLName) {
+        return (blocklyNameToPDDLName[name])
+    } else {
+        return (name)
+    }
+}
+
+
+export const basicUnarySentence = {
+    name: 'BasicUnarySentence',
+    category: 'Basic Sentences',
+    block: {
+        init: function () {
+            this.jsonInit({
+                message0: '%1 is %2', 
+                args0: [
+                    {
+                        type: 'field_dropdown',
+                        name: 'OBJECT',
+                        options: generateDropdownArray(Object.keys(objectLabelToCategory))
+                    },
+                    {
+                        type: 'field_dropdown',
+                        name: 'DESCRIPTOR',
+                        options: generateDropdownArray(objectCategoryToProperties['apple'])
+                    }
+                ],
+                output: null,
+                colour: basicSentenceColor,
+                tooltip: 'Applies a descriptor to an object'
+            });
+        }
+    },
+    generator: (block) => {
+        const object = block.getFieldValue('OBJECT').toLowerCase() || '\'\'';
+        const adjective = convertName(block.getFieldValue('DESCRIPTOR').toLowerCase()) || '\'\'';
+        const code = `(${adjective} ${object})`;
+        return [code, Blockly.JavaScript.ORDER_MEMBER];
+    }
+};
+
+
+export const basicBinarySentence = {
+    name: 'BasicBinarySentence',
+    category: 'Basic Sentences',
+    block: {
+        init: function () {
+            this.jsonInit({
+                message0: '%1 is %2 %3',
+                args0: [
+                    {
+                        type: 'field_dropdown',
+                        name: 'OBJECT1',
+                        options: generateDropdownArray(Object.keys(objectLabelToCategory))
+                    },
+                    {
+                        type: 'field_dropdown',
+                        name: 'DESCRIPTOR',
+                        options: generateDropdownArray(['on top of', 'inside', 'next to', 'under'])
+                    },
+                    {
+                        type: 'field_dropdown',
+                        name: 'OBJECT2',
+                        options: generateDropdownArray(Object.keys(objectLabelToCategory))      //  need to eliminate the object already being used 
+                    }
+                ],
+                output: "Boolean",
+                colour: basicSentenceColor,
+                tooltip: 'Applies a descriptor to an object'
+            });
+        }
+    },
+    generator: (block) => {
+        const object1 = block.getFieldValue('OBJECT1').toLowerCase() || '\'\'';
+        const adjective = convertName(block.getFieldValue('DESCRIPTOR').toLowerCase()) || '\'\'';
+        const object2 = block.getFieldValue('OBJECT2').toLowerCase() || '\'\'';
+        const code = `(${adjective} ${object1} ${object2})`;
+        return [code, Blockly.JavaScript.ORDER_MEMBER];
+    }
+};
+
+export const conjunction = {
+    name: 'Conjunction',
+    category: 'Sentence Constructors',
+    block: {
+        init: function () {
+            this.jsonInit({
+                message0: '%1 and %2',
+                args0: [
+                    {
+                        type: 'input_value',
+                        name: 'CONJUNCT1',
+                    },
+                    {
+                        type: 'input_value',
+                        name: 'CONJUNCT2',
+                    }
+                ],
+                output: "Boolean",
+                colour: sentenceConstructorColor,
+                tooltip: 'Applies a descriptor to an object',
+            });
+        }
+    },
+    generator: (block) => {
+        const conjunct1 = Blockly.JavaScript.valueToCode(block, 'CONJUNCT1', Blockly.JavaScript.ORDER_ADDITION) || '0';
+        const conjunct2 = Blockly.JavaScript.valueToCode(block, 'CONJUNCT2', Blockly.JavaScript.ORDER_ADDITION) || '0';
+        const code = `(and ${conjunct1} ${conjunct2})`
+        return [code, Blockly.JavaScript.ORDER_MEMBER];
+    }   
+};
+
+export const disjunction = {
+    name: 'Disjunction',
+    category: 'Sentence Constructors',
+    block: {
+        init: function () {
+            this.jsonInit({
+                message0: '%1 or %2',
+                args0: [
+                    {
+                        type: 'input_value',
+                        name: 'DISJUNCT1',
+                        check: "Boolean"
+                    },
+                    {
+                        type: 'input_value',
+                        name: 'DISJUNCT2',
+                        check: "Boolean"
+                    }
+                ],
+                output: "Boolean",
+                colour: sentenceConstructorColor,
+                tooltip: 'Applies a descriptor to an object',
+            });
+        },
+    },
+    generator: (block) => {
+        const disjunct1 = Blockly.JavaScript.valueToCode(block, 'DISJUNCT1', Blockly.JavaScript.ORDER_ADDITION) || '0';
+        const disjunct2 = Blockly.JavaScript.valueToCode(block, 'DISJUNCT2', Blockly.JavaScript.ORDER_ADDITION) || '0';
+        const code = `(or ${disjunct1} ${disjunct2})`
+        return [code, Blockly.JavaScript.ORDER_MEMBER];
+    }   
+};
+
+export const negation = {
+    name: 'Negation',
+    category: 'Sentence Constructors',
+    block: {
+        init: function () {
+            this.jsonInit({
+                message0: "not %1",
+                args0: [
+                  {
+                    type: "input_value",
+                    name: "SENTENCE",
+                    check: "Boolean"
+                  }
+                ],
+                output: "Boolean",
+                colour: sentenceConstructorColor
+            })
+        }
+    },
+    generator: (block) => {
+        const sentence = Blockly.JavaScript.valueToCode(block, 'SENTENCE', Blockly.JavaScript.ORDER_ADDITION) || '0';
+        const code = `(not ${sentence})`
+        return [code, Blockly.JavaScript.ORDER_MEMBER];
+    } 
+}
+
+export const universal = {
+    // TODO second arg sentence has to have category, not object instance 
+
+    name: 'Universal',
+    category: 'Sentence Constructors',
+    block: {
+        init: function () {
+            this.jsonInit({
+                message0: "for all %1: %2",
+                args0: [
+                    {
+                        type: "field_dropdown",
+                        name: "CATEGORY", 
+                        options: generateDropdownArray(Object.keys(objectCategoryToProperties))
+                    },
+                    {
+                        type: "input_value", 
+                        name: "SENTENCE",
+                        check: "Boolean"
+                    }
+                ],
+                output: "Boolean", 
+                colour: sentenceConstructorColor
+            })
+        }
+    },
+    generator: (block) => {
+        const category = block.getFieldValue('CATEGORY').toLowerCase() || '\'\'';
+        const sentence = Blockly.JavaScript.valueToCode(block, 'SENTENCE', Blockly.JavaScript.ORDER_ADDITION) || '0';
+        const code = `(forall (?${category} - ${category}) ${sentence})`
+        return [code, Blockly.JavaScript.ORDER_MEMBER];
+    } 
+}
+
+
+export const existential = {
+    // TODO second arg sentence has to have category, not object instance 
+
+    name: 'Existential',
+    category: 'Sentence Constructors',
+    block: {
+        init: function () {
+            this.jsonInit({
+                message0: "there exists some %1 such that %2",
+                args0: [
+                    {
+                        type: "field_dropdown",
+                        name: "CATEGORY", 
+                        options: generateDropdownArray(Object.keys(objectCategoryToProperties))
+                    },
+                    {
+                        type: "input_value", 
+                        name: "SENTENCE",
+                        check: "Boolean"
+                    }
+                ],
+                output: "Boolean", 
+                colour: sentenceConstructorColor
+            })
+        }
+    },
+    generator: (block) => {
+        const category = block.getFieldValue('CATEGORY').toLowerCase() || '\'\'';
+        const sentence = Blockly.JavaScript.valueToCode(block, 'SENTENCE', Blockly.JavaScript.ORDER_ADDITION) || '0';
+        const code = `(exists (?${category} - ${category}) ${sentence})`
+        return [code, Blockly.JavaScript.ORDER_MEMBER];
+    } 
+}
+
+export const implication = {
+    name: 'Implication',
+    category: 'Sentence Constructors',
+    block: {
+        init: function() {
+            this.jsonInit({
+                message0: "if %1 then %2",
+                args0: [
+                    {
+                        type: "input_value",
+                        name: "ANTECEDENT",
+                        check: "Boolean"
+                    },
+                    {
+                        type: "input_value",
+                        name: "CONSEQUENT",
+                        check: "Boolean"
+                    }
+                ],
+                output: "Boolean",
+                colour: sentenceConstructorColor
+            })
+        }
+    },
+    generator: (block) => {
+        const antecedent = Blockly.JavaScript.valueToCode(block, 'ANTECEDENT', Blockly.JavaScript.ORDER_ADDITION) || '0';
+        const consequent = Blockly.JavaScript.valueToCode(block, 'CONSEQUENT', Blockly.JavaScript.ORDER_ADDITION) || '0';
+        const code = `(imply ${antecedent} ${consequent})`
+        return [code, Blockly.JavaScript.ORDER_MEMBER];
+    } 
+}
+
+
+// Blockly.defineBlocksWithJsonArray([
+//     // Basic unary sentence 
+//     {
+//         "type": "basic_unary_sentence",
+//         "message0": "%1 is %2",
+//         "args0": [
+//             {
+//                 "type": "field_dropdown",
+//                 "name": "OBJECT", 
+//                 "options": generateDropdownArray(Object.keys(objectLabelToCategory))
+//             },
+//             {
+//                 "type": "field_dropdown",
+//                 "name": "DESCRIPTOR", 
+//                 "options": generateDropdownArray(objectCategoryToProperties["apple"])
+//             }
+//         ],
+//         "output": "Boolean",
+//         "colour": basicSentenceColor,
+//         "tooltip": "Applies a descriptor to an object."
+//     },
+
+//     // Basic binary sentence
+//     {
+//         "type": "basic_binary_sentence",
+//         "message0": "%1 is %2 %3",
+//         "args0": [
+//             {
+//                 "type": "field_dropdown",
+//                 "name": "OBJECT1",
+//                 "options": generateDropdownArray(Object.keys(objectLabelToCategory))
+//             },
+//             {
+//                 "type": "field_dropdown", 
+//                 "name": "DESCRIPTOR", 
+//                 "options": generateDropdownArray(['on top of', 'inside', 'next to', 'under'])
+//             },
+//             {
+//                 "type": "field_dropdown", 
+//                 "name": "OBJECT2", 
+//                 "options": generateDropdownArray(Object.keys(objectLabelToCategory))
+//             }
+//         ],
+//         "output": "Boolean",
+//         "colour": basicSentenceColor,
+//         "tooltip": 'Applies a relationship to two objects'
+//     },
+//     {
+//         "type": "conjunction",
+//         "message0": '%1 and %2',
+//         "args0": [
+//             {
+//                 "type": 'input_value',
+//                 "name": 'CONJUNCT1',
+//             },
+//             {
+//                 "type": 'input_value',
+//                 "name": 'CONJUNCT2',
+//             }
+//         ],
+//         "output": "Boolean",
+//         "colour": sentenceConstructorColor,
+//         "tooltip": 'Applies a descriptor to an object',
+//     },
+//     {
+//         "type": "disjunction",
+//         "message0": '%1 or %2',
+//         "args0": [
+//             {
+//                 "type": 'input_value',
+//                 "name": 'DISJUNCT1',
+//                 "check": "Boolean"
+//             },
+//             {
+//                 "type": 'input_value',
+//                 "name": 'DISJUNCT2',
+//                 "check": "Boolean"
+//             }
+//         ],
+//         "output": "Boolean",
+//         "colour": sentenceConstructorColor,
+//         "tooltip": 'Applies a descriptor to an object',
+//     },
+//     {
+//         "type": "negation",
+//         "message0": "not %1",
+//         "args0": [
+//             {
+//             "type": "input_value",
+//             "name": "BOOL",
+//             "check": "Boolean"
+//             }
+//         ],
+//         "output": "Boolean",
+//         "colour": sentenceConstructorColor
+//     },
+//     {
+//         "type": "universal_quantifier",
+//         "message0": "for all %1: %2",
+//         "args0": [
+//             {
+//                 "type": "field_dropdown",
+//                 "name": "CATEGORY", 
+//                 "options": generateDropdownArray(Object.keys(objectCategoryToProperties))
+//             },
+//             {
+//                 "type": "input_value", 
+//                 "name": "SENTENCE",
+//                 "check": "Boolean"
+//             }
+//         ],
+//         "output": "Boolean",
+//         "colour": sentenceConstructorColor
+//     },
+//     {
+//         "type": "existential_quantifier",
+//         "message0": "there exists some %1 such that %2",
+//         "args0": [
+//             {
+//                 "type": "field_dropdown",
+//                 "name": "CATEGORY", 
+//                 "options": generateDropdownArray(Object.keys(objectCategoryToProperties))
+//             },
+//             {
+//                 "type": "input_value", 
+//                 "name": "SENTENCE",
+//                 "check": "Boolean"
+//             }
+//         ],
+//         "output": "Boolean",
+//         "colour": sentenceConstructorColor
+//     },
+//     {
+//         "type": "implication",
+//         "message0": "if %1 then %2",
+//         "args0": [
+//             {
+//                 "type": "input_value",
+//                 "name": "ANTECEDENT",
+//                 "check": "Boolean"
+//             },
+//             {
+//                 "type": "input_value",
+//                 "name": "CONSEQUENT", 
+//                 "check": "Boolean"
+//             }
+//         ],
+//         "output": "Boolean",
+//         "colour": sentenceConstructorColor
 //     }
-// };
-
-// export const basicBinarySentence = {
-//     name: 'BasicBinarySentence',
-//     category: 'Basic Sentences',
-//     block: {
-//         init: function () {
-//             this.jsonInit({
-//                 message0: '%1 is %2 %3',
-//                 args0: [
-//                     {
-//                         type: 'field_dropdown',
-//                         name: 'OBJECT1',
-//                         options: generateDropdownArray(Object.keys(objectLabelToCategory))
-//                     },
-//                     {
-//                         type: 'field_dropdown',
-//                         name: 'DESCRIPTOR',
-//                         options: generateDropdownArray(['on top of', 'inside', 'next to', 'under'])
-//                     },
-//                     {
-//                         type: 'field_dropdown',
-//                         name: 'OBJECT2',
-//                         options: generateDropdownArray(Object.keys(objectLabelToCategory))      //  need to eliminate the object already being used 
-//                     }
-//                 ],
-//                 output: "Boolean",
-//                 colour: basicSentenceColor,
-//                 tooltip: 'Applies a descriptor to an object'
-//             });
-//         },
-//         generator: (block) => {
-//             const message = `'${block.getFieldValue('DESCRIPTOR')}'` || '\'\'';
-//             console.log('MESSAGE:', message)
-//             // const code = `console.log('Hello ${message}')`;
-//             const code = 'print("hello world")'
-//             return [code, Blockly.Python.ORDER_MEMBER];
-//         }
-//     }   
-// };
-
-// export const conjunction = {
-//     name: 'Conjunction',
-//     category: 'Sentence Constructors',
-//     block: {
-//         init: function () {
-//             this.jsonInit({
-//                 message0: '%1 and %2',
-//                 args0: [
-//                     {
-//                         type: 'input_value',
-//                         name: 'CONJUNCT1',
-//                     },
-//                     {
-//                         type: 'input_value',
-//                         name: 'CONJUNCT2',
-//                     }
-//                 ],
-//                 output: "Boolean",
-//                 colour: sentenceConstructorColor,
-//                 tooltip: 'Applies a descriptor to an object',
-//                 // inputsInline: true
-//             });
-//         },
-//         generator: (block) => {
-//             const message = `'${block.getFieldValue('DESCRIPTOR')}'` || '\'\'';
-//             console.log('MESSAGE:', message)
-//             // const code = `console.log('Hello ${message}')`;
-//             const code = 'print("hello world")'
-//             return [code, Blockly.Python.ORDER_MEMBER];
-//         }
-//     }   
-// };
-
-// export const disjunction = {
-//     name: 'Disjunction',
-//     category: 'Sentence Constructors',
-//     block: {
-//         init: function () {
-//             this.jsonInit({
-//                 message0: '%1 or %2',
-//                 args0: [
-//                     {
-//                         type: 'input_value',
-//                         name: 'DISJUNCT1',
-//                         check: "Boolean"
-//                     },
-//                     {
-//                         type: 'input_value',
-//                         name: 'DISJUNCT2',
-//                         check: "Boolean"
-//                     }
-//                 ],
-//                 output: "Boolean",
-//                 colour: sentenceConstructorColor,
-//                 tooltip: 'Applies a descriptor to an object',
-//             });
-//         },
-//         generator: (block) => {
-//             const message = `'${block.getFieldValue('DESCRIPTOR')}'` || '\'\'';
-//             console.log('MESSAGE:', message)
-//             // const code = `console.log('Hello ${message}')`;
-//             const code = 'print("hello world")'
-//             return [code, Blockly.Python.ORDER_MEMBER];
-//         }
-//     }   
-// };
-
-// export const negation = {
-//     name: 'Negation',
-//     category: 'Sentence Constructors',
-//     block: {
-//         init: function () {
-//             this.jsonInit({
-//                 message0: "not %1",
-//                 args0: [
-//                   {
-//                     type: "input_value",
-//                     name: "BOOL",
-//                     check: "Boolean"
-//                   }
-//                 ],
-//                 output: "Boolean",
-//                 colour: sentenceConstructorColor
-//             })
-//         }
-//     }
-// }
-
-// export const universal = {
-//     // TODO second arg sentence has to have category, not object instance 
-
-//     name: 'Universal',
-//     category: 'Sentence Constructors',
-//     block: {
-//         init: function () {
-//             this.jsonInit({
-//                 message0: "for all %1: %2",
-//                 args0: [
-//                     {
-//                         type: "field_dropdown",
-//                         name: "CATEGORY", 
-//                         options: generateDropdownArray(Object.keys(objectCategoryToProperties))
-//                     },
-//                     {
-//                         type: "input_value", 
-//                         name: "SENTENCE",
-//                         check: "Boolean"
-//                     }
-//                 ],
-//                 output: "Boolean", 
-//                 colour: sentenceConstructorColor
-//             })
-//         }
-//     }
-// }
-
-
-// export const existential = {
-//     // TODO second arg sentence has to have category, not object instance 
-
-//     name: 'Existential',
-//     category: 'Sentence Constructors',
-//     block: {
-//         init: function () {
-//             this.jsonInit({
-//                 message0: "there exists some %1 such that %2",
-//                 args0: [
-//                     {
-//                         type: "field_dropdown",
-//                         name: "CATEGORY", 
-//                         options: generateDropdownArray(Object.keys(objectCategoryToProperties))
-//                     },
-//                     {
-//                         type: "input_value", 
-//                         name: "SENTENCE",
-//                         check: "Boolean"
-//                     }
-//                 ],
-//                 output: "Boolean", 
-//                 colour: sentenceConstructorColor
-//             })
-//         }
-//     }
-// }
-
-// export const implication = {
-//     name: 'Implication',
-//     category: 'Sentence Constructors',
-//     block: {
-//         init: function() {
-//             this.jsonInit({
-//                 message0: "if %1 then %2",
-//                 args0: [
-//                     {
-//                         type: "input_value",
-//                         name: "ANTECEDENT",
-//                         check: "Boolean"
-//                     },
-//                     {
-//                         type: "input_value",
-//                         name: "CONSEQUENT",
-//                         check: "Boolean"
-//                     }
-//                 ],
-//                 output: "Boolean",
-//                 colour: sentenceConstructorColor
-//             })
-//         }
-//     }
-// }
+// ])
