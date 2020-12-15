@@ -10,6 +10,9 @@ import NodeWrapper from './NodeWrapper';
 import Node from '../Node';
 import Link from '../Link';
 import './style.css';
+import OverlayTrigger from 'react-bootstrap/esm/OverlayTrigger';
+import Popover from 'react-bootstrap/esm/Popover';
+import Tooltip from 'react-bootstrap/Tooltip'
 
 class Tree extends React.Component {
   state = {
@@ -247,6 +250,16 @@ class Tree extends React.Component {
     );
     neighbors.forEach(neighbor => Tree.collapseNode(neighbor));
   }
+
+  /**Sanjana's onClick
+   * 
+   * @param {string} nodeId 
+   * @param {object} evt 
+   */
+  // onClickWithPopover = (nodeId, evt) {
+
+  // }
+
 
   /**
    * handleNodeToggle - Finds the node matching `nodeId` and
@@ -528,25 +541,30 @@ class Tree extends React.Component {
             ))}
 
             {nodes.map(nodeData => (
-              <Node
-                key={nodeData.id}
-                nodeSvgShape={{ ...nodeSvgShape, ...nodeData.nodeSvgShape }}
-                nodeLabelComponent={nodeLabelComponent}
-                nodeSize={nodeSize}
-                orientation={orientation}
-                transitionDuration={transitionDuration}
-                nodeData={nodeData}
-                name={nodeData.name}
-                attributes={nodeData.attributes}
-                onClick={this.handleNodeToggle}
-                onMouseOver={this.handleOnMouseOverCb}
-                onMouseOut={this.handleOnMouseOutCb}
-                textLayout={nodeData.textLayout || textLayout}
-                circleRadius={circleRadius}
-                subscriptions={subscriptions}
-                allowForeignObjects={allowForeignObjects}
-                styles={styles.nodes}
-              />
+              // <OverlayTrigger
+              //   placement="bottom"
+              //   overlay={<Tooltip></Tooltip>}
+              // >  
+                <Node
+                  key={nodeData.id}
+                  nodeSvgShape={{ ...nodeSvgShape, ...nodeData.nodeSvgShape }}
+                  nodeLabelComponent={nodeLabelComponent}
+                  nodeSize={nodeSize}
+                  orientation={orientation}
+                  transitionDuration={transitionDuration}
+                  nodeData={nodeData}
+                  name={nodeData.name}
+                  attributes={nodeData.attributes}
+                  onClick={this.handleNodeToggle}
+                  onMouseOver={this.handleOnMouseOverCb}
+                  onMouseOut={this.handleOnMouseOutCb}
+                  textLayout={nodeData.textLayout || textLayout}
+                  circleRadius={circleRadius}
+                  subscriptions={subscriptions}
+                  allowForeignObjects={allowForeignObjects}
+                  styles={styles.nodes}
+                />
+              // </OverlayTrigger>
             ))}
           </NodeWrapper>
         </svg>
