@@ -98,7 +98,7 @@ class ObjectTableCell extends React.Component {
     createOverlay() {
         return (
             <Popover>
-                <Popover.Title as="h3">Add {this.props.objectCategory}</Popover.Title>
+                <Popover.Title as="h3">Add <b>{this.props.objectCategory}</b></Popover.Title>
                 <Popover.Content>
                     How many do you want?
                     <Form

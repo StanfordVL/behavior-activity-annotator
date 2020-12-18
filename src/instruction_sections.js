@@ -1,6 +1,6 @@
 import React from 'react';
 import Card from 'react-bootstrap/Card';
-import CenteredTree from './object_hierarchy';
+import SmallObjectSelectionWorkspace from './object_hierarchy';
 
 import SceneObjectTable from './scene_object_table';
 import SelectedObjectsList from './selected_objects_list'
@@ -113,7 +113,13 @@ export class ObjectSelectionWorkspace extends React.Component {
                         </p>
                         [TODO: click to add objects, ideally into the list already started for scene objects]
                         </Card.Text>
-                        <CenteredTree/>
+                        {/* <SmallObjectsSubmissionForm onSubmit={(numObjects, objectCategory) => this.updateSelectedObjects(numObjects, objectCategory)}/>
+                        <CenteredTree/> */}
+                        <SmallObjectSelectionWorkspace onSubmit={(numObjects, objectCategory) => this.updateSelectedObjects(numObjects, objectCategory)}/>
+                        <SelectedObjectsList
+                            onObjectDelete={(numObjects, objectCategory) => this.updateSelectedObjects(numObjects, objectCategory)}
+                            selectedObjects={this.state.allSelectedObjects}
+                        />                    
                     </Card.Body>
                 </Card>
             </div>

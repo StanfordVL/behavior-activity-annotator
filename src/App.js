@@ -46,7 +46,7 @@ export default class Instructions extends React.Component {
   }
 
   render() { 
-    console.log('CALLING APP RENDER')
+    console.log('CALLING INSTRUCTIONS RENDER')
     return (
       <div>
         <Card>

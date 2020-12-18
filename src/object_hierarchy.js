@@ -4,6 +4,7 @@ import Button from 'react-bootstrap/Button'
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger'
 import Popover from "react-bootstrap/esm/Popover";
 import Form from 'react-bootstrap/Form'
+import Card from 'react-bootstrap/Card'
 
 
 const sceneObjects = require('./pack_lunch_objects.json')
@@ -84,8 +85,84 @@ class NodeLabel extends React.PureComponent {
 }
 
 
+export default class SmallObjectSelectionWorkspace extends React.Component {
+  constructor(props) {
+    super(props);
 
-export default class CenteredTree extends React.PureComponent {
+    this.state = {
+      currentCategory: ""
+    }
+  }
+
+  onTreeNodeClick(nodeData, evt) {
+    console.log('tree node clicked, record from SmallObjectSelectionWorkspace')
+    console.log(nodeData.name)
+    this.setState({ currentCategory: nodeData.name })
+  }
+
+  render() {
+    return (
+      <div>
+        <CenteredTree onClick={(event) => this.onTreeNodeClick(event)}/>
+        <SmallObjectsSubmissionForm
+          onSubmit={(numObjects, objectCategory) => this.props.onSubmit(numObjects, objectCategory)}
+          objectCategory={this.state.currentCategory}
+        />
+      </div>
+    )
+  }
+}
+
+
+export class SmallObjectsSubmissionForm extends React.Component {
+  constructor(props) {
+    super(props)
+
+    this.state = {
+      inputText: ""
+    }
+  }
+
+  onInputChange(event) {
+    this.setState({ inputText: event.target.value })
+  }
+
+  onSubmit(event) {
+    event.preventDefault();
+    this.setState({ inputText: "" })
+    this.props.onSubmit(parseInt(this.state.inputText), this.props.objectCategory)
+  }
+
+  render() {
+    return (
+      <Card>
+        <Card.Body>
+          <Card.Title>Add <b>{this.props.objectCategory}</b></Card.Title>
+          <Form
+            onChange={(event) => this.onInputChange(event)}
+            onSubmit={(event) => this.onSubmit(event)}
+          >
+            <Form.Group id="smallObjectSelections">
+              {/* <Form.Label>Add <b>{this.props.objectCategory}</b></Form.Label> */}
+              <Form.Control type="number" value={this.state.inputText}/>
+            </Form.Group>
+            <Button
+              disabled={this.state.inputText.length==0 || this.props.objectCategory.length==0}
+              variant="outline-dark"
+              // size="sm"
+              type="submit"
+            >
+              add
+            </Button>
+          </Form>
+        </Card.Body>
+      </Card>
+    )
+  }
+}
+
+
+export class CenteredTree extends React.PureComponent {
   state = {}
 
   componentDidMount() {
@@ -126,15 +203,16 @@ export default class CenteredTree extends React.PureComponent {
           //     console.log('right clicked!')
           //   }
           // }
-          // zoomable={false}
+          onClick={(nodeData, evt) => this.props.onClick(nodeData, evt)}
+          zoomable={false}
           zoom={0.4}
-          allowForeignObjects
-          nodeLabelComponent={{
-            render: <NodeLabel className='myLabelComponentInSvg' />,
-            foreignObjectWrapper: {
-              // y: 24
-            }
-          }}
+          // allowForeignObjects
+          // nodeLabelComponent={{
+          //   render: <NodeLabel className='myLabelComponentInSvg' />,
+          //   foreignObjectWrapper: {
+          //     // y: 24
+          //   }
+          // }}
     
         />
       </div>
