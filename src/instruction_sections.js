@@ -4,8 +4,9 @@ import CenteredTree from './object_hierarchy';
 
 import SceneObjectTable from './scene_object_table';
 import SelectedObjectsList from './selected_objects_list'
-import ConditionDrawer from './custom_blocks'
+import ConditionDrawer from './custom_blocks2'
 import ConditionWritingInstructions from './condition_writing_instructions'
+import Demo from './custom_blocks2'
 
 
 export class Introduction extends React.Component {
@@ -151,15 +152,16 @@ export class ConditionWorkspace extends React.Component {
                 <Card>
                     <Card.Body>
                         <Card.Title>Building initial conditions</Card.Title>
-                        <ConditionDrawer drawerType="initial" selectedObjects={this.props.selectedObjects}/>
+                        <ConditionDrawer drawerType="initial"/>
                     </Card.Body>
                 </Card>
                 <Card>
                     <Card.Body>
                         <Card.Title>Building goal conditions</Card.Title>
-                        <ConditionDrawer drawerType="goal" selectedObjects={this.props.selectedObjects}/>
+                        <ConditionDrawer drawerType="goal"/>
                     </Card.Body>
                 </Card>
+                {/* <Demo/> */}
             </div>
         )
     }

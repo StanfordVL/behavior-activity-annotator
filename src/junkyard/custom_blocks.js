@@ -8,19 +8,8 @@ import blockly_compressed_browser from 'node-blockly/lib/blockly_compressed_brow
 
 
 /* RELEVANT OBJECTS */
-const sceneObjects = require('./pack_lunch_objects.json');
-var objectLabelToCategory = {           // TODO get from selection (which is also a TODO)
-    'apple1': 'apple', 
-    'apple2': 'apple', 
-    'apple3': 'apple', 
-    'chicken1': 'chicken',
-    'chicken2': 'chicken',
-    'chicken3': 'chicken',
-    'chicken4': 'chicken',
-    'bowl1': 'bowl',
-    'bowl2': 'bowl',
-    'bowl3': 'bowl',
-}
+// const sceneObjects = require('../pack_lunch_objects.json');
+// }
 
 const objectCategoryToProperties = {        // TODO get from object category -> property annotation
     // TODO this should turn properties into descriptors and adds tags to descriptors 
@@ -57,13 +46,27 @@ export default class ConditionDrawer extends React.Component {
 
     getObjectInstances() {
         let selectedObjects = this.props.selectedObjects;
-        let objectInstanceLabels = []
+        let objectInstanceLabels = ['']
         for (const [category, number] of Object.entries(selectedObjects)) {
             for (let i = 0; i < number; i++) {
                 objectInstanceLabels.push(category + (i + 1).toString())
             }
         }
-        return(objectInstanceLabels)
+        if (objectInstanceLabels.length === 0) {
+            return ([''])
+        } else {
+            return (objectInstanceLabels)
+        }
+    }
+
+    getObjectCategories() {
+        let selectedObjects = this.props.selectedObjects;
+        let categories = Object.keys(selectedObjects)
+        if (categories.length === 0) {
+            return([''])
+        } else {
+            return(categories)
+        }
     }
 
     onWorkspaceChange(code, workspace) {
@@ -113,31 +116,30 @@ export default class ConditionDrawer extends React.Component {
             return ([
                 // basicUnarySentence,
                 this.makeUnarySentence(),
-                basicBinarySentence,
+                this.makeBinarySentence(),
                 conjunction,
                 disjunction,
                 negation,
                 implication,
-                universal,
+                this.makeUniversal(),
                 existential
             ])
         } else {        // goal drawer 
             return ([
                 // basicUnarySentence,
                 this.makeUnarySentence(),
-                basicBinarySentence,
+                this.makeBinarySentence(),
                 conjunction,
                 disjunction,
                 negation,
                 implication,
-                universal,
+                this.makeUniversal(),
                 existential
             ])
         }
     }
 
     render() {
-        // console.log(this.props.selectedObjects)
         return(
             <div>
                 <BlocklyDrawer
@@ -169,7 +171,6 @@ export default class ConditionDrawer extends React.Component {
     }
 
     makeUnarySentence() {
-        console.log('OBJECT INSTANCES:', this.getObjectInstances())
         let objectInstanceList = this.getObjectInstances()
         let basicUnarySentence = {
             name: 'BasicUnarySentence',
@@ -207,6 +208,87 @@ export default class ConditionDrawer extends React.Component {
         };
         return(basicUnarySentence)
     }
+
+    makeBinarySentence() {
+        let objectInstanceList = this.getObjectInstances()
+        let basicBinarySentence = {
+            name: 'BasicBinarySentence',
+            category: 'Basic Sentences',
+            block: {
+                init: function () {
+                    this.jsonInit({
+                        message0: '%1 is %2 %3',
+                        args0: [
+                            {
+                                type: 'field_dropdown',
+                                name: 'OBJECT1',
+                                options: generateDropdownArray(objectInstanceList)
+                            },
+                            {
+                                type: 'field_dropdown',
+                                name: 'DESCRIPTOR',
+                                options: generateDropdownArray(['on top of', 'inside', 'next to', 'under'])
+                            },
+                            {
+                                type: 'field_dropdown',
+                                name: 'OBJECT2',
+                                options: generateDropdownArray(objectInstanceList)    
+                            }
+                        ],
+                        output: "Boolean",
+                        colour: basicSentenceColor,
+                        tooltip: 'Applies a descriptor to an object'
+                    });
+                }
+            },
+            generator: (block) => {
+                const object1 = block.getFieldValue('OBJECT1').toLowerCase() || '\'\'';
+                const adjective = convertName(block.getFieldValue('DESCRIPTOR').toLowerCase()) || '\'\'';
+                const object2 = block.getFieldValue('OBJECT2').toLowerCase() || '\'\'';
+                const code = `(${adjective} ${object1} ${object2})`;
+                return [code, Blockly.JavaScript.ORDER_MEMBER];
+            }
+        };
+        return(basicBinarySentence)
+    }
+
+    makeUniversal() {
+        let objectCategoryList = this.getObjectCategories()
+        let universal = {
+            // TODO second arg sentence has to have category, not object instance 
+        
+            name: 'Universal',
+            category: 'Sentence Constructors',
+            block: {
+                init: function () {
+                    this.jsonInit({
+                        message0: "for all %1: %2",
+                        args0: [
+                            {
+                                type: "field_dropdown",
+                                name: "CATEGORY", 
+                                options: generateDropdownArray(objectCategoryList)
+                            },
+                            {
+                                type: "input_value", 
+                                name: "SENTENCE",
+                                check: "Boolean"
+                            }
+                        ],
+                        output: "Boolean", 
+                        colour: sentenceConstructorColor
+                    })
+                }
+            },
+            generator: (block) => {
+                const category = block.getFieldValue('CATEGORY').toLowerCase() || '\'\'';
+                const sentence = Blockly.JavaScript.valueToCode(block, 'SENTENCE', Blockly.JavaScript.ORDER_ADDITION) || '0';
+                const code = `(forall (?${category} - ${category}) ${sentence})`
+                return [code, Blockly.JavaScript.ORDER_MEMBER];
+            } 
+        }
+        return(universal)
+    }
 }
 
 
@@ -224,78 +306,6 @@ function convertName(name) {
 }
 
 
-// export const basicUnarySentence = {
-//     name: 'BasicUnarySentence',
-//     category: 'Basic Sentences',
-//     block: {
-//         init: function () {
-//             this.jsonInit({
-//                 message0: '%1 is %2', 
-//                 args0: [
-//                     {
-//                         type: 'field_dropdown',
-//                         name: 'OBJECT',
-//                         options: generateDropdownArray(Object.keys(objectLabelToCategory))
-//                     },
-//                     {
-//                         type: 'field_dropdown',
-//                         name: 'DESCRIPTOR',
-//                         options: generateDropdownArray(objectCategoryToProperties['apple'])
-//                     }
-//                 ],
-//                 output: null,
-//                 colour: basicSentenceColor,
-//                 tooltip: 'Applies a descriptor to an object'
-//             });
-//         }
-//     },
-//     generator: (block) => {
-//         const object = block.getFieldValue('OBJECT').toLowerCase() || '\'\'';
-//         const adjective = convertName(block.getFieldValue('DESCRIPTOR').toLowerCase()) || '\'\'';
-//         const code = `(${adjective} ${object})`;
-//         return [code, Blockly.JavaScript.ORDER_MEMBER];
-//     }
-// };
-
-
-export const basicBinarySentence = {
-    name: 'BasicBinarySentence',
-    category: 'Basic Sentences',
-    block: {
-        init: function () {
-            this.jsonInit({
-                message0: '%1 is %2 %3',
-                args0: [
-                    {
-                        type: 'field_dropdown',
-                        name: 'OBJECT1',
-                        options: generateDropdownArray(Object.keys(objectLabelToCategory))
-                    },
-                    {
-                        type: 'field_dropdown',
-                        name: 'DESCRIPTOR',
-                        options: generateDropdownArray(['on top of', 'inside', 'next to', 'under'])
-                    },
-                    {
-                        type: 'field_dropdown',
-                        name: 'OBJECT2',
-                        options: generateDropdownArray(Object.keys(objectLabelToCategory))      //  need to eliminate the object already being used 
-                    }
-                ],
-                output: "Boolean",
-                colour: basicSentenceColor,
-                tooltip: 'Applies a descriptor to an object'
-            });
-        }
-    },
-    generator: (block) => {
-        const object1 = block.getFieldValue('OBJECT1').toLowerCase() || '\'\'';
-        const adjective = convertName(block.getFieldValue('DESCRIPTOR').toLowerCase()) || '\'\'';
-        const object2 = block.getFieldValue('OBJECT2').toLowerCase() || '\'\'';
-        const code = `(${adjective} ${object1} ${object2})`;
-        return [code, Blockly.JavaScript.ORDER_MEMBER];
-    }
-};
 
 export const conjunction = {
     name: 'Conjunction',
@@ -383,40 +393,6 @@ export const negation = {
     generator: (block) => {
         const sentence = Blockly.JavaScript.valueToCode(block, 'SENTENCE', Blockly.JavaScript.ORDER_ADDITION) || '0';
         const code = `(not ${sentence})`
-        return [code, Blockly.JavaScript.ORDER_MEMBER];
-    } 
-}
-
-export const universal = {
-    // TODO second arg sentence has to have category, not object instance 
-
-    name: 'Universal',
-    category: 'Sentence Constructors',
-    block: {
-        init: function () {
-            this.jsonInit({
-                message0: "for all %1: %2",
-                args0: [
-                    {
-                        type: "field_dropdown",
-                        name: "CATEGORY", 
-                        options: generateDropdownArray(Object.keys(objectCategoryToProperties))
-                    },
-                    {
-                        type: "input_value", 
-                        name: "SENTENCE",
-                        check: "Boolean"
-                    }
-                ],
-                output: "Boolean", 
-                colour: sentenceConstructorColor
-            })
-        }
-    },
-    generator: (block) => {
-        const category = block.getFieldValue('CATEGORY').toLowerCase() || '\'\'';
-        const sentence = Blockly.JavaScript.valueToCode(block, 'SENTENCE', Blockly.JavaScript.ORDER_ADDITION) || '0';
-        const code = `(forall (?${category} - ${category}) ${sentence})`
         return [code, Blockly.JavaScript.ORDER_MEMBER];
     } 
 }
@@ -615,6 +591,7 @@ Blockly.Blocks['high_level_root'] = {
 
 
   };
+
 
 
 /* <Category name="Basic Sentences">

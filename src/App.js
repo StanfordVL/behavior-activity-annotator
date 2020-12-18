@@ -9,16 +9,18 @@ import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 import CenteredTree from "./object_hierarchy.js";
-// import FinalConditionDrawer from './custom_blocks'
 import SceneObjectTable from './scene_object_table';
 import Button from 'react-bootstrap/Button'
 import Form from 'react-bootstrap/Form'
 import Card from 'react-bootstrap/Card'
 import SelectedObjectsList from './selected_objects_list';
 import { ConditionInstruction, Introduction, ObjectSelectionWorkspace, ConditionWorkspace } from './instruction_sections'
+import ConditionDrawer from './custom_blocks2'
+
 
 let resultCodeObj;
 const activityParameters = require('./pack_lunch_params.json')
+window.sessionStorage.setItem('allSelectedObjects', JSON.stringify({'apple': 2, 'orange': 5}))
 
 export default class Instructions extends React.Component {
 
@@ -34,20 +36,17 @@ export default class Instructions extends React.Component {
       allSelectedObjects: {}
 
     };
-    // this.getSelectedObjects = this.getSelectedObjects.bind(this);
   }
 
-  // getSelectedObjects(selectedObjects) {
-  //   this.setState({ allSelectedObjects: selectedObjects})
-  // }
 
   updateSelectedObjects(updatedSelectedObjects) {
     console.log('from main app:', updatedSelectedObjects)
     this.setState({ allSelectedObjects: updatedSelectedObjects })
+    window.sessionStorage.setItem('allSelectedObjects', JSON.stringify(updatedSelectedObjects));
   }
 
   render() { 
-    console.log('from main app state:', this.state.allSelectedObjects)
+    console.log('CALLING APP RENDER')
     return (
       <div>
         <Card>
@@ -59,7 +58,20 @@ export default class Instructions extends React.Component {
         <Introduction params={activityParameters}/>
         <ObjectSelectionWorkspace params={activityParameters} onObjectUpdate={(updatedSelectedObjects) => this.updateSelectedObjects(updatedSelectedObjects)}/>
         <ConditionInstruction params={activityParameters}/>
-        <ConditionWorkspace selectedObjects={this.state.allSelectedObjects}/> 
+        {/* <ConditionWorkspace selectedObjects={this.state.allSelectedObjects}/>  */}
+      </div>
+    )
+  }
+}
+
+export class InstructionsPlusBlockly extends React.Component {
+  render() {
+    console.log('CALLING OUTERMOST RENDER')
+    return (
+      <div>
+        <Instructions/>
+
+        <ConditionWorkspace drawerType="initial"/>
       </div>
     )
   }
@@ -67,6 +79,6 @@ export default class Instructions extends React.Component {
 
 
 window.addEventListener('load', () => {
-  const instructions = React.createElement(Instructions);
+  const instructions = React.createElement(InstructionsPlusBlockly);
   ReactDOM.render(instructions, document.getElementById('root'));
 });
