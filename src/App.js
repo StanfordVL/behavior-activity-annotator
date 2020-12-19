@@ -33,16 +33,28 @@ export default class Instructions extends React.Component {
       exampleSubCat1: "chicken",
       exampleSubCat2: "turkey",
       exampleDescriptor: "cooked",
-      allSelectedObjects: {}
+      allSelectedObjects: {},
+      selectedRooms: {},
 
     };
   }
 
+  componentDidMount() {
+    console.log('APP MOUNTED')
+  }
 
   updateSelectedObjects(updatedSelectedObjects) {
     console.log('from main app:', updatedSelectedObjects)
     this.setState({ allSelectedObjects: updatedSelectedObjects })
     window.sessionStorage.setItem('allSelectedObjects', JSON.stringify(updatedSelectedObjects));
+  }
+
+  updateSelectedRooms(updatedRooms) {
+    this.setState({ selectedRooms: updatedRooms })
+    console.log('CHOSEN ROOMS FROM APP:', updatedRooms)
+    window.sessionStorage.setItem('selectedRooms', JSON.stringify(updatedRooms))
+    let thing = JSON.parse(window.sessionStorage.getItem('selectedRooms'))
+    console.log('STORED ROOMS:', thing)
   }
 
   render() { 
@@ -56,7 +68,11 @@ export default class Instructions extends React.Component {
           </Card.Body>
         </Card>
         <Introduction params={activityParameters}/>
-        <ObjectSelectionWorkspace params={activityParameters} onObjectUpdate={(updatedSelectedObjects) => this.updateSelectedObjects(updatedSelectedObjects)}/>
+        <ObjectSelectionWorkspace 
+          params={activityParameters} 
+          onObjectUpdate={(updatedSelectedObjects) => this.updateSelectedObjects(updatedSelectedObjects)}
+          onRoomUpdate={(updatedRooms) => this.updateSelectedRooms(updatedRooms)}
+        />
         <ConditionInstruction params={activityParameters}/>
         {/* <ConditionWorkspace selectedObjects={this.state.allSelectedObjects}/>  */}
       </div>

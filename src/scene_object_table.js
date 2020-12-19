@@ -34,17 +34,6 @@ export default class SceneObjectTable extends React.Component {
         return (objectCategory);
     }
 
-    // createObjectTableCell(objectArray, r, c, cols) {
-    //     objectCategory = this.getObjectCategory(objectArray, r, c, cols)
-    //     return (
-    //         <ObjectTableCell
-    //             objectCategory={objectCategory}
-    //             key={c}
-    //             onSubmit={(numObjects, objectCategory) => this.onObjectSubmit(numObjects, objectCategory)}
-    //         />
-    //     )
-    // }
-
     createObjectTable(objectArray) {
         var rows = this.state.objectRows;
         let cols = Math.ceil(objectArray.length / rows);
@@ -89,7 +78,6 @@ class ObjectTableCell extends React.Component {
     }
 
     onSubmit(event) {
-        console.log('submitted in ObjectTableCell')
         event.preventDefault();
         this.setState({ inputText: "" })
         this.props.onSubmit(parseInt(this.state.inputText), this.state.objectCategory)

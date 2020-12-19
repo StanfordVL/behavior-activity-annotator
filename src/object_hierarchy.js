@@ -1,5 +1,6 @@
 import React from "react";
 import Tree from "./react-d3-src";
+// import Tree from "react-d3-tree"
 import Button from 'react-bootstrap/Button'
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger'
 import Popover from "react-bootstrap/esm/Popover";
@@ -17,72 +18,6 @@ const containerStyles = {
 
 const getJSONDepth = ({ children }) => 1 + (children ? Math.max(...children.map(getJSONDepth)) : 0)
 let sceneObjectsDepth = getJSONDepth(sceneObjects);
-
-
-class NodeLabel extends React.PureComponent {
-
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      inputText: ""
-    }
-  }
-
-  onInputChange(event) {
-    console.log('input change')
-    this.setState({ inputText: event.target.value })
-  }
-
-  onSubmit(event) {
-    event.preventDefault()
-    this.setState({ inputText: "" })
-    console.log('submission')
-  }
-
-  render() {
-    console.log('clicked node label component')
-    const {className, nodeData} = this.props
-    return (
-      <div className={className}>
-        <h2>{nodeData.name}
-        { 
-          <OverlayTrigger
-            trigger="click"
-            placement="bottom"
-            overlay={
-              <Popover>
-                <Popover.Content>
-                  How many do you want?
-                      <Form
-                          onChange={(event) => this.onInputChange(event)}
-                          onSubmit={(event) => this.onSubmit(event)}
-                      >
-                          <Form.Control type="number" value={this.state.inputText}/>
-                          <Button
-                              disabled={this.state.inputText.length == 0}
-                              variant="outline-dark"
-                              size="sm"
-                              type="submit"
-                          >
-                              add
-                          </Button>
-                      </Form>
-                </Popover.Content>
-              </Popover>
-            }
-          
-          >
-            <Button size="lg" variant="secondary">
-              add
-            </Button>
-          </OverlayTrigger>
-        }
-        </h2>
-      </div>
-    )
-  }
-}
 
 
 export default class SmallObjectSelectionWorkspace extends React.Component {

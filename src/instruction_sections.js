@@ -6,6 +6,7 @@ import SceneObjectTable from './scene_object_table';
 import SelectedObjectsList from './selected_objects_list'
 import ConditionDrawer from './custom_blocks2'
 import ConditionWritingInstructions from './condition_writing_instructions'
+import RoomForm from './room_selection_form'
 import Demo from './custom_blocks2'
 
 
@@ -45,7 +46,8 @@ export class ObjectSelectionWorkspace extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            allSelectedObjects: {}
+            allSelectedObjects: {},
+            selectedRooms: {}
         }
 
         // this.getSelectedObjects = this.getSelectedObjects.bind(this);
@@ -54,6 +56,10 @@ export class ObjectSelectionWorkspace extends React.Component {
     // getSelectedObjects(selectedObjects) {
     //     this.setState({ allSelectedObjects: selectedObjects })
     // }
+
+    componentDidMount() {
+        console.log('OBJECT SELECTION WORKSPACE DID MOUNT')
+    }
 
     updateSelectedObjects(numObjects, objectCategory) {
         console.log('submitted in SceneObjectSetup')
@@ -65,6 +71,12 @@ export class ObjectSelectionWorkspace extends React.Component {
         }
         this.setState({ allSelectedObjects: updatedSelectedObjects })
         this.props.onObjectUpdate(updatedSelectedObjects)
+    }
+
+    updateSelectedRooms(updatedRooms) {
+        this.setState({ selectedRooms: updatedRooms })
+        console.log('CHOSEN ROOMS FROM INSTRUCTIONS:', updatedRooms)
+        this.props.onRoomUpdate(updatedRooms)
     }
 
     render() {
@@ -80,6 +92,15 @@ export class ObjectSelectionWorkspace extends React.Component {
                         <p>
                             [TODO drag-nav interface of a few igibson scenes]
                         </p>
+                        <Card>
+                            <Card.Body>
+                                <Card.Title>Choose room</Card.Title>
+                                <Card.Text style={{fontSize: 13}} className="text-muted">
+                                    Once you submit, you won't be able to edit your choice. 
+                                </Card.Text>
+                                <RoomForm onSubmit={(updatedRooms) => this.updateSelectedRooms(updatedRooms)}/>
+                            </Card.Body>
+                        </Card>
                         </Card.Text>
                     </Card.Body>
                 </Card>
