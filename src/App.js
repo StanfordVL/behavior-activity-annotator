@@ -8,14 +8,14 @@ import AirTableError from 'airtable/build/airtable.browser'
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-import CenteredTree from "./object_hierarchy.js";
 import SceneObjectTable from './scene_object_table';
 import Button from 'react-bootstrap/Button'
 import Form from 'react-bootstrap/Form'
 import Card from 'react-bootstrap/Card'
 import SelectedObjectsList from './selected_objects_list';
-import { ConditionInstruction, Introduction, ObjectSelectionWorkspace, ConditionWorkspace } from './instruction_sections'
-import ConditionDrawer from './custom_blocks2'
+import { ConditionInstruction, ObjectSelectionWorkspace, ConditionWorkspace } from './instruction_sections'
+import ConditionDrawer, { FinalSubmit } from './blockly_drawers'
+import Introduction from './written_instructions'
 
 
 let resultCodeObj;
@@ -61,19 +61,20 @@ export default class Instructions extends React.Component {
     console.log('CALLING INSTRUCTIONS RENDER')
     return (
       <div>
-        <Card>
+        {/* <Card>
           <Card.Body>
             <h1>Defining household activities</h1>
             <h2>Activity: {activityParameters.activity_name}</h2>
           </Card.Body>
-        </Card>
-        <Introduction params={activityParameters}/>
+        </Card> */}
+        {/* <Introduction params={activityParameters}/> */}
+        <Introduction/>
         <ObjectSelectionWorkspace 
           params={activityParameters} 
           onObjectUpdate={(updatedSelectedObjects) => this.updateSelectedObjects(updatedSelectedObjects)}
           onRoomUpdate={(updatedRooms) => this.updateSelectedRooms(updatedRooms)}
         />
-        <ConditionInstruction params={activityParameters}/>
+        {/* <ConditionInstruction params={activityParameters}/> */}
         {/* <ConditionWorkspace selectedObjects={this.state.allSelectedObjects}/>  */}
       </div>
     )
@@ -86,7 +87,6 @@ export class InstructionsPlusBlockly extends React.Component {
     return (
       <div>
         <Instructions/>
-
         <ConditionWorkspace drawerType="initial"/>
       </div>
     )

@@ -63,3 +63,7 @@ svg.custom path.link {
 	stroke: #2593B8;
 	stroke-width: 1.5px;
 }
+
+.marginCard {
+  margin-bottom: 20px
+}

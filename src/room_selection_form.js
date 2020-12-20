@@ -27,9 +27,6 @@ export default class RoomForm extends React.Component {
 
     onSubmit(event) {
         event.preventDefault();
-        this.setState({ submitted: true, selectedCheckboxes: 5 })
-        // this.setState({ selectedCheckboxes: 5 })
-
         console.log('CHOSEN ROOMS:', this.state.selectedCheckboxes)
         this.props.onSubmit(this.state.selectedCheckboxes);
     }
@@ -42,7 +39,7 @@ export default class RoomForm extends React.Component {
                     onSubmit={(event) => this.onSubmit(event)}
                 >
                     <div>
-                        {['kitchen', 'bedroom', 'bathroom', 'living room', 'garage'].map((roomType) => (
+                        {['kitchen', 'bedroom', 'bathroom', 'living room', 'garage', 'dining room'].map((roomType) => (
                             <Form.Check
                                 type="checkbox"
                                 id={`${roomType}-checkbox`}
@@ -50,6 +47,7 @@ export default class RoomForm extends React.Component {
                                 inline 
                                 value={roomType}
                                 disabled={this.state.submitted}
+                                // style={{ "font-weight": "bold" }}
                             />
                         ))}
                     </div>
@@ -57,7 +55,8 @@ export default class RoomForm extends React.Component {
                         size="sm" 
                         type="submit" 
                         variant="outline-dark"
-                        disabled={(this.state.selectedCheckboxes.size === 0) || this.state.submitted === true}
+                        disabled={(Object.keys(this.state.selectedCheckboxes).length === 0) || this.state.submitted === true}
+                        style={{ "marginTop": "10px" }}
                     >
                         submit
                     </Button>

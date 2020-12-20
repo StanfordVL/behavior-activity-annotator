@@ -1,14 +1,15 @@
 import React from "react";
-import Tree from "./react-d3-src";
-// import Tree from "react-d3-tree"
+// import Tree from "./react-d3-src";
+import Tree from "react-d3-tree"
 import Button from 'react-bootstrap/Button'
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger'
 import Popover from "react-bootstrap/esm/Popover";
 import Form from 'react-bootstrap/Form'
 import Card from 'react-bootstrap/Card'
+import Modal from 'react-bootstrap/Modal'
 
 
-const sceneObjects = require('./pack_lunch_objects.json')
+const nonSceneObjects = require('../pack_lunch_objects.json')
 
 const containerStyles = {
   width: '100%',
@@ -17,7 +18,7 @@ const containerStyles = {
 }
 
 const getJSONDepth = ({ children }) => 1 + (children ? Math.max(...children.map(getJSONDepth)) : 0)
-let sceneObjectsDepth = getJSONDepth(sceneObjects);
+let nonSceneObjectsDepth = getJSONDepth(nonSceneObjects);
 
 
 export default class SmallObjectSelectionWorkspace extends React.Component {
@@ -25,7 +26,8 @@ export default class SmallObjectSelectionWorkspace extends React.Component {
     super(props);
 
     this.state = {
-      currentCategory: ""
+      taskObjectsCurrentCategory: "",
+      allObjectsCurrentCategory: ""
     }
   }
 
@@ -38,10 +40,16 @@ export default class SmallObjectSelectionWorkspace extends React.Component {
   render() {
     return (
       <div>
-        <CenteredTree onClick={(event) => this.onTreeNodeClick(event)}/>
+        <ObjectHierarchy 
+          onClick={(nodeData, event) => this.onTreeNodeClick(nodeData, event)}
+          objectData={nonSceneObjects}
+        />
+        <AllObjectHierarchy
+          onClick={(nodeData, event) => this.onTreeNodeClick(nodeData, event)}
+        />
         <SmallObjectsSubmissionForm
           onSubmit={(numObjects, objectCategory) => this.props.onSubmit(numObjects, objectCategory)}
-          objectCategory={this.state.currentCategory}
+          objectCategory={this.state.taskObjectsCurrentCategory}
         />
       </div>
     )
@@ -97,7 +105,80 @@ export class SmallObjectsSubmissionForm extends React.Component {
 }
 
 
-export class CenteredTree extends React.PureComponent {
+export class AllObjectHierarchy extends React.PureComponent {
+
+  constructor(props) {
+    super(props)
+    this.state = {
+      show: false,
+      objectCategory: ''
+    }
+  }
+
+  handleShow() {
+    this.setState({ show: true })
+  }
+
+  handleHide() {
+    this.setState({ show: false })
+  }
+
+  handleSubmit(event) {
+    event.preventDefault();
+    this.setState({ show: false })
+  }
+
+  render() {
+    return (
+      <div>
+        <Button variant="secondary" style={{ "margin": "20px" }}
+          onClick={() => this.handleShow()}
+        >
+          All objects
+        </Button>
+        <Modal
+          show={this.state.show}
+          onHide={() => this.handleHide()}
+          backdrop="static"
+          keyboard={false}
+          >
+          <Modal.Header closeButton>
+            <Modal.Title>All objects</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            All objects will go here 
+          </Modal.Body>
+          {/* <Modal.Footer> */}
+            {/* <Button 
+              variant="secondary"
+              type="submit"
+              onSubmit={(event) => this.handleSubmit(event)}
+            >
+              Add object
+            </Button> */}
+            {/* <Button 
+              onClick={() => this.handleHide()}
+              variant="secondary"
+            >
+              Cancel
+            </Button> */}
+            <ObjectHierarchy
+              objectData={nonSceneObjects}
+              onClick={(nodeData, evt) => this.props.onClick(nodeData, evt)}
+            />
+            <SmallObjectsSubmissionForm
+              objectCategory={this.state.objectCategory}
+              onSubmit={(numObjects, objectCategory) => this.handleSubmit(numObjects, objectCategory)}
+            />
+          {/* </Modal.Footer> */}
+        </Modal>
+      </div>
+    )
+  }
+}
+
+
+export class ObjectHierarchy extends React.PureComponent {
   state = {}
 
   componentDidMount() {
@@ -114,7 +195,7 @@ export class CenteredTree extends React.PureComponent {
     return (
       <div style={containerStyles} ref={tc => (this.treeContainer = tc)}>
         <Tree 
-          data={sceneObjects} 
+          data={this.props.objectData} 
           translate={this.state.translate} 
           orientation={'horizontal'}
           nodeSvgShape = {
@@ -129,26 +210,13 @@ export class CenteredTree extends React.PureComponent {
               siblings: 0.3,
               nonSiblings: 0.5
           }}
-          depthFactor={sceneObjectsDepth * 275 }
+          depthFactor={nonSceneObjectsDepth * 275 }
           textLayout={
             {textAnchor: "start", x: 15, y: -10, transform: undefined }
           }
-          // onClick={
-          //   function(nodeData, evt) {
-          //     console.log('right clicked!')
-          //   }
-          // }
           onClick={(nodeData, evt) => this.props.onClick(nodeData, evt)}
-          zoomable={false}
+          // zoomable={false}
           zoom={0.4}
-          // allowForeignObjects
-          // nodeLabelComponent={{
-          //   render: <NodeLabel className='myLabelComponentInSvg' />,
-          //   foreignObjectWrapper: {
-          //     // y: 24
-          //   }
-          // }}
-    
         />
       </div>
     );
