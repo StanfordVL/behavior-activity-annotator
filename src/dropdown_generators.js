@@ -1,6 +1,6 @@
 // TODO get these from imports 
 
-const objects = ["null", "apple", "orange", "apricot", "lamp", "desk", "chair", "shelf"]
+const objects = ["null", "apple", "orange", "apricot", "lamp", "desk", "chair", "shelf", "table", "rag", "soap", "water", "toy"]
 const descriptors = [
     [],
     [
@@ -25,6 +25,22 @@ const descriptors = [
     ],
     [
         ['open', 'open']
+    ],
+    [
+        ["dusty", "dusty"],
+        ["scrubbed", "scrubbed"]
+    ],
+    [
+        ["soaked", "soaked"]
+    ],
+    [
+        ["open", "open"]
+    ],
+    [
+        ["open", "open"]
+    ],
+    [
+        ["dusty", "dusty"]
     ]
 ]
 

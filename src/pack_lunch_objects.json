@@ -220,6 +220,20 @@
                     ]
                 }
             ]
+        },
+        {
+            "name": "cleaning_supplies",
+            "children": [
+                {
+                    "name": "rag"
+                },
+                {
+                    "name": "soap"
+                }
+            ]
+        },
+        {
+            "name": "toy"
         }
     ]
 }

@@ -28,11 +28,6 @@ export default class Instructions extends React.Component {
     super(props);
     this.state = {
       title: 'Create initial conditions.',
-      activityName: 'Pack lunch for four people.',
-      exampleSuperCat: "meat",
-      exampleSubCat1: "chicken",
-      exampleSubCat2: "turkey",
-      exampleDescriptor: "cooked",
       allSelectedObjects: {},
       selectedRooms: {},
 
@@ -57,26 +52,27 @@ export default class Instructions extends React.Component {
     console.log('STORED ROOMS:', thing)
   }
 
+  showIntroduction() {
+    return( <Introduction/> )
+  }
+
+  showObjectSelectionWorkspace() {
+    return(
+      <ObjectSelectionWorkspace
+        params={activityParameters}
+        onObjectUpdate={(updatedSelectedObjects) => this.updateSelectedObjects(updatedSelectedObjects)}
+        onRoomUpdate={(updatedRooms) => this.updatedSelectedRooms(updatedRooms)}
+      />
+    )
+  }
+
   render() { 
     console.log('CALLING INSTRUCTIONS RENDER')
     console.log('SELECTED ROOMS:', Object.keys(this.state.selectedRooms).length)
     return (
       <div>
-        {/* <Card>
-          <Card.Body>
-            <h1>Defining household activities</h1>
-            <h2>Activity: {activityParameters.activity_name}</h2>
-          </Card.Body>
-        </Card> */}
-        {/* <Introduction params={activityParameters}/> */}
-        <Introduction/>
-        <ObjectSelectionWorkspace 
-          params={activityParameters} 
-          onObjectUpdate={(updatedSelectedObjects) => this.updateSelectedObjects(updatedSelectedObjects)}
-          onRoomUpdate={(updatedRooms) => this.updateSelectedRooms(updatedRooms)}
-        />
-        {/* <ConditionInstruction params={activityParameters}/> */}
-        {/* <ConditionWorkspace selectedObjects={this.state.allSelectedObjects}/>  */}
+        {this.showIntroduction()}
+        {this.showObjectSelectionWorkspace()}
       </div>
     )
   }

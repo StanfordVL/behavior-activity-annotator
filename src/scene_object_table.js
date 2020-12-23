@@ -71,6 +71,8 @@ class ObjectTableCell extends React.Component {
             inputText: "",
             objectCategory: this.props.objectCategory
         }
+
+        this.createRoomButtons = this.createRoomButtons.bind(this)
     }
 
     onInputChange(event) {
@@ -83,7 +85,16 @@ class ObjectTableCell extends React.Component {
         this.props.onSubmit(parseInt(this.state.inputText), this.state.objectCategory)
     }
 
+    createRoomButtons() {
+        if (this.props.selectedRooms !== undefined) {
+            console.log('THERE ARE SELECTED ROOMS')
+        } else {
+            console.log('THERE ARE NO SELECTED ROOMS')
+        }
+    }
+
     createOverlay() {
+        console.log('SELECTED ROOMS FROM TABLE:', this.props.selectedRooms)
         return (
             <Popover>
                 <Popover.Title as="h3">Add <b>{this.props.objectCategory}</b></Popover.Title>
@@ -94,6 +105,16 @@ class ObjectTableCell extends React.Component {
                         onSubmit={(event) => this.onSubmit(event)}
                     >
                         <Form.Control type="number" value={this.state.inputText}/>
+                        {this.createRoomButtons()}
+                        {/* {if (this.props.selectedRooms !== undefined) {Object.keys(this.props.selectedRooms).map((roomType) => (
+                            <Form.Check 
+                                type="radio"
+                                id={`${roomType}-radio`}
+                                label={roomType}
+                                inline
+                                value={roomType}
+                            />
+                        ))}} */}
                         <Button
                             disabled={this.state.inputText.length == 0}
                             variant="outline-dark"
@@ -109,6 +130,7 @@ class ObjectTableCell extends React.Component {
     }
 
     render() {
+        console.log('TABLE RENDER')
         return (
             <OverlayTrigger
                 trigger="click"
