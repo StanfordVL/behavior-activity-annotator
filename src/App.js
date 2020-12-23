@@ -59,6 +59,7 @@ export default class Instructions extends React.Component {
 
   render() { 
     console.log('CALLING INSTRUCTIONS RENDER')
+    console.log('SELECTED ROOMS:', Object.keys(this.state.selectedRooms).length)
     return (
       <div>
         {/* <Card>

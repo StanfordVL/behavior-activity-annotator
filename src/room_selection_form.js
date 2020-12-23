@@ -28,10 +28,12 @@ export default class RoomForm extends React.Component {
     onSubmit(event) {
         event.preventDefault();
         console.log('CHOSEN ROOMS:', this.state.selectedCheckboxes)
+        this.setState({submitted: true})
         this.props.onSubmit(this.state.selectedCheckboxes);
     }
 
     render() {
+        console.log('SUBMITTED:', this.state.submitted)
         return(
             <div>
                 <Form

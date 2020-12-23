@@ -4,28 +4,27 @@ const objects = ["null", "apple", "orange", "apricot", "lamp", "desk", "chair", 
 const descriptors = [
     [],
     [
-        ['Apple desc 1', 'appleDesc1'],
-        ['Apple desc 2', 'appleDesc2'],
+        ['scrubbed', 'scrubbed'],
         ["cooked", "cooked"]
     ],
     [
-        ['Orange desc 1', 'orangeDesc1'],
-        ['Orange desc 2', 'orangeDesc2']
+        ['scrubbed', 'scrubbed'],
+        ['burnt', 'burnt']
     ],
     [
-        ['Apricot desc 1', 'apricotDesc1']
+        ['dusted', 'dusted']
     ],
     [
-        ['Lamp desc 1', 'lampDesc1']
+        ['broken', 'broken']
     ],
     [
-        ['Desk desc 1', 'deskDesc1']
+        ['dusted', 'dusted']
     ],
     [
-        ['Chair desc 1', 'chairDesc1']
+        ['scrubbed', 'scrubbed']
     ],
     [
-        ['shelf desc 1', 'shelfDesc1']
+        ['open', 'open']
     ]
 ]
 

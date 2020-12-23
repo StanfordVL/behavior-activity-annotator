@@ -117,6 +117,7 @@ export class FinalSubmit extends React.Component {
                 body:JSON.stringify({
                     "records": [{
                         "fields": {
+                            "ActivityName": "pack_lunch",
                             "AnnotatorID": "Test",
                             "InitialConditions": updatedInitialConditions,
                             "GoalConditions": updatedGoalConditions,
@@ -174,18 +175,48 @@ export default class ConditionDrawer extends React.Component {
 
   onWorkspaceChange(code, workspace) {
       console.log('WORKSPACE CHANGE')
+      code = code.substring(0, code.length - 2)
+      console.log('CODE BEFORE:', code)
+
       if (this.props.drawerType == "initial") {
+          // Add modifications to code
+          code = `(:init ${code})`
+
+          // Update code 
           updatedInitialConditions = code;
       } else {
-          updatedGoalConditions = code;
-      }
-      console.log('UPDATED INITIAL CONDITIONS:', updatedInitialConditions)
-      console.log('WORKSPACE:', workspace)
+            // Add modifications to code 
+
+            // Put in question marks for all terms for goal conditions; NOTE this code relies 
+            //    1. Spaces only between clauses terms, not between parentheses
+            //    2. All quantified categories already have "?" parameter tags 
+            let newCode = "" 
+            let lastBreak = code.length 
+            var i;
+            for (i = code.length - 2; i >= 1; i--) {      // don't check very first or very last chars 
+                let current  = code[i]
+                let successor = code[i + 1]
+                let predecessor = code[i - 1]
+
+                if (current === ' ') {                                     // if we get to a space...
+                    if (successor !== '?' && successor !== '(' && successor !== '-') {       // ...and the next char isn't a question mark (i.e. already tagged as param) or an open paren (i.e. starting a new clause) or a hyphen for categorization...
+                        if (predecessor !== '-') {                      // ...and the previous character isn't a dash (i.e. the keyword in question isn't a category for quantified categorization)...
+                            newCode = ' ?' + code.slice(i + 1, lastBreak) + newCode                                              // ...then insert a question mark
+                            lastBreak = i
+                        }
+                    }
+                }
+            }
+            newCode = code.slice(i, lastBreak) + newCode
+            newCode = `(:goal (and ${newCode}))`
+
+            // Update code 
+            updatedGoalConditions = newCode;
+        }
   }
 
   onSave() {
     var base = new AirTable({apiKey: 'keyeaIvUAzmIaj3ma'}).base('appIh5qQ5m4UMrcps');
-    // console.log('updated init code during save', updatedInitialConditions)
 
     const requestOptions = {
         method: 'POST',
@@ -197,6 +228,7 @@ export default class ConditionDrawer extends React.Component {
             "records": [
                 {
                     "fields": {
+                        "ActivityName": "pack_lunch",
                         "AnnotatorID": "Test",
                         "InitialConditions": updatedInitialConditions,
                         "GoalConditions": updatedGoalConditions,
@@ -210,15 +242,14 @@ export default class ConditionDrawer extends React.Component {
     .then(response => response.json())    
     
     console.log('successfully posted to airtable!')
-  }
+}
 
   render() {
     console.log('CALLING DRAWER RENDER')
     return (<div>
       <BlocklyDrawer
         tools={[
-            // basicUnarySentence,
-            this.makeBasicUnarySentence(),
+            basicUnarySentence,
             basicBinarySentence,
             conjunction,
             disjunction,
@@ -248,142 +279,71 @@ export default class ConditionDrawer extends React.Component {
     </div>
     );
   }
-   
-  makeBasicUnarySentence(drawerType) {
-    let basicUnarySentence = {
-        name: 'BasicUnaryCondition',
-        category: 'Basic Conditions',
-        block: {
-        init: function (...arxs) {
-            const block = this;
-            
-            const state = {
-                allLabelsValues: [['select an object', 'null']],
-                currentObjectLabel: 'select an object',
-                currentObjectValue: 'null',
-                currentObjectCategory: 'null',
-                drawerType: drawerType
-            };
-    
-            this.setOnChange(function(changeEvent) {
-            let selectedObjectsContainer = new objectOptions(JSON.parse(window.sessionStorage.getItem('allSelectedObjects')))
-            let [objectInstanceLabels, instanceToCategory] = selectedObjectsContainer.getInstancesCategories()
-            state.allLabelsValues = objectInstanceLabels
-    
-            const descriptorField = block.getField('DESCRIPTOR');
-            const currentObjectValue = block.getFieldValue('OBJECT');
-            const currentDescriptorValue = block.getFieldValue('DESCRIPTOR');
-    
-            descriptorField.setValue(currentObjectValue !== state.currentObjectValue ? '' : currentDescriptorValue);
-            state.currentObjectValue = currentObjectValue;
-            state.currentObjectCategory = instanceToCategory[currentObjectValue]
-    
-            });
-    
-            this.jsonInit({
-            message0: '%1 is %2',
-            args0: [
-                {
-                type: 'field_dropdown',
-                name: 'OBJECT',
-                options: (...args) => {
-                //   return objectInstanceLabels
-                return state.allLabelsValues;
-                },
-                },
-                {
-                type: 'field_dropdown',
-                name: 'DESCRIPTOR',
-                options: () => {
-                    return dropdownGenerators[state.currentObjectCategory]();
-                },
-                }
-            ],
-            output: 'Boolean',
-            colour: basicSentenceColor,
-            tooltip: 'Says Hello',
-            });
-        },
-        },
-      generator: (block) => {
-        //   console.log(block.workspace)
-        let object = block.getFieldValue('OBJECT').toLowerCase() // || 'null';
-        object = /\d/.test(object) ? object : "?" + object
-        const adjective = String(convertName(block.getFieldValue('DESCRIPTOR')).toLowerCase()) || 'null';
-        const code = `(${adjective} ${object})`;
-        //   console.log(code)
-        return [code, Blockly.JavaScript.ORDER_MEMBER];
-      },
-    };
-    return (basicUnarySentence)
-  }
 }
 
 
-// export const basicUnarySentence = {
-//     name: 'BasicUnaryCondition',
-//     category: 'Basic Conditions',
-//     block: {
-//       init: function (...arxs) {
-//         const block = this;
+export const basicUnarySentence = {
+    name: 'BasicUnaryCondition',
+    category: 'Basic Conditions',
+    block: {
+      init: function (...arxs) {
+        const block = this;
         
-//         const state = {
-//           allLabelsValues: [['select an object', 'null']],
-//           currentObjectLabel: 'select an object',
-//           currentObjectValue: 'null',
-//           currentObjectCategory: 'null'
-//         };
+        const state = {
+          allLabelsValues: [['select an object', 'null']],
+          currentObjectLabel: 'select an object',
+          currentObjectValue: 'null',
+          currentObjectCategory: 'null'
+        };
   
-//         this.setOnChange(function(changeEvent) {
-//           let selectedObjectsContainer = new objectOptions(JSON.parse(window.sessionStorage.getItem('allSelectedObjects')))
-//           let [objectInstanceLabels, instanceToCategory] = selectedObjectsContainer.getInstancesCategories()
-//           state.allLabelsValues = objectInstanceLabels
+        this.setOnChange(function(changeEvent) {
+          let selectedObjectsContainer = new objectOptions(JSON.parse(window.sessionStorage.getItem('allSelectedObjects')))
+          let [objectInstanceLabels, instanceToCategory] = selectedObjectsContainer.getInstancesCategories()
+          state.allLabelsValues = objectInstanceLabels
   
-//           const descriptorField = block.getField('DESCRIPTOR');
-//           const currentObjectValue = block.getFieldValue('OBJECT');
-//           const currentDescriptorValue = block.getFieldValue('DESCRIPTOR');
+          const descriptorField = block.getField('DESCRIPTOR');
+          const currentObjectValue = block.getFieldValue('OBJECT');
+          const currentDescriptorValue = block.getFieldValue('DESCRIPTOR');
   
-//           descriptorField.setValue(currentObjectValue !== state.currentObjectValue ? '' : currentDescriptorValue);
-//           state.currentObjectValue = currentObjectValue;
-//           state.currentObjectCategory = instanceToCategory[currentObjectValue]
+          descriptorField.setValue(currentObjectValue !== state.currentObjectValue ? '' : currentDescriptorValue);
+          state.currentObjectValue = currentObjectValue;
+          state.currentObjectCategory = instanceToCategory[currentObjectValue]
   
-//         });
+        });
   
-//         this.jsonInit({
-//           message0: '%1 is %2',
-//           args0: [
-//             {
-//               type: 'field_dropdown',
-//               name: 'OBJECT',
-//               options: (...args) => {
-//               //   return objectInstanceLabels
-//               return state.allLabelsValues;
-//               },
-//             },
-//             {
-//               type: 'field_dropdown',
-//               name: 'DESCRIPTOR',
-//               options: () => {
-//                 return dropdownGenerators[state.currentObjectCategory]();
-//               },
-//             }
-//           ],
-//           output: 'Boolean',
-//           colour: basicSentenceColor,
-//           tooltip: 'Says Hello',
-//         });
-//       },
-//     },
-//     generator: (block) => {
-//     //   console.log(block.workspace)
-//       let object = block.getFieldValue('OBJECT').toLowerCase() // || 'null';
-//       object = /\d/.test(object) ? object : "?" + object
-//       const adjective = String(convertName(block.getFieldValue('DESCRIPTOR')).toLowerCase()) || 'null';
-//       const code = `(${adjective} ${object})`;
-//     //   console.log(code)
-//       return [code, Blockly.JavaScript.ORDER_MEMBER];
-//     },
-//   };
+        this.jsonInit({
+          message0: '%1 is %2',
+          args0: [
+            {
+              type: 'field_dropdown',
+              name: 'OBJECT',
+              options: (...args) => {
+              //   return objectInstanceLabels
+              return state.allLabelsValues;
+              },
+            },
+            {
+              type: 'field_dropdown',
+              name: 'DESCRIPTOR',
+              options: () => {
+                return dropdownGenerators[state.currentObjectCategory]();
+              },
+            }
+          ],
+          output: 'Boolean',
+          colour: basicSentenceColor,
+          tooltip: 'Says Hello',
+        });
+      },
+    },
+    generator: (block) => {
+      let object = block.getFieldValue('OBJECT').toLowerCase() // || 'null';
+      object = /\d/.test(object) ? object : "?" + object
+      const adjective = String(convertName(block.getFieldValue('DESCRIPTOR')).toLowerCase()) || 'null';
+      const code = `(${adjective} ${object})`;
+      return [code, Blockly.JavaScript.ORDER_MEMBER];
+    },
+  };
 
 
 export const basicBinarySentence = {
@@ -509,7 +469,6 @@ export const disjunction = {
         const disjunct1 = Blockly.JavaScript.valueToCode(block, 'DISJUNCT1', Blockly.JavaScript.ORDER_ADDITION) || 'null';
         const disjunct2 = Blockly.JavaScript.valueToCode(block, 'DISJUNCT2', Blockly.JavaScript.ORDER_ADDITION) || 'null';
         const code = `(or ${disjunct1} ${disjunct2})`
-        // console.log(Blockly.JavaScript.statementToCode(block, 'DISJUNCT1'))
         return [code, Blockly.JavaScript.ORDER_MEMBER];
     }   
 };
@@ -581,17 +540,12 @@ export const universal = {
 
             const state = {
                 allLabelsValues: [['select a category', 'null']],
-                // currentCategoryLabel: 'select a category',
-                // currentCategoryValue: 'null'
             };
 
             this.setOnChange(function(changeEvent) {
                 let selectedObjectsContainer = new objectOptions(JSON.parse(window.sessionStorage.getItem('allSelectedObjects')))
                 let categoriesLabels = selectedObjectsContainer.getCategories()
                 state.allLabelsValues = categoriesLabels
-
-                // const categoryField = block.getField('CATEGORY')
-                // const 
             });
 
             this.jsonInit({
@@ -632,17 +586,12 @@ export const existential = {
 
             const state = {
                 allLabelsValues: [['select a category', 'null']],
-                // currentCategoryLabel: 'select a category',
-                // currentCategoryValue: 'null'
             };
 
             this.setOnChange(function(changeEvent) {
                 let selectedObjectsContainer = new objectOptions(JSON.parse(window.sessionStorage.getItem('allSelectedObjects')))
                 let categoriesLabels = selectedObjectsContainer.getCategories()
                 state.allLabelsValues = categoriesLabels
-
-                // const categoryField = block.getField('CATEGORY')
-                // const 
             });
 
             this.jsonInit({
@@ -683,17 +632,12 @@ export const forN = {
 
             const state = {
                 allLabelsValues: [['select a category', 'null']],
-                // currentCategoryLabel: 'select a category',
-                // currentCategoryValue: 'null'
             };
 
             this.setOnChange(function(changeEvent) {
                 let selectedObjectsContainer = new objectOptions(JSON.parse(window.sessionStorage.getItem('allSelectedObjects')))
                 let categoriesLabels = selectedObjectsContainer.getCategories()
                 state.allLabelsValues = categoriesLabels
-
-                // const categoryField = block.getField('CATEGORY')
-                // const 
             });
 
             this.jsonInit({
@@ -740,17 +684,12 @@ export const forPairs = {
 
             const state = {
                 allLabelsValues: [['select a category', 'null']],
-                // currentCategoryLabel: 'select a category',
-                // currentCategoryValue: 'null'
             };
 
             this.setOnChange(function(changeEvent) {
                 let selectedObjectsContainer = new objectOptions(JSON.parse(window.sessionStorage.getItem('allSelectedObjects')))
                 let categoriesLabels = selectedObjectsContainer.getCategories()
                 state.allLabelsValues = categoriesLabels
-
-                // const categoryField = block.getField('CATEGORY')
-                // const 
             });
 
             this.jsonInit({
@@ -799,17 +738,12 @@ export const forNPairs = {
 
             const state = {
                 allLabelsValues: [['select a category', 'null']],
-                // currentCategoryLabel: 'select a category',
-                // currentCategoryValue: 'null'
             };
 
             this.setOnChange(function(changeEvent) {
                 let selectedObjectsContainer = new objectOptions(JSON.parse(window.sessionStorage.getItem('allSelectedObjects')))
                 let categoriesLabels = selectedObjectsContainer.getCategories()
-                state.allLabelsValues = categoriesLabels
-
-                // const categoryField = block.getField('CATEGORY')
-                // const 
+                state.allLabelsValues = categoriesLabels 
             });
 
             this.jsonInit({
@@ -854,7 +788,7 @@ export const forNPairs = {
     }
 }
 
-
+ 
 Blockly.Blocks['root_block'] = {
     /**
      * Block for creating a list with any number of elements of any type.
@@ -988,19 +922,12 @@ Blockly.Blocks['root_block'] = {
   Blockly.JavaScript['root_block'] = function(block) {
       console.log(block)
       let code = ""
-      for ( let inputField of block.inputList ) {
-        // console.log('NAME:', inputField.name)
-        // console.log(Blockly.JavaScript.valueToCode(block, 'ADD0', Blockly.JavaScript.ORDER_ADDITION) || 'there is nothing')
-        code += Blockly.JavaScript.valueToCode(block, inputField.name, Blockly.JavaScript.ORDER_ADDITION) || 'null'
-        code += ' '
-    } 
       for ( let i = 0; i < block.inputList.length; i++) {
           code += Blockly.JavaScript.valueToCode(block, block.inputList[i].name, Blockly.JavaScript.ORDER_ADDITION) || 'null'
           if (i < block.inputList.length - 1) {
               code += " "
           }
       }
-    code = '(:goal (and ' + code + '))'     // TODO make dependent on mode 
       return [code, Blockly.JavaScript.ORDER_FUNCTION_CALL]
   }
 

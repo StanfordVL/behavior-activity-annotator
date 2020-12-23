@@ -107,6 +107,7 @@ export class ObjectSelectionWorkspace extends React.Component {
     }
 }
 
+
 export class ConditionInstruction extends React.Component {
     constructor(props) {
         super(props);
@@ -169,11 +170,5 @@ export class ConditionWorkspace extends React.Component {
     }
 }
 
-
-// export class SubmitButton extends React.Component {
-//     render() {
-
-//     }
-// }
 
 
