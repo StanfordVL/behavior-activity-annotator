@@ -37,6 +37,7 @@ export default class SceneObjectTable extends React.Component {
     createObjectTable(objectArray) {
         var rows = this.state.objectRows;
         let cols = Math.ceil(objectArray.length / rows);
+        console.log('FROM OBJECT TABLE CREATION:', this.props.selectedRooms)
 
         return (
             <Table striped bordered responsive>
@@ -48,6 +49,7 @@ export default class SceneObjectTable extends React.Component {
                                     objectCategory={this.getObjectCategory(objectArray, r, c, cols)}
                                     key={c}
                                     onSubmit={(numObjects, objectCategory) => this.onObjectSubmit(numObjects, objectCategory)}
+                                    selectedRooms={this.props.selectedRooms}
                                 />
                             ))}
                         </tr>
@@ -59,6 +61,7 @@ export default class SceneObjectTable extends React.Component {
     }
 
     render() {
+        // console.log('selected rooms from scene object table:', this.props.selectedRooms)
         return (this.createObjectTable(objectData.sceneObjects))
     }
 }
@@ -68,69 +71,122 @@ class ObjectTableCell extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            inputText: "",
+            numberInput: "",
+            roomInput: "",
             objectCategory: this.props.objectCategory
         }
 
         this.createRoomButtons = this.createRoomButtons.bind(this)
     }
 
-    onInputChange(event) {
-        this.setState({ inputText: event.target.value })
+    onNumberChange(event) {
+        this.setState({ numberInput: event.target.value })
+    }
+
+    onRoomChange(event) {
+        this.setState({ roomInput: event.target.value })
     }
 
     onSubmit(event) {
         event.preventDefault();
-        this.setState({ inputText: "" })
-        this.props.onSubmit(parseInt(this.state.inputText), this.state.objectCategory)
+        this.setState({ numberInput: "" })
+        this.props.onSubmit(parseInt(this.state.numberInput), this.state.objectCategory)
     }
 
     createRoomButtons() {
-        if (this.props.selectedRooms !== undefined) {
-            console.log('THERE ARE SELECTED ROOMS')
-        } else {
-            console.log('THERE ARE NO SELECTED ROOMS')
+        let rooms = this.props.selectedRooms 
+        if (Object.keys(rooms).length > 1) {
+            return (Object.keys(rooms).map((roomType) => (
+                <Form.Check
+                    type="radio"
+                    id={`${roomType}-radio`}
+                    label={roomType}
+                    inline
+                    value={roomType}
+                    name="room-check"
+                />
+            )))
         }
     }
 
+    createOverlayForm() {
+        console.log('ROOMS FROM OVERLAY CREATION:', this.props.selectedRooms)
+        return (
+            <div>
+                <Form
+                    onSubmit={(event) => this.onSubmit(event)}
+                >
+                    <Form.Group 
+                        controlID="numObjects" 
+                        onChange={(event) => this.onNumberChange(event)}
+                    >
+                        <Form.Label>How many do you want?</Form.Label>
+                        <Form.Control
+                            type="number"
+                            value={this.state.numberInput}
+                            style={{ marginBotton: "5px" }}
+                        />
+                    </Form.Group>
+                    <Form.Group         // TODO make this section conditioned on multiple rooms 
+                        controlID="room"
+                        onChange={(event) => this.onRoomChange(event)}
+                    >
+                        <Form.Label>Which room?</Form.Label>
+                        {this.createRoomButtons()}
+                    </Form.Group>
+                    <Button
+                        disabled={
+                            this.state.numberInput.length == 0 || 
+                            (this.state.roomInput.length == 0 && Object.keys(this.props.selectedRooms).length > 1)
+                        }
+                        variant="outline-dark"
+                        size="sm"
+                        type="submit"
+                    >
+                        add
+                    </Button>
+                </Form>
+            </div>
+        )
+    }
+
     createOverlay() {
-        console.log('SELECTED ROOMS FROM TABLE:', this.props.selectedRooms)
+        // console.log('selected rooms from object table:', this.props.selectedRooms)
         return (
             <Popover>
                 <Popover.Title as="h3">Add <b>{this.props.objectCategory}</b></Popover.Title>
                 <Popover.Content>
-                    How many do you want?
+                    {this.createOverlayForm()}
+                    {/* How many do you want?
                     <Form
-                        onChange={(event) => this.onInputChange(event)}
+                        // onChange={(event) => this.onNumberChange(event)}
                         onSubmit={(event) => this.onSubmit(event)}
                     >
-                        <Form.Control type="number" value={this.state.inputText}/>
+                        <Form.Control 
+                            type="number" 
+                            value={this.state.numberInput}
+                            style={{ marginBottom: "5px" }}
+                            onChange={(event) => this.onNumberChange(event)}
+                        />
                         {this.createRoomButtons()}
-                        {/* {if (this.props.selectedRooms !== undefined) {Object.keys(this.props.selectedRooms).map((roomType) => (
-                            <Form.Check 
-                                type="radio"
-                                id={`${roomType}-radio`}
-                                label={roomType}
-                                inline
-                                value={roomType}
-                            />
-                        ))}} */}
+                        <br/>
                         <Button
-                            disabled={this.state.inputText.length == 0}
+                            disabled={this.state.numberInput.length == 0}
                             variant="outline-dark"
                             size="sm"
                             type="submit"
+                            style={{ marginTop: "8px" }}
                         >
                             add
                         </Button>
-                    </Form>
+                    </Form> */}
                 </Popover.Content>
             </Popover>
         )
     }
 
     render() {
-        console.log('TABLE RENDER')
+        // console.log('selected rooms from object table cell:', this.props.selectedRooms)
         return (
             <OverlayTrigger
                 trigger="click"

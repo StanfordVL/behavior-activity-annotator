@@ -1,6 +1,6 @@
 import React from 'react'
 import Card from 'react-bootstrap/esm/Card';
-import { disjunction } from './blockly_drawers';
+import Button from 'react-bootstrap/Button'
 
 const basic_unary_condition_image = require('./block_images/basic_unary_condition.png')
 const basic_binary_condition_image = require('./block_images/basic_binary_condition.png')
@@ -20,8 +20,17 @@ const fornpairs_image = require('./block_images/fornpairs.png')
 export default class Introduction extends React.Component {
     constructor(props) {
         super(props);
-        console.log('INTRODUCTION PROPS:', this.props)
+
+        this.state = {
+            activityHidden: true,
+            // showButtonDisabled: false
+        }
+        this.onSeeActivity = this.onSeeActivity.bind(this)
     };
+
+    onSeeActivity() {
+        this.setState({ activityHidden: false })
+    }
 
     showInstructions() {
         return(
@@ -44,6 +53,14 @@ export default class Introduction extends React.Component {
                         <p style={{ "marginLeft": "40px" }}>TODO embed image of the initial condition example</p>
                         <p>The above set of conditions is shorter than we'd expect for most of our tasks. We hope it's good minimal example to set you on the right track!</p>
                     </Card.Text>
+
+                    <Button
+                        onClick={this.onSeeActivity}
+                        disabled={!this.state.activityHidden}
+                        variant="outline-secondary"
+                    >
+                        See your activity!
+                    </Button>
                 </Card.Body>
             </Card>
         )
@@ -51,7 +68,7 @@ export default class Introduction extends React.Component {
 
     showActivity() {
         return(
-            <Card className="marginCard">
+            <Card className="marginCard" hidden={this.state.activityHidden}>
                 <Card.Body>
                     <Card.Title as="h3">Your activity: <b>Pack lunch for four people</b></Card.Title>
                 </Card.Body>
@@ -61,7 +78,6 @@ export default class Introduction extends React.Component {
     }
 
     render() {
-        console.log('can show:', this.props.canShowActivity)
         return (
             <div  id="introduction"> 
                 {this.showInstructions()}

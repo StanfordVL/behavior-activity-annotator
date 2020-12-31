@@ -39,17 +39,14 @@ export default class Instructions extends React.Component {
   }
 
   updateSelectedObjects(updatedSelectedObjects) {
-    console.log('from main app:', updatedSelectedObjects)
+    // console.log('from main app:', updatedSelectedObjects)
     this.setState({ allSelectedObjects: updatedSelectedObjects })
     window.sessionStorage.setItem('allSelectedObjects', JSON.stringify(updatedSelectedObjects));
   }
 
+
   updateSelectedRooms(updatedRooms) {
     this.setState({ selectedRooms: updatedRooms })
-    console.log('CHOSEN ROOMS FROM APP:', updatedRooms)
-    window.sessionStorage.setItem('selectedRooms', JSON.stringify(updatedRooms))
-    let thing = JSON.parse(window.sessionStorage.getItem('selectedRooms'))
-    console.log('STORED ROOMS:', thing)
   }
 
   showIntroduction() {
@@ -61,14 +58,14 @@ export default class Instructions extends React.Component {
       <ObjectSelectionWorkspace
         params={activityParameters}
         onObjectUpdate={(updatedSelectedObjects) => this.updateSelectedObjects(updatedSelectedObjects)}
-        onRoomUpdate={(updatedRooms) => this.updatedSelectedRooms(updatedRooms)}
+        onRoomUpdate={(updatedRooms) => this.updateSelectedRooms(updatedRooms)}
       />
     )
   }
 
   render() { 
-    console.log('CALLING INSTRUCTIONS RENDER')
-    console.log('SELECTED ROOMS:', Object.keys(this.state.selectedRooms).length)
+    // console.log('CALLING INSTRUCTIONS RENDER')
+    // console.log('SELECTED ROOMS:', Object.keys(this.state.selectedRooms).length)
     return (
       <div>
         {this.showIntroduction()}
@@ -80,7 +77,7 @@ export default class Instructions extends React.Component {
 
 export class InstructionsPlusBlockly extends React.Component {
   render() {
-    console.log('CALLING OUTERMOST RENDER')
+    // console.log('CALLING OUTERMOST RENDER')
     return (
       <div>
         <Instructions/>

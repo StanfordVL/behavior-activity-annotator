@@ -11,9 +11,11 @@ export default class RoomForm extends React.Component {
             // selectedCheckboxes: new Set()
             selectedCheckboxes: {}
         }
+        // this.onSubmit = this.onSubmit.bind(this)
     }
 
     onChange(event) {
+        console.log('change in room form')
         let label = event.target.value
         let updatedSelectedCheckboxes = this.state.selectedCheckboxes 
         if (label in updatedSelectedCheckboxes) {
@@ -25,20 +27,23 @@ export default class RoomForm extends React.Component {
         console.log(this.state.selectedCheckboxes)
     }
 
-    onSubmit(event) {
+    submitForm(event) {
+        console.log('submitted')
         event.preventDefault();
-        console.log('CHOSEN ROOMS:', this.state.selectedCheckboxes)
+        console.log('FROM ROOM SELECT:', this.state.selectedCheckboxes)
         this.setState({submitted: true})
         this.props.onSubmit(this.state.selectedCheckboxes);
+
+        // return false 
     }
 
     render() {
-        console.log('SUBMITTED:', this.state.submitted)
         return(
             <div>
                 <Form
                     onChange={(event) => this.onChange(event)}
-                    onSubmit={(event) => this.onSubmit(event)}
+                    onSubmit={(event) => {
+                        this.submitForm(event)}}
                 >
                     <div>
                         {['kitchen', 'bedroom', 'bathroom', 'living room', 'garage', 'dining room'].map((roomType) => (
@@ -59,6 +64,7 @@ export default class RoomForm extends React.Component {
                         variant="outline-dark"
                         disabled={(Object.keys(this.state.selectedCheckboxes).length === 0) || this.state.submitted === true}
                         style={{ "marginTop": "10px" }}
+                        // onClick={this.onSubmit}
                     >
                         submit
                     </Button>

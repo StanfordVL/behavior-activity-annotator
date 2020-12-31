@@ -19,7 +19,6 @@ export class ObjectSelectionWorkspace extends React.Component {
 
     }
     componentDidMount() {
-        console.log('OBJECT SELECTION WORKSPACE DID MOUNT')
     }
 
     updateSelectedObjects(numObjects, objectCategory) {
@@ -36,12 +35,11 @@ export class ObjectSelectionWorkspace extends React.Component {
 
     updateSelectedRooms(updatedRooms) {
         this.setState({ selectedRooms: updatedRooms })
-        console.log('CHOSEN ROOMS FROM INSTRUCTIONS:', updatedRooms)
         this.props.onRoomUpdate(updatedRooms)
     }
 
     render() {
-        console.log('SELECTED ROOMS FROM INSTRUCTIONS:', this.state.selectedRooms)
+        console.log('selected rooms from instructions:', this.state.selectedRooms)
         return (
             <div>
                 <Card className="marginCard">
