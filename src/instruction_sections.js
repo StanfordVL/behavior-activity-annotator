@@ -1,5 +1,6 @@
 import React from 'react';
 import Card from 'react-bootstrap/Card';
+import Button from 'react-bootstrap/Button'
 import SmallObjectSelectionWorkspace from './object_selector_forms';
 
 import SceneObjectTable from './scene_object_table';
@@ -14,10 +15,19 @@ export class ObjectSelectionWorkspace extends React.Component {
         super(props);
         this.state = {
             allSelectedObjects: {},
-            selectedRooms: {}
+            selectedRooms: {},
+            selectRoomHidden: true,
+            selectSceneObjectsHidden: true,
+            selectAdditionalObjectsHidden: true,
+            writingConditionsHidden: true
         }
 
+        this.onSeeSelectRoom = this.onSeeSelectRoom.bind(this)
+        this.onSeeSelectSceneObjects = this.onSeeSelectSceneObjects.bind(this)
+        this.onSeeSelectAdditionalObjects = this.onSeeSelectAdditionalObjects.bind(this)
+        this.onSeeConditionWorkspace = this.onSeeConditionWorkspace.bind(this)
     }
+
     componentDidMount() {
     }
 
@@ -38,11 +48,29 @@ export class ObjectSelectionWorkspace extends React.Component {
         this.props.onRoomUpdate(updatedRooms)
     }
 
+    // Shower functions 
+
+    onSeeSelectRoom() {
+        this.setState({ selectRoomHidden: false })
+    }
+
+    onSeeSelectSceneObjects() {
+        this.setState({ selectSceneObjectsHidden: false})
+    }
+
+    onSeeSelectAdditionalObjects() {
+        this.setState({ selectAdditionalObjectsHidden: false })
+    }
+
+    onSeeConditionWorkspace() {
+        this.props.onSeeConditionWorkspace()
+        this.setState({ writingConditionsHidden: false })
+    }
+
     render() {
-        console.log('selected rooms from instructions:', this.state.selectedRooms)
         return (
             <div>
-                <Card className="marginCard">
+                <Card className="marginCard" hidden={this.props.hidden}>
                     <Card.Body>
                         <h4>Step 1: Selecting a room and objects</h4>
                         <Card.Text>
@@ -50,9 +78,19 @@ export class ObjectSelectionWorkspace extends React.Component {
                             <p>
                                 [TODO drag-nav interface of a few igibson scenes]
                             </p>
-                            <Card className="marginCard">
+                            
+                            <Button 
+                                className="marginCard"
+                                variant="outline-secondary"
+                                onClick={this.onSeeSelectRoom}
+                                disabled={!this.state.selectRoomHidden}
+                            >
+                                Select a room
+                            </Button>
+
+                            <Card className="marginCard" hidden={this.state.selectRoomHidden}>
                                 <Card.Body>
-                                    <Card.Title as="h4">Room</Card.Title>
+                                    <Card.Title as="h4">Select a room</Card.Title>
                                     <Card.Text>
                                         <p>Choose the room(s) that your task will occur in. Most of our tasks can be done in one room, so just choose the ones that are absolutely necessary (there are some that need more than one room, such as "locking the house up").</p>
                                     </Card.Text>
@@ -60,12 +98,20 @@ export class ObjectSelectionWorkspace extends React.Component {
                                     <Card.Text style={{"fontSize": 13, "marginTop": "10px"}} className="text-muted">
                                         Once you submit, you won't be able to edit your choice. 
                                     </Card.Text>
+
+                                    <Button
+                                        variant="outline-secondary"
+                                        onClick={this.onSeeSelectSceneObjects}
+                                        disabled={!this.state.selectSceneObjectsHidden}
+                                    >
+                                        Select scene objects 
+                                    </Button>
                                 </Card.Body>
                             </Card>
-                            <Card className="marginCard">
+                            <Card className="marginCard" hidden={this.state.selectSceneObjectsHidden}>
                                 <Card.Body>
                                     {/* <h4>Objects that make up your scene</h4> */}
-                                    <Card.Title as="h4">Selecting scene objects</Card.Title>
+                                    <Card.Title as="h4">Select scene objects</Card.Title>
                                     <p>
                                         First, choose which scene objects are relevant for your initial and goal conditions. Scene objects (listed in the table below) are generally furniture or other background objects you see in a clean home. Don't worry about picking all the furniture and other scene objects you want for the house - as you can see, we've already set up realistic looking scenes. Just tell us which ones you need to do {this.props.params.activityName}. For example, if you need a table to do {this.props.params.activityName} but don't need a sofa, even if you like the idea of having a sofa in the environment for aesthetic reasons, choose the table but not the sofa. 
                                     </p>
@@ -77,11 +123,20 @@ export class ObjectSelectionWorkspace extends React.Component {
                                         onObjectDelete={(numObjects, objectCategory) => this.updateSelectedObjects(numObjects, objectCategory)}
                                         selectedObjects={this.state.allSelectedObjects}
                                     />
+
+                                    <Button
+                                        variant="outline-secondary"
+                                        onClick={this.onSeeSelectAdditionalObjects}
+                                        disabled={!this.state.selectAdditionalObjectsHidden}
+                                        style={{ marginTop: "20px" }}
+                                    >
+                                        Select additional objects
+                                    </Button>
                                 </Card.Body>
                             </Card>
-                            <Card>
+                            <Card hidden={this.state.selectAdditionalObjectsHidden}>
                                 <Card.Body>
-                                    <Card.Title as="h4">Selecting additional objects</Card.Title>
+                                    <Card.Title as="h4">Select additional objects</Card.Title>
                                     <p>Additional objects are objects you will need to define initial and goal conditions that are not in the list above. They're generally smaller than scene objects, and they are not automatically present. To add additional objects, look through the hierarchy below, click on the nodes you want and use the form below to add any number to your workspace.</p>
                                     <p>
                                         You don't have to use all these objects! Just use the ones you find useful. If there's an object you want but you don't see here, we might have it in our full set of objects. Click "see more objects" to get a hierarchy of all the objects available.
@@ -96,6 +151,15 @@ export class ObjectSelectionWorkspace extends React.Component {
                                         onObjectDelete={(numObjects, objectCategory) => this.updateSelectedObjects(numObjects, objectCategory)}
                                         selectedObjects={this.state.allSelectedObjects}
                                     /> 
+
+                                    <Button
+                                        variant="outline-primary"
+                                        onClick={this.onSeeConditionWorkspace}
+                                        disabled={!this.state.writingConditionsHidden} 
+                                        style={{ marginTop: "20px" }}
+                                    >
+                                        Step 2
+                                    </Button>
                                 </Card.Body>
                             </Card>   
                         </Card.Text>
@@ -114,7 +178,7 @@ export class ConditionWorkspace extends React.Component {
     render() {
         return(
             <div>
-                <Card>
+                <Card hidden={this.props.hidden}>
                     <Card.Body>
                         <Card.Title as="h4">Step 2: Writing Conditions</Card.Title>
                         <ConditionWritingInstructions/>

@@ -37,7 +37,6 @@ export default class SceneObjectTable extends React.Component {
     createObjectTable(objectArray) {
         var rows = this.state.objectRows;
         let cols = Math.ceil(objectArray.length / rows);
-        console.log('FROM OBJECT TABLE CREATION:', this.props.selectedRooms)
 
         return (
             <Table striped bordered responsive>
@@ -53,7 +52,6 @@ export default class SceneObjectTable extends React.Component {
                                 />
                             ))}
                         </tr>
-                        // this.createObjectTableCell(objectArray, r, c, cols)
                     ))}
                 </tbody>
             </Table>
@@ -61,7 +59,6 @@ export default class SceneObjectTable extends React.Component {
     }
 
     render() {
-        // console.log('selected rooms from scene object table:', this.props.selectedRooms)
         return (this.createObjectTable(objectData.sceneObjects))
     }
 }
@@ -110,7 +107,6 @@ class ObjectTableCell extends React.Component {
     }
 
     createOverlayForm() {
-        console.log('ROOMS FROM OVERLAY CREATION:', this.props.selectedRooms)
         return (
             <div>
                 <Form
@@ -151,42 +147,17 @@ class ObjectTableCell extends React.Component {
     }
 
     createOverlay() {
-        // console.log('selected rooms from object table:', this.props.selectedRooms)
         return (
             <Popover>
                 <Popover.Title as="h3">Add <b>{this.props.objectCategory}</b></Popover.Title>
                 <Popover.Content>
                     {this.createOverlayForm()}
-                    {/* How many do you want?
-                    <Form
-                        // onChange={(event) => this.onNumberChange(event)}
-                        onSubmit={(event) => this.onSubmit(event)}
-                    >
-                        <Form.Control 
-                            type="number" 
-                            value={this.state.numberInput}
-                            style={{ marginBottom: "5px" }}
-                            onChange={(event) => this.onNumberChange(event)}
-                        />
-                        {this.createRoomButtons()}
-                        <br/>
-                        <Button
-                            disabled={this.state.numberInput.length == 0}
-                            variant="outline-dark"
-                            size="sm"
-                            type="submit"
-                            style={{ marginTop: "8px" }}
-                        >
-                            add
-                        </Button>
-                    </Form> */}
                 </Popover.Content>
             </Popover>
         )
     }
 
     render() {
-        // console.log('selected rooms from object table cell:', this.props.selectedRooms)
         return (
             <OverlayTrigger
                 trigger="click"

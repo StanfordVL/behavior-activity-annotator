@@ -30,8 +30,12 @@ export default class Instructions extends React.Component {
       title: 'Create initial conditions.',
       allSelectedObjects: {},
       selectedRooms: {},
-
+      sceneSelectHidden: true,
+      conditionWorkspaceHidden: true
     };
+
+    this.onSeeSceneSelection = this.onSeeSceneSelection.bind(this)
+    this.onSeeConditionWorkspace = this.onSeeConditionWorkspace.bind(this)
   }
 
   componentDidMount() {
@@ -44,44 +48,56 @@ export default class Instructions extends React.Component {
     window.sessionStorage.setItem('allSelectedObjects', JSON.stringify(updatedSelectedObjects));
   }
 
-
   updateSelectedRooms(updatedRooms) {
     this.setState({ selectedRooms: updatedRooms })
   }
 
-  showIntroduction() {
-    return( <Introduction/> )
+  onSeeSceneSelection() {
+    this.setState({ sceneSelectHidden: false })
   }
 
-  showObjectSelectionWorkspace() {
-    return(
-      <ObjectSelectionWorkspace
-        params={activityParameters}
-        onObjectUpdate={(updatedSelectedObjects) => this.updateSelectedObjects(updatedSelectedObjects)}
-        onRoomUpdate={(updatedRooms) => this.updateSelectedRooms(updatedRooms)}
-      />
-    )
+  onSeeConditionWorkspace() {
+    this.props.onSeeConditionWorkspace()
   }
 
   render() { 
-    // console.log('CALLING INSTRUCTIONS RENDER')
-    // console.log('SELECTED ROOMS:', Object.keys(this.state.selectedRooms).length)
     return (
       <div>
-        {this.showIntroduction()}
-        {this.showObjectSelectionWorkspace()}
+        <Introduction
+          onSeeSceneSelection={this.onSeeSceneSelection}
+        />
+        <ObjectSelectionWorkspace
+          params={activityParameters}
+          onObjectUpdate={(updatedSelectedObjects) => this.updateSelectedObjects(updatedSelectedObjects)}
+          onRoomUpdate={(updatedRooms) => this.updateSelectedRooms(updatedRooms)}
+          hidden={this.state.sceneSelectHidden}
+          onSeeConditionWorkspace={this.onSeeConditionWorkspace}
+        />
       </div>
     )
   }
 }
 
 export class InstructionsPlusBlockly extends React.Component {
+  constructor(props) {
+    super(props)
+
+    this.state = {
+      conditionWorkspaceHidden: true 
+    }
+    
+    this.onSeeConditionWorkspace = this.onSeeConditionWorkspace.bind(this)
+  }
+
+  onSeeConditionWorkspace() {
+    this.setState({ conditionWorkspaceHidden: false })
+  }
+
   render() {
-    // console.log('CALLING OUTERMOST RENDER')
     return (
       <div>
-        <Instructions/>
-        <ConditionWorkspace drawerType="initial"/>
+        <Instructions onSeeConditionWorkspace={this.onSeeConditionWorkspace}/>
+        <ConditionWorkspace drawerType="initial" hidden={this.state.conditionWorkspaceHidden} />
       </div>
     )
   }
