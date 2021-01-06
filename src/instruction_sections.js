@@ -158,7 +158,7 @@ export class ObjectSelectionWorkspace extends React.Component {
                                         disabled={!this.state.writingConditionsHidden} 
                                         style={{ marginTop: "20px" }}
                                     >
-                                        Step 2
+                                        Learn about conditions 
                                     </Button>
                                 </Card.Body>
                             </Card>   
@@ -173,6 +173,16 @@ export class ObjectSelectionWorkspace extends React.Component {
 export class ConditionWorkspace extends React.Component {
     constructor(props) {
         super(props)
+
+        this.state = {
+            conditionDrawersHidden: true 
+        }
+
+        this.onSeeConditionDrawers = this.onSeeConditionDrawers.bind(this)
+    }
+
+    onSeeConditionDrawers() { 
+        this.setState({ conditionDrawersHidden: false })
     }
 
     render() {
@@ -181,10 +191,10 @@ export class ConditionWorkspace extends React.Component {
                 <Card hidden={this.props.hidden}>
                     <Card.Body>
                         <Card.Title as="h4">Step 2: Writing Conditions</Card.Title>
-                        <ConditionWritingInstructions/>
+                        <ConditionWritingInstructions onSeeConditionDrawers={this.onSeeConditionDrawers} />
                     {/* </Card.Body>
                 </Card> */}
-                        <Card className="marginCard">
+                        <Card className="marginCard" hidden={this.state.conditionDrawersHidden}>
                             <Card.Body>
                                 <Card.Title>Building initial conditions</Card.Title>
                                 <Card.Text>
@@ -198,15 +208,14 @@ export class ConditionWorkspace extends React.Component {
                                 <ConditionDrawer drawerType="initial"/>
                             </Card.Body>
                         </Card>
-                        <Card className="marginCard">
+                        <Card className="marginCard" hidden={this.state.conditionDrawersHidden}>
                             <Card.Body>
                                 <Card.Title>Building goal conditions</Card.Title>
                                 <Card.Text>Use this workspace to create your goal conditions. The same instructions apply as with initial conditions.</Card.Text>
                                 <ConditionDrawer drawerType="goal"/>
                             </Card.Body>
                         </Card>
-                {/* <Demo/> */}
-                        <Card className="marginCard">
+                        <Card className="marginCard" hidden={this.state.conditionDrawersHidden}>
                             <Card.Body>
                                 <Card.Text>
                                     Once you press this, you will be redirected away from this page. Take a minute to check your work and make sure you've said what you want to say! Thanks so much for participating, we really appreciate it :) 

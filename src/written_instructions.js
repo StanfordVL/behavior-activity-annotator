@@ -111,12 +111,14 @@ export class ConditionWritingInstructions extends React.Component {
         this.state = {
             basicConditionsHidden: true,
             composedConditionsHidden: true,
-            composedConditionsCategoriesHidden: true
+            composedConditionsCategoriesHidden: true,
+            conditionDrawersHidden: true
         }
 
         this.onSeeBasicConditions = this.onSeeBasicConditions.bind(this)
         this.onSeeComposedConditions = this.onSeeComposedConditions.bind(this)
         this.onSeeComposedConditionsCategories = this.onSeeComposedConditionsCategories.bind(this)
+        this.onSeeConditionDrawers = this.onSeeConditionDrawers.bind(this)
     }
 
     onSeeBasicConditions() {
@@ -129,6 +131,11 @@ export class ConditionWritingInstructions extends React.Component {
 
     onSeeComposedConditionsCategories() {
         this.setState({ composedConditionsCategoriesHidden: false })
+    }
+
+    onSeeConditionDrawers() { 
+        this.setState({ conditionDrawersHidden: false })
+        this.props.onSeeConditionDrawers()
     }
 
     render() {
@@ -222,7 +229,15 @@ export class ConditionWritingInstructions extends React.Component {
                         <ol>
                             <li>It's often better to use composed conditions with categories than to specify conditions for all the object instances. Let's say you have two apples and two bowls, and you want to pair them off; you don't really care which apple goes in which bowl as long as they are paired off. It might seem okay to say "apple1 is inside bowl1 and apple2 is inside bowl2". However, the apples aren't labeled, they're just generic apples; the bowls are similarly generic. So the robot that does the task has no way of knowing which apple and which bowl are supposed to go together, and could fail the task even if it does what you're really looking for. In this case, use <b>for pairs of apple and bowl</b>: you will be requiring that the apples and bowls be paired off, but you won't be requiring that some specific apple go with some specific bowl. </li>
                             <li style={{ marginTop: "10px" }}>Just be careful not to make a condition that's impossible. Let's say you picked four apples above, but then you write a condition that says "for 5 apple, apple is inside shelf1". That's going to be impossible! The same problem arises with <b>there exists some/such that</b>, because it requires at least one of its category. With <b>for N pairs</b>, even if one category has N (or more) instances, if the other one has fewer than N instances, the condition will become impossible. The only ones that are safe are <b>for all</b> and <b>for pairs</b>, because when you have zero apples, "all" apples is just zero apples.</li>
-                        </ol>
+                        </ol> 
+                    <Button
+                        onClick={this.onSeeConditionDrawers}
+                        variant="outline-primary"
+                        disabled={!this.state.conditionDrawersHidden}
+                        className="marginCard"
+                    >
+                        Create conditions! 
+                    </Button>
                 </div>
             </div>
         )
