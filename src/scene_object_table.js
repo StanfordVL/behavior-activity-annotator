@@ -87,22 +87,28 @@ class ObjectTableCell extends React.Component {
     onSubmit(event) {
         event.preventDefault();
         this.setState({ numberInput: "" })
-        this.props.onSubmit(parseInt(this.state.numberInput), this.state.objectCategory)
+        this.props.onSubmit(parseInt(this.state.numberInput), this.state.roomInput + ' ' + this.state.objectCategory)
+        console.log('FROM FORM SUBMIT:', this.state.roomInput)
     }
 
     createRoomButtons() {
         let rooms = this.props.selectedRooms 
         if (Object.keys(rooms).length > 1) {
-            return (Object.keys(rooms).map((roomType) => (
-                <Form.Check
-                    type="radio"
-                    id={`${roomType}-radio`}
-                    label={roomType}
-                    inline
-                    value={roomType}
-                    name="room-check"
-                />
-            )))
+            return (
+                <div>
+                    <Form.Label>In which room?</Form.Label><br/>
+                    {Object.keys(rooms).map((roomType) => (
+                        <Form.Check
+                            type="radio"
+                            id={`${roomType}-radio`}
+                            label={roomType}
+                            inline
+                            value={roomType}
+                            name="room-check"
+                        />
+                    ))}
+                </div>
+            )
         }
     }
 
@@ -127,7 +133,6 @@ class ObjectTableCell extends React.Component {
                         controlID="room"
                         onChange={(event) => this.onRoomChange(event)}
                     >
-                        <Form.Label>Which room?</Form.Label>
                         {this.createRoomButtons()}
                     </Form.Group>
                     <Button

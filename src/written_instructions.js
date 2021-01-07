@@ -40,6 +40,7 @@ export default class Introduction extends React.Component {
                     <Card.Title as="h1">Defining household activities</Card.Title>
                     <Card.Text>
                         <p>Thank you for helping us with this annotation!</p>
+                        <p>We highly recommend doing this with a full-screen browser window - it'll make it easier to see everything.</p>
                         <p>In this annotation we ask you to provide <b>initial and goal conditions</b> for a household activity. The <b>initial conditions</b> describe the state of the world before starting the activity: a room, all the relevant objects in the scene, their locations, and their states (dusty, open, cooked, etc.) The <b>goal conditions</b> describe the state of the world after the activity has been successfully performed - e.g. the new locations or states of the relevant objects.</p>
                         <p>To simplify the annotation process, we'll follow these steps:</p>
                         <ol type="disc">
@@ -221,7 +222,7 @@ export class ConditionWritingInstructions extends React.Component {
                         <p>The <b>for pairs of</b> condition composer takes two categories and a basic condition, and says the basic category has to be true for pairs of objects from the categories. If one category has fewer instances than the other, that's fine - this only concerns the pairs that can be made, so it'll be concered with all the instances from the category with fewer instances, and pair them off with that many of the category with more instances. </p>    
                         <p style={{ marginLeft: "30px" }}>Example composed condition: <img alt="For pairs condition" src={forpairs_image} width="500"/></p>
                         <p style={{ marginLeft: "30px" }}>This means that two apples have to be inside shelf1, but it doesn't matter which apples. </p>
-                        <h6 className="text-muted"><b>for N pairs of</b> first_cateogry, second_category, basic_condition</h6>    
+                        <h6 className="text-muted"><b>for N pairs of</b> first_category, second_category, basic_condition</h6>    
                         <p>The <b>for N pairs of</b> condition composer takes a counting number N, two categories, and a basic condition, and says the basic category has to be true for N pairs of objects from the categories. Note that this isn't as safe as <b>for pairs</b> - see the note right below.  </p>    
                         <p style={{ marginLeft: "30px" }}>Example composed condition: <img alt="For N pairs condition" src={fornpairs_image} width="520"/></p>
                         <p style={{ marginLeft: "30px" }}>This means that two apples have to be inside shelf1, but it doesn't matter which apples. </p>

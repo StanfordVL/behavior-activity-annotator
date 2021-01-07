@@ -194,6 +194,10 @@ export class ConditionWorkspace extends React.Component {
                         <ConditionWritingInstructions onSeeConditionDrawers={this.onSeeConditionDrawers} />
                     {/* </Card.Body>
                 </Card> */}
+                        {/* <SelectedObjectsList
+                            onObjectDelete={(numObjects, objectCategory) => this.updateSelectedObjects(numObjects, objectCategory)}
+                            selectedObjects={JSON.parse(window.sessionStorage.getItem('allSelectedObjects'))}
+                        />  */}
                         <Card className="marginCard" hidden={this.state.conditionDrawersHidden}>
                             <Card.Body>
                                 <Card.Title>Building initial conditions</Card.Title>
@@ -202,7 +206,16 @@ export class ConditionWorkspace extends React.Component {
                                         Use this workspace to create your initial conditions. The workspace menu has block representations of the conditions described, as in the examples you saw above. You can put them together to make conditions. 
                                     </p>
                                     <p>
+                                        The scene objects have specific locations within a room, but the additional objects could be anywhere, including on the floor of the room, on top of a lampshade, or other odd locations. Make sure that your initial conditions specify which scene objects the additional objects should be inside, on top of, next to, or under so that we know where they are, as you saw in the "clean a table surface" example. 
+                                    </p>
+                                    <p>
+                                        <b>Format:</b> use ONE "toolbox" block in the "Toolbox" tab as your base block. All your conditions will plug into this base block. The blue gear button on the toolbox block will allow you to change the number of entries to take exactly the number of conditions. Make sure you do not have any empty spaces in the toolbox when you are done, or you won't be able to submit. Then, make condition blocks and plug them into the toolbox.
+                                    </p>
+                                    <p>
                                         <b>Important note:</b> the Basic Condition blocks will allow you to use both object instances and object categories. You can always use object instances, but it only makes sense to use object categories along with a "Composed Condition with Categories" composer. We won't be able to check if you use a category without such a constructor, so please be careful not to.
+                                    </p>
+                                    <p style={{ fontWeight: "bold", color: "red" }}>
+                                        NOTE: First, if the space below doesn't have a gray tab with "basic conditions" etc., try resizing your browser window (you can resize it back to full afterward). Second, if you add or delete objects above after making condition blocks, click outside of the blocks to make sure they update to show your new choices.
                                     </p>
                                 </Card.Text>
                                 <ConditionDrawer drawerType="initial"/>
