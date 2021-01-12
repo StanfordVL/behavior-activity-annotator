@@ -6,6 +6,8 @@ import AirTable from 'airtable'
 import Button from 'react-bootstrap/Button'
 import Modal from 'react-bootstrap/Modal'
 
+const sceneObjects = require('./scene_objects.json').sceneObjects
+
 
 export class objectOptions {
     constructor(selectedObjects) {
@@ -92,33 +94,97 @@ export class FinalSubmit extends React.Component {
         return conditions.includes("null")
     }
 
+    checkUnplacedAdditionalObjects(conditions) {
+        let options = new objectOptions(JSON.parse(window.sessionStorage.getItem('allSelectedObjects')))
+        let [instanceCategoryLabels, instanceToCategory] = options.getInstancesCategories()
+        console.log(instanceCategoryLabels)
+        console.log(instanceToCategory)
+
+        let allObjects = Object.keys(instanceToCategory)
+        console.log('ALL OBJECTS:', allObjects)
+        // for (let objectInstance in allObjects) {
+        for (let i = 0; i < allObjects.length; i++) {
+            let objectInstance = allObjects[i]
+            let objectCategory = instanceToCategory[objectInstance]
+            
+            // if the object is an additional object, is mentioned, and is an instance rather than a category...
+            let isAdditionalObject = !(sceneObjects.includes(objectCategory))
+            let isMentioned = conditions.includes(objectInstance)
+            let isInstance = objectInstance !== objectCategory          // works despite parenthetical rooms because rooms only apply to sceneObjects, which are already excluded. So this is buggy, but it's relying on that detail. 
+
+            // ...and if the object has no placement conditions...
+            let isNotPlaced = !(
+                conditions.includes('ontop ' + objectInstance) || 
+                conditions.includes('nextto ' + objectInstance) ||
+                conditions.includes('inside ' + objectInstance) || 
+                conditions.includes('under ' + objectInstance)
+            )
+
+            // ...return true 
+            if (isAdditionalObject && isMentioned && isInstance && isNotPlaced) {
+                return true 
+            }
+        }
+        return false  
+    }
+
 
     onSubmit(event) {
 
-        if (updatedGoalConditions.includes("null") && updatedInitialConditions.includes("null")) {
-            event.preventDefault();
-            this.setState({ 
+        let currentModalText = ""
+
+        console.log('INITIAL CONDITIONS:', updatedInitialConditions)
+        console.log('GOAL CONDITIONS:', updatedGoalConditions)
+
+        // Check for errors 
+        if (this.checkNulls(updatedInitialConditions)) {
+            currentModalText += "The initial conditions have empty field(s).\n"
+        }
+        if (this.checkUnplacedAdditionalObjects(updatedInitialConditions))  {
+            currentModalText += "The initial conditions have additional objects that have not been placed in relation to a scene object (on top of, next to, under, or inside). These aren't required for goal conditions, but they are for initial conditions.\n"
+        }
+        if (this.checkNulls(updatedGoalConditions)) {
+            currentModalText += "The goal conditions have empty field(s).\n"
+        }
+
+        if (currentModalText !== "") {
+            event.preventDefault()
+            this.setState({
                 showErrorMessage: true,
-                modalText: "Both the initial and goal conditions have empty field(s). Fix and submit again!"
-            })
-        } else if (updatedGoalConditions.includes("null")) {
-            event.preventDefault();
-            this.setState({ 
-                showErrorMessage: true,
-                modalText: "The initial conditions look good, but the goal conditions have empty field(s). Fix and submit again!"
-            })
-        } else if (updatedInitialConditions.includes("null")) {
-            event.preventDefault();
-            this.setState({ 
-                showErrorMessage: true, 
-                modalText: "The goal conditions look good, but the initial conditions have empty field(s). Fix and submit again!"
+                modalText: currentModalText 
             })
         } else {
-            console.log('no code has nulls')
-            this.setState({ 
+            this.setState({
                 showErrorMessage: false,
-                modalText: "" 
+                modalText: ""
             })
+        // }
+
+
+        // if (updatedGoalConditions.includes("null") && updatedInitialConditions.includes("null")) {
+        //     event.preventDefault();
+        //     this.setState({ 
+        //         showErrorMessage: true,
+        //         modalText: "Both the initial and goal conditions have empty field(s). Fix and submit again!"
+        //     })
+        // } else if (updatedGoalConditions.includes("null")) {
+        //     event.preventDefault();
+        //     this.setState({ 
+        //         showErrorMessage: true,
+        //         modalText: "The initial conditions look good, but the goal conditions have empty field(s). Fix and submit again!"
+        //     })
+        // } else if (updatedInitialConditions.includes("null")) {
+        //     event.preventDefault();
+        //     this.setState({ 
+        //         showErrorMessage: true, 
+        //         modalText: "The goal conditions look good, but the initial conditions have empty field(s). Fix and submit again!"
+        //     })
+        // } else {
+        //     console.log('no code has nulls')
+        //     this.setState({ 
+        //         showErrorMessage: false,
+        //         modalText: "" 
+        //     })
 
             const requestOptions = {
                 method: "POST",
@@ -128,7 +194,7 @@ export class FinalSubmit extends React.Component {
                 },
                 body:JSON.stringify({
                     "records": [{
-                        "fields": {
+                        "fields": { 
                             "ActivityName": "pack_lunch",
                             "AnnotatorID": "Test",
                             "InitialConditions": updatedInitialConditions,
