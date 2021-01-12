@@ -15,12 +15,19 @@ export class objectOptions {
     getInstancesCategories() {
         let objectInstanceLabels = [['select an object', 'null']]
         let instanceToCategory = {'null': 'null'}
-        for (const [category, number] of Object.entries(this.selectedObjects)) {
+        for (let [category, number] of Object.entries(this.selectedObjects)) {
+            let pureCategory = category 
+
+            // if it has a room attached, remove the room for the purposes of category identification 
+            if (category.includes('(')) {       
+                pureCategory = category.split(') ')[1]
+                console.log(pureCategory)
+            }
             for (let i = 0; i < number; i++) {
                 let instanceLabel = category + (i + 1).toString()
                 objectInstanceLabels.push([instanceLabel, instanceLabel])    
-                instanceToCategory[instanceLabel] = category
-                instanceToCategory[category] = category
+                instanceToCategory[instanceLabel] = pureCategory
+                instanceToCategory[category] = pureCategory
             }
         }
         let instanceCategoryLabels = objectInstanceLabels.concat(this.getCategories().slice(1))
@@ -80,6 +87,11 @@ export class FinalSubmit extends React.Component {
 
         // this.genModalText = this.genModalText.bind(this)
     }
+
+    checkNulls(conditions)  {
+        return conditions.includes("null")
+    }
+
 
     onSubmit(event) {
 
@@ -298,6 +310,7 @@ export const basicUnarySentence = {
   
         this.setOnChange(function(changeEvent) {
           let selectedObjectsContainer = new objectOptions(JSON.parse(window.sessionStorage.getItem('allSelectedObjects')))
+        //   console.log(JSON.parse(window.sessionStorage.getItem('allSelectedObjects')))
           let [objectInstanceLabels, instanceToCategory] = selectedObjectsContainer.getInstancesCategories()
           state.allLabelsValues = objectInstanceLabels
   

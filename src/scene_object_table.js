@@ -87,7 +87,8 @@ class ObjectTableCell extends React.Component {
     onSubmit(event) {
         event.preventDefault();
         this.setState({ numberInput: "" })
-        this.props.onSubmit(parseInt(this.state.numberInput), this.state.roomInput + ' ' + this.state.objectCategory)
+        // this.props.onSubmit(parseInt(this.state.numberInput), this.state.roomInput + ' ' + this.state.objectCategory)
+        this.props.onSubmit(parseInt(this.state.numberInput), '(' + this.state.roomInput + ') ' + this.state.objectCategory)
         console.log('FROM FORM SUBMIT:', this.state.roomInput)
     }
 
