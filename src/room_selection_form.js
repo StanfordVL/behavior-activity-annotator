@@ -2,6 +2,8 @@ import React from 'react';
 import Form from 'react-bootstrap/Form'
 import Button from 'react-bootstrap/Button'
 
+const rooms = require('./scene_objects.json').rooms;
+
 
 export default class RoomForm extends React.Component {
     constructor(props) {
@@ -46,7 +48,7 @@ export default class RoomForm extends React.Component {
                         this.submitForm(event)}}
                 >
                     <div>
-                        {['kitchen', 'bedroom', 'bathroom', 'living room', 'garage', 'dining room'].map((roomType) => (
+                        {rooms.map((roomType) => (
                             <Form.Check
                                 type="checkbox"
                                 id={`${roomType}-checkbox`}
@@ -61,7 +63,7 @@ export default class RoomForm extends React.Component {
                     <Button 
                         size="sm" 
                         type="submit" 
-                        variant="outline-dark"
+                        variant="outline-primary"
                         disabled={(Object.keys(this.state.selectedCheckboxes).length === 0) || this.state.submitted === true}
                         style={{ "marginTop": "10px" }}
                         // onClick={this.onSubmit}

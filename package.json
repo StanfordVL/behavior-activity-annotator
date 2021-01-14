@@ -20,7 +20,8 @@
     "react-dom": "17.0.0",
     "react-icons": "^4.1.0",
     "react-scripts": "3.4.4",
-    "react-tree-graph": "^5.1.0"
+    "react-tree-graph": "^5.1.0",
+    "uuid": "^8.3.2"
   },
   "peerDependencies": {
     "react": "^17.0.0"

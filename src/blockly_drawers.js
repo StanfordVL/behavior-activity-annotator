@@ -6,30 +6,72 @@ import AirTable from 'airtable'
 import Button from 'react-bootstrap/Button'
 import Modal from 'react-bootstrap/Modal'
 
-const sceneObjects = require('./scene_objects.json').sceneObjects
+const staticEntities = require('./scene_objects.json')
+const sceneObjects = staticEntities.sceneObjects
+const roomsList = staticEntities.rooms
 
 
-export class objectOptions {
+export class ObjectOptions {
     constructor(selectedObjects) {
         this.selectedObjects = selectedObjects
     }
 
+    createDemotedRoomsMap() {
+        let demotedRoomsMap = {}
+
+        for (let [category, number] of Object.entries(this.selectedObjects)) {
+            if (category.includes(' (')) {
+                let [pureLabel, room] = category.split(' (')
+                room = ' (' + room
+                if (!(pureLabel in demotedRoomsMap)) {
+                    demotedRoomsMap[pureLabel] = {}
+                }
+                demotedRoomsMap[pureLabel][room] = number
+            } else {
+                demotedRoomsMap[category] = number
+            }
+        }
+        return demotedRoomsMap
+    }
+
+    getRoomIndices(demotedRoomsMap, pureLabel) {
+        let startIndex = 0
+        let roomsToIndices = {}
+        for (let room of Object.keys(demotedRoomsMap[pureLabel]).sort()) {
+            roomsToIndices[room] = Array.from({ length: demotedRoomsMap[pureLabel][room]}, (_, i) => i + startIndex)
+            startIndex += demotedRoomsMap[pureLabel][room]
+        }
+        return roomsToIndices 
+    }
+
     getInstancesCategories() {
+        const demotedRoomsMap = this.createDemotedRoomsMap()
         let objectInstanceLabels = [['select an object', 'null']]
         let instanceToCategory = {'null': 'null'}
-        for (let [category, number] of Object.entries(this.selectedObjects)) {
-            let pureCategory = category 
 
-            // if it has a room attached, remove the room for the purposes of category identification 
-            if (category.includes('(')) {       
-                pureCategory = category.split(') ')[1]
-                console.log(pureCategory)
-            }
-            for (let i = 0; i < number; i++) {
-                let instanceLabel = category + (i + 1).toString()
-                objectInstanceLabels.push([instanceLabel, instanceLabel])    
-                instanceToCategory[instanceLabel] = pureCategory
-                instanceToCategory[category] = pureCategory
+        for (const [pureLabel, value] of Object.entries(demotedRoomsMap)) {
+            if (typeof value !== "number") {
+
+                // Create indices for each room that don't overlap, going in alphabetical order of rooms
+                const roomsToIndices = this.getRoomIndices(demotedRoomsMap, pureLabel)
+                for (const room of Object.keys(roomsToIndices).sort()) {
+                    const instanceIndices = roomsToIndices[room]
+                    
+                    for (let instanceIndex of instanceIndices) {
+                        let instanceLabel = pureLabel + (instanceIndex + 1).toString() + room
+                        objectInstanceLabels.push([instanceLabel, instanceLabel])
+                        instanceToCategory[instanceLabel] = pureLabel
+                        instanceToCategory[pureLabel] = pureLabel
+                    }
+                }
+
+            } else {
+                for (let instanceIndex = 0; instanceIndex < value; instanceIndex++) {
+                    let instanceLabel = pureLabel + (instanceIndex + 1).toString()
+                    objectInstanceLabels.push([instanceLabel, instanceLabel])
+                    instanceToCategory[instanceLabel] = pureLabel
+                    instanceToCategory[pureLabel] = pureLabel
+                }
             }
         }
         let instanceCategoryLabels = objectInstanceLabels.concat(this.getCategories().slice(1))
@@ -37,13 +79,23 @@ export class objectOptions {
     }
 
     getCategories() {
+        const demotedRoomsMap = this.createDemotedRoomsMap()
         let categoryLabels = [['select a category', 'null']]
-        for (const [category, number] of Object.entries(this.selectedObjects)) {
-            if (number !== 0) {
-                categoryLabels.push([category, category])
+        for (const [pureLabel, value] of Object.entries(demotedRoomsMap)) {
+            if (typeof value !== "number") {
+                for (const room of Object.keys(value)) {
+                    if (demotedRoomsMap[pureLabel][room] > 0) {
+                        categoryLabels.push([ pureLabel, pureLabel ])
+                        break
+                    }
+                }
+            } else {
+                if (value > 0) {
+                    categoryLabels.push([ pureLabel, pureLabel ])
+                }
             }
         }
-        return (categoryLabels)
+        return categoryLabels
     }
 }
 
@@ -95,14 +147,12 @@ export class FinalSubmit extends React.Component {
     }
 
     checkUnplacedAdditionalObjects(conditions) {
-        let options = new objectOptions(JSON.parse(window.sessionStorage.getItem('allSelectedObjects')))
-        let [instanceCategoryLabels, instanceToCategory] = options.getInstancesCategories()
-        console.log(instanceCategoryLabels)
-        console.log(instanceToCategory)
+        let options = new ObjectOptions(JSON.parse(window.sessionStorage.getItem('allSelectedObjects')))
+        let [__, instanceToCategory] = options.getInstancesCategories()
 
         let allObjects = Object.keys(instanceToCategory)
-        console.log('ALL OBJECTS:', allObjects)
         // for (let objectInstance in allObjects) {
+        console.log('ALL OBJECTS:', allObjects)
         for (let i = 0; i < allObjects.length; i++) {
             let objectInstance = allObjects[i]
             let objectCategory = instanceToCategory[objectInstance]
@@ -112,16 +162,41 @@ export class FinalSubmit extends React.Component {
             let isMentioned = conditions.includes(objectInstance)
             let isInstance = objectInstance !== objectCategory          // works despite parenthetical rooms because rooms only apply to sceneObjects, which are already excluded. So this is buggy, but it's relying on that detail. 
 
-            // ...and if the object has no placement conditions...
-            let isNotPlaced = !(
-                conditions.includes('ontop ' + objectInstance) || 
-                conditions.includes('nextto ' + objectInstance) ||
-                conditions.includes('inside ' + objectInstance) || 
-                conditions.includes('under ' + objectInstance)
-            )
+            let isPlaced = false 
+            // Get all placements 
+            console.log('OBJECT INSTANCE:', objectInstance)
+            const placementMatchString = `\\((ontop|nextto|inside|under) (${objectInstance} \\??[a-z0-9]*|\\??[a-z0-9]* ${objectInstance})\\)`
+            const placementRegex = new RegExp(placementMatchString, 'g')
+            const placements = conditions.match(placementRegex)
+            console.log(placements)
+            if (!(placements === null)) {                
+                // For each placement, get both objects and check if either of them is a scene object
+                for (let placement of placements) {
+                    console.log('CURRENT PLACEMENT:', placement)
+                    // let potentialSceneObject = placement.split(' ').pop()
+                    let potentialSceneObjects = placement.split(' ').slice(1, 3)
+                    console.log('POTENTIAL SCENE OBJECTS:', potentialSceneObjects)
+                    for (let potentialSceneObject of potentialSceneObjects) {
+                        console.log('CURRENT POTENTIAL SCENE OBJ:', potentialSceneObject)
+                        potentialSceneObject = potentialSceneObject.split(/\d/)[0]
+                        if (potentialSceneObject[0] === '?') {
+                            potentialSceneObject = potentialSceneObject.slice(1)
+                        }
+                        // if one of them is a scene object, say this additional object is placed and break out of this placement
+                        console.log('EDITED POTENTIAL SCENE OBJ:', potentialSceneObject)
+                        if (sceneObjects.includes(potentialSceneObject)) {
+                            console.log('IT IS A SCENE OBJECT')
+                            isPlaced = true 
+                            break
+                        } else {console.log('IT ISNT A SCENE OBJECT' )}
+                    }
+                    // if the additional object has been shown to be placed, break out of testing placements
+                    if (isPlaced) { break }
+                }
+            }
 
             // ...return true 
-            if (isAdditionalObject && isMentioned && isInstance && isNotPlaced) {
+            if (isAdditionalObject && isMentioned && isInstance && !isPlaced) {
                 return true 
             }
         }
@@ -158,33 +233,6 @@ export class FinalSubmit extends React.Component {
                 showErrorMessage: false,
                 modalText: ""
             })
-        // }
-
-
-        // if (updatedGoalConditions.includes("null") && updatedInitialConditions.includes("null")) {
-        //     event.preventDefault();
-        //     this.setState({ 
-        //         showErrorMessage: true,
-        //         modalText: "Both the initial and goal conditions have empty field(s). Fix and submit again!"
-        //     })
-        // } else if (updatedGoalConditions.includes("null")) {
-        //     event.preventDefault();
-        //     this.setState({ 
-        //         showErrorMessage: true,
-        //         modalText: "The initial conditions look good, but the goal conditions have empty field(s). Fix and submit again!"
-        //     })
-        // } else if (updatedInitialConditions.includes("null")) {
-        //     event.preventDefault();
-        //     this.setState({ 
-        //         showErrorMessage: true, 
-        //         modalText: "The goal conditions look good, but the initial conditions have empty field(s). Fix and submit again!"
-        //     })
-        // } else {
-        //     console.log('no code has nulls')
-        //     this.setState({ 
-        //         showErrorMessage: false,
-        //         modalText: "" 
-        //     })
 
             const requestOptions = {
                 method: "POST",
@@ -221,7 +269,7 @@ export class FinalSubmit extends React.Component {
             <div>
                 <Button 
                     size="lg" 
-                    variant="secondary"
+                    variant="primary"
                     type="submit"
                     onClick={(event) => this.onSubmit(event)}
                 >
@@ -245,24 +293,40 @@ export class FinalSubmit extends React.Component {
 
 
 export default class ConditionDrawer extends React.Component {
-  constructor(props) {
-    super(props);
-    console.log('PROPS:', props)
-    this.onWorkspaceChange = this.onWorkspaceChange.bind(this)
-  }
+    constructor(props) {
+        super(props);
+        this.onWorkspaceChange = this.onWorkspaceChange.bind(this)
+    }
 
-  onWorkspaceChange(code, workspace) {
-      console.log('WORKSPACE CHANGE')
-      code = code.substring(0, code.length - 2)
-      console.log('CODE BEFORE:', code)
+    onWorkspaceChange(code, workspace) {
+        console.log('WORKSPACE CHANGE')
+        code = code.substring(0, code.length - 2)
 
-      if (this.props.drawerType == "initial") {
-          // Add modifications to code
-          code = `(:init ${code})`
+        // Remove room labels 
+        for (let room of roomsList){
+            let roomString = ' (' + room + ')'
+            code = code.split(roomString).join("")
+        }
 
-          // Update code 
-          updatedInitialConditions = code;
-      } else {
+        if (this.props.drawerType == "initial") {
+            // Add room placement predicates 
+            let selectedObjectsContainer = new ObjectOptions(JSON.parse(window.sessionStorage.getItem('allSelectedObjects')))
+            const [objectInstanceLabels, instanceToCategory] = selectedObjectsContainer.getInstancesCategories()
+            for (let [label, __] of objectInstanceLabels) {
+                if (label.includes(' (')) {
+                    let [pureLabel, room] = label.split(' (')
+                    room = room.slice(0, -1).split(' ').join('')
+                    code = code + ` (inroom ${pureLabel} ${room})`
+                }
+            }
+
+            // Add wrapper modifications to code
+            code = `(:init ${code})`
+
+            // Update code 
+            updatedInitialConditions = code;
+
+        } else {
             // Add modifications to code 
 
             // Put in question marks for all terms for goal conditions; NOTE this code relies 
@@ -290,7 +354,9 @@ export default class ConditionDrawer extends React.Component {
 
             // Update code 
             updatedGoalConditions = newCode;
-        }
+        }        
+        
+        console.log('CODE:', code)
   }
 
   onSave() {
@@ -323,7 +389,6 @@ export default class ConditionDrawer extends React.Component {
 }
 
   render() {
-    console.log('CALLING DRAWER RENDER')
     return (<div>
       <BlocklyDrawer
         tools={[
@@ -348,7 +413,7 @@ export default class ConditionDrawer extends React.Component {
       </BlocklyDrawer>
       <Button
         onClick={this.onSave}
-        variant="outline-dark"
+        variant="outline-primary"
         size="lg"
         style={{ "marginTop": "20px" }}
       >
@@ -375,8 +440,7 @@ export const basicUnarySentence = {
         };
   
         this.setOnChange(function(changeEvent) {
-          let selectedObjectsContainer = new objectOptions(JSON.parse(window.sessionStorage.getItem('allSelectedObjects')))
-        //   console.log(JSON.parse(window.sessionStorage.getItem('allSelectedObjects')))
+          let selectedObjectsContainer = new ObjectOptions(JSON.parse(window.sessionStorage.getItem('allSelectedObjects')))
           let [objectInstanceLabels, instanceToCategory] = selectedObjectsContainer.getInstancesCategories()
           state.allLabelsValues = objectInstanceLabels
   
@@ -437,7 +501,7 @@ block: {
     };
 
     this.setOnChange(function(changeEvent) {
-        let selectedObjectsContainer = new objectOptions(JSON.parse(window.sessionStorage.getItem('allSelectedObjects')))
+        let selectedObjectsContainer = new ObjectOptions(JSON.parse(window.sessionStorage.getItem('allSelectedObjects')))
         let [objectInstanceLabels, instanceToCategory] = selectedObjectsContainer.getInstancesCategories()
         state.allLabelsValues = objectInstanceLabels
     });
@@ -622,7 +686,7 @@ export const universal = {
             };
 
             this.setOnChange(function(changeEvent) {
-                let selectedObjectsContainer = new objectOptions(JSON.parse(window.sessionStorage.getItem('allSelectedObjects')))
+                let selectedObjectsContainer = new ObjectOptions(JSON.parse(window.sessionStorage.getItem('allSelectedObjects')))
                 let categoriesLabels = selectedObjectsContainer.getCategories()
                 state.allLabelsValues = categoriesLabels
             });
@@ -668,7 +732,7 @@ export const existential = {
             };
 
             this.setOnChange(function(changeEvent) {
-                let selectedObjectsContainer = new objectOptions(JSON.parse(window.sessionStorage.getItem('allSelectedObjects')))
+                let selectedObjectsContainer = new ObjectOptions(JSON.parse(window.sessionStorage.getItem('allSelectedObjects')))
                 let categoriesLabels = selectedObjectsContainer.getCategories()
                 state.allLabelsValues = categoriesLabels
             });
@@ -714,7 +778,7 @@ export const forN = {
             };
 
             this.setOnChange(function(changeEvent) {
-                let selectedObjectsContainer = new objectOptions(JSON.parse(window.sessionStorage.getItem('allSelectedObjects')))
+                let selectedObjectsContainer = new ObjectOptions(JSON.parse(window.sessionStorage.getItem('allSelectedObjects')))
                 let categoriesLabels = selectedObjectsContainer.getCategories()
                 state.allLabelsValues = categoriesLabels
             });
@@ -766,7 +830,7 @@ export const forPairs = {
             };
 
             this.setOnChange(function(changeEvent) {
-                let selectedObjectsContainer = new objectOptions(JSON.parse(window.sessionStorage.getItem('allSelectedObjects')))
+                let selectedObjectsContainer = new ObjectOptions(JSON.parse(window.sessionStorage.getItem('allSelectedObjects')))
                 let categoriesLabels = selectedObjectsContainer.getCategories()
                 state.allLabelsValues = categoriesLabels
             });
@@ -820,7 +884,7 @@ export const forNPairs = {
             };
 
             this.setOnChange(function(changeEvent) {
-                let selectedObjectsContainer = new objectOptions(JSON.parse(window.sessionStorage.getItem('allSelectedObjects')))
+                let selectedObjectsContainer = new ObjectOptions(JSON.parse(window.sessionStorage.getItem('allSelectedObjects')))
                 let categoriesLabels = selectedObjectsContainer.getCategories()
                 state.allLabelsValues = categoriesLabels 
             });

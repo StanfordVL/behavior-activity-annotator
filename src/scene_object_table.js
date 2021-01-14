@@ -6,7 +6,7 @@ import Popover from 'react-bootstrap/Popover';
 import Table from 'react-bootstrap/Table'
 
 
-const objectData = require('./scene_objects.json');
+const sceneObjects = require('./scene_objects.json').sceneObjects;
 
 
 export default class SceneObjectTable extends React.Component {
@@ -59,7 +59,7 @@ export default class SceneObjectTable extends React.Component {
     }
 
     render() {
-        return (this.createObjectTable(objectData.sceneObjects))
+        return (this.createObjectTable(sceneObjects))
     }
 }
 
@@ -87,8 +87,11 @@ class ObjectTableCell extends React.Component {
     onSubmit(event) {
         event.preventDefault();
         this.setState({ numberInput: "" })
-        // this.props.onSubmit(parseInt(this.state.numberInput), this.state.roomInput + ' ' + this.state.objectCategory)
-        this.props.onSubmit(parseInt(this.state.numberInput), '(' + this.state.roomInput + ') ' + this.state.objectCategory)
+        let cleanObjectCategory = this.state.objectCategory
+        if (Object.keys(this.props.selectedRooms).length > 1) {
+            cleanObjectCategory = this.state.objectCategory + ' (' + this.state.roomInput + ')'
+        }
+        this.props.onSubmit(parseInt(this.state.numberInput), cleanObjectCategory)
         console.log('FROM FORM SUBMIT:', this.state.roomInput)
     }
 
@@ -141,7 +144,7 @@ class ObjectTableCell extends React.Component {
                             this.state.numberInput.length == 0 || 
                             (this.state.roomInput.length == 0 && Object.keys(this.props.selectedRooms).length > 1)
                         }
-                        variant="outline-dark"
+                        variant="primary-dark"
                         size="sm"
                         type="submit"
                     >

@@ -59,7 +59,7 @@ export default class Introduction extends React.Component {
                     <Button
                         onClick={this.onSeeActivity}
                         disabled={!this.state.activityHidden}
-                        variant="outline-secondary"
+                        variant="outline-primary"
                     >
                         See your activity!
                     </Button>
@@ -83,7 +83,7 @@ export default class Introduction extends React.Component {
                     <Button
                         onClick={this.onSeeSceneSelection} 
                         disabled={!this.state.sceneSelectHidden}
-                        variant="outline-secondary"
+                        variant="outline-primary"
                     >
                         Select room and objects 
                     </Button>

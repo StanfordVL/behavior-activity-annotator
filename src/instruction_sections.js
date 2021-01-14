@@ -81,7 +81,7 @@ export class ObjectSelectionWorkspace extends React.Component {
                             
                             <Button 
                                 className="marginCard"
-                                variant="outline-secondary"
+                                variant="outline-primary"
                                 onClick={this.onSeeSelectRoom}
                                 disabled={!this.state.selectRoomHidden}
                             >
@@ -100,7 +100,7 @@ export class ObjectSelectionWorkspace extends React.Component {
                                     </Card.Text>
 
                                     <Button
-                                        variant="outline-secondary"
+                                        variant="outline-primary"
                                         onClick={this.onSeeSelectSceneObjects}
                                         disabled={!this.state.selectSceneObjectsHidden}
                                     >
@@ -125,7 +125,7 @@ export class ObjectSelectionWorkspace extends React.Component {
                                     />
 
                                     <Button
-                                        variant="outline-secondary"
+                                        variant="outline-primary"
                                         onClick={this.onSeeSelectAdditionalObjects}
                                         disabled={!this.state.selectAdditionalObjectsHidden}
                                         style={{ marginTop: "20px" }}

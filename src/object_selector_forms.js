@@ -37,7 +37,7 @@ export default class SmallObjectSelectionWorkspace extends React.Component {
     render() {
         return (
             <div>
-                <Button variant="secondary" style={{"margin":"20px"}}
+                <Button variant="primary" style={{"margin":"20px"}}
                     onClick={() => this.onShow()}
                 >
                     All objects
@@ -134,7 +134,7 @@ export class SmallObjectsSubmissionForm extends React.Component {
                         </Form.Group>
                         <Button
                             disabled={this.state.inputText.length == 0 || this.props.objectCategory.length == 0}
-                            variant="outline-dark"
+                            variant="outline-primary"
                             type="submit"
                         >
                             add

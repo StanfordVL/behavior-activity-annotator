@@ -91,7 +91,7 @@ export class SmallObjectsSubmissionForm extends React.Component {
             </Form.Group>
             <Button
               disabled={this.state.inputText.length==0 || this.props.objectCategory.length==0}
-              variant="outline-dark"
+              variant="outline-primary"
               // size="sm"
               type="submit"
             >
@@ -131,7 +131,7 @@ export class AllObjectHierarchy extends React.PureComponent {
   render() {
     return (
       <div>
-        <Button variant="secondary" style={{ "margin": "20px" }}
+        <Button variant="primary" style={{ "margin": "20px" }}
           onClick={() => this.handleShow()}
         >
           All objects
@@ -148,20 +148,6 @@ export class AllObjectHierarchy extends React.PureComponent {
           <Modal.Body>
             All objects will go here 
           </Modal.Body>
-          {/* <Modal.Footer> */}
-            {/* <Button 
-              variant="secondary"
-              type="submit"
-              onSubmit={(event) => this.handleSubmit(event)}
-            >
-              Add object
-            </Button> */}
-            {/* <Button 
-              onClick={() => this.handleHide()}
-              variant="secondary"
-            >
-              Cancel
-            </Button> */}
             <ObjectHierarchy
               objectData={nonSceneObjects}
               onClick={(nodeData, evt) => this.props.onClick(nodeData, evt)}
