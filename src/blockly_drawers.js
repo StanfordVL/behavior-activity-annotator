@@ -126,6 +126,14 @@ function generateDropdownArray(labels) {
 
 let updatedInitialConditions = '';
 let updatedGoalConditions = '';
+let objectsList = '';
+
+
+function detectObjects(code) {
+    // const detectedObjects = code.match(/[a-z]*[0-9]*/)
+    const detectedObjects = code.match(/[a-z]+[0-9]+]/)
+    return detectedObjects
+}
 
 
 export class FinalSubmit extends React.Component {
@@ -196,6 +204,10 @@ export class FinalSubmit extends React.Component {
         }
         return false  
     }
+
+    // createObjectsList(initialConditions) {
+    //     const detectedObjects = detectObjects(code) 
+    // }
 
 
     onSubmit(event) {
@@ -348,7 +360,7 @@ export default class ConditionDrawer extends React.Component {
 
             // Update code 
             updatedGoalConditions = newCode;
-        }        
+        }
         
         console.log('CODE:', code)
   }
