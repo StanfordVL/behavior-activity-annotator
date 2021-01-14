@@ -144,7 +144,7 @@ class ObjectTableCell extends React.Component {
                             this.state.numberInput.length == 0 || 
                             (this.state.roomInput.length == 0 && Object.keys(this.props.selectedRooms).length > 1)
                         }
-                        variant="primary-dark"
+                        variant="outline-primary"
                         size="sm"
                         type="submit"
                     >
