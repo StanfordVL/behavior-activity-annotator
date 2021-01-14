@@ -164,7 +164,6 @@ export class FinalSubmit extends React.Component {
 
             let isPlaced = false 
             // Get all placements 
-            console.log('OBJECT INSTANCE:', objectInstance)
             const placementMatchString = `\\((ontop|nextto|inside|under) (${objectInstance} \\??[a-z0-9]*|\\??[a-z0-9]* ${objectInstance})\\)`
             const placementRegex = new RegExp(placementMatchString, 'g')
             const placements = conditions.match(placementRegex)
@@ -172,23 +171,18 @@ export class FinalSubmit extends React.Component {
             if (!(placements === null)) {                
                 // For each placement, get both objects and check if either of them is a scene object
                 for (let placement of placements) {
-                    console.log('CURRENT PLACEMENT:', placement)
                     // let potentialSceneObject = placement.split(' ').pop()
                     let potentialSceneObjects = placement.split(' ').slice(1, 3)
-                    console.log('POTENTIAL SCENE OBJECTS:', potentialSceneObjects)
                     for (let potentialSceneObject of potentialSceneObjects) {
-                        console.log('CURRENT POTENTIAL SCENE OBJ:', potentialSceneObject)
                         potentialSceneObject = potentialSceneObject.split(/\d/)[0]
                         if (potentialSceneObject[0] === '?') {
                             potentialSceneObject = potentialSceneObject.slice(1)
                         }
                         // if one of them is a scene object, say this additional object is placed and break out of this placement
-                        console.log('EDITED POTENTIAL SCENE OBJ:', potentialSceneObject)
                         if (sceneObjects.includes(potentialSceneObject)) {
-                            console.log('IT IS A SCENE OBJECT')
                             isPlaced = true 
                             break
-                        } else {console.log('IT ISNT A SCENE OBJECT' )}
+                        } 
                     }
                     // if the additional object has been shown to be placed, break out of testing placements
                     if (isPlaced) { break }
