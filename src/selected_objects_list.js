@@ -40,7 +40,7 @@ export default class SelectedObjectsList extends React.Component {
                 return (
                     <ListGroup.Item key={uuidv4()}>
                         <ButtonGroup>
-                            <Button variant="primary" onClick={() => this.handleCategoryButtonClick(pureCategory)}>
+                            <Button variant="success" onClick={() => this.handleCategoryButtonClick(pureCategory)}>
                                 {pureCategory}
                             </Button>
                         </ButtonGroup>
@@ -67,7 +67,7 @@ export default class SelectedObjectsList extends React.Component {
                                 return (
                                     <ListGroup.Item key={uuidv4()}>
                                         <ButtonGroup>
-                                            <Button variant="primary" onClick={() => this.handleCategoryButtonClick(pureCategory + room)}>
+                                            <Button variant="danger" onClick={() => this.handleCategoryButtonClick(pureCategory + room)}>
                                                 {pureCategory}{room}
                                             </Button>
                                         </ButtonGroup>
@@ -98,9 +98,10 @@ export default class SelectedObjectsList extends React.Component {
         return (
             <Card>
                 <Card.Body>
-                    <Card.Title>Your selected objects</Card.Title>
+                    <Card.Title>Your selected objects list</Card.Title>
                     <Card.Text style={{ fonrtSize: 13 }} className="text-muted">
-                        Click a numbered object instance to delete (this will shift the numbers so there aren't any skipped numbers).
+                        <p>Scene objects will show up with a red category label, and additional objects will show up with a green category label. This will help you keep them straight both here and below, when you're making conditions.</p>
+                        <p>Click a numbered object instance to delete (this will shift the numbers so there aren't any skipped numbers).</p>
                     </Card.Text>
                     <ListGroup>
                         {Object.keys(this.createDemotedRoomsMap()).map((pureCategory, i) => (

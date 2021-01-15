@@ -126,12 +126,12 @@ function generateDropdownArray(labels) {
 
 let updatedInitialConditions = '';
 let updatedGoalConditions = '';
-let objectsList = '';
+// let objectsList = '';
 
 
 function detectObjects(code) {
-    // const detectedObjects = code.match(/[a-z]*[0-9]*/)
-    const detectedObjects = code.match(/[a-z]+[0-9]+]/)
+    const detectObjectsRegex = new RegExp('[a-z]+[0-9]+', 'g')
+    const detectedObjects = code.match(detectObjectsRegex)
     return detectedObjects
 }
 
@@ -160,7 +160,6 @@ export class FinalSubmit extends React.Component {
 
         let allObjects = Object.keys(instanceToCategory)
         // for (let objectInstance in allObjects) {
-        console.log('ALL OBJECTS:', allObjects)
         for (let i = 0; i < allObjects.length; i++) {
             let objectInstance = allObjects[i]
             let objectCategory = instanceToCategory[objectInstance]
@@ -175,7 +174,6 @@ export class FinalSubmit extends React.Component {
             const placementMatchString = `\\((ontop|nextto|inside|under) (${objectInstance} \\??[a-z0-9]*|\\??[a-z0-9]* ${objectInstance})\\)`
             const placementRegex = new RegExp(placementMatchString, 'g')
             const placements = conditions.match(placementRegex)
-            console.log(placements)
             if (!(placements === null)) {                
                 // For each placement, get both objects and check if either of them is a scene object
                 for (let placement of placements) {
@@ -205,10 +203,42 @@ export class FinalSubmit extends React.Component {
         return false  
     }
 
-    // createObjectsList(initialConditions) {
-    //     const detectedObjects = detectObjects(code) 
+    // checkGoalObjectsSubsetInitialObjects(initialConditions, goalConditions) {
+    //     const detectedInitialObjects = new Set(detectObjects(initialConditions))
+    //     const detectedGoalObjects = new Set(detectObjects(goalConditions))
+    //     for (let goalObject of detectedGoalObjects) {
+    //         if (!detectedInitialObjects.has(goalObject)) {
+    //             return false 
+    //         }
+    //     }
+    //     return true 
     // }
 
+    createObjectsList(initialConditions) {
+        const detectedObjects = detectObjects(initialConditions) 
+        let objectList = ''
+        
+        if (detectedObjects !== null) {           
+            let objectToCategory = {}
+            for (let object of detectedObjects) {
+                const category = object.replace(/[0-9]+/, '')
+                if (category in objectToCategory) {
+                    objectToCategory[category].add(object)
+                } else {
+                    objectToCategory[category] = new Set([object])
+                }
+            }
+
+            for (const [category, objects] of Object.entries(objectToCategory)) {
+                const sortedObjects = Array.from(objects).sort()
+                objectList += '\t'
+                objectList += sortedObjects.join(' ')
+                objectList += ` - ${category}\n`
+            }
+        }
+        objectList = `(:objects\n ${objectList})`
+        return objectList
+    }
 
     onSubmit(event) {
 
@@ -227,6 +257,9 @@ export class FinalSubmit extends React.Component {
         if (this.checkNulls(updatedGoalConditions)) {
             currentModalText += "The goal conditions have empty field(s).\n"
         }
+        // if (this.checkGoalObjectsSubsetInitialObjects(updatedInitialConditions, updatedGoalConditions)) {
+        //     currentModalText += "The goal conditions have "
+        // }
 
         if (currentModalText !== "") {
             event.preventDefault()
@@ -253,7 +286,8 @@ export class FinalSubmit extends React.Component {
                             "AnnotatorID": "Test",
                             "InitialConditions": updatedInitialConditions,
                             "GoalConditions": updatedGoalConditions,
-                            "FinalSave": 1
+                            "FinalSave": 1,
+                            "Objects": this.createObjectsList(updatedInitialConditions)
                         }
                     }]
                 })
@@ -363,71 +397,94 @@ export default class ConditionDrawer extends React.Component {
         }
         
         console.log('CODE:', code)
-  }
-
-  onSave() {
-    var base = new AirTable({apiKey: 'keyeaIvUAzmIaj3ma'}).base('appIh5qQ5m4UMrcps');
-
-    const requestOptions = {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'Authorization': 'Bearer keyeaIvUAzmIaj3ma'
-        },
-        body:JSON.stringify({
-            "records": [
-                {
-                    "fields": {
-                        "ActivityName": "pack_lunch",
-                        "AnnotatorID": "Test",
-                        "InitialConditions": updatedInitialConditions,
-                        "GoalConditions": updatedGoalConditions,
-                        "FinalSave": 0
-                    }
-                }
-            ]
-        })
     }
-    fetch('https://api.airtable.com/v0/appIh5qQ5m4UMrcps/Results', requestOptions)
-    .then(response => response.json())    
-    
-    console.log('successfully posted to airtable!')
-}
 
-  render() {
-    return (<div>
-      <BlocklyDrawer
-        tools={[
+    onSave() {
+        var base = new AirTable({apiKey: 'keyeaIvUAzmIaj3ma'}).base('appIh5qQ5m4UMrcps');
+
+        const requestOptions = {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer keyeaIvUAzmIaj3ma'
+            },
+            body:JSON.stringify({
+                "records": [
+                    {
+                        "fields": {
+                            "ActivityName": "pack_lunch",
+                            "AnnotatorID": "Test",
+                            "InitialConditions": updatedInitialConditions,
+                            "GoalConditions": updatedGoalConditions,
+                            "FinalSave": 0
+                        }
+                    }
+                ]
+            })
+        }
+        fetch('https://api.airtable.com/v0/appIh5qQ5m4UMrcps/Results', requestOptions)
+        .then(response => response.json())    
+        
+        console.log('successfully posted to airtable!')
+    }
+
+    getBlockTypes() {
+        let tools = [
             basicUnarySentence,
             basicBinarySentence,
             conjunction,
             disjunction,
             negation,
-            implication,
-            universal,
-            existential,
-            forN,
-            forPairs,
-            forNPairs
-        ]}
-        onChange={this.onWorkspaceChange}
-        language={Blockly.JavaScript}
-      >
-          <Category name="Root">
-              <Block type="root_block"/>
-          </Category>
-      </BlocklyDrawer>
-      <Button
-        onClick={this.onSave}
-        variant="outline-primary"
-        size="lg"
-        style={{ "marginTop": "20px" }}
-      >
-          Save {this.props.drawerType} state
-      </Button>
-    </div>
-    );
-  }
+            implication
+        ]
+        if (this.props.drawerType === "goal") {
+            tools = tools.concat([
+                universal,
+                existential, 
+                forN,
+                forPairs,
+                forNPairs
+            ])
+        }
+        return tools
+    }
+
+    render() {
+        return (
+            <div>
+                <BlocklyDrawer
+                    // tools={[
+                    //     basicUnarySentence,
+                    //     basicBinarySentence,
+                    //     conjunction,
+                    //     disjunction,
+                    //     negation,
+                    //     implication,
+                    //     universal,
+                    //     existential,
+                    //     forN,
+                    //     forPairs,
+                    //     forNPairs
+                    // ]}
+                    tools={this.getBlockTypes()}
+                    onChange={this.onWorkspaceChange}
+                    language={Blockly.JavaScript}
+                >
+                    <Category name="Root">
+                        <Block type="root_block"/>
+                    </Category>
+                </BlocklyDrawer>
+                <Button
+                    onClick={this.onSave}
+                    variant="outline-primary"
+                    size="lg"
+                    style={{ "marginTop": "20px" }}
+                >
+                    Save {this.props.drawerType} state
+                </Button>
+            </div>
+        );
+    }
 }
 
 

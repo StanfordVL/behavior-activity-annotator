@@ -45,8 +45,9 @@ export default class Introduction extends React.Component {
                         <p>To simplify the annotation process, we'll follow these steps:</p>
                         <ol type="disc">
                             <li>Set up the scene for the activity by selecting the relevant room, scene objects (generally types of furniture) that are already in our scenes, and additional objects (smaller things like food or toys) that aren't in the scene by default, but can be added.</li>
-                            <li style={{ "marginTop": "10px" }}>Annotate the conditions using the objects we've selected in the prior step. We'll first annotate initial conditions, then annotate goal conditions. You'll be able to change your object selections even while writing conditions, though you won't be able to change the room.</li> 
+                            <li style={{ "marginTop": "10px" }}>Annotate the conditions using the objects we've selected in the prior step. </li> 
                         </ol>
+                        <p>You cannot edit the room after you've chosen it, but you can edit your object selections, initial conditions, and goal conditions at any time, so feel free to change your mind and work on them in parallel.</p>
                         <p><b>Important note:</b> We are <b>not</b> asking you to tell us how to <em>perform</em> the activity - we aren't asking for the actions needed to get from the initial to the goal state. We're only asking for what the world looks like before someone has done it (initial conditions) and after it has been done (goal conditions).</p>
                         <p>We'll give more detailed instructions at each step. Before that, here's an example to give you a sense.</p>
                         <p style={{ "marginLeft": "20px" }}>Let's say the example activity is <b>clean a table surface</b>. This activity is relatively simple: for scene objects, we just need a table. For additional objects, we might want a rag, some soap, and a few generic items to move off the table. Our initial conditions might look like</p>
@@ -155,7 +156,7 @@ export class ConditionWritingInstructions extends React.Component {
                 </div>
                 <div hidden={this.state.basicConditionsHidden}>
                     <h5>Basic conditions</h5>
-                        <p>Basic conditions are the basic element of any initial or goal condition. It is made by taking any object, whether an instance or a category, and applying an <b>adjective</b> to it. Examples of adjectives we'll give you are "cooked", "broken", or "dusty".</p>
+                        <p>Basic conditions are the basic element of any initial or goal condition. They consist of an object (either an instance or a category) and an <b>adjective</b> applied to it. Examples of adjectives we'll give you are "cooked", "broken", or "dusty".</p>
                         <p style={{ marginLeft: "30px" }}>Example basic condition: <img alt="Basic single-object condition" src={basic_unary_condition_image} width="210"/> </p>
                         <p>Some adjectives need two objects. We have only four such adjectives: "on top of", "under", "next to", and "inside". </p>
                         <p style={{ marginLeft: "30px" }}>Example basic condition: <img alt="Basic two-object condition" src={basic_binary_condition_image} width="275"/></p>
@@ -173,7 +174,7 @@ export class ConditionWritingInstructions extends React.Component {
                     <h5>Composed conditions</h5>
                         <p>As you can see, basic conditions are simple sentences. If you were to take anything away, they would no longer be complete sentences. However, they can definitely be part of larger sentences that express more interesting ideas. Here are ways to make composed conditions.  </p>
                         <h6 className="text-muted">first_basic_condition <b>or</b> second_basic_condition</h6>
-                        <p>The <b>or</b> condition composer means that only one of the two basic conditions has to be true. </p>
+                        <p>The <b>or</b> condition composer means that at least one of the two basic conditions has to be true. </p>
                         <p style={{ marginLeft: "30px" }}>Example composed condition: <img alt="Disjunction condition" src={disjunction_image} width="310"/></p>
                         <p style={{ marginLeft: "30px" }}>This means that at least one of apple1 and apple2 has to be inside shelf1, but we don't care which one. We're also okay with both being inside shelf1.</p>
                         <h6 className="text-muted">first_basic_condition <b>and</b> second_basic_condition</h6>
@@ -200,7 +201,8 @@ export class ConditionWritingInstructions extends React.Component {
                     </Button>
                 </div>
                 <div hidden={this.state.composedConditionsCategoriesHidden}>
-                    <h5>Composed conditions with categories</h5>  
+                    <h5>Composed conditions with categories (only used in goal conditions)</h5>
+                        <p>Our final type of condition is composed conditions that use categories. You can only use these in <b>goal conditions</b> because they cause ambiguity in initial conditions. So, feel free to read this now later if you want to try the initial conditions first. Remember that you can edit your initial conditions, goal conditions, and object list at any time.</p>  
                         <p>All the condition composers until now have used object <em>instances</em>, not object <em>categories</em>. This is because categories are ambiguous, since there could be any number of them. If I just say "apple is inside shelf1", we don't know which apple I'm referring to, and we also don't know how many I'm referring to. Is this supposed to apply to every apple? That would be awfully specific. Is it supposed to apply to just one, or two? Who knows? Here are the composers that will help you be more specific without having to write everything out in terms of object instances. </p>  
                         <p><b>Important note:</b> Basic condition blocks will allow you to use categories in them instead of object instances, as you'll see in the following examples. Make sure not to use a category in a basic condition without putting that basic condition into a composer that has a category - this would make your conditions ambiguous, and we wouldn't be able to use them.</p>
                         <p>After learning about the composers with categories, look at the notes at the end to learn about important uses of these composers.</p>
