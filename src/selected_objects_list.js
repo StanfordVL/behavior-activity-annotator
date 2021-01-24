@@ -99,7 +99,7 @@ export default class SelectedObjectsList extends React.Component {
             <Card>
                 <Card.Body>
                     <Card.Title>Your selected objects list</Card.Title>
-                    <Card.Text style={{ fonrtSize: 13 }} className="text-muted">
+                    <Card.Text style={{ fontSize: 13 }} className="text-muted">
                         <p>Scene objects will show up with a red category label, and additional objects will show up with a green category label. This will help you keep them straight both here and below, when you're making conditions.</p>
                         <p>Click a numbered object instance to delete (this will shift the numbers so there aren't any skipped numbers).</p>
                     </Card.Text>

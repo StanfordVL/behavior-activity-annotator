@@ -8,6 +8,7 @@ import Form from "react-bootstrap/Form"
 
 
 const nonSceneObjects = require('./pack_lunch_objects.json')
+// const allNonSceneObjects = require('./hierarchy.json')
 
 // const getJSONDepth = ({ children }) => 1 + (children ? Math.max(...children.map(getJSONDepth)) : 0)
 
@@ -61,6 +62,7 @@ export default class SmallObjectSelectionWorkspace extends React.Component {
                 </Modal>
                 <SmallObjectSelector
                     objectData={nonSceneObjects}
+                    // objectData={allNonSceneObjects}
                     onSubmit={(numObjects, objectCategory) => this.props.onSubmit(numObjects, objectCategory)}
                 />
             </div>
@@ -183,6 +185,7 @@ export class ObjectHierarchy extends React.Component {
                     textLayout={{textAnchor: "start", x: 15, y: -10, transform: undefined}}
                     onClick={(nodeData, event) => this.props.onClick(nodeData, event)}
                     zoom={0.4}
+                    enableLegacyTransitions={false}
                 />
             </div>
         )

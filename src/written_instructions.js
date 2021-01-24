@@ -172,13 +172,13 @@ export class ConditionWritingInstructions extends React.Component {
                 </div>
                 <div hidden={this.state.composedConditionsHidden}>
                     <h5>Composed conditions</h5>
-                        <p>As you can see, basic conditions are simple sentences. If you were to take anything away, they would no longer be complete sentences. However, they can definitely be part of larger sentences that express more interesting ideas. Here are ways to make composed conditions.  </p>
-                        <h6 className="text-muted">first_basic_condition <b>or</b> second_basic_condition</h6>
-                        <p>The <b>or</b> condition composer means that at least one of the two basic conditions has to be true. </p>
+                        <p>As you can see, basic conditions are simple sentences. If you were to take anything away, they would no longer be complete sentences. However, they can definitely be part of larger sentences that express more interesting ideas. Here are ways to make composed conditions. Note that these forms are somewhat more mathematical-sounding than grammatically correct, but that's okay :)  </p>
+                        <h6 className="text-muted"><b>or</b>(first_basic_condition, second_basic_condition, ..., n-th_basic_condition)</h6>
+                        <p>The <b>or</b> condition composer means that at least one of the basic conditions has to be true. </p>
                         <p style={{ marginLeft: "30px" }}>Example composed condition: <img alt="Disjunction condition" src={disjunction_image} width="310"/></p>
                         <p style={{ marginLeft: "30px" }}>This means that at least one of apple1 and apple2 has to be inside shelf1, but we don't care which one. We're also okay with both being inside shelf1.</p>
-                        <h6 className="text-muted">first_basic_condition <b>and</b> second_basic_condition</h6>
-                        <p>The <b>and</b> condition composer means that both of the two basic conditions have to be true. </p>
+                        <h6 className="text-muted"><b>and</b>(first_basic_condition, second_basic_condition, ..., n-th_basic_condition)</h6>
+                        <p>The <b>and</b> condition composer means that all of the basic conditions have to be true. </p>
                         <p style={{ marginLeft: "30px" }}>Example composed condition: <img alt="Conjunction condition" src={conjunction_image} width="310"/></p>
                         <p style={{ marginLeft: "30px" }}>This means that both apple1 and apple2 have to be inside shelf1.</p>
                         <h6 className="text-muted"><b>if</b> first_basic_condition <b>then</b> second_basic_condition</h6>
@@ -190,7 +190,7 @@ export class ConditionWritingInstructions extends React.Component {
                         <h6 className="text-muted" style={{ marginTop: "20px" }}>not first_basic_condition</h6>    
                         <p>The <b>not</b> condition composer just takes one basic condition, and says it's not true.</p>    
                         <p style={{ marginLeft: "30px"}}>Example composed condition: <img alt="Negation condition" src={negation_image} width="250"/></p>
-                        <p style={{ marginLeft: "30px" }}>This is pretty simple: it just means that apple1 is not cooked. I know this is a little grammatically incorrect - that's okay though :) </p>
+                        <p style={{ marginLeft: "30px" }}>This is pretty simple: it just means that apple1 is not cooked.</p>
                     <Button
                         onClick={this.onSeeComposedConditionsCategories}
                         variant="outline-primary"
