@@ -4,13 +4,10 @@ import Card from "react-bootstrap/esm/Card"
 import Modal from "react-bootstrap/esm/Modal"
 import Tree from "react-d3-tree"
 import Form from "react-bootstrap/Form"
-// import { SmallObjectsSubmissionForm } from "./object_hierarchy"
 
 
-const nonSceneObjects = require('./pack_lunch_objects.json')
-// const allNonSceneObjects = require('./hierarchy.json')
-
-// const getJSONDepth = ({ children }) => 1 + (children ? Math.max(...children.map(getJSONDepth)) : 0)
+const activityAdditionalObjects = require('./pack_lunch_objects.json')
+const allAdditionalObjects = require('./hierarchy.json')
 
 const containerStyles = {
     width: '100%',
@@ -55,14 +52,13 @@ export default class SmallObjectSelectionWorkspace extends React.Component {
                     </Modal.Header>
                     <Modal.Body>
                         <SmallObjectSelector
-                            objectData={nonSceneObjects}
+                            objectData={allAdditionalObjects}
                             onSubmit={(numObjects, objectCategory) => this.props.onSubmit(numObjects, objectCategory)}
                         />
                     </Modal.Body>
                 </Modal>
                 <SmallObjectSelector
-                    objectData={nonSceneObjects}
-                    // objectData={allNonSceneObjects}
+                    objectData={activityAdditionalObjects}
                     onSubmit={(numObjects, objectCategory) => this.props.onSubmit(numObjects, objectCategory)}
                 />
             </div>
@@ -81,15 +77,15 @@ export class SmallObjectSelector extends React.Component {
         }
     }
 
-    onTreeNodeClick(nodeData, evt) {
-        this.setState({ currentCategory: nodeData.name })
+    onTreeNodeClick(nodeName) {
+        this.setState({ currentCategory: nodeName })
     }
 
     render() {
         return (
             <div>
                 <ObjectHierarchy
-                    onClick={(nodeData, event) => this.onTreeNodeClick(nodeData, event)}
+                    onNodeClick={(nodeName) => this.onTreeNodeClick(nodeName)}
                     objectData={this.props.objectData}
                 />
                 <SmallObjectsSubmissionForm
@@ -169,7 +165,6 @@ export class ObjectHierarchy extends React.Component {
                 <Tree
                     data={this.props.objectData}
                     translate={this.state.translate}
-                    orientation={"horizontal"}
                     nodeSvgShape = {{
                         shape: "circle",
                         shapeProps: {
@@ -183,9 +178,8 @@ export class ObjectHierarchy extends React.Component {
                     // depthFactor={getJSONDepth() * 275}
                     depthFactor={1100}
                     textLayout={{textAnchor: "start", x: 15, y: -10, transform: undefined}}
-                    onClick={(nodeData, event) => this.props.onClick(nodeData, event)}
+                    onNodeClick={(event) => this.props.onNodeClick(event.name)}
                     zoom={0.4}
-                    enableLegacyTransitions={false}
                 />
             </div>
         )

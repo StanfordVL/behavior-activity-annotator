@@ -32,12 +32,12 @@ export class ObjectSelectionWorkspace extends React.Component {
     }
 
     updateSelectedObjects(numObjects, objectCategory) {
-        console.log('submitted in SceneObjectSetup')
         let updatedSelectedObjects = {...this.state.allSelectedObjects};
         if (objectCategory in updatedSelectedObjects) {
-            updatedSelectedObjects[objectCategory] += numObjects
+            // updatedSelectedObjects[objectCategory] += numObjects
+            updatedSelectedObjects[objectCategory] = Math.max(updatedSelectedObjects[objectCategory] + numObjects, 0)
         } else {
-            updatedSelectedObjects[objectCategory] = numObjects
+            updatedSelectedObjects[objectCategory] = Math.max(numObjects, 0)
         }
         this.setState({ allSelectedObjects: updatedSelectedObjects })
         this.props.onObjectUpdate(updatedSelectedObjects)

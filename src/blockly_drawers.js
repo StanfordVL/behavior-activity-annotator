@@ -140,8 +140,6 @@ export class FinalSubmit extends React.Component {
             showErrorMessage: false,
             modalText: ""
         }
-
-        // this.genModalText = this.genModalText.bind(this)
     }
 
     checkNulls(conditions)  {
@@ -197,6 +195,16 @@ export class FinalSubmit extends React.Component {
         return false  
     }
 
+    checkImproperRoot(conditions) {
+        const nonSingularRoot = !(conditions.split("ROOT").length == 2)
+        const hangingBlocks = conditions.includes(";")
+        return (nonSingularRoot || hangingBlocks)
+    }
+
+    removeRoot(conditions) {
+        return conditions.split('ROOT').join('')
+    }
+
     createObjectsList(initialConditions) {
         const detectedObjects = detectObjects(initialConditions) 
         let objectList = ''
@@ -235,14 +243,21 @@ export class FinalSubmit extends React.Component {
             currentModalText += "The initial conditions have empty field(s).\n"
         }
         if (this.checkUnplacedAdditionalObjects(updatedInitialConditions))  {
-            currentModalText += "The initial conditions have additional objects that have not been placed in relation to a scene object (on top of, next to, under, or inside). These aren't required for goal conditions, but they are for initial conditions.\n"
+            currentModalText += "The initial conditions have additional objects that have not been placed in relation to a scene object (on top of, next to, under, or inside) - these aren't required for goal conditions, but they are for initial conditions.\n"
         }
         if (this.checkNulls(updatedGoalConditions)) {
             currentModalText += "The goal conditions have empty field(s).\n"
         }
-        // if (this.checkGoalObjectsSubsetInitialObjects(updatedInitialConditions, updatedGoalConditions)) {
-        //     currentModalText += "The goal conditions have "
-        // }
+        if (this.checkImproperRoot(updatedInitialConditions)) {
+            currentModalText += "Some initial conditions are not packaged in a singular root block.\n"
+        } else {
+            updatedInitialConditions = this.removeRoot(updatedInitialConditions)
+        }
+        if (this.checkImproperRoot(updatedGoalConditions)) {
+            currentModalText += "Some goal conditions are not packaged in a singular root block.\n"
+        } else {
+            updatedGoalConditions = this.removeRoot(updatedGoalConditions)
+        }
 
         if (currentModalText !== "") {
             event.preventDefault()
@@ -1387,7 +1402,7 @@ Blockly.Blocks['root_block'] = {
 
   Blockly.JavaScript['root_block'] = function(block) {
       console.log(block)
-      let code = ""
+      let code = "ROOT"
       for ( let i = 0; i < block.inputList.length; i++) {
           code += Blockly.JavaScript.valueToCode(block, block.inputList[i].name, Blockly.JavaScript.ORDER_ADDITION) || 'null'
           if (i < block.inputList.length - 1) {

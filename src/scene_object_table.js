@@ -18,7 +18,7 @@ export default class SceneObjectTable extends React.Component {
     }
 
     onObjectSubmit(numObjects, objectCategory) {
-        console.log('submitted in SceneObjectTable3')
+        console.log(objectCategory)
         this.props.onObjectSubmit(numObjects, objectCategory)
     }
 
@@ -123,7 +123,7 @@ class ObjectTableCell extends React.Component {
                     onSubmit={(event) => this.onSubmit(event)}
                 >
                     <Form.Group 
-                        controlID="numObjects" 
+                        controlid="numObjects" 
                         onChange={(event) => this.onNumberChange(event)}
                     >
                         <Form.Label>How many do you want?</Form.Label>
@@ -134,7 +134,7 @@ class ObjectTableCell extends React.Component {
                         />
                     </Form.Group>
                     <Form.Group         // TODO make this section conditioned on multiple rooms 
-                        controlID="room"
+                        controlid="room"
                         onChange={(event) => this.onRoomChange(event)}
                     >
                         {this.createRoomButtons()}

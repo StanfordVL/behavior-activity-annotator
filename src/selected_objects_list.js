@@ -4,7 +4,8 @@ import ButtonGroup from 'react-bootstrap/ButtonGroup'
 import Button from 'react-bootstrap/Button'
 import Card from 'react-bootstrap/Card'
 import { v4 as uuidv4 } from 'uuid'
-import Popover from 'react-bootstrap/esm/Popover'
+
+const sceneObjects = require('./scene_objects.json').sceneObjects
 
 
 export default class SelectedObjectsList extends React.Component {
@@ -35,12 +36,24 @@ export default class SelectedObjectsList extends React.Component {
 
     createSingleCategoryList(pureCategory) {
         let demotedRoomsMap = this.createDemotedRoomsMap()
+        let buttonVariant
+        if (sceneObjects.includes(pureCategory)) {
+            buttonVariant = "danger"
+        } else {
+            buttonVariant = "success"
+        }
+
+        console.log('PURE CATEGORY:', pureCategory)
+        console.log('BUTTON VARIANT:', buttonVariant)
+        console.log('PURE CATEGORY IN SCENE:', pureCategory in sceneObjects)
+
         if (typeof demotedRoomsMap[pureCategory] === "number") {
+        // if (!(pureCategory in sceneObjects)) {      
             if (demotedRoomsMap[pureCategory] > 0) {
                 return (
                     <ListGroup.Item key={uuidv4()}>
                         <ButtonGroup>
-                            <Button variant="success" onClick={() => this.handleCategoryButtonClick(pureCategory)}>
+                            <Button variant={buttonVariant} onClick={() => this.handleCategoryButtonClick(pureCategory)}>
                                 {pureCategory}
                             </Button>
                         </ButtonGroup>
@@ -67,7 +80,7 @@ export default class SelectedObjectsList extends React.Component {
                                 return (
                                     <ListGroup.Item key={uuidv4()}>
                                         <ButtonGroup>
-                                            <Button variant="danger" onClick={() => this.handleCategoryButtonClick(pureCategory + room)}>
+                                            <Button variant={buttonVariant} onClick={() => this.handleCategoryButtonClick(pureCategory + room)}>
                                                 {pureCategory}{room}
                                             </Button>
                                         </ButtonGroup>
