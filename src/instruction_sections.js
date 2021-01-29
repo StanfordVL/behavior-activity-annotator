@@ -78,12 +78,7 @@ export class ObjectSelectionWorkspace extends React.Component {
                 <Card className="marginCard" hidden={this.props.hidden}>
                     <Card.Body>
                         <h4>Step 1: Selecting a room and objects</h4>
-                        <Card.Text>
-                            <p>The below scenes are examples of scenes similar to the one your task will be set up in. As you can see, there are objects already present in the scene like shelves, sofas, or beds. We call these "scene objects". In this step, you'll first choose a room for your task, then pick which scene objects are <em>relevant</em> for your task - i.e. only the objects you need to actually write your conditions. So for the "cleaning table surface" task, this was just the "table". As in these examples, setting up a realistic home environment will be taken care of.</p>
-                            <p>
-                                [TODO drag-nav interface of a few igibson scenes]
-                            </p>
-                            
+                        <Card.Text>                            
                             <Button 
                                 className="marginCard"
                                 variant="outline-primary"
@@ -99,7 +94,7 @@ export class ObjectSelectionWorkspace extends React.Component {
                                     <Card.Text>
                                         <p>Choose the room(s) that your task will occur in. Most of our tasks can be done in one room, so just choose the ones that are absolutely necessary (there are some that need more than one room, such as "locking the house up").</p>
                                     </Card.Text>
-                                    <Card.Text style={{ marginTop: "20px" }}>
+                                    <Card.Text style={{ marginTop: "30px" }}>
                                         <b>An example simulation environment scene.</b> This might not be the one you get, but anything you get will be similar. When you pick scene objects, make sure not to pick configurations of scene objects that would be hard to satisfy in a scene like this one!
                                     </Card.Text>
                                     <Card.Text style={{ fontSize: 13}} className="text-muted">
