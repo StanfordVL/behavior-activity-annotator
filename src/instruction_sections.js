@@ -99,6 +99,16 @@ export class ObjectSelectionWorkspace extends React.Component {
                                     <Card.Text>
                                         <p>Choose the room(s) that your task will occur in. Most of our tasks can be done in one room, so just choose the ones that are absolutely necessary (there are some that need more than one room, such as "locking the house up").</p>
                                     </Card.Text>
+                                    <Card.Text style={{ marginTop: "20px" }}>
+                                        <b>An example simulation environment scene.</b> This might not be the one you get, but anything you get will be similar. When you pick scene objects, make sure not to pick configurations of scene objects that would be hard to satisfy in a scene like this one!
+                                    </Card.Text>
+                                    <Card.Text style={{ fontSize: 13}} className="text-muted">
+                                        Drag to pivot, press control and drag to move around, scroll to zoom.
+                                    </Card.Text>
+                                    <div className="marginCard" dangerouslySetInnerHTML={
+                                        { __html: "<iframe margin='20px' width='600px' height='400px' src='http://104.236.172.175:3000/' />"}
+                                    } />
+                                    
                                     <RoomForm onSubmit={(updatedRooms) => {this.updateSelectedRooms(updatedRooms); this.onRoomFormSubmit()}}/>
                                     <Card.Text style={{"fontSize": 13, "marginTop": "10px"}} className="text-muted">
                                         Once you submit, you won't be able to edit your choice. 
