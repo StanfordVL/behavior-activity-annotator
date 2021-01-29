@@ -1,0 +1,750 @@
+{
+  "name": "entity.n.01",
+  "children": [
+    {
+      "name": "physical_entity.n.01",
+      "hasModel": true,
+      "children": [
+        {
+          "name": "object.n.01",
+          "hasModel": true,
+          "children": [
+            {
+              "name": "whole.n.02",
+              "hasModel": true,
+              "children": [
+                {
+                  "name": "artifact.n.01",
+                  "hasModel": true,
+                  "children": [
+                    {
+                      "name": "instrumentality.n.03",
+                      "hasModel": true,
+                      "children": [
+                        {
+                          "name": "container.n.01",
+                          "hasModel": true,
+                          "children": [
+                            {
+                              "name": "dish.n.01",
+                              "hasModel": true
+                            },
+                            {
+                              "name": "vessel.n.03",
+                              "hasModel": true,
+                              "children": [
+                                {
+                                  "name": "bowl.n.01",
+                                  "hasModel": true
+                                },
+                                {
+                                  "name": "bottle.n.01",
+                                  "hasModel": true
+                                },
+                                {
+                                  "name": "pot.n.01",
+                                  "hasModel": false
+                                }
+                              ]
+                            },
+                            {
+                              "name": "cup.n.01",
+                              "hasModel": true
+                            },
+                            {
+                              "name": "receptacle.n.01",
+                              "hasModel": false,
+                              "children": [
+                                {
+                                  "name": "garbage.n.03",
+                                  "hasModel": false
+                                },
+                                {
+                                  "name": "tray.n.01",
+                                  "hasModel": false
+                                }
+                              ]
+                            },
+                            {
+                              "name": "bag.n.01",
+                              "hasModel": false
+                            },
+                            {
+                              "name": "dispenser.n.01",
+                              "hasModel": false,
+                              "children": [
+                                {
+                                  "name": "atomizer.n.01",
+                                  "hasModel": false
+                                }
+                              ]
+                            },
+                            {
+                              "name": "spoon.n.01",
+                              "hasModel": true
+                            },
+                            {
+                              "name": "glass.n.02",
+                              "hasModel": false
+                            }
+                          ]
+                        },
+                        {
+                          "name": "furnishing.n.02",
+                          "hasModel": true,
+                          "children": [
+                            {
+                              "name": "furniture.n.01",
+                              "hasModel": false,
+                              "children": [
+                                {
+                                  "name": "table.n.02",
+                                  "hasModel": false
+                                },
+                                {
+                                  "name": "buffet.n.01",
+                                  "hasModel": false
+                                }
+                              ]
+                            },
+                            {
+                              "name": "rug.n.01",
+                              "hasModel": true
+                            }
+                          ]
+                        },
+                        {
+                          "name": "implement.n.01",
+                          "hasModel": false,
+                          "children": [
+                            {
+                              "name": "utensil.n.01",
+                              "hasModel": false,
+                              "children": [
+                                {
+                                  "name": "kitchen_utensil.n.01",
+                                  "hasModel": false,
+                                  "children": [
+                                    {
+                                      "name": "cooking_utensil.n.01",
+                                      "hasModel": false,
+                                      "children": [
+                                        {
+                                          "name": "pot.n.01",
+                                          "hasModel": false
+                                        },
+                                        {
+                                          "name": "pan.n.01",
+                                          "hasModel": false
+                                        }
+                                      ]
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "name": "article.n.02",
+                      "hasModel": true,
+                      "children": [
+                        {
+                          "name": "ware.n.01",
+                          "hasModel": true,
+                          "children": [
+                            {
+                              "name": "tableware.n.01",
+                              "hasModel": true,
+                              "children": [
+                                {
+                                  "name": "crockery.n.01",
+                                  "hasModel": true,
+                                  "children": [
+                                    {
+                                      "name": "dish.n.01",
+                                      "hasModel": true
+                                    },
+                                    {
+                                      "name": "cup.n.01",
+                                      "hasModel": true
+                                    }
+                                  ]
+                                },
+                                {
+                                  "name": "flatware.n.01",
+                                  "hasModel": false,
+                                  "children": [
+                                    {
+                                      "name": "plate.n.04",
+                                      "hasModel": false
+                                    }
+                                  ]
+                                },
+                                {
+                                  "name": "cutlery.n.02",
+                                  "hasModel": true,
+                                  "children": [
+                                    {
+                                      "name": "spoon.n.01",
+                                      "hasModel": true
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "name": "commodity.n.01",
+                      "hasModel": true,
+                      "children": [
+                        {
+                          "name": "consumer_goods.n.01",
+                          "hasModel": true,
+                          "children": [
+                            {
+                              "name": "durables.n.01",
+                              "hasModel": true,
+                              "children": [
+                                {
+                                  "name": "appliance.n.02",
+                                  "hasModel": true,
+                                  "children": [
+                                    {
+                                      "name": "home_appliance.n.01",
+                                      "hasModel": true,
+                                      "children": [
+                                        {
+                                          "name": "white_goods.n.01",
+                                          "hasModel": true,
+                                          "children": [
+                                            {
+                                              "name": "dishwasher.n.01",
+                                              "hasModel": true
+                                            },
+                                            {
+                                              "name": "refrigerator.n.01",
+                                              "hasModel": true,
+                                              "children": [
+                                                {
+                                                  "name": "electric_refrigerator.n.01",
+                                                  "hasModel": true
+                                                }
+                                              ]
+                                            }
+                                          ]
+                                        }
+                                      ]
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "name": "drygoods.n.01",
+                          "hasModel": false,
+                          "children": [
+                            {
+                              "name": "white_goods.n.02",
+                              "hasModel": false,
+                              "children": [
+                                {
+                                  "name": "linen.n.03",
+                                  "hasModel": false,
+                                  "children": [
+                                    {
+                                      "name": "table_linen.n.01",
+                                      "hasModel": false,
+                                      "children": [
+                                        {
+                                          "name": "tablecloth.n.01",
+                                          "hasModel": false
+                                        }
+                                      ]
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "name": "fixture.n.01",
+                      "hasModel": true,
+                      "children": [
+                        {
+                          "name": "plumbing_fixture.n.01",
+                          "hasModel": true,
+                          "children": [
+                            {
+                              "name": "sink.n.01",
+                              "hasModel": true
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "name": "covering.n.02",
+                      "hasModel": true,
+                      "children": [
+                        {
+                          "name": "wrapping.n.01",
+                          "hasModel": false
+                        },
+                        {
+                          "name": "floor_cover.n.01",
+                          "hasModel": true,
+                          "children": [
+                            {
+                              "name": "rug.n.01",
+                              "hasModel": true
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "name": "fabric.n.01",
+                      "hasModel": false,
+                      "children": [
+                        {
+                          "name": "piece_of_cloth.n.01",
+                          "hasModel": false,
+                          "children": [
+                            {
+                              "name": "towel.n.01",
+                              "hasModel": false
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "name": "creation.n.02",
+                      "hasModel": false,
+                      "children": [
+                        {
+                          "name": "product.n.02",
+                          "hasModel": false,
+                          "children": [
+                            {
+                              "name": "newspaper.n.03",
+                              "hasModel": false
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "name": "sheet.n.06",
+                      "hasModel": false,
+                      "children": [
+                        {
+                          "name": "sheet_metal.n.01",
+                          "hasModel": false,
+                          "children": [
+                            {
+                              "name": "foil.n.01",
+                              "hasModel": false
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "name": "surface.n.01",
+                      "hasModel": true,
+                      "children": [
+                        {
+                          "name": "work_surface.n.01",
+                          "hasModel": true,
+                          "children": [
+                            {
+                              "name": "tabletop.n.01",
+                              "hasModel": true,
+                              "children": [
+                                {
+                                  "name": "countertop.n.01",
+                                  "hasModel": true
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "part.n.02",
+              "hasModel": false,
+              "children": [
+                {
+                  "name": "piece.n.01",
+                  "hasModel": false,
+                  "children": [
+                    {
+                      "name": "piece_of_cloth.n.01",
+                      "hasModel": false,
+                      "children": [
+                        {
+                          "name": "towel.n.01",
+                          "hasModel": false
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "matter.n.03",
+          "hasModel": true,
+          "children": [
+            {
+              "name": "substance.n.07",
+              "hasModel": true,
+              "children": [
+                {
+                  "name": "food.n.01",
+                  "hasModel": true,
+                  "children": [
+                    {
+                      "name": "water.n.06",
+                      "hasModel": false
+                    },
+                    {
+                      "name": "beverage.n.01",
+                      "hasModel": true,
+                      "children": [
+                        {
+                          "name": "alcohol.n.01",
+                          "hasModel": true,
+                          "children": [
+                            {
+                              "name": "wine.n.01",
+                              "hasModel": true
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "name": "foodstuff.n.02",
+                      "hasModel": true,
+                      "children": [
+                        {
+                          "name": "starches.n.01",
+                          "hasModel": true,
+                          "children": [
+                            {
+                              "name": "potato.n.01",
+                              "hasModel": true
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "name": "nutrient.n.02",
+                  "hasModel": false,
+                  "children": [
+                    {
+                      "name": "water.n.06",
+                      "hasModel": false
+                    }
+                  ]
+                },
+                {
+                  "name": "agent.n.03",
+                  "hasModel": true,
+                  "children": [
+                    {
+                      "name": "drug.n.01",
+                      "hasModel": true,
+                      "children": [
+                        {
+                          "name": "drug_of_abuse.n.01",
+                          "hasModel": true,
+                          "children": [
+                            {
+                              "name": "alcohol.n.01",
+                              "hasModel": true,
+                              "children": [
+                                {
+                                  "name": "wine.n.01",
+                                  "hasModel": true
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "substance.n.01",
+              "hasModel": true,
+              "children": [
+                {
+                  "name": "fluid.n.01",
+                  "hasModel": true,
+                  "children": [
+                    {
+                      "name": "liquid.n.01",
+                      "hasModel": true,
+                      "children": [
+                        {
+                          "name": "water.n.06",
+                          "hasModel": false
+                        },
+                        {
+                          "name": "beverage.n.01",
+                          "hasModel": true,
+                          "children": [
+                            {
+                              "name": "alcohol.n.01",
+                              "hasModel": true,
+                              "children": [
+                                {
+                                  "name": "wine.n.01",
+                                  "hasModel": true
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "name": "material.n.01",
+                  "hasModel": false,
+                  "children": [
+                    {
+                      "name": "chemical.n.01",
+                      "hasModel": false,
+                      "children": [
+                        {
+                          "name": "compound.n.02",
+                          "hasModel": false,
+                          "children": [
+                            {
+                              "name": "formulation.n.01",
+                              "hasModel": false,
+                              "children": [
+                                {
+                                  "name": "cleansing_agent.n.01",
+                                  "hasModel": false,
+                                  "children": [
+                                    {
+                                      "name": "detergent.n.02",
+                                      "hasModel": false
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "solid.n.01",
+              "hasModel": true,
+              "children": [
+                {
+                  "name": "food.n.02",
+                  "hasModel": true,
+                  "children": [
+                    {
+                      "name": "produce.n.01",
+                      "hasModel": true,
+                      "children": [
+                        {
+                          "name": "vegetable.n.01",
+                          "hasModel": true,
+                          "children": [
+                            {
+                              "name": "root_vegetable.n.01",
+                              "hasModel": true,
+                              "children": [
+                                {
+                                  "name": "potato.n.01",
+                                  "hasModel": true
+                                }
+                              ]
+                            },
+                            {
+                              "name": "solanaceous_vegetable.n.01",
+                              "hasModel": true,
+                              "children": [
+                                {
+                                  "name": "potato.n.01",
+                                  "hasModel": true
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "causal_agent.n.01",
+          "hasModel": true,
+          "children": [
+            {
+              "name": "agent.n.03",
+              "hasModel": true,
+              "children": [
+                {
+                  "name": "drug.n.01",
+                  "hasModel": true,
+                  "children": [
+                    {
+                      "name": "drug_of_abuse.n.01",
+                      "hasModel": true,
+                      "children": [
+                        {
+                          "name": "alcohol.n.01",
+                          "hasModel": true,
+                          "children": [
+                            {
+                              "name": "wine.n.01",
+                              "hasModel": true
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "abstraction.n.06",
+      "hasModel": true,
+      "children": [
+        {
+          "name": "relation.n.01",
+          "hasModel": true,
+          "children": [
+            {
+              "name": "part.n.01",
+              "hasModel": true,
+              "children": [
+                {
+                  "name": "substance.n.01",
+                  "hasModel": true,
+                  "children": [
+                    {
+                      "name": "fluid.n.01",
+                      "hasModel": true,
+                      "children": [
+                        {
+                          "name": "liquid.n.01",
+                          "hasModel": true,
+                          "children": [
+                            {
+                              "name": "water.n.06",
+                              "hasModel": false
+                            },
+                            {
+                              "name": "beverage.n.01",
+                              "hasModel": true,
+                              "children": [
+                                {
+                                  "name": "alcohol.n.01",
+                                  "hasModel": true,
+                                  "children": [
+                                    {
+                                      "name": "wine.n.01",
+                                      "hasModel": true
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "name": "material.n.01",
+                      "hasModel": false,
+                      "children": [
+                        {
+                          "name": "chemical.n.01",
+                          "hasModel": false,
+                          "children": [
+                            {
+                              "name": "compound.n.02",
+                              "hasModel": false,
+                              "children": [
+                                {
+                                  "name": "formulation.n.01",
+                                  "hasModel": false,
+                                  "children": [
+                                    {
+                                      "name": "cleansing_agent.n.01",
+                                      "hasModel": false,
+                                      "children": [
+                                        {
+                                          "name": "detergent.n.02",
+                                          "hasModel": false
+                                        }
+                                      ]
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "hasModel": true
+}

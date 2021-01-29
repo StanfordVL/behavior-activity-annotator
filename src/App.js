@@ -31,7 +31,8 @@ export default class Instructions extends React.Component {
       allSelectedObjects: {},
       selectedRooms: {},
       sceneSelectHidden: true,
-      conditionWorkspaceHidden: true
+      conditionWorkspaceHidden: true,
+      activityName: ""
     };
 
     this.onSeeSceneSelection = this.onSeeSceneSelection.bind(this)
@@ -60,11 +61,17 @@ export default class Instructions extends React.Component {
     this.props.onSeeConditionWorkspace()
   }
 
+  onActivityNameSubmit(activityName) {
+    this.setState({ activityName: activityName })
+  }
+
   render() { 
+    console.log('ACTIVITY NAME:', this.state.activityName)
     return (
       <div>
         <Introduction
           onSeeSceneSelection={this.onSeeSceneSelection}
+          onActivityNameSubmit={(activityName) => this.onActivityNameSubmit(activityName)}
         />
         <ObjectSelectionWorkspace
           params={activityParameters}
@@ -72,6 +79,7 @@ export default class Instructions extends React.Component {
           onRoomUpdate={(updatedRooms) => this.updateSelectedRooms(updatedRooms)}
           hidden={this.state.sceneSelectHidden}
           onSeeConditionWorkspace={this.onSeeConditionWorkspace}
+          activityName={this.state.activityName}
         />
       </div>
     )

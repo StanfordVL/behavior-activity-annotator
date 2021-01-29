@@ -195,15 +195,15 @@ export class FinalSubmit extends React.Component {
         return false  
     }
 
-    checkImproperRoot(conditions) {
-        const nonSingularRoot = !(conditions.split("ROOT").length == 2)
-        const hangingBlocks = conditions.includes(";")
-        return (nonSingularRoot || hangingBlocks)
-    }
+    // checkImproperRoot(conditions) {
+    //     const nonSingularRoot = !(conditions.split("ROOT").length == 2)
+    //     const hangingBlocks = conditions.includes(";")
+    //     return (nonSingularRoot || hangingBlocks)
+    // }
 
-    removeRoot(conditions) {
-        return conditions.split('ROOT').join('')
-    }
+    // removeRoot(conditions) {
+    //     return conditions.split('ROOT').join('')
+    // }
 
     createObjectsList(initialConditions) {
         const detectedObjects = detectObjects(initialConditions) 
@@ -248,16 +248,16 @@ export class FinalSubmit extends React.Component {
         if (this.checkNulls(updatedGoalConditions)) {
             currentModalText += "The goal conditions have empty field(s).\n"
         }
-        if (this.checkImproperRoot(updatedInitialConditions)) {
-            currentModalText += "Some initial conditions are not packaged in a singular root block.\n"
-        } else {
-            updatedInitialConditions = this.removeRoot(updatedInitialConditions)
-        }
-        if (this.checkImproperRoot(updatedGoalConditions)) {
-            currentModalText += "Some goal conditions are not packaged in a singular root block.\n"
-        } else {
-            updatedGoalConditions = this.removeRoot(updatedGoalConditions)
-        }
+        // if (this.checkImproperRoot(updatedInitialConditions)) {
+        //     currentModalText += "Some initial conditions are not packaged in a singular root block.\n"
+        // } else {
+        //     updatedInitialConditions = this.removeRoot(updatedInitialConditions)
+        // }
+        // if (this.checkImproperRoot(updatedGoalConditions)) {
+        //     currentModalText += "Some goal conditions are not packaged in a singular root block.\n"
+        // } else {
+        //     updatedGoalConditions = this.removeRoot(updatedGoalConditions)
+        // }
 
         if (currentModalText !== "") {
             event.preventDefault()
@@ -459,7 +459,7 @@ export default class ConditionDrawer extends React.Component {
                         <Block type="conjunction"/>
                         <Block type="disjunction"/>
                     </Category>
-                    <Category name="Root">
+                    <Category name="Toolbox">
                         <Block type="root_block"/>
                     </Category>
                 </BlocklyDrawer>
@@ -646,7 +646,7 @@ Blockly.Blocks['conjunction'] = {
       this.setColour(sentenceConstructorColor)
       this.itemCount_ = 3;
       this.updateShape_();
-      this.setOutput(true, 'Array');
+      this.setOutput(true, 'Boolean');
     //   this.setOutput(false, 'String')
     // this.setPreviousStatement(true)
       this.setMutator(new Blockly.Mutator(['lists_create_with_item']));
@@ -823,7 +823,7 @@ Blockly.Blocks['disjunction'] = {
       this.setColour(sentenceConstructorColor)
       this.itemCount_ = 3;
       this.updateShape_();
-      this.setOutput(true, 'Array');
+      this.setOutput(true, 'Boolean');
     //   this.setOutput(false, 'String')
     // this.setPreviousStatement(true)
       this.setMutator(new Blockly.Mutator(['lists_create_with_item']));
@@ -1402,7 +1402,8 @@ Blockly.Blocks['root_block'] = {
 
   Blockly.JavaScript['root_block'] = function(block) {
       console.log(block)
-      let code = "ROOT"
+    //   let code = "?ROOT"
+      let code = ""
       for ( let i = 0; i < block.inputList.length; i++) {
           code += Blockly.JavaScript.valueToCode(block, block.inputList[i].name, Blockly.JavaScript.ORDER_ADDITION) || 'null'
           if (i < block.inputList.length - 1) {

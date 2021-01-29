@@ -1,6 +1,7 @@
 import React from 'react'
 import Card from 'react-bootstrap/esm/Card';
 import Button from 'react-bootstrap/Button'
+import ActivityEntryForm from './activity_entry_form';
 
 const basic_unary_condition_image = require('./block_images/basic_unary_condition.png')
 const basic_binary_condition_image = require('./block_images/basic_binary_condition.png')
@@ -15,6 +16,8 @@ const quantified_combo_image = require('./block_images/quantified_composed_examp
 const forn_image = require('./block_images/forn.png')
 const forpairs_image = require('./block_images/forpairs.png')
 const fornpairs_image = require('./block_images/fornpairs.png')
+const cleantable_initial_condition = require('./block_images/cleantable_initial_conditions.png')
+const cleantable_goal_condition = require('./block_images/cleantable_goal_conditions.png')
 
 
 export default class Introduction extends React.Component {
@@ -23,7 +26,8 @@ export default class Introduction extends React.Component {
 
         this.state = {
             activityHidden: true,
-            sceneSelectHidden: true
+            sceneSelectHidden: true,
+            activitySubmitted: false
         }
         this.onSeeActivity = this.onSeeActivity.bind(this)
         this.onSeeSceneSelection = this.onSeeSceneSelection.bind(this)
@@ -50,10 +54,10 @@ export default class Introduction extends React.Component {
                         <p>You cannot edit the room after you've chosen it, but you can edit your object selections, initial conditions, and goal conditions at any time, so feel free to change your mind and work on them in parallel.</p>
                         <p><b>Important note:</b> We are <b>not</b> asking you to tell us how to <em>perform</em> the activity - we aren't asking for the actions needed to get from the initial to the goal state. We're only asking for what the world looks like before someone has done it (initial conditions) and after it has been done (goal conditions).</p>
                         <p>We'll give more detailed instructions at each step. Before that, here's an example to give you a sense.</p>
-                        <p style={{ "marginLeft": "20px" }}>Let's say the example activity is <b>clean a table surface</b>. This activity is relatively simple: for scene objects, we just need a table. For additional objects, we might want a rag, some soap, and a few generic items to move off the table. Our initial conditions might look like</p>
-                        <p style={{ "marginLeft": "40px" }}>TODO embed image of the initial condition example</p>
+                        <p style={{ "marginLeft": "20px" }}>Let's say the example activity is <b>clean a table surface</b>. This activity is relatively simple: for scene objects, we just need a table to clean off, shelves for storage, and a sink to be able to soak a rag to clean. For additional objects, we would want a rag, some soap, and a few generic items like toys to move off the table. Our initial conditions might look like</p>
+                        <p style={{ "marginLeft": "40px" }}><img alt="Clean table surface - initial condition" src={cleantable_initial_condition} width="400"/></p>
                         <p style={{ "marginLeft": "20px" }}>The goal conditions might be</p>
-                        <p style={{ "marginLeft": "40px" }}>TODO embed image of the initial condition example</p>
+                        <p style={{ "marginLeft": "40px" }}><img alt="Clean table surface - goal condition" src={cleantable_goal_condition} width="500"/></p>
                         <p>The above set of conditions is shorter than we'd expect for most of our tasks. We hope it's good minimal example to set you on the right track! Click the button below to see the household activity you need to describe.</p>
                     </Card.Text>
 
@@ -62,7 +66,7 @@ export default class Introduction extends React.Component {
                         disabled={!this.state.activityHidden}
                         variant="outline-primary"
                     >
-                        See your activity!
+                        Enter your activity!
                     </Button>
                 </Card.Body>
             </Card>
@@ -74,16 +78,22 @@ export default class Introduction extends React.Component {
         this.props.onSeeSceneSelection()
     }
 
+    onActivityEntrySubmit(activityName) {
+        this.setState({ activitySubmitted: true })
+        this.props.onActivityNameSubmit(activityName)
+    }
+
     showActivity() {
         return(
             <Card className="marginCard" hidden={this.state.activityHidden}>
                 <Card.Body>
                     <Card className="marginCard"><Card.Body>
-                        <Card.Title as="h3">Your activity: <b>Pack lunch for four people</b></Card.Title>
+                        {/* <Card.Title as="h3">Your activity: <b>Pack lunch for four people</b></Card.Title> */}
+                        <ActivityEntryForm onSubmit={(activityName) => this.onActivityEntrySubmit(activityName)}/>
                     </Card.Body></Card>
                     <Button
                         onClick={this.onSeeSceneSelection} 
-                        disabled={!this.state.sceneSelectHidden}
+                        disabled={!this.state.sceneSelectHidden || !this.state.activitySubmitted}
                         variant="outline-primary"
                     >
                         Select room and objects 

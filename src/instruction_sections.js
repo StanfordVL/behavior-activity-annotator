@@ -17,6 +17,7 @@ export class ObjectSelectionWorkspace extends React.Component {
             allSelectedObjects: {},
             selectedRooms: {},
             selectRoomHidden: true,
+            roomFormSubmitted: false,
             selectSceneObjectsHidden: true,
             selectAdditionalObjectsHidden: true,
             writingConditionsHidden: true
@@ -52,6 +53,10 @@ export class ObjectSelectionWorkspace extends React.Component {
 
     onSeeSelectRoom() {
         this.setState({ selectRoomHidden: false })
+    }
+
+    onRoomFormSubmit() {
+        this.setState({ roomFormSubmitted: true })
     }
 
     onSeeSelectSceneObjects() {
@@ -94,7 +99,7 @@ export class ObjectSelectionWorkspace extends React.Component {
                                     <Card.Text>
                                         <p>Choose the room(s) that your task will occur in. Most of our tasks can be done in one room, so just choose the ones that are absolutely necessary (there are some that need more than one room, such as "locking the house up").</p>
                                     </Card.Text>
-                                    <RoomForm onSubmit={(updatedRooms) => this.updateSelectedRooms(updatedRooms)}/>
+                                    <RoomForm onSubmit={(updatedRooms) => {this.updateSelectedRooms(updatedRooms); this.onRoomFormSubmit()}}/>
                                     <Card.Text style={{"fontSize": 13, "marginTop": "10px"}} className="text-muted">
                                         Once you submit, you won't be able to edit your choice. 
                                     </Card.Text>
@@ -102,7 +107,7 @@ export class ObjectSelectionWorkspace extends React.Component {
                                     <Button
                                         variant="outline-primary"
                                         onClick={this.onSeeSelectSceneObjects}
-                                        disabled={!this.state.selectSceneObjectsHidden}
+                                        disabled={(!this.state.selectSceneObjectsHidden) || (!this.state.roomFormSubmitted)}
                                     >
                                         Select scene objects 
                                     </Button>
@@ -146,7 +151,10 @@ export class ObjectSelectionWorkspace extends React.Component {
                                         <b>Another important note:</b> each object term refers to <em>a single item</em>. These items <em>cannot</em> be put together to make other items. For example, let's say your object hierarchy contains the words "sandwich", "lettuce", "bread", and "cheese". Though it seems natural to build a "sandwich" by putting "lettuce", "cheese", and "bread" together, our system won't be able to tell that the pile of ingredients is a "sandwich". If you ask for a "sandwich", you will get a "sandwich" from the start. If you ask for "lettuce", "cheese" and "bread", you'll get exactly those things. You will be free to put them on top of each other, but that won't have anything to do with a "sandwich" selected from the hierarchy. This applies generally - you can ask for objects or ask for their parts and arrange those parts together, but the important thing is that putting the parts together won't <em>create</em> the overall object.
                                     </p>
 
-                                    <SmallObjectSelectionWorkspace onSubmit={(numObjects, objectCategory) => this.updateSelectedObjects(numObjects, objectCategory)}/>
+                                    <SmallObjectSelectionWorkspace 
+                                        onSubmit={(numObjects, objectCategory) => this.updateSelectedObjects(numObjects, objectCategory)}
+                                        activityName={this.props.activityName}
+                                    />
                                     <SelectedObjectsList
                                         onObjectDelete={(numObjects, objectCategory) => this.updateSelectedObjects(numObjects, objectCategory)}
                                         selectedObjects={this.state.allSelectedObjects}

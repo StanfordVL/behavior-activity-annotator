@@ -5,10 +5,8 @@ import Modal from "react-bootstrap/esm/Modal"
 import Tree from "react-d3-tree"
 import Form from "react-bootstrap/Form"
 
-
-const activityAdditionalObjects = require('./pack_lunch_objects.json')
-const allAdditionalObjects = require('./hierarchy.json')
-
+const allAdditionalObjects = require('./general_hierarchy.json')
+const allActivityHierarchies = require('./all_activity_hierarchies.json')
 const containerStyles = {
     width: '100%',
     height: '100vh',
@@ -33,6 +31,22 @@ export default class SmallObjectSelectionWorkspace extends React.Component {
     }
 
     render() {
+        // let activityAdditionalObjects 
+        // if (this.props.activityName.length === 0) {
+        //     activityAdditionalObjects = require('./pack_lunch_objects.json')
+        // } else {
+        //     // let filename = './' + this.props.activityName + '.json'
+        //     console.log('FILENAME:', filename)
+        //     activityAdditionalObjects = require(filename)
+        //     // activityAdditionalObjects = require(filename)
+        // }
+        let activityAdditionalObjects
+        if (this.props.activityName.length === 0) {
+            activityAdditionalObjects = allActivityHierarchies.assembling_gift_baskets
+        } else {
+            console.log(allActivityHierarchies['wrapping_presents'])
+            activityAdditionalObjects = allActivityHierarchies[this.props.activityName]
+        }
         return (
             <div>
                 <Button variant="primary" style={{"margin":"20px"}}
@@ -78,7 +92,7 @@ export class SmallObjectSelector extends React.Component {
     }
 
     onTreeNodeClick(nodeName) {
-        this.setState({ currentCategory: nodeName })
+        this.setState({ currentCategory: nodeName.split('.')[0] })
     }
 
     render() {
@@ -176,7 +190,7 @@ export class ObjectHierarchy extends React.Component {
                         nonSiblings: 0.5
                     }}
                     // depthFactor={getJSONDepth() * 275}
-                    depthFactor={1100}
+                    depthFactor={600}
                     textLayout={{textAnchor: "start", x: 15, y: -10, transform: undefined}}
                     onNodeClick={(event) => this.props.onNodeClick(event.name)}
                     zoom={0.4}

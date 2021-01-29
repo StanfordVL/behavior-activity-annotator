@@ -43,12 +43,7 @@ export default class SelectedObjectsList extends React.Component {
             buttonVariant = "success"
         }
 
-        console.log('PURE CATEGORY:', pureCategory)
-        console.log('BUTTON VARIANT:', buttonVariant)
-        console.log('PURE CATEGORY IN SCENE:', pureCategory in sceneObjects)
-
         if (typeof demotedRoomsMap[pureCategory] === "number") {
-        // if (!(pureCategory in sceneObjects)) {      
             if (demotedRoomsMap[pureCategory] > 0) {
                 return (
                     <ListGroup.Item key={uuidv4()}>

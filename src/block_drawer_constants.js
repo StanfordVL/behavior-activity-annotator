@@ -3,7 +3,7 @@ objToDesc["null"] = []
 
 export const dropdownGenerators = Object.assign({}, ...Object.entries(objToDesc).map(
     ([object, descriptors], _) => (
-        {[object]: () => [['select an activity', '']].concat(descriptors)}
+        {[object]: () => [['select an adjective', '']].concat(descriptors)}
     )
 ))
 
