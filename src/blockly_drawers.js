@@ -446,7 +446,7 @@ export default class ConditionDrawer extends React.Component {
         }
         return tools
     }
-
+    
     render() {
         return (
             <div>
@@ -521,7 +521,12 @@ export const basicUnarySentence = {
               type: 'field_dropdown',
               name: 'DESCRIPTOR',
               options: () => {
-                return dropdownGenerators[state.currentObjectCategory]();
+                // return dropdownGenerators[state.currentObjectCategory]();
+                if (state.currentObjectCategory in dropdownGenerators) {
+                    return dropdownGenerators[state.currentObjectCategory]()
+                } else {
+                    return dropdownGenerators["null"]()
+                }
               },
             }
           ],

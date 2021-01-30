@@ -31,21 +31,12 @@ export default class SmallObjectSelectionWorkspace extends React.Component {
     }
 
     render() {
-        // let activityAdditionalObjects 
-        // if (this.props.activityName.length === 0) {
-        //     activityAdditionalObjects = require('./pack_lunch_objects.json')
-        // } else {
-        //     // let filename = './' + this.props.activityName + '.json'
-        //     console.log('FILENAME:', filename)
-        //     activityAdditionalObjects = require(filename)
-        //     // activityAdditionalObjects = require(filename)
-        // }
         let activityAdditionalObjects
         if (this.props.activityName.length === 0) {
             activityAdditionalObjects = allActivityHierarchies.assembling_gift_baskets
         } else {
-            // activityAdditionalObjects = allActivityHierarchies[this.props.activityName]
-            activityAdditionalObjects = require('./pack_lunch_objects.json')
+            activityAdditionalObjects = allActivityHierarchies[this.props.activityName]
+            // activityAdditionalObjects = require('./pack_lunch_objects.json')
         }
         return (
             <div>
