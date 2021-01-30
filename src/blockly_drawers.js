@@ -410,7 +410,7 @@ export default class ConditionDrawer extends React.Component {
                 "records": [
                     {
                         "fields": {
-                            "ActivityName": "pack_lunch",
+                            "ActivityName": JSON.parse(window.sessionStorage.getItem('activityName')),
                             "AnnotatorID": "Test",
                             "InitialConditions": updatedInitialConditions,
                             "GoalConditions": updatedGoalConditions,

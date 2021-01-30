@@ -39,12 +39,7 @@ export default class Instructions extends React.Component {
     this.onSeeConditionWorkspace = this.onSeeConditionWorkspace.bind(this)
   }
 
-  componentDidMount() {
-    console.log('APP MOUNTED')
-  }
-
   updateSelectedObjects(updatedSelectedObjects) {
-    // console.log('from main app:', updatedSelectedObjects)
     this.setState({ allSelectedObjects: updatedSelectedObjects })
     window.sessionStorage.setItem('allSelectedObjects', JSON.stringify(updatedSelectedObjects));
   }
@@ -66,7 +61,6 @@ export default class Instructions extends React.Component {
   }
 
   render() { 
-    console.log('ACTIVITY NAME:', this.state.activityName)
     return (
       <div>
         <Introduction

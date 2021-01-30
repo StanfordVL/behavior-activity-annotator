@@ -29,6 +29,7 @@ export default class ActivityEntryForm extends React.Component {
         event.preventDefault()
         if (allActivities.includes(this.state.activityName)) {
             this.setState({ submitted: true })
+            window.sessionStorage.setItem('activityName:', JSON.stringify(this.state.activityName))
             this.props.onSubmit(this.state.activityName)
         } else {
             this.setState({ showErrorModal: true })
