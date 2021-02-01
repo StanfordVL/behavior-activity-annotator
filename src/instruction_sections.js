@@ -249,7 +249,7 @@ export class ConditionWorkspace extends React.Component {
                         <Card className="marginCard" hidden={this.state.conditionDrawersHidden}>
                             <Card.Body>
                                 <Card.Text>
-                                    Once you press this, you will be redirected away from this page. Take a minute to check your work and make sure you've said what you want to say! Thanks so much for participating, we really appreciate it :) 
+                                    Take a minute to check your work and make sure you've said what you want to say, then press submit! It won't redirect, so let Sanjana know. Thanks so much for participating, we really appreciate it :) 
                                 </Card.Text>
                                 <FinalSubmit/>
                             </Card.Body>

@@ -34,6 +34,7 @@ export default class RoomForm extends React.Component {
         event.preventDefault();
         console.log('FROM ROOM SELECT:', this.state.selectedCheckboxes)
         this.setState({submitted: true})
+        window.sessionStorage.setItem("room", JSON.stringify(this.state.selectedCheckboxes))
         this.props.onSubmit(this.state.selectedCheckboxes);
 
         // return false 

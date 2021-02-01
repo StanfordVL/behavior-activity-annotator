@@ -119,7 +119,7 @@ function generateDropdownArray(labels) {
 
 
 function detectObjects(code) {
-    const detectObjectsRegex = new RegExp('[a-z]+[0-9]+', 'g')
+    const detectObjectsRegex = new RegExp('[a-z_]+[0-9]+', 'g')
     const detectedObjects = code.match(detectObjectsRegex)
     return detectedObjects
 }
@@ -163,7 +163,7 @@ export class FinalSubmit extends React.Component {
 
             let isPlaced = false 
             // Get all placements 
-            const placementMatchString = `\\((ontop|nextto|inside|under) (${objectInstance} \\??[a-z0-9]*|\\??[a-z0-9]* ${objectInstance})\\)`
+            const placementMatchString = `\\((ontop|nextto|inside|under) (${objectInstance} \\??[a-z0-9_]*|\\??[a-z0-9_]* ${objectInstance})\\)`
             const placementRegex = new RegExp(placementMatchString, 'g')
             const placements = conditions.match(placementRegex)
             if (!(placements === null)) {                
@@ -189,6 +189,7 @@ export class FinalSubmit extends React.Component {
 
             // ...return true 
             if (isAdditionalObject && isMentioned && isInstance && !isPlaced) {
+                console.log('UNPLACED OBJECT:', objectInstance)
                 return true 
             }
         }
@@ -280,7 +281,7 @@ export class FinalSubmit extends React.Component {
                 body:JSON.stringify({
                     "records": [{
                         "fields": { 
-                            "ActivityName": "pack_lunch",
+                            "ActivityName": JSON.parse(window.sessionStorage.getItem('activityName')),
                             "AnnotatorID": "Test",
                             "InitialConditions": updatedInitialConditions,
                             "GoalConditions": updatedGoalConditions,
@@ -290,7 +291,7 @@ export class FinalSubmit extends React.Component {
                     }]
                 })
             }
-            fetch('https://api.airtable.com/v0/appIh5qQ5m4UMrcps/Results', requestOptions)
+            fetch('https://api.airtable.com/v0/appIh5qQ5m4UMrcps/Tests', requestOptions)
             .then(response => response.json())
 
             console.log('successfully submitted!')
@@ -351,10 +352,18 @@ export default class ConditionDrawer extends React.Component {
             let selectedObjectsContainer = new ObjectOptions(JSON.parse(window.sessionStorage.getItem('allSelectedObjects')))
             const [objectInstanceLabels, instanceToCategory] = selectedObjectsContainer.getInstancesCategories()
             for (let [label, __] of objectInstanceLabels) {
+                
+                console.log('CATEGORY?:', instanceToCategory[label])
+                console.log('STORED ROOM:', Object.keys(JSON.parse(window.sessionStorage.getItem('room')))[0])
                 if (label.includes(' (')) {
                     let [pureLabel, room] = label.split(' (')
                     room = room.slice(0, -1).split(' ').join('')
                     code = code + ` (inroom ${pureLabel} ${room})`
+                }
+                else if (sceneObjects.includes(instanceToCategory[label]) && !(sceneObjects.includes(label))) {
+                    console.log('YES ITS A SCENE OBJECT')
+                    let room = Object.keys(JSON.parse(window.sessionStorage.getItem('room')))[0]
+                    code = code + ` (inroom ${label} ${room})`
                 }
             }
 
@@ -398,6 +407,7 @@ export default class ConditionDrawer extends React.Component {
     }
 
     onSave() {
+        console.log('ACTIVITY NAME:', JSON.parse(window.sessionStorage.getItem('activityName')))
         var base = new AirTable({apiKey: 'keyeaIvUAzmIaj3ma'}).base('appIh5qQ5m4UMrcps');
 
         const requestOptions = {
@@ -420,7 +430,7 @@ export default class ConditionDrawer extends React.Component {
                 ]
             })
         }
-        fetch('https://api.airtable.com/v0/appIh5qQ5m4UMrcps/Results', requestOptions)
+        fetch('https://api.airtable.com/v0/appIh5qQ5m4UMrcps/Saves', requestOptions)
         .then(response => response.json())    
         
         console.log('successfully posted to airtable!')
