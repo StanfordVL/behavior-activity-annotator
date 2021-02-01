@@ -291,7 +291,7 @@ export class FinalSubmit extends React.Component {
                     }]
                 })
             }
-            fetch('https://api.airtable.com/v0/appIh5qQ5m4UMrcps/Tests', requestOptions)
+            fetch('https://api.airtable.com/v0/appIh5qQ5m4UMrcps/Results', requestOptions)
             .then(response => response.json())
 
             console.log('successfully submitted!')
@@ -353,15 +353,12 @@ export default class ConditionDrawer extends React.Component {
             const [objectInstanceLabels, instanceToCategory] = selectedObjectsContainer.getInstancesCategories()
             for (let [label, __] of objectInstanceLabels) {
                 
-                console.log('CATEGORY?:', instanceToCategory[label])
-                console.log('STORED ROOM:', Object.keys(JSON.parse(window.sessionStorage.getItem('room')))[0])
                 if (label.includes(' (')) {
                     let [pureLabel, room] = label.split(' (')
                     room = room.slice(0, -1).split(' ').join('')
                     code = code + ` (inroom ${pureLabel} ${room})`
                 }
                 else if (sceneObjects.includes(instanceToCategory[label]) && !(sceneObjects.includes(label))) {
-                    console.log('YES ITS A SCENE OBJECT')
                     let room = Object.keys(JSON.parse(window.sessionStorage.getItem('room')))[0]
                     code = code + ` (inroom ${label} ${room})`
                 }
@@ -407,7 +404,6 @@ export default class ConditionDrawer extends React.Component {
     }
 
     onSave() {
-        console.log('ACTIVITY NAME:', JSON.parse(window.sessionStorage.getItem('activityName')))
         var base = new AirTable({apiKey: 'keyeaIvUAzmIaj3ma'}).base('appIh5qQ5m4UMrcps');
 
         const requestOptions = {
