@@ -2,6 +2,7 @@ import React from 'react'
 import Card from 'react-bootstrap/esm/Card';
 import Button from 'react-bootstrap/Button'
 import ActivityEntryForm from './activity_entry_form';
+import NameEntryForm from './name_entry_form'
 
 const basic_unary_condition_image = require('./block_images/basic_unary_condition.png')
 const basic_binary_condition_image = require('./block_images/basic_binary_condition.png')
@@ -27,7 +28,8 @@ export default class Introduction extends React.Component {
         this.state = {
             activityHidden: true,
             sceneSelectHidden: true,
-            activitySubmitted: false
+            activitySubmitted: false,
+            nameSubmitted: false
         }
         this.onSeeActivity = this.onSeeActivity.bind(this)
         this.onSeeSceneSelection = this.onSeeSceneSelection.bind(this)
@@ -35,6 +37,10 @@ export default class Introduction extends React.Component {
 
     onSeeActivity() {
         this.setState({ activityHidden: false })
+    }
+
+    onNameSubmit() {
+        this.setState({ nameSubmitted: true })
     }
 
     showInstructions() {
@@ -58,12 +64,14 @@ export default class Introduction extends React.Component {
                         <p style={{ "marginLeft": "40px" }}><img alt="Clean table surface - initial condition" src={cleantable_initial_condition} width="400"/></p>
                         <p style={{ "marginLeft": "20px" }}>The goal conditions might be</p>
                         <p style={{ "marginLeft": "40px" }}><img alt="Clean table surface - goal condition" src={cleantable_goal_condition} width="500"/></p>
-                        <p>The above set of conditions is shorter than we'd expect for most of our tasks. We hope it's good minimal example to set you on the right track! Click the button below to see the household activity you need to describe.</p>
+                        <p>The above set of conditions is shorter than we'd expect for most of our tasks. We hope it's good minimal example to set you on the right track! Please submit your name, then click the button below to see the household activity you need to describe.</p>
                     </Card.Text>
+
+                    <NameEntryForm onSubmit={() => this.onNameSubmit()}/>
 
                     <Button
                         onClick={this.onSeeActivity}
-                        disabled={!this.state.activityHidden}
+                        disabled={!this.state.activityHidden || !this.state.nameSubmitted}
                         variant="outline-primary"
                     >
                         Enter your activity!

@@ -1,5 +1,8 @@
 {
-    "sceneObjects": ["bathtub", 
+    "sceneObjects": ["wall",
+                     "floor",
+                     "ceiling",
+                     "bathtub", 
                      "bed", 
                      "bench", 
                      "cabinet",
@@ -22,6 +25,9 @@
                      "heater", 
                      "microwave", 
                      "mirror", 
+                     "office_chair",
+                     "oven",
+                     "piano",
                      "picture", 
                      "pool_table", 
                      "range_hood", 
@@ -40,5 +46,6 @@
                      "tv", 
                      "washer", 
                      "window"],
+
     "rooms": ["kitchen", "bedroom", "bathroom", "living room", "garage", "dining room"]
 }
