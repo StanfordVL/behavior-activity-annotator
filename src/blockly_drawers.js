@@ -282,7 +282,7 @@ export class FinalSubmit extends React.Component {
                     "records": [{
                         "fields": { 
                             "ActivityName": JSON.parse(window.sessionStorage.getItem('activityName')),
-                            "AnnotatorID": "Test",
+                            "AnnotatorID": JSON.parse(window.sessionStorage.getItem('annotatorName')),
                             "InitialConditions": updatedInitialConditions,
                             "GoalConditions": updatedGoalConditions,
                             "FinalSave": 1,
@@ -417,7 +417,7 @@ export default class ConditionDrawer extends React.Component {
                     {
                         "fields": {
                             "ActivityName": JSON.parse(window.sessionStorage.getItem('activityName')),
-                            "AnnotatorID": "Test",
+                            "AnnotatorID": JSON.parse(window.sessionStorage.getItem('annotatorName')),
                             "InitialConditions": updatedInitialConditions,
                             "GoalConditions": updatedGoalConditions,
                             "FinalSave": 0
