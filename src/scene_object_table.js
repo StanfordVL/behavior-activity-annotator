@@ -4,10 +4,9 @@ import Form from 'react-bootstrap/Form'
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Popover from 'react-bootstrap/Popover';
 import Table from 'react-bootstrap/Table'
+import Card from 'react-bootstrap/Card'
 
-
-const sceneObjects = require('./scene_objects.json').sceneObjects;
-
+const activitiesToRoomsObjects = require('./activity_to_rooms_objects.json')
 
 export default class SceneObjectTable extends React.Component {
     constructor(props) {
@@ -34,14 +33,17 @@ export default class SceneObjectTable extends React.Component {
         return (objectCategory);
     }
 
-    createObjectTable(objectArray) {
-        var rows = this.state.objectRows;
-        let cols = Math.ceil(objectArray.length / rows);
+    createObjectTable(objectData) {
+        // var rows = this.state.objectRows;
+        // let cols = Math.ceil(objectArray.length / rows);
+        let objectArray = Object.keys(objectData)
+        let cols = 3
+        let rows = Math.ceil(objectArray.length / cols)
 
         return (
             <Table striped bordered responsive>
                 <tbody>
-                    {Array.from({ length: this.state.objectRows }).map((_, r) => (
+                    {Array.from({ length: rows }).map((_, r) => (
                         <tr key={r}>
                             {Array.from({ length: cols }).map((_, c) => (
                                 <ObjectTableCell
@@ -59,7 +61,22 @@ export default class SceneObjectTable extends React.Component {
     }
 
     render() {
-        return (this.createObjectTable(sceneObjects))
+        let sceneObjects
+        if (this.props.activityName.length !== 0 && this.props.room.length !== 0) {
+            sceneObjects = activitiesToRoomsObjects[this.props.activityName][this.props.room]
+        } else {
+            sceneObjects = activitiesToRoomsObjects['installing_smoke_detectors']['corridor']
+        }
+        console.log('ROOM:', this.props.room)
+        console.log('SCENE OBJECTS:', sceneObjects)
+        return ( 
+            <Card className="marginCard">
+                <Card.Body>
+                    <Card.Title>{this.props.room}</Card.Title>
+                    { this.createObjectTable(sceneObjects) } 
+                </Card.Body>
+            </Card>
+        )
     }
 }
 

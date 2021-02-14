@@ -5,7 +5,6 @@ import Modal from 'react-bootstrap/Modal'
 
 // const allActivities = require('./activity_names.json')
 const allActivities = Object.keys(require("./all_activity_hierarchies.json"))
-console.log(allActivities)
 
 export default class ActivityEntryForm extends React.Component {
     constructor(props) {

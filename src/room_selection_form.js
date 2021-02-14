@@ -2,18 +2,16 @@ import React from 'react';
 import Form from 'react-bootstrap/Form'
 import Button from 'react-bootstrap/Button'
 
-const rooms = require('./scene_objects.json').rooms;
-
+// const rooms = require('./scene_objects.json').rooms;
+const activitiesToRoomsObjects = require('./activity_to_rooms_objects.json')
 
 export default class RoomForm extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             submitted: false,
-            // selectedCheckboxes: new Set()
             selectedCheckboxes: {}
         }
-        // this.onSubmit = this.onSubmit.bind(this)
     }
 
     onChange(event) {
@@ -41,6 +39,13 @@ export default class RoomForm extends React.Component {
     }
 
     render() {
+        // let rooms = Object.keys(activitiesToRoomsObjects[this.props.activityName])
+        let rooms
+        if (this.props.activityName.length === 0) {
+            rooms = ["bedroom"]
+        } else {
+            rooms = Object.keys(activitiesToRoomsObjects[this.props.activityName])
+        }
         return(
             <div>
                 <Form
