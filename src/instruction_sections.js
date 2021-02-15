@@ -32,7 +32,7 @@ export class ObjectSelectionWorkspace extends React.Component {
     componentDidMount() {
     }
 
-    updateSelectedAdditionalObjects(numObjects, objectCategory) {
+    updateSelectedObjectsIncrement(numObjects, objectCategory) {
         let updatedSelectedObjects = {...this.state.allSelectedObjects};
         if (objectCategory in updatedSelectedObjects) {
             // updatedSelectedObjects[objectCategory] += numObjects
@@ -44,12 +44,12 @@ export class ObjectSelectionWorkspace extends React.Component {
         this.props.onObjectUpdate(updatedSelectedObjects)
     }
 
-    // updateSelectedSceneObjects(numObjects, objectCategory) {
-    //     let updateSelectedObjects = {...this.state.allSelectedObjects}
-    //     updatedSelectedObjects[objectCategory] = Math.max(numObjects, 0)
-    //     this.setState({ allSelectedObjects: updatedSelectedObjects })
-    //     this.props.onObjectUpdate(updatedSelectedObjects)
-    // }
+    updateSelectedObjectsOverwrite(numObjects, objectCategory) {
+        let updatedSelectedObjects = {...this.state.allSelectedObjects}
+        updatedSelectedObjects[objectCategory] = Math.max(numObjects, 0)
+        this.setState({ allSelectedObjects: updatedSelectedObjects })
+        this.props.onObjectUpdate(updatedSelectedObjects)
+    }
 
     updateSelectedRooms(updatedRooms) {
         this.setState({ selectedRooms: updatedRooms })
@@ -108,9 +108,9 @@ export class ObjectSelectionWorkspace extends React.Component {
                                     <Card.Text style={{ fontSize: 13}} className="text-muted">
                                         Drag to pivot, press control and drag to move around, scroll to zoom.
                                     </Card.Text>
-                                    {/* <div className="marginCard" dangerouslySetInnerHTML={
+                                    <div className="marginCard" dangerouslySetInnerHTML={
                                         { __html: "<iframe margin='20px' width='600px' height='400px' src='http://104.236.172.175:3000/' />"}
-                                    } /> */}
+                                    } />
                                     
                                     <RoomForm 
                                         onSubmit={(updatedRooms) => {this.updateSelectedRooms(updatedRooms); this.onRoomFormSubmit()}}
@@ -138,14 +138,14 @@ export class ObjectSelectionWorkspace extends React.Component {
                                     </p>
                                     {/* <SceneObjectTable 
                                         selectedRooms={this.state.selectedRooms}
-                                        onObjectSubmit={(numObjects, objectCategory) => this.updateSelectedAdditionalObjects(numObjects, objectCategory)}
+                                        onObjectSubmit={(numObjects, objectCategory) => this.updateSelectedObjectsIncrement(numObjects, objectCategory)}
                                         room={this.state.selectedRooms}
                                     /> */}
                                     {Object.keys(this.state.selectedRooms).map((roomType, i) => (
                                         <div>
                                             <SceneObjectTable
                                                 selectedRooms={this.state.selectedRooms}
-                                                onObjectSubmit={(numObjects, objectCategory) => this.updateSelectedAdditionalObjects(numObjects, objectCategory)}
+                                                onObjectSubmit={(numObjects, objectCategory) => this.updateSelectedObjectsOverwrite(numObjects, objectCategory)}
                                                 room={roomType}
                                                 activityName={this.props.activityName}
                                                 key={i}
@@ -153,7 +153,7 @@ export class ObjectSelectionWorkspace extends React.Component {
                                         </div>
                                     ))}
                                     <SelectedObjectsList
-                                        onObjectDelete={(numObjects, objectCategory) => this.updateSelectedAdditionalObjects(numObjects, objectCategory)}
+                                        onObjectDelete={(numObjects, objectCategory) => this.updateSelectedObjectsIncrement(numObjects, objectCategory)}
                                         selectedObjects={this.state.allSelectedObjects}
                                     />
 
@@ -180,11 +180,11 @@ export class ObjectSelectionWorkspace extends React.Component {
                                     </p>
 
                                     <SmallObjectSelectionWorkspace 
-                                        onSubmit={(numObjects, objectCategory) => this.updateSelectedAdditionalObjects(numObjects, objectCategory)}
+                                        onSubmit={(numObjects, objectCategory) => this.updateSelectedObjectsIncrement(numObjects, objectCategory)}
                                         activityName={this.props.activityName}
                                     />
                                     <SelectedObjectsList
-                                        onObjectDelete={(numObjects, objectCategory) => this.updateSelectedAdditionalObjects(numObjects, objectCategory)}
+                                        onObjectDelete={(numObjects, objectCategory) => this.updateSelectedObjectsIncrement(numObjects, objectCategory)}
                                         selectedObjects={this.state.allSelectedObjects}
                                     /> 
 
@@ -231,7 +231,7 @@ export class ConditionWorkspace extends React.Component {
                     {/* </Card.Body>
                 </Card> */}
                         {/* <SelectedObjectsList
-                            onObjectDelete={(numObjects, objectCategory) => this.updateSelectedAdditionalObjects(numObjects, objectCategory)}
+                            onObjectDelete={(numObjects, objectCategory) => this.updateSelectedObjectsIncrement(numObjects, objectCategory)}
                             selectedObjects={JSON.parse(window.sessionStorage.getItem('allSelectedObjects'))}
                         />  */}
                         <Card className="marginCard" hidden={this.state.conditionDrawersHidden}>

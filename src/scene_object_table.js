@@ -73,6 +73,8 @@ export default class SceneObjectTable extends React.Component {
             <Card className="marginCard">
                 <Card.Body>
                     <Card.Title>{this.props.room}</Card.Title>
+                    <Card.Text>Note that unlike before, whatever you choose will <b>be</b>, not add to, the total. If you pick 4, you will have 4 even if you previously had 3 or 7 or any other number. You can still delete instances in the object list.
+</Card.Text>
                     { this.createObjectTable(sceneObjects) } 
                 </Card.Body>
             </Card>
@@ -126,7 +128,6 @@ class ObjectTableCell extends React.Component {
                                 <option>{i}</option>
                             )}
                         </Form.Control>
-                        <div style={{ fontSize: "12px" }}>Note that unlike before, whatever you choose will be the TOTAL. For {this.props.objectCategory}, you can have up to {this.props.count} instances.</div>
                     </Form.Group>
                     <Button
                         disabled={this.state.numberInput.length == 0}
