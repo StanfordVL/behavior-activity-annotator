@@ -32,7 +32,7 @@ export class ObjectSelectionWorkspace extends React.Component {
     componentDidMount() {
     }
 
-    updateSelectedObjects(numObjects, objectCategory) {
+    updateSelectedObjectsIncrement(numObjects, objectCategory) {
         let updatedSelectedObjects = {...this.state.allSelectedObjects};
         if (objectCategory in updatedSelectedObjects) {
             // updatedSelectedObjects[objectCategory] += numObjects
@@ -40,6 +40,13 @@ export class ObjectSelectionWorkspace extends React.Component {
         } else {
             updatedSelectedObjects[objectCategory] = Math.max(numObjects, 0)
         }
+        this.setState({ allSelectedObjects: updatedSelectedObjects })
+        this.props.onObjectUpdate(updatedSelectedObjects)
+    }
+
+    updateSelectedObjectsOverwrite(numObjects, objectCategory) {
+        let updatedSelectedObjects = {...this.state.allSelectedObjects}
+        updatedSelectedObjects[objectCategory] = Math.max(numObjects, 0)
         this.setState({ allSelectedObjects: updatedSelectedObjects })
         this.props.onObjectUpdate(updatedSelectedObjects)
     }
@@ -73,6 +80,7 @@ export class ObjectSelectionWorkspace extends React.Component {
     }
 
     render() {
+        console.log('SELECTED ROOMS:', this.state.selectedRooms)
         return (
             <div>
                 <Card className="marginCard" hidden={this.props.hidden}>
@@ -104,7 +112,10 @@ export class ObjectSelectionWorkspace extends React.Component {
                                         { __html: "<iframe margin='20px' width='600px' height='400px' src='http://104.236.172.175:3000/' />"}
                                     } />
                                     
-                                    <RoomForm onSubmit={(updatedRooms) => {this.updateSelectedRooms(updatedRooms); this.onRoomFormSubmit()}}/>
+                                    <RoomForm 
+                                        onSubmit={(updatedRooms) => {this.updateSelectedRooms(updatedRooms); this.onRoomFormSubmit()}}
+                                        activityName={this.props.activityName}
+                                    />
                                     <Card.Text style={{"fontSize": 13, "marginTop": "10px"}} className="text-muted">
                                         Once you submit, you won't be able to edit your choice. 
                                     </Card.Text>
@@ -125,12 +136,24 @@ export class ObjectSelectionWorkspace extends React.Component {
                                     <p>
                                         First, choose which scene objects are relevant for your initial and goal conditions. Scene objects (listed in the table below) are generally furniture or other background objects you see in a clean home. Don't worry about picking all the furniture and other scene objects you want for the house - as you can see, we've already set up realistic looking scenes. Just tell us which ones you need to do {this.props.params.activityName}. For example, if you need a table to do {this.props.params.activityName} but don't need a sofa, even if you like the idea of having a sofa in the environment for aesthetic reasons, choose the table but not the sofa. 
                                     </p>
-                                    <SceneObjectTable 
+                                    {/* <SceneObjectTable 
                                         selectedRooms={this.state.selectedRooms}
-                                        onObjectSubmit={(numObjects, objectCategory) => this.updateSelectedObjects(numObjects, objectCategory)}
-                                    />
+                                        onObjectSubmit={(numObjects, objectCategory) => this.updateSelectedObjectsIncrement(numObjects, objectCategory)}
+                                        room={this.state.selectedRooms}
+                                    /> */}
+                                    {Object.keys(this.state.selectedRooms).map((roomType, i) => (
+                                        <div>
+                                            <SceneObjectTable
+                                                selectedRooms={this.state.selectedRooms}
+                                                onObjectSubmit={(numObjects, objectCategory) => this.updateSelectedObjectsOverwrite(numObjects, objectCategory)}
+                                                room={roomType}
+                                                activityName={this.props.activityName}
+                                                key={i}
+                                            />
+                                        </div>
+                                    ))}
                                     <SelectedObjectsList
-                                        onObjectDelete={(numObjects, objectCategory) => this.updateSelectedObjects(numObjects, objectCategory)}
+                                        onObjectDelete={(numObjects, objectCategory) => this.updateSelectedObjectsIncrement(numObjects, objectCategory)}
                                         selectedObjects={this.state.allSelectedObjects}
                                     />
 
@@ -157,11 +180,11 @@ export class ObjectSelectionWorkspace extends React.Component {
                                     </p>
 
                                     <SmallObjectSelectionWorkspace 
-                                        onSubmit={(numObjects, objectCategory) => this.updateSelectedObjects(numObjects, objectCategory)}
+                                        onSubmit={(numObjects, objectCategory) => this.updateSelectedObjectsIncrement(numObjects, objectCategory)}
                                         activityName={this.props.activityName}
                                     />
                                     <SelectedObjectsList
-                                        onObjectDelete={(numObjects, objectCategory) => this.updateSelectedObjects(numObjects, objectCategory)}
+                                        onObjectDelete={(numObjects, objectCategory) => this.updateSelectedObjectsIncrement(numObjects, objectCategory)}
                                         selectedObjects={this.state.allSelectedObjects}
                                     /> 
 
@@ -208,7 +231,7 @@ export class ConditionWorkspace extends React.Component {
                     {/* </Card.Body>
                 </Card> */}
                         {/* <SelectedObjectsList
-                            onObjectDelete={(numObjects, objectCategory) => this.updateSelectedObjects(numObjects, objectCategory)}
+                            onObjectDelete={(numObjects, objectCategory) => this.updateSelectedObjectsIncrement(numObjects, objectCategory)}
                             selectedObjects={JSON.parse(window.sessionStorage.getItem('allSelectedObjects'))}
                         />  */}
                         <Card className="marginCard" hidden={this.state.conditionDrawersHidden}>
