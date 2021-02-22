@@ -339,6 +339,7 @@ export default class ConditionDrawer extends React.Component {
 
     onWorkspaceChange(code, workspace) {
         console.log('WORKSPACE CHANGE')
+        console.log('TYPE:', this.props.drawerType)
         code = code.substring(0, code.length - 2)
 
         // Remove room labels 
@@ -439,10 +440,11 @@ export default class ConditionDrawer extends React.Component {
             // conjunction,
             // disjunction,
             negation,
-            implication
+            // implication
         ]
         if (this.props.drawerType === "goal") {
             tools = tools.concat([
+                implication,
                 universal,
                 existential, 
                 forN,
@@ -454,31 +456,55 @@ export default class ConditionDrawer extends React.Component {
     }
     
     render() {
-        return (
-            <div>
-                <BlocklyDrawer
-                    tools={this.getBlockTypes()}
-                    onChange={this.onWorkspaceChange}
-                    language={Blockly.JavaScript}
-                >
-                    <Category name="Or, And">
-                        <Block type="conjunction"/>
-                        <Block type="disjunction"/>
-                    </Category>
-                    <Category name="Toolbox">
-                        <Block type="root_block"/>
-                    </Category>
-                </BlocklyDrawer>
-                <Button
-                    onClick={this.onSave}
-                    variant="outline-primary"
-                    size="lg"
-                    style={{ "marginTop": "20px" }}
-                >
-                    Save {this.props.drawerType} state
-                </Button>
-            </div>
-        );
+        if (this.props.drawerType === "goal") {
+            return (
+                <div>
+                    <BlocklyDrawer
+                        tools={this.getBlockTypes()}
+                        onChange={this.onWorkspaceChange}
+                        language={Blockly.JavaScript}
+                    >
+                        <Category name="Or, And">
+                            <Block type="conjunction"/>
+                            <Block type="disjunction"/>
+                        </Category>
+                        <Category name="Toolbox">
+                            <Block type="root_block"/>
+                        </Category>
+                    </BlocklyDrawer>
+                    <Button
+                        onClick={this.onSave}
+                        variant="outline-primary"
+                        size="lg"
+                        style={{ marginTop: "20px" }}
+                    >
+                        Save {this.props.drawerType} state
+                    </Button>
+                </div>
+            )
+        } else {
+            return (
+                <div>
+                    <BlocklyDrawer
+                        tools={this.getBlockTypes()}
+                        onChange={this.onWorkspaceChange}
+                        language={Blockly.JavaScript}
+                    >
+                        <Category name="Toolbox">
+                            <Block type="root_block"/>
+                        </Category>
+                    </BlocklyDrawer>
+                    <Button
+                        onClick={this.onSave}
+                        variant="outline-primary"
+                        size="lg"
+                        style={{ marginTop: "20px" }}
+                    >
+                        Save {this.props.drawerType} state
+                    </Button>
+                </div>
+            )
+        }
     }
 }
 
@@ -967,7 +993,7 @@ Blockly.Blocks['disjunction'] = {
 
 export const negation = {
     name: 'Negation',
-    category: 'Not, If/Then',
+    category: 'Not',
     block: {
         init: function () {
             this.jsonInit({
@@ -993,7 +1019,7 @@ export const negation = {
 
 export const implication = {
     name: 'Implication',
-    category: 'Not, If/Then',
+    category: 'If/Then',
     block: {
         init: function() {
             this.jsonInit({
