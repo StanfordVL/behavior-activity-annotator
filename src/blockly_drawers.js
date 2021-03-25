@@ -9,12 +9,9 @@ import { dropdownGenerators,
 import AirTable from 'airtable'
 import Button from 'react-bootstrap/Button'
 import Modal from 'react-bootstrap/Modal'
+import allRooms, { sceneObjects } from "./scene_objects.js"
 
-const staticEntities = require('./scene_objects.json')
-const sceneObjects = staticEntities.sceneObjects
-const roomsList = staticEntities.rooms
-
-
+// const allRooms = allRooms
 export class ObjectOptions {
     constructor(selectedObjects) {
         this.selectedObjects = selectedObjects
@@ -196,15 +193,13 @@ export class FinalSubmit extends React.Component {
         return false  
     }
 
-    // checkImproperRoot(conditions) {
-    //     const nonSingularRoot = !(conditions.split("ROOT").length == 2)
-    //     const hangingBlocks = conditions.includes(";")
-    //     return (nonSingularRoot || hangingBlocks)
-    // }
-
-    // removeRoot(conditions) {
-    //     return conditions.split('ROOT').join('')
-    // }
+    checkInappropriateCategories(conditions) {
+        /**
+         * @param {String} conditions - conditions being checked for inappropriate categories
+         */
+        
+         
+    }
 
     createObjectsList(initialConditions) {
         const detectedObjects = detectObjects(initialConditions) 
@@ -249,16 +244,6 @@ export class FinalSubmit extends React.Component {
         if (this.checkNulls(updatedGoalConditions)) {
             currentModalText += "The goal conditions have empty field(s).\n"
         }
-        // if (this.checkImproperRoot(updatedInitialConditions)) {
-        //     currentModalText += "Some initial conditions are not packaged in a singular root block.\n"
-        // } else {
-        //     updatedInitialConditions = this.removeRoot(updatedInitialConditions)
-        // }
-        // if (this.checkImproperRoot(updatedGoalConditions)) {
-        //     currentModalText += "Some goal conditions are not packaged in a singular root block.\n"
-        // } else {
-        //     updatedGoalConditions = this.removeRoot(updatedGoalConditions)
-        // }
 
         if (currentModalText !== "") {
             event.preventDefault()
@@ -343,7 +328,7 @@ export default class ConditionDrawer extends React.Component {
         code = code.substring(0, code.length - 2)
 
         // Remove room labels 
-        for (let room of roomsList){
+        for (let room of allRooms){
             let roomString = ' (' + room + ')'
             code = code.split(roomString).join("")
         }
@@ -353,8 +338,10 @@ export default class ConditionDrawer extends React.Component {
             let selectedObjectsContainer = new ObjectOptions(JSON.parse(window.sessionStorage.getItem('allSelectedObjects')))
             const [objectInstanceLabels, instanceToCategory] = selectedObjectsContainer.getInstancesCategories()
             for (let [label, __] of objectInstanceLabels) {
+                console.log('LABEL:', label)
                 
                 if (label.includes(' (')) {
+                    console.log('LABEL WITH PAREN:', label)
                     let [pureLabel, room] = label.split(' (')
                     room = room.slice(0, -1).split(' ').join('')
                     code = code + ` (inroom ${pureLabel} ${room})`

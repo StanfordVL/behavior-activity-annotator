@@ -2,7 +2,6 @@ import React from 'react';
 import Form from 'react-bootstrap/Form'
 import Button from 'react-bootstrap/Button'
 
-// const rooms = require('./scene_objects.json').rooms;
 const activitiesToRoomsObjects = require('./activity_to_rooms_objects.json')
 
 export default class RoomForm extends React.Component {
