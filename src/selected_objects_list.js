@@ -53,7 +53,7 @@ export default class SelectedObjectsList extends React.Component {
                         </ButtonGroup>
                         {Array.from({length: demotedRoomsMap[pureCategory]}).map((_, j) => (
                             <Button key={j} variant="light" onClick={() => this.handleInstanceButtonClick(pureCategory)}>
-                                {pureCategory}{j + 1}
+                                {pureCategory}_{j + 1}
                             </Button>
                         ))}
                     </ListGroup.Item>

@@ -61,21 +61,23 @@ export default class SceneObjectTable extends React.Component {
     }
 
     render() {
-        let sceneObjects
+        let roomSceneObjects
         if (this.props.activityName.length !== 0 && this.props.room.length !== 0) {
-            sceneObjects = activitiesToRoomsObjects[this.props.activityName][this.props.room]
+            roomSceneObjects = activitiesToRoomsObjects[this.props.activityName][this.props.room]
         } else {
-            sceneObjects = activitiesToRoomsObjects['installing_smoke_detectors']['corridor']
+            roomSceneObjects = activitiesToRoomsObjects['installing_smoke_detectors']['corridor']
         }
-        console.log('ROOM:', this.props.room)
-        console.log('SCENE OBJECTS:', sceneObjects)
+        let roomSceneSynsets = []
+        // for (let roomSceneObject of roomSceneObjects) {
+        //     roomSceneSynsets.push(room)
+        // }
         return ( 
             <Card className="marginCard">
                 <Card.Body>
                     <Card.Title>{this.props.room}</Card.Title>
                     <Card.Text>Note that unlike before, whatever you choose will <b>be</b>, not add to, the total. If you pick 4, you will have 4 even if you previously had 3 or 7 or any other number. You can still delete instances in the object list.
 </Card.Text>
-                    { this.createObjectTable(sceneObjects) } 
+                    { this.createObjectTable(roomSceneObjects) } 
                 </Card.Body>
             </Card>
         )

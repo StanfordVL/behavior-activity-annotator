@@ -1,4 +1,3 @@
-// var objToDesc = require('./objects_to_descriptors.json')
 var objToDesc = require('./synsets_to_descriptors.json')
 objToDesc["null"] = []
 

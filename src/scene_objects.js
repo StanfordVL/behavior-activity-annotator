@@ -1,6 +1,6 @@
 const activitiesToRoomsObjects = require('./activity_to_rooms_objects.json')
 
-let allRooms = new Set()
+export let allRooms = new Set()
 for (const [_, roomEntries] of Object.entries(activitiesToRoomsObjects)) {
     console.log(roomEntries)
     for (const room of Object.keys(roomEntries)) {
@@ -56,4 +56,3 @@ export let sceneObjects = ["wall",
 "washer", 
 "window"]
 
-export default allRooms

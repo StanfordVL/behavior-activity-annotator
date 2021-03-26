@@ -9,7 +9,9 @@ import { dropdownGenerators,
 import AirTable from 'airtable'
 import Button from 'react-bootstrap/Button'
 import Modal from 'react-bootstrap/Modal'
-import allRooms, { sceneObjects } from "./scene_objects.js"
+import { allRooms, sceneObjects } from "./scene_objects.js"
+import { objectInstanceRe, objectCategoryRe } from "./constants.js"
+import { stringify } from 'uuid';
 
 // const allRooms = allRooms
 export class ObjectOptions {
@@ -59,7 +61,7 @@ export class ObjectOptions {
                     const instanceIndices = roomsToIndices[room]
                     
                     for (let instanceIndex of instanceIndices) {
-                        let instanceLabel = pureLabel + (instanceIndex + 1).toString() + room
+                        let instanceLabel = pureLabel + "_" + (instanceIndex + 1).toString() + room
                         objectInstanceLabels.push([instanceLabel, instanceLabel])
                         instanceToCategory[instanceLabel] = pureLabel
                         instanceToCategory[pureLabel] = pureLabel
@@ -68,7 +70,7 @@ export class ObjectOptions {
 
             } else {
                 for (let instanceIndex = 0; instanceIndex < value; instanceIndex++) {
-                    let instanceLabel = pureLabel + (instanceIndex + 1).toString()
+                    let instanceLabel = pureLabel + "_" + (instanceIndex + 1).toString()
                     objectInstanceLabels.push([instanceLabel, instanceLabel])
                     instanceToCategory[instanceLabel] = pureLabel
                     instanceToCategory[pureLabel] = pureLabel
@@ -193,12 +195,22 @@ export class FinalSubmit extends React.Component {
         return false  
     }
 
-    checkInappropriateCategories(conditions) {
+    checkInappropriateCategories(conditions, drawerType) {
         /**
          * @param {String} conditions - conditions being checked for inappropriate categories
          */
         
-         
+        const objectCategoryRegExp = new RegExp(objectCategoryRe, "g")
+        const objectInstanceRegExp = new RegExp(objectInstanceRe, "g")
+        let objectTerms = conditions.match(objectCategoryRegExp)
+        if (drawerType == "initial") {
+            for (let objectTerm of objectTerms) {
+                if (objectTerm.match(objectInstanceRegExp) == null) {
+                    return true 
+                }
+            }
+            return false
+        }
     }
 
     createObjectsList(initialConditions) {
@@ -338,7 +350,6 @@ export default class ConditionDrawer extends React.Component {
             let selectedObjectsContainer = new ObjectOptions(JSON.parse(window.sessionStorage.getItem('allSelectedObjects')))
             const [objectInstanceLabels, instanceToCategory] = selectedObjectsContainer.getInstancesCategories()
             for (let [label, __] of objectInstanceLabels) {
-                console.log('LABEL:', label)
                 
                 if (label.includes(' (')) {
                     console.log('LABEL WITH PAREN:', label)
@@ -424,10 +435,7 @@ export default class ConditionDrawer extends React.Component {
         let tools = [
             basicUnarySentence,
             basicBinarySentence,
-            // conjunction,
-            // disjunction,
             negation,
-            // implication
         ]
         if (this.props.drawerType === "goal") {
             tools = tools.concat([
@@ -532,7 +540,6 @@ export const basicUnarySentence = {
               type: 'field_dropdown',
               name: 'OBJECT',
               options: (...args) => {
-              //   return objectInstanceLabels
               return state.allLabelsValues;
               },
             },
@@ -540,7 +547,6 @@ export const basicUnarySentence = {
               type: 'field_dropdown',
               name: 'DESCRIPTOR',
               options: () => {
-                // return dropdownGenerators[state.currentObjectCategory]();
                 if (state.currentObjectCategory in dropdownGenerators) {
                     return dropdownGenerators[state.currentObjectCategory]()
                 } else {

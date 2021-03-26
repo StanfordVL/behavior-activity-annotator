@@ -83,7 +83,8 @@ export class SmallObjectSelector extends React.Component {
     }
 
     onTreeNodeClick(nodeName) {
-        this.setState({ currentCategory: nodeName.split('.')[0] })
+        // this.setState({ currentCategory: nodeName.split('.')[0] })
+        this.setState({ currentCategory: nodeName })
     }
 
     render() {
