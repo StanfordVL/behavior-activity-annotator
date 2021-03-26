@@ -6,6 +6,8 @@ import Popover from 'react-bootstrap/Popover';
 import Table from 'react-bootstrap/Table'
 import Card from 'react-bootstrap/Card'
 
+import { getSceneSynset } from "./constants.js"
+
 const activitiesToRoomsObjects = require('./activity_to_rooms_objects.json')
 
 export default class SceneObjectTable extends React.Component {
@@ -61,23 +63,34 @@ export default class SceneObjectTable extends React.Component {
     }
 
     render() {
+        // Get scene objects for room from documentation 
         let roomSceneObjects
         if (this.props.activityName.length !== 0 && this.props.room.length !== 0) {
             roomSceneObjects = activitiesToRoomsObjects[this.props.activityName][this.props.room]
         } else {
             roomSceneObjects = activitiesToRoomsObjects['installing_smoke_detectors']['corridor']
         }
-        let roomSceneSynsets = []
-        // for (let roomSceneObject of roomSceneObjects) {
-        //     roomSceneSynsets.push(room)
-        // }
+
+        // Convert to synsets. If there are two of the same synset, add the counts.
+        console.log('ROOM SCENE OBJECTS:', roomSceneObjects)
+        let roomSceneSynsets = {}
+        for (const [roomSceneObject, numInstances] of Object.entries(roomSceneObjects)) {
+            const roomSceneSynset = getSceneSynset(roomSceneObject)
+            if (roomSceneSynset in roomSceneSynsets) {
+                roomSceneSynsets[roomSceneSynset] += numInstances
+            } else {
+                roomSceneSynsets[roomSceneSynset] = numInstances
+            }
+        }
+
+        // Make scene object table with synsets
         return ( 
             <Card className="marginCard">
                 <Card.Body>
                     <Card.Title>{this.props.room}</Card.Title>
                     <Card.Text>Note that unlike before, whatever you choose will <b>be</b>, not add to, the total. If you pick 4, you will have 4 even if you previously had 3 or 7 or any other number. You can still delete instances in the object list.
 </Card.Text>
-                    { this.createObjectTable(roomSceneObjects) } 
+                    { this.createObjectTable(roomSceneSynsets) } 
                 </Card.Body>
             </Card>
         )

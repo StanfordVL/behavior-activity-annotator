@@ -80,7 +80,7 @@ export default class SelectedObjectsList extends React.Component {
                                         </ButtonGroup>
                                         {roomsToIndices[room].map((instance_index, _) => (
                                             <Button key={instance_index} variant="light" onClick={() => this.handleInstanceButtonClick(pureCategory + room)}>
-                                                {pureCategory}{instance_index + 1}{room}
+                                                {pureCategory}_{instance_index + 1}{room}
                                             </Button>
                                         ))}
                                     </ListGroup.Item>

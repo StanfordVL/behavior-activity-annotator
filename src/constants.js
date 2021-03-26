@@ -10,7 +10,7 @@ for (const [_, roomEntries] of Object.entries(activitiesToRoomsObjects)) {
     }
 }
 
-export let sceneObjectsNamesToSynsets = {
+const sceneObjectsNamesToSynsets = {
     "wall": "wall",
     "floor": "floor.n.01",
     "ceiling": "ceiling",
@@ -58,6 +58,9 @@ export let sceneObjectsNamesToSynsets = {
 
 export const sceneObjects = Object.keys(sceneObjectsNamesToSynsets)
 export const sceneSynsets = Object.values(sceneObjectsNamesToSynsets)
+export function getSceneSynset(sceneObject) {
+    return sceneObjectsNamesToSynsets[sceneObject]
+}
 
 
 // CODE PROCESSING STRINGS AND UTILS
