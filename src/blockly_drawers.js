@@ -5,11 +5,11 @@ import { dropdownGenerators,
     blocklyNameToPDDLName,
     sentenceConstructorColor,
     basicSentenceColor,
-    rootColor } from './block_drawer_constants.js'
+    rootColor } from './constants.js'
 import AirTable from 'airtable'
 import Button from 'react-bootstrap/Button'
 import Modal from 'react-bootstrap/Modal'
-import { allRooms, sceneObjects } from "./scene_objects.js"
+import { allRooms, sceneObjects } from "./constants.js"
 import { objectInstanceRe, objectCategoryRe } from "./constants.js"
 import { stringify } from 'uuid';
 

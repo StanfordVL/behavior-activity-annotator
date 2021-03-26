@@ -4,7 +4,7 @@ import ButtonGroup from 'react-bootstrap/ButtonGroup'
 import Button from 'react-bootstrap/Button'
 import Card from 'react-bootstrap/Card'
 import { v4 as uuidv4 } from 'uuid'
-import { sceneObjects } from "./scene_objects.js"
+import { sceneSynsets } from "./constants.js"
 
 
 export default class SelectedObjectsList extends React.Component {
@@ -36,7 +36,7 @@ export default class SelectedObjectsList extends React.Component {
     createSingleCategoryList(pureCategory) {
         let demotedRoomsMap = this.createDemotedRoomsMap()
         let buttonVariant
-        if (sceneObjects.includes(pureCategory)) {
+        if (sceneSynsets.includes(pureCategory)) {
             buttonVariant = "danger"
         } else {
             buttonVariant = "success"
