@@ -9,11 +9,18 @@ import { dropdownGenerators,
 import AirTable from 'airtable'
 import Button from 'react-bootstrap/Button'
 import Modal from 'react-bootstrap/Modal'
-import { allRooms, sceneObjects } from "./constants.js"
-import { objectInstanceRe, objectCategoryRe } from "./constants.js"
+// import { allRooms, sceneSynsets } from "./constants.js"
+import { allRooms, 
+         sceneSynsets,
+         objectInstanceRe, 
+         objectCategoryRe, 
+         instanceSplitRe,
+         detectObjectInstanceRe,
+         getCategoryFromLabel,
+         detectObjectInstanceAndCategoryRe } from "./constants.js"
 import { stringify } from 'uuid';
 
-// const allRooms = allRooms
+
 export class ObjectOptions {
     constructor(selectedObjects) {
         this.selectedObjects = selectedObjects
@@ -117,10 +124,10 @@ function generateDropdownArray(labels) {
 }
 
 
-function detectObjects(code) {
-    const detectObjectsRegex = new RegExp('[a-z_]+[0-9]+', 'g')
-    const detectedObjects = code.match(detectObjectsRegex)
-    return detectedObjects
+function detectObjectInstances(code) {
+    // const detectObjectInstancesRegex = new RegExp('[a-z_]+[0-9]+', 'g')
+    const detectedObjectInstances = code.match(detectObjectInstanceRe)
+    return detectedObjectInstances
 }
 
 
@@ -148,35 +155,44 @@ export class FinalSubmit extends React.Component {
     checkUnplacedAdditionalObjects(conditions) {
         let options = new ObjectOptions(JSON.parse(window.sessionStorage.getItem('allSelectedObjects')))
         let [__, instanceToCategory] = options.getInstancesCategories()
+        console.log('INSTANCETOCATEGORY:', instanceToCategory)
 
         let allObjects = Object.keys(instanceToCategory)
         // for (let objectInstance in allObjects) {
         for (let i = 0; i < allObjects.length; i++) {
             let objectInstance = allObjects[i]
+            console.log(objectInstance)
             let objectCategory = instanceToCategory[objectInstance]
             
             // if the object is an additional object, is mentioned, and is an instance rather than a category...
-            let isAdditionalObject = !(sceneObjects.includes(objectCategory))
+            let isAdditionalObject = !(sceneSynsets.includes(objectCategory))
             let isMentioned = conditions.includes(objectInstance)
-            let isInstance = objectInstance !== objectCategory          // works despite parenthetical rooms because rooms only apply to sceneObjects, which are already excluded. So this is buggy, but it's relying on that detail. 
+            let isInstance = objectInstance !== objectCategory          // works despite parenthetical rooms because rooms only apply to sceneSynsets, which are already excluded. So this is buggy, but it's relying on that detail. 
 
             let isPlaced = false 
             // Get all placements 
-            const placementMatchString = `\\((ontop|nextto|inside|under) (${objectInstance} \\??[a-z0-9_]*|\\??[a-z0-9_]* ${objectInstance})\\)`
+            const placementMatchString = `\\((ontop|nextto|inside|under) (${objectInstance} \\??${detectObjectInstanceRe.source}|\\??${detectObjectInstanceRe.source} ${objectInstance})\\)`
             const placementRegex = new RegExp(placementMatchString, 'g')
+            
             const placements = conditions.match(placementRegex)
-            if (!(placements === null)) {                
+            if (!(placements === null)) {       
+
                 // For each placement, get both objects and check if either of them is a scene object
                 for (let placement of placements) {
-                    // let potentialSceneObject = placement.split(' ').pop()
-                    let potentialSceneObjects = placement.split(' ').slice(1, 3)
-                    for (let potentialSceneObject of potentialSceneObjects) {
-                        potentialSceneObject = potentialSceneObject.split(/\d/)[0]
-                        if (potentialSceneObject[0] === '?') {
-                            potentialSceneObject = potentialSceneObject.slice(1)
+
+                    // drop parentheses and grab the terms  
+                    placement = placement.slice(1, -1)
+                    let potentialSceneSynsets = placement.split(' ').slice(1, 3)
+
+                    for (let potentialSceneSynset of potentialSceneSynsets) {
+                        
+                        // isolate the category 
+                        potentialSceneSynset = potentialSceneSynset.split(instanceSplitRe)[0]
+                        if (potentialSceneSynset[0] === '?') {
+                            potentialSceneSynset = potentialSceneSynset.slice(1)
                         }
                         // if one of them is a scene object, say this additional object is placed and break out of this placement
-                        if (sceneObjects.includes(potentialSceneObject)) {
+                        if (sceneSynsets.includes(potentialSceneSynset)) {
                             isPlaced = true 
                             break
                         } 
@@ -186,7 +202,6 @@ export class FinalSubmit extends React.Component {
                 }
             }
 
-            // ...return true 
             if (isAdditionalObject && isMentioned && isInstance && !isPlaced) {
                 console.log('UNPLACED OBJECT:', objectInstance)
                 return true 
@@ -195,32 +210,29 @@ export class FinalSubmit extends React.Component {
         return false  
     }
 
-    checkInappropriateCategories(conditions, drawerType) {
+    checkCategoriesExist(conditions) {
         /**
-         * @param {String} conditions - conditions being checked for inappropriate categories
+         * @param {String} conditions - conditions being checked for presence of categories
+         * @returns {Boolean} true if categories exist else false 
          */
         
-        const objectCategoryRegExp = new RegExp(objectCategoryRe, "g")
-        const objectInstanceRegExp = new RegExp(objectInstanceRe, "g")
-        let objectTerms = conditions.match(objectCategoryRegExp)
-        if (drawerType == "initial") {
-            for (let objectTerm of objectTerms) {
-                if (objectTerm.match(objectInstanceRegExp) == null) {
-                    return true 
-                }
+        let objectTerms = conditions.match(detectObjectInstanceAndCategoryRe)
+        for (let objectTerm of objectTerms) {
+            if (objectTerm.match(objectInstanceRe) == null) {
+                return true 
             }
-            return false
         }
     }
 
     createObjectsList(initialConditions) {
-        const detectedObjects = detectObjects(initialConditions) 
+        const detectedObjectInstances = detectObjectInstances(initialConditions) 
         let objectList = ''
         
-        if (detectedObjects !== null) {           
+        if (detectedObjectInstances !== null) {           
             let objectToCategory = {}
-            for (let object of detectedObjects) {
-                const category = object.replace(/[0-9]+/, '')
+            for (let object of detectedObjectInstances) {
+                // const category = object.replace(/[0-9]+/, '')
+                const category = getCategoryFromLabel(object)
                 if (category in objectToCategory) {
                     objectToCategory[category].add(object)
                 } else {
@@ -251,7 +263,10 @@ export class FinalSubmit extends React.Component {
             currentModalText += "The initial conditions have empty field(s).\n"
         }
         if (this.checkUnplacedAdditionalObjects(updatedInitialConditions))  {
-            currentModalText += "The initial conditions have additional objects that have not been placed in relation to a scene object (on top of, next to, under, or inside) - these aren't required for goal conditions, but they are for initial conditions.\n"
+            currentModalText += "The initial conditions currently contain additional objects that have not been placed in relation to a scene object (on top of, next to, under, or inside) - these aren't required for goal conditions, but they are for initial conditions.\n"
+        }
+        if (this.checkCategoriesExist(updatedInitialConditions)) {
+            currentModalText += "The initial conditions currently contain object categories, but only object instances are allowed in initial conditions."
         }
         if (this.checkNulls(updatedGoalConditions)) {
             currentModalText += "The goal conditions have empty field(s).\n"
@@ -357,7 +372,7 @@ export default class ConditionDrawer extends React.Component {
                     room = room.slice(0, -1).split(' ').join('')
                     code = code + ` (inroom ${pureLabel} ${room})`
                 }
-                else if (sceneObjects.includes(instanceToCategory[label]) && !(sceneObjects.includes(label))) {
+                else if (sceneSynsets.includes(instanceToCategory[label]) && !(sceneSynsets.includes(label))) {
                     let room = Object.keys(JSON.parse(window.sessionStorage.getItem('room')))[0]
                     code = code + ` (inroom ${label} ${room})`
                 }

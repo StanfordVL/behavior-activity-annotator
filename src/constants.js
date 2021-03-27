@@ -4,7 +4,6 @@ const activitiesToRoomsObjects = require('./activity_to_rooms_objects.json')
 
 export let allRooms = new Set()
 for (const [_, roomEntries] of Object.entries(activitiesToRoomsObjects)) {
-    console.log(roomEntries)
     for (const room of Object.keys(roomEntries)) {
         allRooms.add(room)
     }
@@ -65,16 +64,20 @@ export function getSceneSynset(sceneObject) {
 
 // CODE PROCESSING STRINGS AND UTILS
 
-export const objectInstanceRe = "[A-Za-z-_]+\.n\.[0-9]+_[0-9]+$"
-export const objectCategoryRe = "[A-Za-z-_]+\.n\.[0-9]+"   // also catches instances 
+// NOTE the first two will match with terms that have inappropriate characters in the middle of them, e.g. "matter.n.%03_1".
+//      Not sure how to fix this, but leaving it alone for now since that shouldn't ever happen.  
+export const detectObjectInstanceRe = new RegExp("[A-Za-z-_]+\.n\.[0-9]+_[0-9]+", "g")
+export const detectObjectInstanceAndCategoryRe = new RegExp("[A-Za-z-_]+\.n\.[0-9]+(_[0-9]+)?", "g")
+export const objectInstanceRe = new RegExp("^[A-Za-z-_]+\.n\.[0-9]+_[0-9]+$", "g")
+export const objectCategoryRe = new RegExp("^[A-Za-z-_]+\.n\.[0-9]+", "g")   // also catches instances 
+export const instanceSplitRe = new RegExp("_[0-9]+$", "g")
 
-function isCategory(objectLabel) {
+export function isCategory(objectLabel) {
     /**
      * @param {string} objectLabel - objectLabel being checked for being an instance or category
      * @returns {boolean} - true if objectLabel is a category else false 
      */
-    let objectInstanceRegExp = new RegExp(objectInstanceRe, "g")
-    return (objectLabel.match(objectInstanceRegExp).length === 0)
+    return (objectLabel.match(objectInstanceRe).length === 0)
 }
 
 export function getCategoryFromLabel(objectLabel) {
@@ -82,9 +85,8 @@ export function getCategoryFromLabel(objectLabel) {
      * @param {string} objectLabel - objectLabel being turned into or preserved as category
      * @returns {string} - category of this objectLabel 
      */
-    let objectInstanceRegExp = new RegExp(objectInstanceRe, "g")
     let objectCategory = objectLabel
-    if (objectLabel.match(objectInstanceRegExp)) {
+    if (objectLabel.match(objectInstanceRe)) {
         objectCategory = objectLabel.split("_").slice(0, -1).join("_")
     } 
     return objectLabel 
