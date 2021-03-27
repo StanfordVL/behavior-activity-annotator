@@ -71,6 +71,14 @@ export const detectObjectInstanceAndCategoryRe = new RegExp("[A-Za-z-_]+\.n\.[0-
 export const objectInstanceRe = new RegExp("^[A-Za-z-_]+\.n\.[0-9]+_[0-9]+$", "g")
 export const objectCategoryRe = new RegExp("^[A-Za-z-_]+\.n\.[0-9]+", "g")   // also catches instances 
 export const instanceSplitRe = new RegExp("_[0-9]+$", "g")
+export function getPlacementsRe(objectInstance=null) {
+    let instanceRe = objectInstance
+    if (objectInstance == null) {
+        instanceRe = detectObjectInstanceRe.source
+    }
+    const placementsRe =`\\((ontop|nextto|inside|under) (${instanceRe} \\??${detectObjectInstanceRe.source}|\\??${detectObjectInstanceRe.source} ${instanceRe})\\)`
+    return new RegExp(placementsRe, "g")
+}
 
 export function isCategory(objectLabel) {
     /**
@@ -90,6 +98,18 @@ export function getCategoryFromLabel(objectLabel) {
         objectCategory = objectLabel.split("_").slice(0, -1).join("_")
     } 
     return objectLabel 
+}
+
+export function getPlacements(conditions, objectInstance) {
+    /**
+     * @param {string} conditions - conditions being checked for placements of a certain object instance
+     * @param {string} objectInstance - object instance term whose placements will be detected
+     * @return {list<string>} list of strings that are placements of objectInstance
+     */
+    // const placementMatchString = `\\((ontop|nextto|inside|under) (${objectInstance} \\??${detectObjectInstanceRe.source}|\\??${detectObjectInstanceRe.source} ${objectInstance})\\)`
+    // const placementRegex = new RegExp(placementMatchString, 'g')
+    const placements = conditions.match(getPlacementsRe(objectInstance))
+    return placements
 }
 
 

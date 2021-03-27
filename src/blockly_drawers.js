@@ -17,7 +17,9 @@ import { allRooms,
          instanceSplitRe,
          detectObjectInstanceRe,
          getCategoryFromLabel,
-         detectObjectInstanceAndCategoryRe } from "./constants.js"
+         detectObjectInstanceAndCategoryRe,
+         getPlacements,
+         getPlacementsRe } from "./constants.js"
 import { stringify } from 'uuid';
 
 
@@ -170,11 +172,7 @@ export class FinalSubmit extends React.Component {
             let isInstance = objectInstance !== objectCategory          // works despite parenthetical rooms because rooms only apply to sceneSynsets, which are already excluded. So this is buggy, but it's relying on that detail. 
 
             let isPlaced = false 
-            // Get all placements 
-            const placementMatchString = `\\((ontop|nextto|inside|under) (${objectInstance} \\??${detectObjectInstanceRe.source}|\\??${detectObjectInstanceRe.source} ${objectInstance})\\)`
-            const placementRegex = new RegExp(placementMatchString, 'g')
-            
-            const placements = conditions.match(placementRegex)
+            const placements = getPlacements(conditions, objectInstance)
             if (!(placements === null)) {       
 
                 // For each placement, get both objects and check if either of them is a scene object
@@ -212,6 +210,8 @@ export class FinalSubmit extends React.Component {
 
     checkCategoriesExist(conditions) {
         /**
+         * Check conditions for presence of categories (i.e. objects that are not instances)
+         * 
          * @param {String} conditions - conditions being checked for presence of categories
          * @returns {Boolean} true if categories exist else false 
          */
@@ -222,6 +222,19 @@ export class FinalSubmit extends React.Component {
                 return true 
             }
         }
+    }
+
+    checkNegatedPlacements(conditions) {
+        /**
+         * Check conditions for presence of negated placement conditions (binary predicates, 
+         * i.e. kinematic predicates)
+         * 
+         * @param {String} conditions - conditions being checked for negated placements
+         * @return {Boolean} true if negated placements exist else false 
+         */
+        const negatedPlacementsRe = new RegExp(`\\(not ${getPlacementsRe().source}\\)`, "g")
+        const negatedPlacements = conditions.match(negatedPlacementsRe)
+        return negatedPlacements != null
     }
 
     createObjectsList(initialConditions) {
@@ -270,6 +283,9 @@ export class FinalSubmit extends React.Component {
         }
         if (this.checkNulls(updatedGoalConditions)) {
             currentModalText += "The goal conditions have empty field(s).\n"
+        }
+        if (this.checkNegatedPlacements(updatedInitialConditions)) {
+            currentModalText += "The initial conditions contain negated two-object basic conditions. In the initial conditions, you can only negate one-object basic conditions."
         }
 
         if (currentModalText !== "") {
