@@ -19,7 +19,7 @@ import Introduction from './written_instructions'
 
 
 let resultCodeObj;
-const activityParameters = require('./pack_lunch_params.json')
+const activityParameters = require('./data/pack_lunch_params.json')
 window.sessionStorage.setItem('allSelectedObjects', JSON.stringify({'apple': 2, 'orange': 5}))
 
 export default class Instructions extends React.Component {

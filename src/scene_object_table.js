@@ -8,7 +8,7 @@ import Card from 'react-bootstrap/Card'
 
 import { getSceneSynset } from "./constants.js"
 
-const activitiesToRoomsObjects = require('./activity_to_rooms_objects.json')
+const activitiesToRoomsObjects = require('./data/activity_to_rooms_objects.json')
 
 export default class SceneObjectTable extends React.Component {
     constructor(props) {

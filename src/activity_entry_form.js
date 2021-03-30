@@ -2,9 +2,10 @@ import React from 'react'
 import Button from 'react-bootstrap/Button'
 import Form from 'react-bootstrap/Form'
 import Modal from 'react-bootstrap/Modal'
+import { allActivities } from './constants.js'
 
 // const allActivities = require('./activity_names.json')
-const allActivities = Object.keys(require("./all_activity_hierarchies.json"))
+// const allActivities = Object.keys(require("./data/all_activity_hierarchies.json"))
 
 export default class ActivityEntryForm extends React.Component {
     constructor(props) {

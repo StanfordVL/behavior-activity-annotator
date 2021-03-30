@@ -1,9 +1,13 @@
-// ROOMS AND SCENE OBJECTS
+// ACTIVITIES, ROOMS, SCENE OBJECTS 
 
-const activitiesToRoomsObjects = require('./activity_to_rooms_objects.json')
+// export const allActivities = Object.keys(require("./data/all_activity_hierarchies.json"))
+const activitiesToRoomsObjects = require('./data/activity_to_rooms_objects.json')
+// export const allActivities = Object.keys(activitiesToRoomsObjects)
 
+export let allActivities = []
 export let allRooms = new Set()
-for (const [_, roomEntries] of Object.entries(activitiesToRoomsObjects)) {
+for (const [activity, roomEntries] of Object.entries(activitiesToRoomsObjects)) {
+    allActivities.push(activity)
     for (const room of Object.keys(roomEntries)) {
         allRooms.add(room)
     }
@@ -115,7 +119,7 @@ export function getPlacements(conditions, objectInstance) {
 
 // BLOCK DRAWER ELEMENTS  
 
-var objToDesc = require('./synsets_to_descriptors.json')
+var objToDesc = require('./data/synsets_to_descriptors.json')
 objToDesc["null"] = []
 
 export const dropdownGenerators = Object.assign({}, ...Object.entries(objToDesc).map(

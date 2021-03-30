@@ -1,4 +1,4 @@
-const activitiesToRoomsObjects = require('./activity_to_rooms_objects.json')
+const activitiesToRoomsObjects = require('./data/activity_to_rooms_objects.json')
 
 export let allRooms = new Set()
 for (const [_, roomEntries] of Object.entries(activitiesToRoomsObjects)) {
