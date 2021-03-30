@@ -9,7 +9,6 @@ import { dropdownGenerators,
 import AirTable from 'airtable'
 import Button from 'react-bootstrap/Button'
 import Modal from 'react-bootstrap/Modal'
-// import { allRooms, sceneSynsets } from "./constants.js"
 import { allRooms, 
          sceneSynsets,
          objectInstanceRe, 
@@ -610,7 +609,7 @@ block: {
     const block = this;
     
     const state = {
-        allLabelsValues: [['select an object', 'null']],
+        allLabelsValues: [['select an object', 'null']]
     };
 
     this.setOnChange(function(changeEvent) {
