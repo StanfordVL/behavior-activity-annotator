@@ -132,6 +132,14 @@ export const dropdownGenerators = Object.assign({}, ...Object.entries(objToDesc)
     )
 ))
 
+var allowedSamplings = require("./data/allowed_samplings.json")
+allowedSamplings["null"] = []
+export const kinematicDropdownGenerators = Object.assign({}, ...Object.entries(allowedSamplings).map(
+    ([object, kinematicDescriptors], _) => (
+        {[object]: () => [['select an adjective', '']].concat(kinematicDescriptors)}
+    )
+))
+
 export const blocklyNameToPDDLName = {
     'on top of': 'ontop',
     'next to': 'nextto'

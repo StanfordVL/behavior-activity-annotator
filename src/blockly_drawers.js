@@ -2,6 +2,7 @@ import React from 'react';
 import Blockly from 'node-blockly/browser';
 import BlocklyDrawer, { Block, Category } from 'react-blockly-drawer';
 import { dropdownGenerators, 
+    kinematicDropdownGenerators,
     blocklyNameToPDDLName,
     sentenceConstructorColor,
     basicSentenceColor,
@@ -122,7 +123,16 @@ function convertName(name) {
 
 
 function generateDropdownArray(labels) {
-    return(labels.map(label => [label, label.toUpperCase()]))
+    let dropdownArray = []
+    for (const label of labels) {
+        if ((label === "select an adjective") || (label === "select an object")) {
+            dropdownArray.push([label, ""])
+        } else {
+            dropdownArray.push([label, label.toUpperCase()])
+        }
+    }
+    return dropdownArray
+    // return(labels.map(label => [label, label.toUpperCase()]))
 }
 
 
@@ -161,8 +171,6 @@ export class FinalSubmit extends React.Component {
          * @param {String} initialConditions - initialConditions being checked for emptiness
          * @returns {Boolean} - true if initialConditions are empty else false 
          */
-        console.log("INITIAL CONDITIONS:", initialConditions)
-        console.log("MATCHES:", initialConditions.match("\\(:init( )+\\(inroom"))
         return initialConditions.match("\\(:init( )+\\(inroom") !== null
     }
 
@@ -178,11 +186,15 @@ export class FinalSubmit extends React.Component {
         const detectedObjectInstances = detectObjectInstances(conditions) 
         const rawPlacements = conditions.match(getPlacementsRe())
         if (rawPlacements == null) {
+            console.log("NO RAW PLACEMENTS")
             return true 
         }
         for (const objectInstance of detectedObjectInstances) {
             let objectPlaced = false
+            console.log("DETECTED OBJECT INSTANCE:", objectInstance)
             for (const placement of rawPlacements) {
+                console.log("PLACEMENT:", placement)
+                console.log("PLACEMENT MATCHES:", placement.match(objectInstance))
                 if (placement.match(objectInstance) != null) {
                     objectPlaced = true
                     break
@@ -723,21 +735,32 @@ block: {
     
     const state = {
         allLabelsValues: [['select an object', 'null']],
-        additionalLabelsValues: [["select an object", "null"]]
+        additionalLabelsValues: [["select an object", "null"]],
+        currentSecondObjectValue: "null",
+        currentSecondObjectCategory: "null"
     };
 
     this.setOnChange(function(changeEvent) {
         let selectedObjectsContainer = new ObjectOptions(JSON.parse(window.sessionStorage.getItem('allSelectedObjects')))
         let [objectInstanceLabels, instanceToCategory] = selectedObjectsContainer.getInstancesCategories()
         state.allLabelsValues = objectInstanceLabels
-        // console.log("STATE ALL LABELS VALUES:", state.allLabelsValues)
-        // for (const [label, value] of state.allLabelsValues) {
-        //     console.log('LABEL:', label)
-        //     console.log("VALUE:", value)
-        //     if (!(value in sceneSynsets)) {
-        //         state.additionalLabelsValues.push([label, value])
-        //     }
-        // }
+        state.additionalLabelsValues = [["select an object", "null"]]
+        for (const [label, value] of state.allLabelsValues) {
+            if (!(sceneSynsets.includes(getCategoryFromLabel(value))) && !(value === "null")) {
+                state.additionalLabelsValues.push([label, value])
+            }
+        }
+
+        const descriptorField = block.getField("DESCRIPTOR")
+        const currentSecondObjectValue = block.getFieldValue("OBJECT2")
+        const currentDescriptorValue = block.getFieldValue("DESCRIPTOR")
+
+        console.log("NEW SECOND OBJECT VALUE:", currentSecondObjectValue)
+        console.log("STATE SECOND OBJECT VALUE:", state.currentSecondObjectValue)
+
+        descriptorField.setValue(currentSecondObjectValue !== state.currentSecondObjectValue ? "" : currentDescriptorValue)
+        state.currentSecondObjectValue = currentSecondObjectValue
+        state.currentSecondObjectCategory = instanceToCategory[currentSecondObjectValue]
     });
 
     this.jsonInit({
@@ -747,16 +770,18 @@ block: {
             type: 'field_dropdown',
             name: 'OBJECT1',
             options: (...args) => {
-            //   return objectInstanceLabels
-            return state.allLabelsValues;
-            // return state.additionalLabelsValues
+                return state.additionalLabelsValues
             },
         },
         {
             type: 'field_dropdown',
             name: 'DESCRIPTOR',
             options: () => {
-            return generateDropdownArray(['on top of', 'inside', 'next to', 'under'])
+                if (state.currentSecondObjectCategory in kinematicDropdownGenerators) {
+                    return kinematicDropdownGenerators[state.currentSecondObjectCategory]()
+                } else {
+                    return generateDropdownArray(["select an adjective", 'on top of', 'inside', 'next to', 'under'])
+                }
             },
         },
         {

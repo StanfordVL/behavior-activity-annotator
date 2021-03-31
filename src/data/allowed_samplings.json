@@ -1,362 +1,366 @@
 {
-    "wall": {
-        "sampleOnTop": false,
-        "sampleInside": false,
-        "sampleNextTo": false,
-        "sampleUnder": false
-    },
-    "floor": {
-        "sampleOnTop": true,
-        "sampleInside": false,
-        "sampleNextTo": false,
-        "sampleUnder": false
-    },
-    "ceiling": {
-        "sampleOnTop": false,
-        "sampleInside": false,
-        "sampleNextTo": false,
-        "sampleUnder": false
-    },
-    "basket": {
-        "sampleOnTop": false,
-        "sampleInside": true,
-        "sampleNextTo": true,
-        "sampleUnder": false
-    },
-    "bathtub": {
-        "sampleOnTop": false,
-        "sampleInside": true,
-        "sampleNextTo": true,
-        "sampleUnder": false
-    },
-    "bed": {
-        "sampleOnTop": true,
-        "sampleInside": false,
-        "sampleNextTo": true,
-        "sampleUnder": false
-    },
-    "bench": {
-        "sampleOnTop": true,
-        "sampleInside": false,
-        "sampleNextTo": true,
-        "sampleUnder": true
-    },
-    "bottom_cabinet": {
-        "sampleOnTop": true,
-        "sampleInside": true,
-        "sampleNextTo": true,
-        "sampleUnder": false
-    },
-    "bottom_cabinet_no_top": {
-        "sampleOnTop": false,
-        "sampleInside": true,
-        "sampleNextTo": true,
-        "sampleUnder": false
-    },
-    "carpet": {
-        "sampleOnTop": true,
-        "sampleInside": false,
-        "sampleNextTo": true,
-        "sampleUnder": false
-    },
-    "chair": {
-        "sampleOnTop": true,
-        "sampleInside": false,
-        "sampleNextTo": true,
-        "sampleUnder": true
-    },
-    "chest": {
-        "sampleOnTop": true,
-        "sampleInside": true,
-        "sampleNextTo": true,
-        "sampleUnder": false
-    },
-    "coffee_machine": {
-        "sampleOnTop": false,
-        "sampleInside": false,
-        "sampleNextTo": true,
-        "sampleUnder": false
-    },
-    "coffee_table": {
-        "sampleOnTop": true,
-        "sampleInside": false,
-        "sampleNextTo": true,
-        "sampleUnder": true
-    },
-    "console_table": {
-        "sampleOnTop": true,
-        "sampleInside": false,
-        "sampleNextTo": true,
-        "sampleUnder": true
-    },
-    "cooktop": {
-        "sampleOnTop": true,
-        "sampleInside": false,
-        "sampleNextTo": true,
-        "sampleUnder": false
-    },
-    "counter": {
-        "sampleOnTop": true,
-        "sampleInside": false,
-        "sampleNextTo": true,
-        "sampleUnder": false
-    },
-    "crib": {
-        "sampleOnTop": true,
-        "sampleInside": false,
-        "sampleNextTo": true,
-        "sampleUnder": false
-    },
-    "cushion": {
-        "sampleOnTop": false,
-        "sampleInside": false,
-        "sampleNextTo": true,
-        "sampleUnder": false
-    },
-    "dishwasher": {
-        "sampleOnTop": true,
-        "sampleInside": true,
-        "sampleNextTo": true,
-        "sampleUnder": false
-    },
-    "door": {
-        "sampleOnTop": false,
-        "sampleInside": false,
-        "sampleNextTo": true,
-        "sampleUnder": false
-    },
-    "dryer": {
-        "sampleOnTop": true,
-        "sampleInside": true,
-        "sampleNextTo": true,
-        "sampleUnder": false
-    },
-    "fence": {
-        "sampleOnTop": false,
-        "sampleInside": false,
-        "sampleNextTo": true,
-        "sampleUnder": false
-    },
-    "floor_lamp": {
-        "sampleOnTop": false,
-        "sampleInside": false,
-        "sampleNextTo": true,
-        "sampleUnder": false
-    },
-    "fridge": {
-        "sampleOnTop": true,
-        "sampleInside": true,
-        "sampleNextTo": true,
-        "sampleUnder": false
-    },
-    "grandfather_clock": {
-        "sampleOnTop": false,
-        "sampleInside": false,
-        "sampleNextTo": true,
-        "sampleUnder": false
-    },
-    "guitar": {
-        "sampleOnTop": false,
-        "sampleInside": false,
-        "sampleNextTo": true,
-        "sampleUnder": false
-    },
-    "heater": {
-        "sampleOnTop": false,
-        "sampleInside": false,
-        "sampleNextTo": true,
-        "sampleUnder": false
-    },
-    "laptop": {
-        "sampleOnTop": true,
-        "sampleInside": false,
-        "sampleNextTo": true,
-        "sampleUnder": false
-    },
-    "loudspeaker": {
-        "sampleOnTop": false,
-        "sampleInside": false,
-        "sampleNextTo": true,
-        "sampleUnder": false
-    },
-    "microwave": {
-        "sampleOnTop": true,
-        "sampleInside": true,
-        "sampleNextTo": true,
-        "sampleUnder": false
-    },
-    "mirror": {
-        "sampleOnTop": false,
-        "sampleInside": false,
-        "sampleNextTo": true,
-        "sampleUnder": false
-    },
-    "monitor": {
-        "sampleOnTop": false,
-        "sampleInside": false,
-        "sampleNextTo": true,
-        "sampleUnder": false
-    },
-    "office_chair": {
-        "sampleOnTop": true,
-        "sampleInside": false,
-        "sampleNextTo": true,
-        "sampleUnder": false
-    },
-    "oven": {
-        "sampleOnTop": true,
-        "sampleInside": true,
-        "sampleNextTo": true,
-        "sampleUnder": false
-    },
-    "piano": {
-        "sampleOnTop": true,
-        "sampleInside": false,
-        "sampleNextTo": true,
-        "sampleUnder": false
-    },
-    "picture": {
-        "sampleOnTop": false,
-        "sampleInside": false,
-        "sampleNextTo": true,
-        "sampleUnder": false
-    },
-    "plant": {
-        "sampleOnTop": false,
-        "sampleInside": false,
-        "sampleNextTo": true,
-        "sampleUnder": false
-    },
-    "pool_table": {
-        "sampleOnTop": true,
-        "sampleInside": false,
-        "sampleNextTo": true,
-        "sampleUnder": false
-    },
-    "range_hood": {
-        "sampleOnTop": false,
-        "sampleInside": false,
-        "sampleNextTo": true,
-        "sampleUnder": false
-    },
-    "shelf": {
-        "sampleOnTop": true,
-        "sampleInside": true,
-        "sampleNextTo": true,
-        "sampleUnder": false
-    },
-    "shower": {
-        "sampleOnTop": false,
-        "sampleInside": true,
-        "sampleNextTo": true,
-        "sampleUnder": false
-    },
-    "sink": {
-        "sampleOnTop": false,
-        "sampleInside": true,
-        "sampleNextTo": true,
-        "sampleUnder": false
-    },
-    "sofa": {
-        "sampleOnTop": true,
-        "sampleInside": false,
-        "sampleNextTo": true,
-        "sampleUnder": false
-    },
-    "sofa_chair": {
-        "sampleOnTop": true,
-        "sampleInside": false,
-        "sampleNextTo": true,
-        "sampleUnder": false
-    },
-    "speaker_system": {
-        "sampleOnTop": false,
-        "sampleInside": false,
-        "sampleNextTo": true,
-        "sampleUnder": false
-    },
-    "standing_tv": {
-        "sampleOnTop": false,
-        "sampleInside": false,
-        "sampleNextTo": true,
-        "sampleUnder": false
-    },
-    "stool": {
-        "sampleOnTop": true,
-        "sampleInside": false,
-        "sampleNextTo": true,
-        "sampleUnder": false
-    },
-    "stove": {
-        "sampleOnTop": true,
-        "sampleInside": false,
-        "sampleNextTo": true,
-        "sampleUnder": false
-    },
-    "table": {
-        "sampleOnTop": true,
-        "sampleInside": false,
-        "sampleNextTo": true,
-        "sampleUnder": true
-    },
-    "table_lamp": {
-        "sampleOnTop": false,
-        "sampleInside": false,
-        "sampleNextTo": true,
-        "sampleUnder": false
-    },
-    "toilet": {
-        "sampleOnTop": true,
-        "sampleInside": true,
-        "sampleNextTo": true,
-        "sampleUnder": false
-    },
-    "top_cabinet": {
-        "sampleOnTop": false,
-        "sampleInside": true,
-        "sampleNextTo": true,
-        "sampleUnder": false
-    },
-    "towel_rack": {
-        "sampleOnTop": false,
-        "sampleInside": false,
-        "sampleNextTo": true,
-        "sampleUnder": false
-    },
-    "trash_can": {
-        "sampleOnTop": false,
-        "sampleInside": true,
-        "sampleNextTo": true,
-        "sampleUnder": false
-    },
-    "treadmill": {
-        "sampleOnTop": true,
-        "sampleInside": false,
-        "sampleNextTo": true,
-        "sampleUnder": false
-    },
-    "wall_clock": {
-        "sampleOnTop": false,
-        "sampleInside": false,
-        "sampleNextTo": true,
-        "sampleUnder": false
-    },
-    "wall_mounted_tv": {
-        "sampleOnTop": false,
-        "sampleInside": false,
-        "sampleNextTo": true,
-        "sampleUnder": false
-    },
-    "washer": {
-        "sampleOnTop": true,
-        "sampleInside": true,
-        "sampleNextTo": true,
-        "sampleUnder": false
-    },
-    "window": {
-        "sampleOnTop": false,
-        "sampleInside": false,
-        "sampleNextTo": true,
-        "sampleUnder": false
-    }
+    "wall": [],
+    "floor.n.01": [
+        [
+            "on top of",
+            "on top of"
+        ]
+    ],
+    "ceiling": [],
+    "bathtub.n.01": [
+        [
+            "inside",
+            "inside"
+        ],
+        [
+            "next to",
+            "next to"
+        ]
+    ],
+    "bed.n.01": [
+        [
+            "on top of",
+            "on top of"
+        ],
+        [
+            "next to",
+            "next to"
+        ]
+    ],
+    "cabinet.n.01": [
+        [
+            "inside",
+            "inside"
+        ],
+        [
+            "next to",
+            "next to"
+        ]
+    ],
+    "rug.n.01": [
+        [
+            "on top of",
+            "on top of"
+        ],
+        [
+            "next to",
+            "next to"
+        ]
+    ],
+    "chair.n.01": [
+        [
+            "on top of",
+            "on top of"
+        ],
+        [
+            "next to",
+            "next to"
+        ]
+    ],
+    "chest.n.02": [
+        [
+            "on top of",
+            "on top of"
+        ],
+        [
+            "inside",
+            "inside"
+        ],
+        [
+            "next to",
+            "next to"
+        ]
+    ],
+    "table.n.02": [
+        [
+            "on top of",
+            "on top of"
+        ],
+        [
+            "next to",
+            "next to"
+        ],
+        [
+            "under",
+            "under"
+        ]
+    ],
+    "stove.n.01": [
+        [
+            "on top of",
+            "on top of"
+        ],
+        [
+            "next to",
+            "next to"
+        ]
+    ],
+    "countertop.n.01": [
+        [
+            "on top of",
+            "on top of"
+        ],
+        [
+            "next to",
+            "next to"
+        ]
+    ],
+    "crib.n.01": [
+        [
+            "on top of",
+            "on top of"
+        ],
+        [
+            "next to",
+            "next to"
+        ]
+    ],
+    "dishwasher.n.01": [
+        [
+            "on top of",
+            "on top of"
+        ],
+        [
+            "inside",
+            "inside"
+        ],
+        [
+            "next to",
+            "next to"
+        ]
+    ],
+    "door.n.01": [
+        [
+            "next to",
+            "next to"
+        ]
+    ],
+    "dryer.n.01": [
+        [
+            "on top of",
+            "on top of"
+        ],
+        [
+            "inside",
+            "inside"
+        ],
+        [
+            "next to",
+            "next to"
+        ]
+    ],
+    "floor_lamp.n.01": [
+        [
+            "next to",
+            "next to"
+        ]
+    ],
+    "electric_refrigerator.n.01": [
+        [
+            "on top of",
+            "on top of"
+        ],
+        [
+            "inside",
+            "inside"
+        ],
+        [
+            "next to",
+            "next to"
+        ]
+    ],
+    "grandfather_clock.n.01": [
+        [
+            "next to",
+            "next to"
+        ]
+    ],
+    "heater.n.01": [
+        [
+            "next to",
+            "next to"
+        ]
+    ],
+    "microwave.n.02": [
+        [
+            "on top of",
+            "on top of"
+        ],
+        [
+            "inside",
+            "inside"
+        ],
+        [
+            "next to",
+            "next to"
+        ]
+    ],
+    "mirror.n.01": [
+        [
+            "next to",
+            "next to"
+        ]
+    ],
+    "oven.n.01": [
+        [
+            "on top of",
+            "on top of"
+        ],
+        [
+            "inside",
+            "inside"
+        ],
+        [
+            "next to",
+            "next to"
+        ]
+    ],
+    "piano.n.01": [
+        [
+            "on top of",
+            "on top of"
+        ],
+        [
+            "next to",
+            "next to"
+        ]
+    ],
+    "photograph.n.01": [
+        [
+            "next to",
+            "next to"
+        ]
+    ],
+    "pool_table.n.01": [
+        [
+            "on top of",
+            "on top of"
+        ],
+        [
+            "next to",
+            "next to"
+        ]
+    ],
+    "range_hood.n.01": [
+        [
+            "next to",
+            "next to"
+        ]
+    ],
+    "shelf.n.01": [
+        [
+            "on top of",
+            "on top of"
+        ],
+        [
+            "inside",
+            "inside"
+        ],
+        [
+            "next to",
+            "next to"
+        ]
+    ],
+    "shower.n.01": [
+        [
+            "inside",
+            "inside"
+        ],
+        [
+            "next to",
+            "next to"
+        ]
+    ],
+    "sink.n.01": [
+        [
+            "inside",
+            "inside"
+        ],
+        [
+            "next to",
+            "next to"
+        ]
+    ],
+    "sofa.n.01": [
+        [
+            "on top of",
+            "on top of"
+        ],
+        [
+            "next to",
+            "next to"
+        ]
+    ],
+    "loudspeaker.n.01": [
+        [
+            "next to",
+            "next to"
+        ]
+    ],
+    "television_receiver.n.01": [
+        [
+            "next to",
+            "next to"
+        ]
+    ],
+    "stool.n.01": [
+        [
+            "on top of",
+            "on top of"
+        ],
+        [
+            "next to",
+            "next to"
+        ]
+    ],
+    "toilet.n.02": [
+        [
+            "on top of",
+            "on top of"
+        ],
+        [
+            "inside",
+            "inside"
+        ],
+        [
+            "next to",
+            "next to"
+        ]
+    ],
+    "towel_rack.n.01": [
+        [
+            "next to",
+            "next to"
+        ]
+    ],
+    "treadmill.n.01": [
+        [
+            "on top of",
+            "on top of"
+        ],
+        [
+            "next to",
+            "next to"
+        ]
+    ],
+    "washer.n.03": [
+        [
+            "on top of",
+            "on top of"
+        ],
+        [
+            "inside",
+            "inside"
+        ],
+        [
+            "next to",
+            "next to"
+        ]
+    ],
+    "window.n.01": [
+        [
+            "next to",
+            "next to"
+        ]
+    ]
 }
