@@ -36,7 +36,6 @@ export default class SmallObjectSelectionWorkspace extends React.Component {
             activityAdditionalObjects = allActivityHierarchies.assembling_gift_baskets
         } else {
             activityAdditionalObjects = allActivityHierarchies[this.props.activityName]
-            // activityAdditionalObjects = require('./pack_lunch_objects.json')
         }
         return (
             <div>

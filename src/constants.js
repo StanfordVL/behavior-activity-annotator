@@ -83,6 +83,10 @@ export function getPlacementsRe(objectInstance=null) {
     const placementsRe =`\\((ontop|nextto|inside|under) (${instanceRe} \\??${detectObjectInstanceRe.source}|\\??${detectObjectInstanceRe.source} ${instanceRe})\\)`
     return new RegExp(placementsRe, "g")
 }
+export const initialDescriptionsRe = new RegExp(
+     `\\([A-Za-z_]+ ${detectObjectInstanceRe.source}\\)`, 
+     "g"
+)
 
 export function isCategory(objectLabel) {
     /**
@@ -101,7 +105,7 @@ export function getCategoryFromLabel(objectLabel) {
     if (objectLabel.match(objectInstanceRe)) {
         objectCategory = objectLabel.split("_").slice(0, -1).join("_")
     } 
-    return objectLabel 
+    return objectCategory 
 }
 
 export function getPlacements(conditions, objectInstance) {

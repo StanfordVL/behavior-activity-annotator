@@ -18,7 +18,8 @@ import { allRooms,
          getCategoryFromLabel,
          detectObjectInstanceAndCategoryRe,
          getPlacements,
-         getPlacementsRe } from "./constants.js"
+         getPlacementsRe,
+         initialDescriptionsRe } from "./constants.js"
 import { stringify } from 'uuid';
 
 
@@ -153,16 +154,127 @@ export class FinalSubmit extends React.Component {
         return conditions.includes("null")
     }
 
+    checkEmptyInitialConditions(initialConditions) {
+        /**
+         * Reports whether the initialConditions are empty or not 
+         * 
+         * @param {String} initialConditions - initialConditions being checked for emptiness
+         * @returns {Boolean} - true if initialConditions are empty else false 
+         */
+        console.log("INITIAL CONDITIONS:", initialConditions)
+        console.log("MATCHES:", initialConditions.match("\\(:init( )+\\(inroom"))
+        return initialConditions.match("\\(:init( )+\\(inroom") !== null
+    }
+
+    checkCompletelyUnplacedAdditionalObjects(conditions) {
+        /**
+         * Reports whether for every object mentioned in the conditions, if it is in any placement condition.
+         * Only guaranteed correct for initial conditions that have no categories. 
+         * 
+         * @param {String} conditions - string conditions being checked for additional objects that are 
+         *                              not in any placement condition
+         * @returns {Boolean} true if there are additional objects that are not in any placement 
+         */
+        const detectedObjectInstances = detectObjectInstances(conditions) 
+        const rawPlacements = conditions.match(getPlacementsRe())
+        if (rawPlacements == null) {
+            return true 
+        }
+        for (const objectInstance of detectedObjectInstances) {
+            let objectPlaced = false
+            for (const placement of rawPlacements) {
+                if (placement.match(objectInstance) != null) {
+                    objectPlaced = true
+                    break
+                }
+            }
+            if (!objectPlaced) {
+                return true
+            }
+        }
+        return false
+    }
+
+    checkTransitiveUnplacedAdditionalObjects(conditions) {
+        /**
+         * Reports whether for every placement in the conditions, if the second object is an additional object, 
+         *      then the second object is transitively placed relative to a scene object. 
+         * It's also true that the first object has to be an additional object and that if the second object is 
+         *      a scene object, then relation is allowed for that scene object, but these should be guaranteed by 
+         *      the interface.
+         * Only guaranteed correct for initial conditions that have no categories. 
+         * 
+         * @param {String} conditions - string conditions being checked for additional objects that are unplaced 
+         *                              even transitively
+         * @returns {Boolean} true if there are unplaced additional objects, else false 
+         */
+        if (this.checkEmptyInitialConditions(conditions)) {
+            console.log("EMPTY")
+            return false 
+        }
+        if (this.checkCompletelyUnplacedAdditionalObjects(conditions)) {
+            console.log('COMPLETELy UNPLACED')
+            return true 
+        }
+        const rawPlacements = conditions.match(getPlacementsRe())
+        let placements = []
+        // drop parentheses
+        for (const placement of rawPlacements) {
+            const [__, object1, object2] = placement.slice(1, -1).split(" ")
+            placements.push([object1, object2])
+        }
+
+        let placedPairs = {}
+        let leftoverPlacements = []
+        let currentNumHangingPlacements 
+        let newNumHangingPlacements
+
+        // round 1: for each placement, if second object is a scene object, put the pair in placedPairs. Else, 
+        //          put the placement in the new queue 
+        while (placements.length > 0) {
+            const placement = placements.pop()
+            const [object1, object2] = placement
+            if (sceneSynsets.includes(getCategoryFromLabel(object2))) {
+                placedPairs[object1] = object2
+            } else {
+                leftoverPlacements.push(placement)
+            }
+        }
+        currentNumHangingPlacements = placements.length
+        newNumHangingPlacements = leftoverPlacements.length
+        placements = leftoverPlacements
+        leftoverPlacements = []
+
+        // round >1: for each placement, if the second object is a key in placedPairs, put the first object as 
+        //          a key in placedPairs, mapped to the second object's value. If it is not in placedPairs, 
+        //          put the placement in the new queue. 
+        while (currentNumHangingPlacements !== newNumHangingPlacements) {
+            currentNumHangingPlacements = placements.length
+            while (placements.length > 0) {
+                const placement = placements.pop()
+                const [object1, object2] = placement 
+                if (object2 in placedPairs) {
+                    placedPairs[object1] = placedPairs[object2]
+                } else {
+                    leftoverPlacements.push(placement)
+                }
+            }
+            newNumHangingPlacements = leftoverPlacements.length
+            placements = leftoverPlacements
+            leftoverPlacements = []
+        }
+
+        return (newNumHangingPlacements !== 0)
+    }
+
     checkUnplacedAdditionalObjects(conditions) {
         let options = new ObjectOptions(JSON.parse(window.sessionStorage.getItem('allSelectedObjects')))
         let [__, instanceToCategory] = options.getInstancesCategories()
-        console.log('INSTANCETOCATEGORY:', instanceToCategory)
 
         let allObjects = Object.keys(instanceToCategory)
         // for (let objectInstance in allObjects) {
         for (let i = 0; i < allObjects.length; i++) {
             let objectInstance = allObjects[i]
-            console.log(objectInstance)
             let objectCategory = instanceToCategory[objectInstance]
             
             // if the object is an additional object, is mentioned, and is an instance rather than a category...
@@ -215,11 +327,15 @@ export class FinalSubmit extends React.Component {
          * @returns {Boolean} true if categories exist else false 
          */
         
-        let objectTerms = conditions.match(detectObjectInstanceAndCategoryRe)
-        for (let objectTerm of objectTerms) {
-            if (objectTerm.match(objectInstanceRe) == null) {
-                return true 
+        const objectTerms = conditions.match(detectObjectInstanceAndCategoryRe)
+        if (objectTerms != null) {
+            for (let objectTerm of objectTerms) {
+                if (objectTerm.match(objectInstanceRe) == null) {
+                    return true 
+                }
             }
+        } else {
+            return false 
         }
     }
 
@@ -274,17 +390,17 @@ export class FinalSubmit extends React.Component {
         if (this.checkNulls(updatedInitialConditions)) {
             currentModalText += "The initial conditions have empty field(s).\n"
         }
-        if (this.checkUnplacedAdditionalObjects(updatedInitialConditions))  {
-            currentModalText += "The initial conditions currently contain additional objects that have not been placed in relation to a scene object (on top of, next to, under, or inside) - these aren't required for goal conditions, but they are for initial conditions.\n"
+        if (this.checkTransitiveUnplacedAdditionalObjects(updatedInitialConditions)) {
+            currentModalText += "The initial conditions currently contain objects that have not been placed in relation to a scene object (even indirectly)." 
+        }
+        if (this.checkNegatedPlacements(updatedInitialConditions)) {
+            currentModalText += "The initial conditions contain negated two-object basic conditions. In the initial conditions, you can only negate one-object basic conditions."
         }
         if (this.checkCategoriesExist(updatedInitialConditions)) {
             currentModalText += "The initial conditions currently contain object categories, but only object instances are allowed in initial conditions."
         }
         if (this.checkNulls(updatedGoalConditions)) {
             currentModalText += "The goal conditions have empty field(s).\n"
-        }
-        if (this.checkNegatedPlacements(updatedInitialConditions)) {
-            currentModalText += "The initial conditions contain negated two-object basic conditions. In the initial conditions, you can only negate one-object basic conditions."
         }
 
         if (currentModalText !== "") {
@@ -365,8 +481,6 @@ export default class ConditionDrawer extends React.Component {
     }
 
     onWorkspaceChange(code, workspace) {
-        console.log('WORKSPACE CHANGE')
-        console.log('TYPE:', this.props.drawerType)
         code = code.substring(0, code.length - 2)
 
         // Remove room labels 
@@ -382,7 +496,6 @@ export default class ConditionDrawer extends React.Component {
             for (let [label, __] of objectInstanceLabels) {
                 
                 if (label.includes(' (')) {
-                    console.log('LABEL WITH PAREN:', label)
                     let [pureLabel, room] = label.split(' (')
                     room = room.slice(0, -1).split(' ').join('')
                     code = code + ` (inroom ${pureLabel} ${room})`
@@ -609,13 +722,22 @@ block: {
     const block = this;
     
     const state = {
-        allLabelsValues: [['select an object', 'null']]
+        allLabelsValues: [['select an object', 'null']],
+        additionalLabelsValues: [["select an object", "null"]]
     };
 
     this.setOnChange(function(changeEvent) {
         let selectedObjectsContainer = new ObjectOptions(JSON.parse(window.sessionStorage.getItem('allSelectedObjects')))
         let [objectInstanceLabels, instanceToCategory] = selectedObjectsContainer.getInstancesCategories()
         state.allLabelsValues = objectInstanceLabels
+        // console.log("STATE ALL LABELS VALUES:", state.allLabelsValues)
+        // for (const [label, value] of state.allLabelsValues) {
+        //     console.log('LABEL:', label)
+        //     console.log("VALUE:", value)
+        //     if (!(value in sceneSynsets)) {
+        //         state.additionalLabelsValues.push([label, value])
+        //     }
+        // }
     });
 
     this.jsonInit({
@@ -627,6 +749,7 @@ block: {
             options: (...args) => {
             //   return objectInstanceLabels
             return state.allLabelsValues;
+            // return state.additionalLabelsValues
             },
         },
         {
@@ -825,7 +948,6 @@ Blockly.Blocks['conjunction'] = {
   };
 
   Blockly.JavaScript['conjunction'] = function(block) {
-    console.log(block)
     let code = "(and "
     for ( let i = 0; i < block.inputList.length; i++) {
         code += Blockly.JavaScript.valueToCode(block, block.inputList[i].name, Blockly.JavaScript.ORDER_ADDITION) || 'null'
@@ -1002,7 +1124,6 @@ Blockly.Blocks['disjunction'] = {
   };
 
   Blockly.JavaScript['disjunction'] = function(block) {
-    console.log(block)
     let code = "(or "
     for ( let i = 0; i < block.inputList.length; i++) {
         code += Blockly.JavaScript.valueToCode(block, block.inputList[i].name, Blockly.JavaScript.ORDER_ADDITION) || 'null'
@@ -1461,7 +1582,6 @@ Blockly.Blocks['root_block'] = {
 
 
   Blockly.JavaScript['root_block'] = function(block) {
-      console.log(block)
     //   let code = "?ROOT"
       let code = ""
       for ( let i = 0; i < block.inputList.length; i++) {
