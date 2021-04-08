@@ -306,17 +306,18 @@ export class FeasibilityChecker extends React.Component {
     }
 
     checkFeasibility() {
-        const postConditionsRequest = {
+        const conditionsPostRequest = {
             method: "POST",
             headers: {
-                "Content-Type": "application/json"            },
+                "Content-Type": "application/json"
+            },
             body: JSON.stringify({
                 "initialConditions": updatedInitialConditions,
                 "goalConditions": updatedGoalConditions,
                 "objectList": createObjectsList(updatedInitialConditions)
             })
         }
-        fetch(igibsonSamplerURL, postConditionsRequest)     // TODO change to production URL 
+        fetch(igibsonSamplerURL, conditionsPostRequest)     // TODO change to production URL 
         .then(response => this.processRequestResponse(response))
     }
 

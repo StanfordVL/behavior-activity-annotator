@@ -2,7 +2,9 @@ import React from 'react'
 import Button from 'react-bootstrap/Button'
 import Form from 'react-bootstrap/Form'
 import Modal from 'react-bootstrap/Modal'
-import { allActivities } from './constants.js'
+import { allActivities, igibsonSamplerURL } from './constants.js'
+
+const activityToPreselectedScene = require("./data/activity_to_preselected_scenes.json")
 
 // const allActivities = require('./activity_names.json')
 // const allActivities = Object.keys(require("./data/all_activity_hierarchies.json"))
@@ -31,10 +33,21 @@ export default class ActivityEntryForm extends React.Component {
             this.setState({ submitted: true })
             window.sessionStorage.setItem('activityName', JSON.stringify(this.state.activityName))
             this.props.onSubmit(this.state.activityName)
+
+            console.log("PRESELECTED SCENES:", activityToPreselectedScene[this.state.activityName])
+
+            // Get envs started in iG
+            const envsPostRequest = {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(activityToPreselectedScene[this.state.activityName]),
+                mode: "no-cors"
+            }
+            // fetch(igibsonSamplerURL + "/setup", envsPostRequest).then(response => {console.log(response)})
+            fetch("/setup", envsPostRequest).then(response => {console.log(response)})
         } else {
             this.setState({ showErrorModal: true })
         }
-        
     }
 
     render() {
