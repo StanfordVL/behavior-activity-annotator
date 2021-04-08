@@ -3,149 +3,31 @@ import Blockly from 'node-blockly/browser';
 import BlocklyDrawer, { Block, Category } from 'react-blockly-drawer';
 import { dropdownGenerators, 
     kinematicDropdownGenerators,
-    blocklyNameToPDDLName,
     sentenceConstructorColor,
     basicSentenceColor,
     rootColor } from './constants.js'
+import { convertName, 
+         createObjectsList, 
+         getCategoryFromLabel,
+         detectObjectInstances,
+         ObjectOptions,
+         generateDropdownArray } from "./utils.js"
 import AirTable from 'airtable'
 import Button from 'react-bootstrap/Button'
 import Modal from 'react-bootstrap/Modal'
 import { allRooms, 
          sceneSynsets,
          objectInstanceRe, 
-         objectCategoryRe, 
-         instanceSplitRe,
-         detectObjectInstanceRe,
-         getCategoryFromLabel,
          detectObjectInstanceAndCategoryRe,
-         getPlacements,
          getPlacementsRe,
-         initialDescriptionsRe } from "./constants.js"
+         airtableSaveURL,
+         airtableResultURL,
+         igibsonSamplerURL } from "./constants.js"
 import { stringify } from 'uuid';
-
-
-export class ObjectOptions {
-    constructor(selectedObjects) {
-        this.selectedObjects = selectedObjects
-    }
-
-    createDemotedRoomsMap() {
-        let demotedRoomsMap = {}
-
-        for (let [category, number] of Object.entries(this.selectedObjects)) {
-            if (category.includes(' (')) {
-                let [pureLabel, room] = category.split(' (')
-                room = ' (' + room
-                if (!(pureLabel in demotedRoomsMap)) {
-                    demotedRoomsMap[pureLabel] = {}
-                }
-                demotedRoomsMap[pureLabel][room] = number
-            } else {
-                demotedRoomsMap[category] = number
-            }
-        }
-        return demotedRoomsMap
-    }
-
-    getRoomIndices(demotedRoomsMap, pureLabel) {
-        let startIndex = 0
-        let roomsToIndices = {}
-        for (let room of Object.keys(demotedRoomsMap[pureLabel]).sort()) {
-            roomsToIndices[room] = Array.from({ length: demotedRoomsMap[pureLabel][room]}, (_, i) => i + startIndex)
-            startIndex += demotedRoomsMap[pureLabel][room]
-        }
-        return roomsToIndices 
-    }
-
-    getInstancesCategories() {
-        const demotedRoomsMap = this.createDemotedRoomsMap()
-        let objectInstanceLabels = [['select an object', 'null']]
-        let instanceToCategory = {'null': 'null'}
-
-        for (const [pureLabel, value] of Object.entries(demotedRoomsMap)) {
-            if (typeof value !== "number") {
-
-                // Create indices for each room that don't overlap, going in alphabetical order of rooms
-                const roomsToIndices = this.getRoomIndices(demotedRoomsMap, pureLabel)
-                for (const room of Object.keys(roomsToIndices).sort()) {
-                    const instanceIndices = roomsToIndices[room]
-                    
-                    for (let instanceIndex of instanceIndices) {
-                        let instanceLabel = pureLabel + "_" + (instanceIndex + 1).toString() + room
-                        objectInstanceLabels.push([instanceLabel, instanceLabel])
-                        instanceToCategory[instanceLabel] = pureLabel
-                        instanceToCategory[pureLabel] = pureLabel
-                    }
-                }
-
-            } else {
-                for (let instanceIndex = 0; instanceIndex < value; instanceIndex++) {
-                    let instanceLabel = pureLabel + "_" + (instanceIndex + 1).toString()
-                    objectInstanceLabels.push([instanceLabel, instanceLabel])
-                    instanceToCategory[instanceLabel] = pureLabel
-                    instanceToCategory[pureLabel] = pureLabel
-                }
-            }
-        }
-        let instanceCategoryLabels = objectInstanceLabels.concat(this.getCategories().slice(1))
-        return ([instanceCategoryLabels, instanceToCategory])
-    }
-
-    getCategories() {
-        const demotedRoomsMap = this.createDemotedRoomsMap()
-        let categoryLabels = [['select a category', 'null']]
-        for (const [pureLabel, value] of Object.entries(demotedRoomsMap)) {
-            if (typeof value !== "number") {
-                for (const room of Object.keys(value)) {
-                    if (demotedRoomsMap[pureLabel][room] > 0) {
-                        categoryLabels.push([ pureLabel, pureLabel ])
-                        break
-                    }
-                }
-            } else {
-                if (value > 0) {
-                    categoryLabels.push([ pureLabel, pureLabel ])
-                }
-            }
-        }
-        return categoryLabels
-    }
-}
-
-
-function convertName(name) {
-    if (name in blocklyNameToPDDLName) {
-        return (blocklyNameToPDDLName[name])
-    } else {
-        return (name)
-    }
-}
-
-
-function generateDropdownArray(labels) {
-    let dropdownArray = []
-    for (const label of labels) {
-        if ((label === "select an adjective") || (label === "select an object")) {
-            dropdownArray.push([label, ""])
-        } else {
-            dropdownArray.push([label, label.toUpperCase()])
-        }
-    }
-    return dropdownArray
-    // return(labels.map(label => [label, label.toUpperCase()]))
-}
-
-
-function detectObjectInstances(code) {
-    // const detectObjectInstancesRegex = new RegExp('[a-z_]+[0-9]+', 'g')
-    const detectedObjectInstances = code.match(detectObjectInstanceRe)
-    return detectedObjectInstances
-}
 
 
 let updatedInitialConditions = '';
 let updatedGoalConditions = '';
-// let objectsList = '';
 
 
 export class FinalSubmit extends React.Component {
@@ -186,15 +68,11 @@ export class FinalSubmit extends React.Component {
         const detectedObjectInstances = detectObjectInstances(conditions) 
         const rawPlacements = conditions.match(getPlacementsRe())
         if (rawPlacements == null) {
-            console.log("NO RAW PLACEMENTS")
             return true 
         }
         for (const objectInstance of detectedObjectInstances) {
             let objectPlaced = false
-            console.log("DETECTED OBJECT INSTANCE:", objectInstance)
             for (const placement of rawPlacements) {
-                console.log("PLACEMENT:", placement)
-                console.log("PLACEMENT MATCHES:", placement.match(objectInstance))
                 if (placement.match(objectInstance) != null) {
                     objectPlaced = true
                     break
@@ -279,57 +157,6 @@ export class FinalSubmit extends React.Component {
         return (newNumHangingPlacements !== 0)
     }
 
-    checkUnplacedAdditionalObjects(conditions) {
-        let options = new ObjectOptions(JSON.parse(window.sessionStorage.getItem('allSelectedObjects')))
-        let [__, instanceToCategory] = options.getInstancesCategories()
-
-        let allObjects = Object.keys(instanceToCategory)
-        // for (let objectInstance in allObjects) {
-        for (let i = 0; i < allObjects.length; i++) {
-            let objectInstance = allObjects[i]
-            let objectCategory = instanceToCategory[objectInstance]
-            
-            // if the object is an additional object, is mentioned, and is an instance rather than a category...
-            let isAdditionalObject = !(sceneSynsets.includes(objectCategory))
-            let isMentioned = conditions.includes(objectInstance)
-            let isInstance = objectInstance !== objectCategory          // works despite parenthetical rooms because rooms only apply to sceneSynsets, which are already excluded. So this is buggy, but it's relying on that detail. 
-
-            let isPlaced = false 
-            const placements = getPlacements(conditions, objectInstance)
-            if (!(placements === null)) {       
-
-                // For each placement, get both objects and check if either of them is a scene object
-                for (let placement of placements) {
-
-                    // drop parentheses and grab the terms  
-                    placement = placement.slice(1, -1)
-                    let potentialSceneSynsets = placement.split(' ').slice(1, 3)
-
-                    for (let potentialSceneSynset of potentialSceneSynsets) {
-                        
-                        // isolate the category 
-                        potentialSceneSynset = potentialSceneSynset.split(instanceSplitRe)[0]
-                        if (potentialSceneSynset[0] === '?') {
-                            potentialSceneSynset = potentialSceneSynset.slice(1)
-                        }
-                        // if one of them is a scene object, say this additional object is placed and break out of this placement
-                        if (sceneSynsets.includes(potentialSceneSynset)) {
-                            isPlaced = true 
-                            break
-                        } 
-                    }
-                    // if the additional object has been shown to be placed, break out of testing placements
-                    if (isPlaced) { break }
-                }
-            }
-
-            if (isAdditionalObject && isMentioned && isInstance && !isPlaced) {
-                console.log('UNPLACED OBJECT:', objectInstance)
-                return true 
-            }
-        }
-        return false  
-    }
 
     checkCategoriesExist(conditions) {
         /**
@@ -364,32 +191,6 @@ export class FinalSubmit extends React.Component {
         return negatedPlacements != null
     }
 
-    createObjectsList(initialConditions) {
-        const detectedObjectInstances = detectObjectInstances(initialConditions) 
-        let objectList = ''
-        
-        if (detectedObjectInstances !== null) {           
-            let objectToCategory = {}
-            for (let object of detectedObjectInstances) {
-                // const category = object.replace(/[0-9]+/, '')
-                const category = getCategoryFromLabel(object)
-                if (category in objectToCategory) {
-                    objectToCategory[category].add(object)
-                } else {
-                    objectToCategory[category] = new Set([object])
-                }
-            }
-
-            for (const [category, objects] of Object.entries(objectToCategory)) {
-                const sortedObjects = Array.from(objects).sort()
-                objectList += '\t'
-                objectList += sortedObjects.join(' ')
-                objectList += ` - ${category}\n`
-            }
-        }
-        objectList = `(:objects\n ${objectList})`
-        return objectList
-    }
 
     onSubmit(event) {
 
@@ -441,12 +242,12 @@ export class FinalSubmit extends React.Component {
                             "InitialConditions": updatedInitialConditions,
                             "GoalConditions": updatedGoalConditions,
                             "FinalSave": 1,
-                            "Objects": this.createObjectsList(updatedInitialConditions)
+                            "Objects": createObjectsList(updatedInitialConditions)
                         }
                     }]
                 })
             }
-            fetch('https://api.airtable.com/v0/appIh5qQ5m4UMrcps/Results', requestOptions)
+            fetch(airtableResultURL, requestOptions)
             .then(response => response.json())
 
             console.log('successfully submitted!')
@@ -466,8 +267,9 @@ export class FinalSubmit extends React.Component {
                     variant="primary"
                     type="submit"
                     onClick={(event) => this.onSubmit(event)}
+                    // disabled={!this.props.sampleable}        // TODO change once feasibility checking is implemented
                 >
-                    Final submit 
+                    Submit
                 </Button>
                 <Modal 
                     show={this.state.showErrorMessage}
@@ -480,6 +282,98 @@ export class FinalSubmit extends React.Component {
                         {this.state.modalText}
                     </Modal.Body>
                 </Modal>
+            </div>
+        )
+    }
+}
+
+
+export class FeasibilityChecker extends React.Component {
+    constructor(props) {
+        super(props)
+
+        this.state = {
+            sampleable: false,
+            feedback: "",
+            showErrorMessage: false
+        }
+    }
+
+    processRequestResponse(response) {
+        const data = JSON.parse(response.json())
+        this.setState({ sampleable: data.success, feedback: data.feedback })
+        this.props.onCheck(data.success)
+    }
+
+    checkFeasibility() {
+        const postConditionsRequest = {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"            },
+            body: JSON.stringify({
+                "initialConditions": updatedInitialConditions,
+                "goalConditions": updatedGoalConditions,
+                "objectList": createObjectsList(updatedInitialConditions)
+            })
+        }
+        fetch(igibsonSamplerURL, postConditionsRequest)     // TODO change to production URL 
+        .then(response => this.processRequestResponse(response))
+    }
+
+    onClick() {
+        this.checkFeasibility()
+        this.setState({ showErrorMessage: !this.state.sampleable })
+    }
+
+    onHide() {
+        this.setState({ showErrorMessage: false })
+    }
+
+    render() {
+        return (
+            <div>
+                <Button
+                    size="lg"
+                    variant="primary"
+                    onClick={() => this.onClick()}
+                >
+                    Check feasibility 
+                </Button>
+                <Modal
+                    show={this.state.showErrorMessage}
+                    onHide={() => this.onHide()}
+                >
+                    <Modal.Header closeButton>
+                        <Modal.Title as="h5">Not sampleable</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        {this.state.feedback}
+                    </Modal.Body>
+                </Modal>
+            </div>
+        )
+    }
+}
+
+
+export class SubmissionSection extends React.Component {
+    constructor(props) {
+        super(props)
+
+        this.state = {
+            sampleable: false        // TODO change once feasibility checking is ready 
+        }
+    }
+
+    onFeasibilityCheck(sampleable) {
+        this.setState({ sampleable: sampleable })
+    }
+
+    render() {
+        return(
+            <div>
+                <FeasibilityChecker onCheck={this.onFeasibilityCheck}/>
+                <FinalSubmit sampleable={this.state.sampleable}/>
             </div>
         )
     }
@@ -580,7 +474,7 @@ export default class ConditionDrawer extends React.Component {
                 ]
             })
         }
-        fetch('https://api.airtable.com/v0/appIh5qQ5m4UMrcps/Saves', requestOptions)
+        fetch(airtableSaveURL, requestOptions)
         .then(response => response.json())    
         
         console.log('successfully posted to airtable!')

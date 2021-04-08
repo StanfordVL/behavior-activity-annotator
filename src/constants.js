@@ -1,4 +1,4 @@
-// ACTIVITIES, ROOMS, SCENE OBJECTS 
+// ACTIVITIES, ROOMS, SCENE OBJECTS CONSTANTS
 
 // export const allActivities = Object.keys(require("./data/all_activity_hierarchies.json"))
 const activitiesToRoomsObjects = require('./data/activity_to_rooms_objects.json')
@@ -66,7 +66,7 @@ export function getSceneSynset(sceneObject) {
 }
 
 
-// CODE PROCESSING STRINGS AND UTILS
+// CODE PROCESSING CONSTANTS 
 
 // NOTE the first two will match with terms that have inappropriate characters in the middle of them, e.g. "matter.n.%03_1".
 //      Not sure how to fix this, but leaving it alone for now since that shouldn't ever happen.  
@@ -88,40 +88,40 @@ export const initialDescriptionsRe = new RegExp(
      "g"
 )
 
-export function isCategory(objectLabel) {
-    /**
-     * @param {string} objectLabel - objectLabel being checked for being an instance or category
-     * @returns {boolean} - true if objectLabel is a category else false 
-     */
-    return (objectLabel.match(objectInstanceRe).length === 0)
-}
+// export function isCategory(objectLabel) {
+//     /**
+//      * @param {string} objectLabel - objectLabel being checked for being an instance or category
+//      * @returns {boolean} - true if objectLabel is a category else false 
+//      */
+//     return (objectLabel.match(objectInstanceRe).length === 0)
+// }
 
-export function getCategoryFromLabel(objectLabel) {
-    /**
-     * @param {string} objectLabel - objectLabel being turned into or preserved as category
-     * @returns {string} - category of this objectLabel 
-     */
-    let objectCategory = objectLabel
-    if (objectLabel.match(objectInstanceRe)) {
-        objectCategory = objectLabel.split("_").slice(0, -1).join("_")
-    } 
-    return objectCategory 
-}
+// export function getCategoryFromLabel(objectLabel) {
+//     /**
+//      * @param {string} objectLabel - objectLabel being turned into or preserved as category
+//      * @returns {string} - category of this objectLabel 
+//      */
+//     let objectCategory = objectLabel
+//     if (objectLabel.match(objectInstanceRe)) {
+//         objectCategory = objectLabel.split("_").slice(0, -1).join("_")
+//     } 
+//     return objectCategory 
+// }
 
-export function getPlacements(conditions, objectInstance) {
-    /**
-     * @param {string} conditions - conditions being checked for placements of a certain object instance
-     * @param {string} objectInstance - object instance term whose placements will be detected
-     * @return {list<string>} list of strings that are placements of objectInstance
-     */
-    // const placementMatchString = `\\((ontop|nextto|inside|under) (${objectInstance} \\??${detectObjectInstanceRe.source}|\\??${detectObjectInstanceRe.source} ${objectInstance})\\)`
-    // const placementRegex = new RegExp(placementMatchString, 'g')
-    const placements = conditions.match(getPlacementsRe(objectInstance))
-    return placements
-}
+// export function getPlacements(conditions, objectInstance) {
+//     /**
+//      * @param {string} conditions - conditions being checked for placements of a certain object instance
+//      * @param {string} objectInstance - object instance term whose placements will be detected
+//      * @return {list<string>} list of strings that are placements of objectInstance
+//      */
+//     // const placementMatchString = `\\((ontop|nextto|inside|under) (${objectInstance} \\??${detectObjectInstanceRe.source}|\\??${detectObjectInstanceRe.source} ${objectInstance})\\)`
+//     // const placementRegex = new RegExp(placementMatchString, 'g')
+//     const placements = conditions.match(getPlacementsRe(objectInstance))
+//     return placements
+// }
 
 
-// BLOCK DRAWER ELEMENTS  
+// BLOCK DRAWER CONSTANTS  
 
 var objToDesc = require('./data/synsets_to_descriptors.json')
 objToDesc["null"] = []
@@ -145,6 +145,14 @@ export const blocklyNameToPDDLName = {
     'next to': 'nextto'
 }
 
+
 export const sentenceConstructorColor = "#76912F";
 export const basicSentenceColor = "#D96704";
 export const rootColor = "#731D45"
+
+
+// EXTERNAL REQUESTS CONSTANTS 
+
+export const airtableSaveURL = 'https://api.airtable.com/v0/appIh5qQ5m4UMrcps/Saves'
+export const airtableResultURL = 'https://api.airtable.com/v0/appIh5qQ5m4UMrcps/Results'
+export const igibsonSamplerURL = 'http://34.72.242.229:8000/sample_feedback'        // TODO replace with production
