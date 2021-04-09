@@ -43,8 +43,11 @@ export default class ActivityEntryForm extends React.Component {
                 body: JSON.stringify(activityToPreselectedScene[this.state.activityName]),
                 mode: "no-cors"
             }
-            // fetch(igibsonSamplerURL + "/setup", envsPostRequest).then(response => {console.log(response)})
-            fetch("/setup", envsPostRequest).then(response => {console.log(response)})
+            fetch("/setup", envsPostRequest)
+            .then(response => response.json())
+            .then(data => {
+                window.sessionStorage.setItem("envUUIDs", JSON.stringify(data))
+            })
         } else {
             this.setState({ showErrorModal: true })
         }
