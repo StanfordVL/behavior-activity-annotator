@@ -1,7 +1,9 @@
 import { blocklyNameToPDDLName,
          detectObjectInstanceRe,
          objectInstanceRe,
-         getPlacementsRe
+         getPlacementsRe,
+         sceneSynsets,
+         detectObjectInstanceAndCategoryRe
           } from "./constants.js"
 
 
@@ -179,5 +181,156 @@ export class ObjectOptions {
             }
         }
         return categoryLabels
+    }
+}
+
+
+// CODE CORRECTNESS UTILS 
+
+export function checkNulls(conditions) {
+    return conditions.includes("null")
+}
+
+export function checkEmptyInitialConditions(initialConditions) {
+    /**
+     * Reports whether the initialConditions are empty or not 
+     * 
+     * @param {String} initialConditions - initialConditions being checked for emptiness
+     * @returns {Boolean} - true if initialConditions are empty else false 
+     */
+    return initialConditions.match("\\(:init( )+\\(inroom") !== null
+}
+
+export function checkCompletelyUnplacedAdditionalObjects(conditions) {
+    /**
+     * Reports whether for every object mentioned in the conditions, if it is in any placement condition.
+     * Only guaranteed correct for initial conditions that have no categories. 
+     * 
+     * @param {String} conditions - string conditions being checked for additional objects that are 
+     *                              not in any placement condition
+     * @returns {Boolean} true if there are additional objects that are not in any placement 
+     */
+    const detectedObjectInstances = detectObjectInstances(conditions) 
+    const rawPlacements = conditions.match(getPlacementsRe())
+    if (rawPlacements == null) {
+        return true 
+    }
+    for (const objectInstance of detectedObjectInstances) {
+        let objectPlaced = false
+        for (const placement of rawPlacements) {
+            if (placement.match(objectInstance) != null) {
+                objectPlaced = true
+                break
+            }
+        }
+        if (!objectPlaced) {
+            return true
+        }
+    }
+    return false
+}
+
+export function checkTransitiveUnplacedAdditionalObjects(conditions) {
+    /**
+     * Reports whether for every placement in the conditions, if the second object is an additional object, 
+     *      then the second object is transitively placed relative to a scene object. 
+     * It's also true that the first object has to be an additional object and that if the second object is 
+     *      a scene object, then relation is allowed for that scene object, but these should be guaranteed by 
+     *      the interface.
+     * Only guaranteed correct for initial conditions that have no categories. 
+     * 
+     * @param {String} conditions - string conditions being checked for additional objects that are unplaced 
+     *                              even transitively
+     * @returns {Boolean} true if there are unplaced additional objects, else false 
+     */
+    if (checkEmptyInitialConditions(conditions)) {
+        console.log("EMPTY")
+        return false 
+    }
+    if (checkCompletelyUnplacedAdditionalObjects(conditions)) {
+        console.log('COMPLETELy UNPLACED')
+        return true 
+    }
+    const rawPlacements = conditions.match(getPlacementsRe())
+    let placements = []
+    // drop parentheses
+    for (const placement of rawPlacements) {
+        const [__, object1, object2] = placement.slice(1, -1).split(" ")
+        placements.push([object1, object2])
+    }
+
+    let placedPairs = {}
+    let leftoverPlacements = []
+    let currentNumHangingPlacements 
+    let newNumHangingPlacements
+
+    // round 1: for each placement, if second object is a scene object, put the pair in placedPairs. Else, 
+    //          put the placement in the new queue 
+    while (placements.length > 0) {
+        const placement = placements.pop()
+        const [object1, object2] = placement
+        if (sceneSynsets.includes(getCategoryFromLabel(object2))) {
+            placedPairs[object1] = object2
+        } else {
+            leftoverPlacements.push(placement)
+        }
+    }
+    currentNumHangingPlacements = placements.length
+    newNumHangingPlacements = leftoverPlacements.length
+    placements = leftoverPlacements
+    leftoverPlacements = []
+
+    // round >1: for each placement, if the second object is a key in placedPairs, put the first object as 
+    //          a key in placedPairs, mapped to the second object's value. If it is not in placedPairs, 
+    //          put the placement in the new queue. 
+    while (currentNumHangingPlacements !== newNumHangingPlacements) {
+        currentNumHangingPlacements = placements.length
+        while (placements.length > 0) {
+            const placement = placements.pop()
+            const [object1, object2] = placement 
+            if (object2 in placedPairs) {
+                placedPairs[object1] = placedPairs[object2]
+            } else {
+                leftoverPlacements.push(placement)
+            }
+        }
+        newNumHangingPlacements = leftoverPlacements.length
+        placements = leftoverPlacements
+        leftoverPlacements = []
+    }
+
+    return (newNumHangingPlacements !== 0)
+}
+
+export function checkNegatedPlacements(conditions) {
+    /**
+     * Check conditions for presence of negated placement conditions (binary predicates, 
+     * i.e. kinematic predicates)
+     * 
+     * @param {String} conditions - conditions being checked for negated placements
+     * @return {Boolean} true if negated placements exist else false 
+     */
+    const negatedPlacementsRe = new RegExp(`\\(not ${getPlacementsRe().source}\\)`, "g")
+    const negatedPlacements = conditions.match(negatedPlacementsRe)
+    return negatedPlacements != null
+}
+
+export function checkCategoriesExist(conditions) {
+    /**
+     * Check conditions for presence of categories (i.e. objects that are not instances)
+     * 
+     * @param {String} conditions - conditions being checked for presence of categories
+     * @returns {Boolean} true if categories exist else false 
+     */
+    
+    const objectTerms = conditions.match(detectObjectInstanceAndCategoryRe)
+    if (objectTerms != null) {
+        for (let objectTerm of objectTerms) {
+            if (objectTerm.match(objectInstanceRe) == null) {
+                return true 
+            }
+        }
+    } else {
+        return false 
     }
 }

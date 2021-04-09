@@ -5,7 +5,7 @@ import SmallObjectSelectionWorkspace from './object_selector_forms';
 
 import SceneObjectTable from './scene_object_table';
 import SelectedObjectsList from './selected_objects_list'
-import ConditionDrawer, { FinalSubmit } from './blockly_drawers'
+import ConditionDrawer, { FinalSubmit, SubmissionSection } from './blockly_drawers'
 import {ConditionWritingInstructions} from './written_instructions'
 import RoomForm from './room_selection_form'
 
@@ -274,7 +274,8 @@ export class ConditionWorkspace extends React.Component {
                                 <Card.Text>
                                     Take a minute to check your work and make sure you've said what you want to say, then press submit! It won't redirect, so let Sanjana know. Thanks so much for participating, we really appreciate it :) 
                                 </Card.Text>
-                                <FinalSubmit/>
+                                {/* <FinalSubmit/> */}
+                                <SubmissionSection/>
                             </Card.Body>
                         </Card>
                     </Card.Body>

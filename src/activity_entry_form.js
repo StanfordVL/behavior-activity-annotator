@@ -46,7 +46,7 @@ export default class ActivityEntryForm extends React.Component {
             fetch("/setup", envsPostRequest)
             .then(response => response.json())
             .then(data => {
-                window.sessionStorage.setItem("envUUIDs", JSON.stringify(data))
+                window.sessionStorage.setItem("uuids", JSON.stringify(data["uuids"]))
             })
         } else {
             this.setState({ showErrorModal: true })

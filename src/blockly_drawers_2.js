@@ -5,23 +5,23 @@ import { dropdownGenerators,
     kinematicDropdownGenerators,
     sentenceConstructorColor,
     basicSentenceColor,
-    rootColor, 
-    airtableResultURL} from './constants.js'
+    rootColor } from './constants.js'
 import { convertName, 
          createObjectsList, 
          getCategoryFromLabel,
+         detectObjectInstances,
          ObjectOptions,
-         generateDropdownArray,
-        checkNulls,
-        checkTransitiveUnplacedAdditionalObjects,
-        checkCategoriesExist,
-        checkNegatedPlacements } from "./utils.js"
+         generateDropdownArray } from "./utils.js"
 import AirTable from 'airtable'
 import Button from 'react-bootstrap/Button'
 import Modal from 'react-bootstrap/Modal'
 import { allRooms, 
          sceneSynsets,
+         objectInstanceRe, 
+         detectObjectInstanceAndCategoryRe,
+         getPlacementsRe,
          airtableSaveURL,
+         airtableResultURL,
          igibsonSamplerURL } from "./constants.js"
 import { stringify } from 'uuid';
 
@@ -30,84 +30,280 @@ let updatedInitialConditions = '';
 let updatedGoalConditions = '';
 
 
-export class SubmissionSection extends React.Component {
+export class FinalSubmit extends React.Component {
     constructor(props) {
-        super(props)
+        super(props);
+
         this.state = {
-            feasible: false
+            initialReady: true,
+            goalReady: true,
+            showErrorMessage: false,
+            modalText: ""
         }
     }
 
-    onCheck(newFeasible) {
-        this.setState({ feasible: newFeasible })
+    checkNulls(conditions)  {
+        return conditions.includes("null")
+    }
+
+    checkEmptyInitialConditions(initialConditions) {
+        /**
+         * Reports whether the initialConditions are empty or not 
+         * 
+         * @param {String} initialConditions - initialConditions being checked for emptiness
+         * @returns {Boolean} - true if initialConditions are empty else false 
+         */
+        return initialConditions.match("\\(:init( )+\\(inroom") !== null
+    }
+
+    checkCompletelyUnplacedAdditionalObjects(conditions) {
+        /**
+         * Reports whether for every object mentioned in the conditions, if it is in any placement condition.
+         * Only guaranteed correct for initial conditions that have no categories. 
+         * 
+         * @param {String} conditions - string conditions being checked for additional objects that are 
+         *                              not in any placement condition
+         * @returns {Boolean} true if there are additional objects that are not in any placement 
+         */
+        const detectedObjectInstances = detectObjectInstances(conditions) 
+        const rawPlacements = conditions.match(getPlacementsRe())
+        if (rawPlacements == null) {
+            return true 
+        }
+        for (const objectInstance of detectedObjectInstances) {
+            let objectPlaced = false
+            for (const placement of rawPlacements) {
+                if (placement.match(objectInstance) != null) {
+                    objectPlaced = true
+                    break
+                }
+            }
+            if (!objectPlaced) {
+                return true
+            }
+        }
+        return false
+    }
+
+    checkTransitiveUnplacedAdditionalObjects(conditions) {
+        /**
+         * Reports whether for every placement in the conditions, if the second object is an additional object, 
+         *      then the second object is transitively placed relative to a scene object. 
+         * It's also true that the first object has to be an additional object and that if the second object is 
+         *      a scene object, then relation is allowed for that scene object, but these should be guaranteed by 
+         *      the interface.
+         * Only guaranteed correct for initial conditions that have no categories. 
+         * 
+         * @param {String} conditions - string conditions being checked for additional objects that are unplaced 
+         *                              even transitively
+         * @returns {Boolean} true if there are unplaced additional objects, else false 
+         */
+        if (this.checkEmptyInitialConditions(conditions)) {
+            console.log("EMPTY")
+            return false 
+        }
+        if (this.checkCompletelyUnplacedAdditionalObjects(conditions)) {
+            console.log('COMPLETELy UNPLACED')
+            return true 
+        }
+        const rawPlacements = conditions.match(getPlacementsRe())
+        let placements = []
+        // drop parentheses
+        for (const placement of rawPlacements) {
+            const [__, object1, object2] = placement.slice(1, -1).split(" ")
+            placements.push([object1, object2])
+        }
+
+        let placedPairs = {}
+        let leftoverPlacements = []
+        let currentNumHangingPlacements 
+        let newNumHangingPlacements
+
+        // round 1: for each placement, if second object is a scene object, put the pair in placedPairs. Else, 
+        //          put the placement in the new queue 
+        while (placements.length > 0) {
+            const placement = placements.pop()
+            const [object1, object2] = placement
+            if (sceneSynsets.includes(getCategoryFromLabel(object2))) {
+                placedPairs[object1] = object2
+            } else {
+                leftoverPlacements.push(placement)
+            }
+        }
+        currentNumHangingPlacements = placements.length
+        newNumHangingPlacements = leftoverPlacements.length
+        placements = leftoverPlacements
+        leftoverPlacements = []
+
+        // round >1: for each placement, if the second object is a key in placedPairs, put the first object as 
+        //          a key in placedPairs, mapped to the second object's value. If it is not in placedPairs, 
+        //          put the placement in the new queue. 
+        while (currentNumHangingPlacements !== newNumHangingPlacements) {
+            currentNumHangingPlacements = placements.length
+            while (placements.length > 0) {
+                const placement = placements.pop()
+                const [object1, object2] = placement 
+                if (object2 in placedPairs) {
+                    placedPairs[object1] = placedPairs[object2]
+                } else {
+                    leftoverPlacements.push(placement)
+                }
+            }
+            newNumHangingPlacements = leftoverPlacements.length
+            placements = leftoverPlacements
+            leftoverPlacements = []
+        }
+
+        return (newNumHangingPlacements !== 0)
+    }
+
+
+    checkCategoriesExist(conditions) {
+        /**
+         * Check conditions for presence of categories (i.e. objects that are not instances)
+         * 
+         * @param {String} conditions - conditions being checked for presence of categories
+         * @returns {Boolean} true if categories exist else false 
+         */
+        
+        const objectTerms = conditions.match(detectObjectInstanceAndCategoryRe)
+        if (objectTerms != null) {
+            for (let objectTerm of objectTerms) {
+                if (objectTerm.match(objectInstanceRe) == null) {
+                    return true 
+                }
+            }
+        } else {
+            return false 
+        }
+    }
+
+    checkNegatedPlacements(conditions) {
+        /**
+         * Check conditions for presence of negated placement conditions (binary predicates, 
+         * i.e. kinematic predicates)
+         * 
+         * @param {String} conditions - conditions being checked for negated placements
+         * @return {Boolean} true if negated placements exist else false 
+         */
+        const negatedPlacementsRe = new RegExp(`\\(not ${getPlacementsRe().source}\\)`, "g")
+        const negatedPlacements = conditions.match(negatedPlacementsRe)
+        return negatedPlacements != null
+    }
+
+
+    onSubmit(event) {
+
+        let currentModalText = ""
+
+        console.log('INITIAL CONDITIONS:', updatedInitialConditions)
+        console.log('GOAL CONDITIONS:', updatedGoalConditions)
+
+        // Check for errors 
+        if (this.checkNulls(updatedInitialConditions)) {
+            currentModalText += "The initial conditions have empty field(s).\n"
+        }
+        if (this.checkTransitiveUnplacedAdditionalObjects(updatedInitialConditions)) {
+            currentModalText += "The initial conditions currently contain objects that have not been placed in relation to a scene object (even indirectly)." 
+        }
+        if (this.checkNegatedPlacements(updatedInitialConditions)) {
+            currentModalText += "The initial conditions contain negated two-object basic conditions. In the initial conditions, you can only negate one-object basic conditions."
+        }
+        if (this.checkCategoriesExist(updatedInitialConditions)) {
+            currentModalText += "The initial conditions currently contain object categories, but only object instances are allowed in initial conditions."
+        }
+        if (this.checkNulls(updatedGoalConditions)) {
+            currentModalText += "The goal conditions have empty field(s).\n"
+        }
+
+        if (currentModalText !== "") {
+            event.preventDefault()
+            this.setState({
+                showErrorMessage: true,
+                modalText: currentModalText 
+            })
+        } else {
+            this.setState({
+                showErrorMessage: false,
+                modalText: ""
+            })
+
+            const requestOptions = {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": "Bearer keyeaIvUAzmIaj3ma"
+                },
+                body:JSON.stringify({
+                    "records": [{
+                        "fields": { 
+                            "ActivityName": JSON.parse(window.sessionStorage.getItem('activityName')),
+                            "AnnotatorID": JSON.parse(window.sessionStorage.getItem('annotatorName')),
+                            "InitialConditions": updatedInitialConditions,
+                            "GoalConditions": updatedGoalConditions,
+                            "FinalSave": 1,
+                            "Objects": createObjectsList(updatedInitialConditions)
+                        }
+                    }]
+                })
+            }
+            fetch(airtableResultURL, requestOptions)
+            .then(response => response.json())
+
+            console.log('successfully submitted!')
+        }
+    }
+
+
+    onHide() {
+        this.setState({ showErrorMessage: false })
     }
 
     render() {
-        console.log("STATE:", this.state)
-        return (
+        return(
             <div>
-                <FeasibilityChecker onCheck={(newFeasible) => this.onCheck(newFeasible)}/>
-                <FinalSubmit feasible={this.state.feasible}/>
+                <Button 
+                    size="lg" 
+                    variant="primary"
+                    type="submit"
+                    onClick={(event) => this.onSubmit(event)}
+                    // disabled={!this.props.sampleable}        // TODO change once feasibility checking is implemented
+                >
+                    Submit
+                </Button>
+                <Modal 
+                    show={this.state.showErrorMessage}
+                    onHide={() => this.onHide()}
+                >
+                    <Modal.Header closeButton>
+                        <Modal.Title as="h5">Incomplete conditions</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        {this.state.modalText}
+                    </Modal.Body>
+                </Modal>
             </div>
         )
     }
 }
 
+
 export class FeasibilityChecker extends React.Component {
     constructor(props) {
         super(props)
+
         this.state = {
-            feasible: false,
-            feasibilityFeedback: "",
-            showInfeasibleMessage: false,
-
-            codeCorrectnessFeedback: "",
-            showCodeIncorrectMessage: false
+            sampleable: false,
+            feedback: "",
+            showErrorMessage: false
         }
     }
 
-    // Event methods 
-
-    onClick() {
-        // Check code correctness 
-        let currentCodeCorrectnessFeedback = ""
-        console.log("INITIAL CONDITIONS", updatedInitialConditions)
-        console.log("GOAL CONDITIONS:", updatedGoalConditions)
-
-        if (checkNulls(updatedInitialConditions)) {
-            currentCodeCorrectnessFeedback += "The initial conditions have empty field(s).\n"
-        }
-        if (checkTransitiveUnplacedAdditionalObjects(updatedInitialConditions)) {
-            currentCodeCorrectnessFeedback += "The initial conditions currently contain objects that have not been placed in relation to a scene object (even indirectly)." 
-        }
-        if (checkNegatedPlacements(updatedInitialConditions)) {
-            currentCodeCorrectnessFeedback += "The initial conditions contain negated two-object basic conditions. In the initial conditions, you can only negate one-object basic conditions."
-        }
-        if (checkCategoriesExist(updatedInitialConditions)) {
-            currentCodeCorrectnessFeedback += "The initial conditions currently contain object categories, but only object instances are allowed in initial conditions."
-        }
-        if (checkNulls(updatedGoalConditions)) {
-            currentCodeCorrectnessFeedback += "The goal conditions have empty field(s).\n"
-        }
-
-        // If incorrect, show the correctness error and end things there 
-        if (currentCodeCorrectnessFeedback !== "") {
-            this.setState({ 
-                showCodeIncorrectMessage: true, 
-                codeCorrectnessFeedback: currentCodeCorrectnessFeedback 
-            })
-        } 
-        // If correct, check feasibility 
-        else {
-            this.checkFeasibility()
-        }
+    processRequestResponse(response) {
+        const data = JSON.parse(response.json())
+        this.setState({ sampleable: data.success, feedback: data.feedback })
+        this.props.onCheck(data.success)
     }
-
-    onFeasibilityHide() { this.setState({ showInfeasibleMessage: false }) }
-
-    onCodeCorrectnessHide() { this.setState({ showCodeIncorrectMessage: false }) }
-
-    // Server communication methods
 
     checkFeasibility() {
         const conditionsPostRequest = {
@@ -118,21 +314,20 @@ export class FeasibilityChecker extends React.Component {
             body: JSON.stringify({
                 "initialConditions": updatedInitialConditions,
                 "goalConditions": updatedGoalConditions,
-                "objectList": createObjectsList(updatedInitialConditions),
-                "uuids": JSON.parse(window.sessionStorage.getItem("uuids"))
+                "objectList": createObjectsList(updatedInitialConditions)
             })
         }
-        fetch("/check_sampling", conditionsPostRequest)     // TODO change to production URL
-        .then(response => response.json())
-        .then(data => {
-            console.log("RESPONSE:", data)
-            this.setState({
-                feasible: data.success,
-                feasibilityFeedback: data.feedback,
-                showInfeasibleMessage: !data.success
-            })
-            this.props.onCheck(data.success)
-        })
+        fetch(igibsonSamplerURL, conditionsPostRequest)     // TODO change to production URL 
+        .then(response => this.processRequestResponse(response))
+    }
+
+    onClick() {
+        this.checkFeasibility()
+        this.setState({ showErrorMessage: !this.state.sampleable })
+    }
+
+    onHide() {
+        this.setState({ showErrorMessage: false })
     }
 
     render() {
@@ -142,91 +337,44 @@ export class FeasibilityChecker extends React.Component {
                     size="lg"
                     variant="primary"
                     onClick={() => this.onClick()}
-                    className="marginCard"
                 >
                     Check feasibility 
                 </Button>
-
-                {/* Feasibility modal */}
                 <Modal
-                    show={this.state.showInfeasibleMessage}
-                    onHide={() => this.onFeasibilityHide()}
+                    show={this.state.showErrorMessage}
+                    onHide={() => this.onHide()}
                 >
                     <Modal.Header closeButton>
-                        <Modal.Title as="h5">Not feasible</Modal.Title>
+                        <Modal.Title as="h5">Not sampleable</Modal.Title>
                     </Modal.Header>
-                    <Modal.Body>{this.state.feasibilityFeedback}</Modal.Body>
-                </Modal>
-
-                {/* Code correctness modal */}
-                <Modal
-                    show={this.state.showCodeIncorrectMessage}
-                    onHide={() => this.onCodeCorrectnessHide()}
-                >
-                    <Modal.Header closeButton>
-                        <Modal.Title as="h5">Errors in conditions</Modal.Title>
-                    </Modal.Header>
-                    <Modal.Body>{this.state.codeCorrectnessFeedback}</Modal.Body>
+                    <Modal.Body>
+                        {this.state.feedback}
+                    </Modal.Body>
                 </Modal>
             </div>
         )
     }
 }
 
-export class FinalSubmit extends React.Component {
-    constructor(props) { super(props) }
 
-    onSubmit() {
-        // Save data to airtable 
-        const submitPostRequest = {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-                "Authorization": "Bearer keyeaIvUAzmIaj3ma"
-            },
-            body: JSON.stringify({
-                "records": [{
-                    "fields": { 
-                        "ActivityName": JSON.parse(window.sessionStorage.getItem('activityName')),
-                        "AnnotatorID": JSON.parse(window.sessionStorage.getItem('annotatorName')),
-                        "InitialConditions": updatedInitialConditions,
-                        "GoalConditions": updatedGoalConditions,
-                        "FinalSave": 1,
-                        "Objects": createObjectsList(updatedInitialConditions)
-                    }
-                }]
-            })
+export class SubmissionSection extends React.Component {
+    constructor(props) {
+        super(props)
+
+        this.state = {
+            sampleable: false        // TODO change once feasibility checking is ready 
         }
-        fetch(airtableResultURL, submitPostRequest)
-        .then(response => response.json())
-        
-        console.log("successfully submitted!")
+    }
 
-        // Teardown environments
-        fetch("/teardown", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({ 
-                "uuids": JSON.parse(window.sessionStorage.getItem("uuids")) 
-            })
-        }).then(response => response.json())
-    } // TODO Redirect!!!!!!!!!! Or give some kind of feedback
+    onFeasibilityCheck(sampleable) {
+        this.setState({ sampleable: sampleable })
+    }
 
     render() {
         return(
             <div>
-                <Button 
-                    size="lg" 
-                    variant="primary"
-                    type="submit"
-                    onClick={(event) => this.onSubmit(event)}
-                    className="marginCard"
-                    disabled={!this.props.feasible}        // TODO change once feasibility checking is implemented
-                >
-                    Submit
-                </Button>
+                <FeasibilityChecker onCheck={this.onFeasibilityCheck}/>
+                <FinalSubmit sampleable={this.state.sampleable}/>
             </div>
         )
     }
