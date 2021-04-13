@@ -5,19 +5,12 @@ import ReactDOM from 'react-dom'
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-import SceneObjectTable from './scene_object_table';
-import Button from 'react-bootstrap/Button'
-import Form from 'react-bootstrap/Form'
-import Card from 'react-bootstrap/Card'
-import SelectedObjectsList from './selected_objects_list';
-import { ConditionInstruction, ObjectSelectionWorkspace, ConditionWorkspace } from './instruction_sections'
-import ConditionDrawer, { FinalSubmit } from './blockly_drawers'
+import { ObjectSelectionWorkspace, ConditionWorkspace } from './instruction_sections'
 import Introduction from './written_instructions'
 
-
-let resultCodeObj;
 const activityParameters = require('./data/pack_lunch_params.json')
 window.sessionStorage.setItem('allSelectedObjects', JSON.stringify({'apple': 2, 'orange': 5}))
+
 
 export default class Instructions extends React.Component {
 

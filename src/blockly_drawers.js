@@ -127,7 +127,6 @@ export class FeasibilityChecker extends React.Component {
         fetch(igibsonGcpVmCheckSamplingUrl, conditionsPostRequest)     // TODO change to production URL
         .then(response => response.json())
         .then(data => {
-            console.log("RESPONSE:", data)
             this.setState({
                 feasible: data.success,
                 feasibilityFeedback: data.feedback,
@@ -504,9 +503,6 @@ block: {
         const descriptorField = block.getField("DESCRIPTOR")
         const currentSecondObjectValue = block.getFieldValue("OBJECT2")
         const currentDescriptorValue = block.getFieldValue("DESCRIPTOR")
-
-        console.log("NEW SECOND OBJECT VALUE:", currentSecondObjectValue)
-        console.log("STATE SECOND OBJECT VALUE:", state.currentSecondObjectValue)
 
         descriptorField.setValue(currentSecondObjectValue !== state.currentSecondObjectValue ? "" : currentDescriptorValue)
         state.currentSecondObjectValue = currentSecondObjectValue
