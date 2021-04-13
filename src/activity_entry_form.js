@@ -2,8 +2,7 @@ import React from 'react'
 import Button from 'react-bootstrap/Button'
 import Form from 'react-bootstrap/Form'
 import Modal from 'react-bootstrap/Modal'
-import { allActivities, igibsonSamplerURL } from './constants.js'
-import axios from "axios"
+import { allActivities, igibsonGcpVmSetupUrl } from './constants.js'
 
 const activityToPreselectedScene = require("./data/activity_to_preselected_scenes.json")
 
@@ -33,38 +32,26 @@ export default class ActivityEntryForm extends React.Component {
         event.preventDefault()
         if (allActivities.includes(this.state.activityName)) {
             this.setState({ submitted: true })
-            window.sessionStorage.setItem('activityName', JSON.stringify(this.state.activityName))
+            window.sessionStorage.setItem("activityName", JSON.stringify(this.state.activityName))
             this.props.onSubmit(this.state.activityName)
 
             console.log("PRESELECTED SCENES:", activityToPreselectedScene[this.state.activityName])
             try {
-                // Get envs started in iG
                 const envsPostRequest = {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify(activityToPreselectedScene[this.state.activityName])
-                    // mode: "no-cors"
                 }
-                // fetch("http://35.193.205.99/setup", envsPostRequest)
-                // .then(response => response.json())
-                // .then(data => {
-                //     window.sessionStorage.setItem("uuids", JSON.stringify(data["uuids"]))
-                // })
-                axios.post('http://35.193.205.99/setup', {
-                    scenes: activityToPreselectedScene[this.state.activityName],
-                    headers: {'Content-Type': 'application/json', 'Access-Control-Allow-Origin' : '*'
-                }
-                  })
-                  .then(function (response) {
-                    console.log(response);
-                  })
-                
-        
-
+                fetch(igibsonGcpVmSetupUrl, envsPostRequest)
+                .then(response => response.json()) 
+                .then(data => {
+                    window.sessionStorage.setItem("uuids", JSON.stringify(data["uuids"]))
+                })
             } catch (error) {
-                console.log("Error:", error)
-            }
+                // TODO report the error to the annotator 
+            } finally {
 
+            }
         } else {
             this.setState({ showErrorModal: true })
         }

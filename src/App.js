@@ -2,9 +2,6 @@
 
 import React from 'react';
 import ReactDOM from 'react-dom'
-import AirTable from 'airtable';
-import $ from 'jquery'; 
-import AirTableError from 'airtable/build/airtable.browser'
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 

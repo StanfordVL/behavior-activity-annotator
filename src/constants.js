@@ -121,6 +121,11 @@ export const rootColor = "#731D45"
 
 // EXTERNAL REQUESTS CONSTANTS 
 
-export const airtableSaveURL = 'https://api.airtable.com/v0/appIh5qQ5m4UMrcps/Saves'
-export const airtableResultURL = 'https://api.airtable.com/v0/appIh5qQ5m4UMrcps/Results'
-export const igibsonSamplerURL = 'http://34.72.242.229:8000'        // TODO replace with production
+var path = require("path")   
+const airtableUrl = "https://api.airtable.com/v0/appIh5qQ5m4UMrcps"
+const igGcpVmUrl = "http://35.193.205.99:8000"                          // TODO replace with production? Static IP?
+export const airtableResultsUrl = path.join(airtableUrl, "Results")
+export const airtableSavesUrl = path.join(airtableUrl, "Saves")
+export const igibsonGcpVmSetupUrl = path.join(igGcpVmUrl, "setup")
+export const igibsonGcpVmCheckSamplingUrl = path.join(igGcpVmUrl, "check_sampling")
+export const igibsonGcpVmTeardownUrl = path.join(igGcpVmUrl, "teardown")

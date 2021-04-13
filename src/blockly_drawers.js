@@ -1,12 +1,19 @@
 import React from 'react';
 import Blockly from 'node-blockly/browser';
 import BlocklyDrawer, { Block, Category } from 'react-blockly-drawer';
-import { dropdownGenerators, 
+import { 
+    allRooms,
+    sceneSynsets,
+    dropdownGenerators, 
     kinematicDropdownGenerators,
     sentenceConstructorColor,
     basicSentenceColor,
-    rootColor, 
-    airtableResultURL} from './constants.js'
+    rootColor,
+    airtableSavesUrl,
+    airtableResultsUrl,
+    igibsonGcpVmCheckSamplingUrl,
+    igibsonGcpVmTeardownUrl
+    } from './constants.js'
 import { convertName, 
          createObjectsList, 
          getCategoryFromLabel,
@@ -19,12 +26,6 @@ import { convertName,
 import AirTable from 'airtable'
 import Button from 'react-bootstrap/Button'
 import Modal from 'react-bootstrap/Modal'
-import { allRooms, 
-         sceneSynsets,
-         airtableSaveURL,
-         igibsonSamplerURL } from "./constants.js"
-import { stringify } from 'uuid';
-
 
 let updatedInitialConditions = '';
 let updatedGoalConditions = '';
@@ -123,7 +124,7 @@ export class FeasibilityChecker extends React.Component {
                 "uuids": JSON.parse(window.sessionStorage.getItem("uuids"))
             })
         }
-        fetch("/check_sampling", conditionsPostRequest)     // TODO change to production URL
+        fetch(igibsonGcpVmCheckSamplingUrl, conditionsPostRequest)     // TODO change to production URL
         .then(response => response.json())
         .then(data => {
             console.log("RESPONSE:", data)
@@ -198,13 +199,13 @@ export class FinalSubmit extends React.Component {
                 }]
             })
         }
-        fetch(airtableResultURL, submitPostRequest)
+        fetch(airtableResultsUrl, submitPostRequest)
         .then(response => response.json())
         
         console.log("successfully submitted!")
 
         // Teardown environments
-        fetch("/teardown", {
+        fetch(igibsonGcpVmTeardownUrl, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
@@ -329,7 +330,7 @@ export default class ConditionDrawer extends React.Component {
                 ]
             })
         }
-        fetch(airtableSaveURL, requestOptions)
+        fetch(airtableSavesUrl, requestOptions)
         .then(response => response.json())    
         
         console.log('successfully posted to airtable!')
