@@ -116,6 +116,7 @@ export class FeasibilityChecker extends React.Component {
                 "Content-Type": "application/json"
             },
             body: JSON.stringify({
+                "activityName": JSON.parse(window.sessionStorage.getItem('activityName')),
                 "initialConditions": updatedInitialConditions,
                 "goalConditions": updatedGoalConditions,
                 "objectList": createObjectsList(updatedInitialConditions),
@@ -321,7 +322,8 @@ export default class ConditionDrawer extends React.Component {
                             "AnnotatorID": JSON.parse(window.sessionStorage.getItem('annotatorName')),
                             "InitialConditions": updatedInitialConditions,
                             "GoalConditions": updatedGoalConditions,
-                            "FinalSave": 0
+                            "FinalSave": 0,
+                            "Objects": createObjectsList(updatedInitialConditions)
                         }
                     }
                 ]

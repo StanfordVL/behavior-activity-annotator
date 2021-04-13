@@ -3,6 +3,7 @@ import Button from 'react-bootstrap/Button'
 import Form from 'react-bootstrap/Form'
 import Modal from 'react-bootstrap/Modal'
 import { allActivities, igibsonSamplerURL } from './constants.js'
+import axios from "axios"
 
 const activityToPreselectedScene = require("./data/activity_to_preselected_scenes.json")
 
@@ -28,6 +29,7 @@ export default class ActivityEntryForm extends React.Component {
     }
 
     onSubmit(event) {
+        console.log("Hit onSubmit")
         event.preventDefault()
         if (allActivities.includes(this.state.activityName)) {
             this.setState({ submitted: true })
@@ -35,19 +37,34 @@ export default class ActivityEntryForm extends React.Component {
             this.props.onSubmit(this.state.activityName)
 
             console.log("PRESELECTED SCENES:", activityToPreselectedScene[this.state.activityName])
+            try {
+                // Get envs started in iG
+                const envsPostRequest = {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(activityToPreselectedScene[this.state.activityName])
+                    // mode: "no-cors"
+                }
+                // fetch("http://35.193.205.99/setup", envsPostRequest)
+                // .then(response => response.json())
+                // .then(data => {
+                //     window.sessionStorage.setItem("uuids", JSON.stringify(data["uuids"]))
+                // })
+                axios.post('http://35.193.205.99/setup', {
+                    scenes: activityToPreselectedScene[this.state.activityName],
+                    headers: {'Content-Type': 'application/json', 'Access-Control-Allow-Origin' : '*'
+                }
+                  })
+                  .then(function (response) {
+                    console.log(response);
+                  })
+                
+        
 
-            // Get envs started in iG
-            const envsPostRequest = {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(activityToPreselectedScene[this.state.activityName]),
-                mode: "no-cors"
+            } catch (error) {
+                console.log("Error:", error)
             }
-            fetch("/setup", envsPostRequest)
-            .then(response => response.json())
-            .then(data => {
-                window.sessionStorage.setItem("uuids", JSON.stringify(data["uuids"]))
-            })
+
         } else {
             this.setState({ showErrorModal: true })
         }
