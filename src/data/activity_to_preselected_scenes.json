@@ -388,5 +388,140 @@
         "Beechwood_0_int",
         "Wainscott_0_int",
         "Pomaria_1_int"
+    ],
+    "assembling_gift_baskets": [
+        "Rs_int",
+        "Merom_1_int",
+        "Merom_0_int"
+    ],
+    "decorating_the_Christmas_tree": [
+        "Ihlen_1_int",
+        "Beechwood_0_int",
+        "Benevolence_1_int"
+    ],
+    "organizing_school_stuff": [
+        "Benevolence_2_int",
+        "Pomaria_2_int",
+        "Beechwood_1_int"
+    ],
+    "re-shelving_library_books": [
+        "Pomaria_1_int",
+        "Rs_int",
+        "Ihlen_0_int"
+    ],
+    "throwing_darts": [
+        "Ihlen_0_int",
+        "Merom_1_int",
+        "Merom_0_int"
+    ],
+    "laying_linoleum_floors": [
+        "Wainscott_0_int",
+        "Pomaria_1_int",
+        "Benevolence_1_int"
+    ],
+    "serving_hors_d'oeuvres": [
+        "Wainscott_0_int",
+        "Merom_1_int",
+        "Beechwood_0_int"
+    ],
+    "opening_packages": [
+        "Pomaria_2_int",
+        "Benevolence_2_int",
+        "Wainscott_1_int"
+    ],
+    "sorting_books": [
+        "Pomaria_1_int",
+        "Rs_int",
+        "Ihlen_0_int"
+    ],
+    "putting_away_toys": [
+        "Ihlen_1_int",
+        "Ihlen_0_int",
+        "Benevolence_1_int"
+    ],
+    "putting_away_Christmas_decorations": [
+        "Rs_int",
+        "Merom_1_int",
+        "Wainscott_0_int"
+    ],
+    "putting_dishes_away_after_cleaning": [
+        "Beechwood_0_int",
+        "Ihlen_1_int",
+        "Wainscott_0_int"
+    ],
+    "filling_an_Easter_basket": [
+        "Rs_int",
+        "Pomaria_1_int",
+        "Benevolence_1_int"
+    ],
+    "putting_away_Halloween_decorations": [
+        "Benevolence_1_int",
+        "Ihlen_0_int",
+        "Ihlen_0_int"
+    ],
+    "shooting_pool": [
+        "Wainscott_1_int",
+        "Wainscott_1_int",
+        "Wainscott_1_int"
+    ],
+    "cleaning_out_drawers": [
+        "Rs_int",
+        "Pomaria_1_int",
+        "Benevolence_1_int"
+    ],
+    "clearing_the_table_after_dinner": [
+        "Benevolence_1_int",
+        "Ihlen_0_int",
+        "Beechwood_0_int"
+    ],
+    "stripping_paint": [
+        "Merom_0_int",
+        "Benevolence_0_int",
+        "Pomaria_0_int"
+    ],
+    "cleaning_cupboards": [
+        "Beechwood_1_int",
+        "Beechwood_1_int",
+        "Beechwood_1_int"
+    ],
+    "cleaning_kitchen_cupboard": [
+        "Wainscott_0_int",
+        "Merom_1_int",
+        "Rs_int"
+    ],
+    "washing_pots_and_pans": [
+        "Pomaria_1_int",
+        "Benevolence_1_int",
+        "Beechwood_0_int"
+    ],
+    "washing_cars_or_other_vehicles": [
+        "Ihlen_0_int",
+        "Ihlen_0_int",
+        "Ihlen_0_int"
+    ],
+    "washing_dishes": [
+        "Ihlen_1_int",
+        "Wainscott_0_int",
+        "Merom_1_int"
+    ],
+    "washing_floor": [
+        "Ihlen_1_int",
+        "Beechwood_1_int",
+        "Pomaria_2_int"
+    ],
+    "washing_walls": [
+        "Wainscott_0_int",
+        "Merom_1_int",
+        "Wainscott_1_int"
+    ],
+    "shampooing_carpet": [
+        "Benevolence_0_int",
+        "Wainscott_1_int",
+        "Pomaria_1_int"
+    ],
+    "mopping_floors": [
+        "Benevolence_2_int",
+        "Beechwood_0_int",
+        "Ihlen_0_int"
     ]
 }
