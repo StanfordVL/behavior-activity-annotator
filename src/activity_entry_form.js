@@ -6,9 +6,6 @@ import { allActivities, igibsonGcpVmSetupUrl } from './constants.js'
 
 const activityToPreselectedScene = require("./data/activity_to_preselected_scenes.json")
 
-// const allActivities = require('./activity_names.json')
-// const allActivities = Object.keys(require("./data/all_activity_hierarchies.json"))
-
 export default class ActivityEntryForm extends React.Component {
     constructor(props) {
         super(props)
@@ -45,7 +42,9 @@ export default class ActivityEntryForm extends React.Component {
                 fetch(igibsonGcpVmSetupUrl, envsPostRequest)
                 .then(response => response.json()) 
                 .then(data => {
+                    console.log("DONE!")
                     window.sessionStorage.setItem("uuids", JSON.stringify(data["uuids"]))
+                    window.sessionStorage.setItem("simulatorsReady", JSON.stringify(true))
                 })
             } catch (error) {
                 // TODO report the error to the annotator 

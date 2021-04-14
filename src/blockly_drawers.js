@@ -63,7 +63,11 @@ export class FeasibilityChecker extends React.Component {
             showInfeasibleMessage: false,
 
             codeCorrectnessFeedback: "",
-            showCodeIncorrectMessage: false
+            showCodeIncorrectMessage: false,
+
+            showPrematureMessage: false,
+            
+            disable: false
         }
     }
 
@@ -98,11 +102,21 @@ export class FeasibilityChecker extends React.Component {
                 codeCorrectnessFeedback: currentCodeCorrectnessFeedback 
             })
         } 
-        // If correct, check feasibility 
+        // If correct, go through feasibility flow  
         else {
-            this.checkFeasibility()
+            // Check if simulators are ready
+            let simulatorsReady = JSON.parse(window.sessionStorage.getItem("simulatorsReady"))
+            if (simulatorsReady) {
+                // If so, run feasibility check 
+                this.checkFeasibility()
+            } else {
+                // If not, show the premature message 
+                this.setState({ showPrematureMessage: true })
+            }
         }
     }
+
+    onPrematureHide() { this.setState({ showPrematureMessage: false }) }
 
     onFeasibilityHide() { this.setState({ showInfeasibleMessage: false }) }
 
@@ -124,16 +138,19 @@ export class FeasibilityChecker extends React.Component {
                 "uuids": JSON.parse(window.sessionStorage.getItem("uuids"))
             })
         }
+        this.setState({ disable: true })
         fetch(igibsonGcpVmCheckSamplingUrl, conditionsPostRequest)     // TODO change to production URL
         .then(response => response.json())
         .then(data => {
             this.setState({
                 feasible: data.success,
                 feasibilityFeedback: data.feedback,
-                showInfeasibleMessage: !data.success
+                showInfeasibleMessage: !data.success,
+                disable: false
             })
             this.props.onCheck(data.success)
         })
+        .catch(this.setState({ disable: false }))
     }
 
     render() {
@@ -144,9 +161,25 @@ export class FeasibilityChecker extends React.Component {
                     variant="primary"
                     onClick={() => this.onClick()}
                     className="marginCard"
+                    disabled={this.state.disable}
                 >
                     Check feasibility 
                 </Button>
+
+                {/* Simulators ready modal */}
+                <Modal
+                    show={this.state.showPrematureMessage}
+                    onHide={() => this.onPrematureHide()}
+                >
+                    <Modal.Header closeButton>
+                        <Modal.Title as="h5">Feasibility checker is not ready</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        It typically takes 6-8 minutes from the time you entered your activity for the 
+                         feasibility checker to load, so try again in a couple minutes. If it's 
+                         definitely been longer than ~10 minutes, let Sanjana know. 
+                    </Modal.Body>
+                </Modal>
 
                 {/* Feasibility modal */}
                 <Modal
@@ -204,6 +237,7 @@ export class FinalSubmit extends React.Component {
         console.log("successfully submitted!")
 
         // Teardown environments
+        window.sessionStorage.setItem("simulatorsReady", JSON.stringify(false))
         fetch(igibsonGcpVmTeardownUrl, {
             method: "POST",
             headers: {
@@ -212,7 +246,10 @@ export class FinalSubmit extends React.Component {
             body: JSON.stringify({ 
                 "uuids": JSON.parse(window.sessionStorage.getItem("uuids")) 
             })
-        }).then(response => response.json())
+        })
+        .then(response => {
+            response.json()
+        })
     } // TODO Redirect!!!!!!!!!! Or give some kind of feedback
 
     render() {
