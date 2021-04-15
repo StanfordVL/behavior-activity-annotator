@@ -19,7 +19,6 @@ export default class SceneObjectTable extends React.Component {
     }
 
     onObjectSubmit(numObjects, objectCategory) {
-        console.log(objectCategory)
         this.props.onObjectSubmit(numObjects, objectCategory)
     }
 
@@ -72,7 +71,6 @@ export default class SceneObjectTable extends React.Component {
         }
 
         // Convert to synsets. If there are two of the same synset, add the counts.
-        console.log('ROOM SCENE OBJECTS:', roomSceneObjects)
         let roomSceneSynsets = {}
         for (const [roomSceneObject, numInstances] of Object.entries(roomSceneObjects)) {
             const roomSceneSynset = getSceneSynset(roomSceneObject)
@@ -107,10 +105,7 @@ class ObjectTableCell extends React.Component {
         }
     }
 
-    onNumberChange(event) {
-        console.log('number changed! new value:', event.target.value)
-        this.setState({ numberInput: event.target.value })
-    }
+    onNumberChange(event) { this.setState({ numberInput: event.target.value }) }
 
     onSubmit(event) {
         event.preventDefault();

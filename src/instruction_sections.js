@@ -80,7 +80,6 @@ export class ObjectSelectionWorkspace extends React.Component {
     }
 
     render() {
-        console.log('SELECTED ROOMS:', this.state.selectedRooms)
         return (
             <div>
                 <Card className="marginCard" hidden={this.props.hidden}>

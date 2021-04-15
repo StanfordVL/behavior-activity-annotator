@@ -14,7 +14,6 @@ export default class RoomForm extends React.Component {
     }
 
     onChange(event) {
-        console.log('change in room form')
         let label = event.target.value
         let updatedSelectedCheckboxes = this.state.selectedCheckboxes 
         if (label in updatedSelectedCheckboxes) {
@@ -23,13 +22,10 @@ export default class RoomForm extends React.Component {
             updatedSelectedCheckboxes[label] = null
         }
         this.setState({ selectedCheckboxes: updatedSelectedCheckboxes })
-        console.log(this.state.selectedCheckboxes)
     }
 
     submitForm(event) {
-        console.log('submitted')
         event.preventDefault();
-        console.log('FROM ROOM SELECT:', this.state.selectedCheckboxes)
         this.setState({submitted: true})
         window.sessionStorage.setItem("room", JSON.stringify(this.state.selectedCheckboxes))
         this.props.onSubmit(this.state.selectedCheckboxes);
@@ -48,9 +44,8 @@ export default class RoomForm extends React.Component {
         return(
             <div>
                 <Form
-                    onChange={(event) => this.onChange(event)}
-                    onSubmit={(event) => {
-                        this.submitForm(event)}}
+                    onChange={event => this.onChange(event)}
+                    onSubmit={event => {this.submitForm(event)}}
                 >
                     <div>
                         {rooms.map((roomType) => (

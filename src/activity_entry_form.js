@@ -25,26 +25,23 @@ export default class ActivityEntryForm extends React.Component {
     }
 
     onSubmit(event) {
-        console.log("Hit onSubmit")
         event.preventDefault()
         if (allActivities.includes(this.state.activityName)) {
             this.setState({ submitted: true })
             window.sessionStorage.setItem("activityName", JSON.stringify(this.state.activityName))
             this.props.onSubmit(this.state.activityName)
 
-            console.log("PRESELECTED SCENES:", activityToPreselectedScene[this.state.activityName])
             try {
                 const envsPostRequest = {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify(activityToPreselectedScene[this.state.activityName])
+                    body: JSON.stringify(activityToPreselectedScene[this.state.activityName].slice(0, 1))
                 }
                 fetch(igibsonGcpVmSetupUrl, envsPostRequest)
                 .then(response => response.json()) 
                 .then(data => {
-                    console.log("DONE!")
                     window.sessionStorage.setItem("uuids", JSON.stringify(data["uuids"]))
-                    window.sessionStorage.setItem("simulatorsReady", JSON.stringify(true))
+                    window.sessionStorage.setItem("serverReady", JSON.stringify(true))
                 })
             } catch (error) {
                 // TODO report the error to the annotator 

@@ -3,7 +3,8 @@ import { blocklyNameToPDDLName,
          objectInstanceRe,
          getPlacementsRe,
          sceneSynsets,
-         detectObjectInstanceAndCategoryRe
+         detectObjectInstanceAndCategoryRe,
+         sceneObjectLabelWithRoomRe
           } from "./constants.js"
 
 
@@ -23,9 +24,9 @@ export function getCategoryFromLabel(objectLabel) {
      * @returns {string} - category of this objectLabel 
      */
     let objectCategory = objectLabel
-    if (objectLabel.match(objectInstanceRe)) {
+    if (objectLabel.match(objectInstanceRe) || objectLabel.match(sceneObjectLabelWithRoomRe)) {
         objectCategory = objectLabel.split("_").slice(0, -1).join("_")
-    } 
+    }
     return objectCategory 
 }
 
@@ -94,6 +95,11 @@ export function generateDropdownArray(labels) {
         }
     }
     return dropdownArray
+}
+
+export function addAgentStartLine(room, code) {
+    const codeElements = code.split(" (inroom")
+    return codeElements[0] + ` (agentstart ${room}) ` + codeElements.slice(1, -1).join(" (inroom")
 }
 
 export class ObjectOptions {
@@ -244,11 +250,9 @@ export function checkTransitiveUnplacedAdditionalObjects(conditions) {
      * @returns {Boolean} true if there are unplaced additional objects, else false 
      */
     if (checkEmptyInitialConditions(conditions)) {
-        console.log("EMPTY")
         return false 
     }
     if (checkCompletelyUnplacedAdditionalObjects(conditions)) {
-        console.log('COMPLETELy UNPLACED')
         return true 
     }
     const rawPlacements = conditions.match(getPlacementsRe())

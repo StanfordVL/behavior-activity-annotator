@@ -22,7 +22,9 @@ import { convertName,
         checkNulls,
         checkTransitiveUnplacedAdditionalObjects,
         checkCategoriesExist,
-        checkNegatedPlacements } from "./utils.js"
+        checkNegatedPlacements,
+        addAgentStartLine } from "./utils.js"
+import AgentStartForm from "./agent_start_selection_form"
 import AirTable from 'airtable'
 import Button from 'react-bootstrap/Button'
 import Modal from 'react-bootstrap/Modal'
@@ -34,21 +36,25 @@ let updatedGoalConditions = '';
 export class SubmissionSection extends React.Component {
     constructor(props) {
         super(props)
-        this.state = {
-            feasible: false
+        this.state = { feasible: false }
+        let selectedRooms = Object.keys(JSON.parse(window.sessionStorage.getItem("room")))
+        if (selectedRooms.length != 1) {
+            this.state["agentStartRoom"] = "stub"
+        } else {
+            this.state["agentStartRoom"] = selectedRooms[0]
         }
     }
 
-    onCheck(newFeasible) {
-        this.setState({ feasible: newFeasible })
-    }
+    onCheck(newFeasible) { this.setState({ feasible: newFeasible }) }
+
+    onAgentStartSelection(agentStartRoom) { this.setState({ agentStartRoom: agentStartRoom }) }
 
     render() {
-        console.log("STATE:", this.state)
         return (
             <div>
-                <FeasibilityChecker onCheck={(newFeasible) => this.onCheck(newFeasible)}/>
-                <FinalSubmit feasible={this.state.feasible}/>
+                <FeasibilityChecker onCheck={newFeasible => this.onCheck(newFeasible)}/>
+                <AgentStartForm onAgentStartSelection={agentStartRoom => this.onAgentStartSelection(agentStartRoom)}/>
+                <FinalSubmit agentStartRoom={this.state.agentStartRoom} feasible={this.state.feasible}/>
             </div>
         )
     }
@@ -61,12 +67,9 @@ export class FeasibilityChecker extends React.Component {
             feasible: false,
             feasibilityFeedback: "",
             showInfeasibleMessage: false,
-
             codeCorrectnessFeedback: "",
             showCodeIncorrectMessage: false,
-
             showPrematureMessage: false,
-            
             disable: false
         }
     }
@@ -74,6 +77,7 @@ export class FeasibilityChecker extends React.Component {
     // Event methods 
 
     onClick() {
+        // TODO add in blockign when server is busy 
         // Check code correctness 
         let currentCodeCorrectnessFeedback = ""
         console.log("INITIAL CONDITIONS", updatedInitialConditions)
@@ -105,8 +109,8 @@ export class FeasibilityChecker extends React.Component {
         // If correct, go through feasibility flow  
         else {
             // Check if simulators are ready
-            let simulatorsReady = JSON.parse(window.sessionStorage.getItem("simulatorsReady"))
-            if (simulatorsReady) {
+            let serverReady = JSON.parse(window.sessionStorage.getItem("serverReady"))
+            if (serverReady) {
                 // If so, run feasibility check 
                 this.checkFeasibility()
             } else {
@@ -138,19 +142,22 @@ export class FeasibilityChecker extends React.Component {
                 "uuids": JSON.parse(window.sessionStorage.getItem("uuids"))
             })
         }
-        this.setState({ disable: true })
+        // this.setState({ disable: true })
+        window.sessionStorage.setItem("serverBusy", JSON.stringify(true))
         fetch(igibsonGcpVmCheckSamplingUrl, conditionsPostRequest)     // TODO change to production URL
         .then(response => response.json())
         .then(data => {
             this.setState({
                 feasible: data.success,
                 feasibilityFeedback: data.feedback,
-                showInfeasibleMessage: !data.success,
-                disable: false
+                showInfeasibleMessage: !data.success
+                // disable: false
             })
+            window.sessionStorage.setItem("serverBusy", JSON.stringify(false))
             this.props.onCheck(data.success)
         })
-        .catch(this.setState({ disable: false }))
+        // .catch(this.setState({ disable: false }))
+        .catch(window.sessionStorage.setItem("serverBusy", JSON.stringify(false)))
     }
 
     render() {
@@ -211,6 +218,10 @@ export class FinalSubmit extends React.Component {
     constructor(props) { super(props) }
 
     onSubmit() {
+        // Add agent start term 
+        updatedInitialConditions = addAgentStartLine(this.props.agentStartRoom, updatedInitialConditions)
+        console.log("with agent start:", updatedInitialConditions)
+
         // Save data to airtable 
         const submitPostRequest = {
             method: "POST",
@@ -237,7 +248,7 @@ export class FinalSubmit extends React.Component {
         console.log("successfully submitted!")
 
         // Teardown environments
-        window.sessionStorage.setItem("simulatorsReady", JSON.stringify(false))
+        window.sessionStorage.setItem("serverReady", JSON.stringify(false))
         fetch(igibsonGcpVmTeardownUrl, {
             method: "POST",
             headers: {
@@ -249,6 +260,7 @@ export class FinalSubmit extends React.Component {
         })
         .then(response => {
             response.json()
+            window.sessionStorage.setItem("uuids", JSON.stringify([]))
         })
     } // TODO Redirect!!!!!!!!!! Or give some kind of feedback
 
@@ -261,7 +273,7 @@ export class FinalSubmit extends React.Component {
                     type="submit"
                     onClick={(event) => this.onSubmit(event)}
                     className="marginCard"
-                    disabled={!this.props.feasible}        // TODO change once feasibility checking is implemented
+                    disabled={!this.props.feasible || !(this.props.agentStartRoom != "stub")}        // TODO change once feasibility checking is implemented
                 >
                     Submit
                 </Button>
@@ -338,8 +350,8 @@ export default class ConditionDrawer extends React.Component {
             // Update code 
             updatedGoalConditions = newCode;
         }
-        
-        console.log('CODE:', code)
+
+        console.log("code: ", code)
     }
 
     onSave() {
