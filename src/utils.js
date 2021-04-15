@@ -99,7 +99,7 @@ export function generateDropdownArray(labels) {
 
 export function addAgentStartLine(room, code) {
     const codeElements = code.split(" (inroom")
-    return codeElements[0] + ` (agentstart ${room}) ` + codeElements.slice(1, -1).join(" (inroom")
+    return codeElements[0] + ` (agentstart ${room}) (inroom` + codeElements.slice(1, -1).join(" (inroom")
 }
 
 export class ObjectOptions {
@@ -209,8 +209,8 @@ export function checkEmptyInitialConditions(initialConditions) {
 
 export function checkCompletelyUnplacedAdditionalObjects(conditions) {
     /**
-     * Reports whether for every object mentioned in the conditions, if it is in any placement condition.
-     * Only guaranteed correct for initial conditions that have no categories. 
+     * Reports whether for every additional object mentioned in the conditions, if it is in any 
+     * placement condition. Only guaranteed correct for initial conditions that have no categories. 
      * 
      * @param {String} conditions - string conditions being checked for additional objects that are 
      *                              not in any placement condition
@@ -222,6 +222,9 @@ export function checkCompletelyUnplacedAdditionalObjects(conditions) {
         return true 
     }
     for (const objectInstance of detectedObjectInstances) {
+        if (sceneSynsets.includes(getCategoryFromLabel(objectInstance))) {
+            continue
+        }
         let objectPlaced = false
         for (const placement of rawPlacements) {
             if (placement.match(objectInstance) != null) {

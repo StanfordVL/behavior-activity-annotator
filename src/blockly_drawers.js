@@ -36,7 +36,7 @@ let updatedGoalConditions = '';
 export class SubmissionSection extends React.Component {
     constructor(props) {
         super(props)
-        this.state = { feasible: false }
+        this.state = { feasible: false, correct: false }
         let selectedRooms = Object.keys(JSON.parse(window.sessionStorage.getItem("room")))
         if (selectedRooms.length != 1) {
             this.state["agentStartRoom"] = "stub"
@@ -45,16 +45,26 @@ export class SubmissionSection extends React.Component {
         }
     }
 
-    onCheck(newFeasible) { this.setState({ feasible: newFeasible }) }
+    onFeasibilityCheck(newFeasible) { this.setState({ feasible: newFeasible }) }
+
+    onCorrectnessCheck(newCorrect) { this.setState({ correct: newCorrect }); console.log("updating correctness centrally") }
 
     onAgentStartSelection(agentStartRoom) { this.setState({ agentStartRoom: agentStartRoom }) }
 
     render() {
+        console.log("correctness during render:", this.state.correct)
         return (
             <div>
-                <FeasibilityChecker onCheck={newFeasible => this.onCheck(newFeasible)}/>
+                <FeasibilityChecker 
+                    onFeasibilityCheck={newFeasible => this.onFeasibilityCheck(newFeasible)}
+                    onCorrectnessCheck={newCorrect => this.onCorrectnessCheck(newCorrect)}
+                />
                 <AgentStartForm onAgentStartSelection={agentStartRoom => this.onAgentStartSelection(agentStartRoom)}/>
-                <FinalSubmit agentStartRoom={this.state.agentStartRoom} feasible={this.state.feasible}/>
+                <FinalSubmit 
+                    agentStartRoom={this.state.agentStartRoom} 
+                    feasible={this.state.feasible}
+                    correct={this.state.correct}
+                />
             </div>
         )
     }
@@ -67,6 +77,7 @@ export class FeasibilityChecker extends React.Component {
             feasible: false,
             feasibilityFeedback: "",
             showInfeasibleMessage: false,
+            correct: false,
             codeCorrectnessFeedback: "",
             showCodeIncorrectMessage: false,
             showPrematureMessage: false,
@@ -79,36 +90,41 @@ export class FeasibilityChecker extends React.Component {
     onClick() {
         // TODO add in blockign when server is busy 
         // Check code correctness 
-        let currentCodeCorrectnessFeedback = ""
+        // let currentCodeCorrectnessFeedback = ""
         console.log("INITIAL CONDITIONS", updatedInitialConditions)
         console.log("GOAL CONDITIONS:", updatedGoalConditions)
 
-        if (checkNulls(updatedInitialConditions)) {
-            currentCodeCorrectnessFeedback += "The initial conditions have empty field(s).\n"
-        }
-        if (checkTransitiveUnplacedAdditionalObjects(updatedInitialConditions)) {
-            currentCodeCorrectnessFeedback += "The initial conditions currently contain objects that have not been placed in relation to a scene object (even indirectly)." 
-        }
-        if (checkNegatedPlacements(updatedInitialConditions)) {
-            currentCodeCorrectnessFeedback += "The initial conditions contain negated two-object basic conditions. In the initial conditions, you can only negate one-object basic conditions."
-        }
-        if (checkCategoriesExist(updatedInitialConditions)) {
-            currentCodeCorrectnessFeedback += "The initial conditions currently contain object categories, but only object instances are allowed in initial conditions."
-        }
-        if (checkNulls(updatedGoalConditions)) {
-            currentCodeCorrectnessFeedback += "The goal conditions have empty field(s).\n"
-        }
-
+        // if (checkNulls(updatedInitialConditions)) {
+        //     currentCodeCorrectnessFeedback += "The initial conditions have empty field(s).\n"
+        // }
+        // if (checkTransitiveUnplacedAdditionalObjects(updatedInitialConditions)) {
+        //     currentCodeCorrectnessFeedback += "The initial conditions currently contain objects that have not been placed in relation to a scene object (even indirectly)." 
+        // }
+        // if (checkNegatedPlacements(updatedInitialConditions)) {
+        //     currentCodeCorrectnessFeedback += "The initial conditions contain negated two-object basic conditions. In the initial conditions, you can only negate one-object basic conditions."
+        // }
+        // if (checkCategoriesExist(updatedInitialConditions)) {
+        //     currentCodeCorrectnessFeedback += "The initial conditions currently contain object categories, but only object instances are allowed in initial conditions."
+        // }
+        // if (checkNulls(updatedGoalConditions)) {
+        //     currentCodeCorrectnessFeedback += "The goal conditions have empty field(s).\n"
+        // }
+        let currentCodeCorrectnessFeedback = this.checkCorrectness()
         // If incorrect, show the correctness error and end things there 
         if (currentCodeCorrectnessFeedback !== "") {
             this.setState({ 
+                correct: false,
                 showCodeIncorrectMessage: true, 
                 codeCorrectnessFeedback: currentCodeCorrectnessFeedback 
             })
+            this.props.onCorrectnessCheck(false)
         } 
         // If correct, go through feasibility flow  
         else {
             // Check if simulators are ready
+            this.setState({ correct: true })
+            this.props.onCorrectnessCheck(true)
+            console.log("pushed correctness up")
             let serverReady = JSON.parse(window.sessionStorage.getItem("serverReady"))
             if (serverReady) {
                 // If so, run feasibility check 
@@ -126,7 +142,25 @@ export class FeasibilityChecker extends React.Component {
 
     onCodeCorrectnessHide() { this.setState({ showCodeIncorrectMessage: false }) }
 
-    // Server communication methods
+    checkCorrectness() {
+        let currentCodeCorrectnessFeedback = ""
+        if (checkNulls(updatedInitialConditions)) {
+            currentCodeCorrectnessFeedback += "The initial conditions have empty field(s).\n"
+        }
+        if (checkTransitiveUnplacedAdditionalObjects(updatedInitialConditions)) {
+            currentCodeCorrectnessFeedback += "The initial conditions currently contain objects that have not been placed in relation to a scene object (even indirectly)." 
+        }
+        if (checkNegatedPlacements(updatedInitialConditions)) {
+            currentCodeCorrectnessFeedback += "The initial conditions contain negated two-object basic conditions. In the initial conditions, you can only negate one-object basic conditions."
+        }
+        if (checkCategoriesExist(updatedInitialConditions)) {
+            currentCodeCorrectnessFeedback += "The initial conditions currently contain object categories, but only object instances are allowed in initial conditions."
+        }
+        if (checkNulls(updatedGoalConditions)) {
+            currentCodeCorrectnessFeedback += "The goal conditions have empty field(s).\n"
+        }
+        return currentCodeCorrectnessFeedback
+    }
 
     checkFeasibility() {
         const conditionsPostRequest = {
@@ -143,21 +177,27 @@ export class FeasibilityChecker extends React.Component {
             })
         }
         // this.setState({ disable: true })
-        window.sessionStorage.setItem("serverBusy", JSON.stringify(true))
-        fetch(igibsonGcpVmCheckSamplingUrl, conditionsPostRequest)     // TODO change to production URL
-        .then(response => response.json())
-        .then(data => {
-            this.setState({
-                feasible: data.success,
-                feasibilityFeedback: data.feedback,
-                showInfeasibleMessage: !data.success
-                // disable: false
-            })
-            window.sessionStorage.setItem("serverBusy", JSON.stringify(false))
-            this.props.onCheck(data.success)
+        // window.sessionStorage.setItem("serverBusy", JSON.stringify(true))
+        // fetch(igibsonGcpVmCheckSamplingUrl, conditionsPostRequest)     // TODO change to production URL
+        // .then(response => response.json())
+        // .then(data => {
+        //     this.setState({
+        //         feasible: data.success,
+        //         feasibilityFeedback: data.feedback,
+        //         showInfeasibleMessage: !data.success
+        //         // disable: false
+        //     })
+        //     window.sessionStorage.setItem("serverBusy", JSON.stringify(false))
+        //     this.props.onCheck(data.success)
+        // })
+        this.setState({
+            feasible: true,
+            feasibilityFeedback: "Conditions approved!",
+            showInfeasibleMessage: false
         })
+        this.props.onFeasibilityCheck(true)
         // .catch(this.setState({ disable: false }))
-        .catch(window.sessionStorage.setItem("serverBusy", JSON.stringify(false)))
+        // .catch(window.sessionStorage.setItem("serverBusy", JSON.stringify(false)))
     }
 
     render() {
@@ -249,19 +289,19 @@ export class FinalSubmit extends React.Component {
 
         // Teardown environments
         window.sessionStorage.setItem("serverReady", JSON.stringify(false))
-        fetch(igibsonGcpVmTeardownUrl, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({ 
-                "uuids": JSON.parse(window.sessionStorage.getItem("uuids")) 
-            })
-        })
-        .then(response => {
-            response.json()
-            window.sessionStorage.setItem("uuids", JSON.stringify([]))
-        })
+        // fetch(igibsonGcpVmTeardownUrl, {
+        //     method: "POST",
+        //     headers: {
+        //         "Content-Type": "application/json"
+        //     },
+        //     body: JSON.stringify({ 
+        //         "uuids": JSON.parse(window.sessionStorage.getItem("uuids")) 
+        //     })
+        // })
+        // .then(response => {
+        //     response.json()
+        //     window.sessionStorage.setItem("uuids", JSON.stringify([]))
+        // })
     } // TODO Redirect!!!!!!!!!! Or give some kind of feedback
 
     render() {
@@ -273,7 +313,7 @@ export class FinalSubmit extends React.Component {
                     type="submit"
                     onClick={(event) => this.onSubmit(event)}
                     className="marginCard"
-                    disabled={!this.props.feasible || !(this.props.agentStartRoom != "stub")}        // TODO change once feasibility checking is implemented
+                    disabled={!this.props.feasible || !(this.props.agentStartRoom != "stub") || !this.props.correct}        // TODO change once feasibility checking is implemented
                 >
                     Submit
                 </Button>
