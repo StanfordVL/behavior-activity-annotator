@@ -230,9 +230,8 @@ export function checkAdditionalObjectsPresent(conditions) {
     let detectedAdditionalObjectInstances = detectedObjectInstances.filter(
         detectedObjectInstance => !sceneSynsets.includes(getCategoryFromLabel(detectedObjectInstance))
     )
-    if (detectedAdditionalObjectInstances.length === 0) {
-        return false 
-    }
+    console.log("detected additional object instances:", detectedAdditionalObjectInstances)
+    return detectedAdditionalObjectInstances.length !== 0
 }
 
 export function checkCompletelyUnplacedAdditionalObjects(conditions) {
@@ -288,7 +287,8 @@ export function checkTransitiveUnplacedAdditionalObjects(conditions) {
      *                              even transitively
      * @returns {Boolean} true if there are unplaced additional objects, else false 
      */
-    console.log("checking unplaced")
+    console.log("starting unplacement check")
+    console.log("checking empty")
     if (checkEmptyInitialConditions(conditions)) {
         console.log("empty initial conditions")
         return false 
@@ -297,10 +297,11 @@ export function checkTransitiveUnplacedAdditionalObjects(conditions) {
     if (!checkAdditionalObjectsPresent(conditions)) {
         return false 
     }
+    console.log("checking completely unplaced objects")
     if (checkCompletelyUnplacedAdditionalObjects(conditions)) {
-        console.log("completely unplaced objects")
         return true 
     }
+    console.log("checking the placements themselves")
     const rawPlacements = conditions.match(getPlacementsRe())
     let placements = []
     // drop parentheses
