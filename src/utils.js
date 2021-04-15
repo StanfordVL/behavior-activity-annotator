@@ -1,3 +1,4 @@
+import { get } from "jquery"
 import { blocklyNameToPDDLName,
          detectObjectInstanceRe,
          objectInstanceRe,
@@ -207,20 +208,43 @@ export function checkEmptyInitialConditions(initialConditions) {
     return initialConditions.match("\\(:init( )+\\(inroom") !== null
 }
 
+export function checkAdditionalObjectsInList(conditions) {
+    /**
+     * Reports whether the conditions have any additional objects at all or not 
+     * 
+     * @param {String} conditions - string conditions to check 
+     * @returns {Boolean} true if there are additional objects in the string else false 
+     */
+    const detectedObjectInstances = detectObjectInstances(conditions)
+    let detectedAdditionalObjectInstances = detectedObjectInstances.filter(
+        detectedObjectInstance => !sceneSynsets.includes(getCategoryFromLabel(detectedObjectInstance))
+    )
+    if (detectedAdditionalObjectInstances.length === 0) {
+        return false 
+    }
+}
+
 export function checkCompletelyUnplacedAdditionalObjects(conditions) {
     /**
      * Reports whether for every additional object mentioned in the conditions, if it is in any 
      * placement condition. Only guaranteed correct for initial conditions that have no categories. 
+     * NOTE ASSUMES that there is at least one additional object in the code 
      * 
      * @param {String} conditions - string conditions being checked for additional objects that are 
      *                              not in any placement condition
      * @returns {Boolean} true if there are additional objects that are not in any placement 
      */
     const detectedObjectInstances = detectObjectInstances(conditions) 
+    console.log("detected object instances:", detectedObjectInstances)
     const rawPlacements = conditions.match(getPlacementsRe())
+    console.log("raw placements:", rawPlacements)
+
+    // If there are no placements, everything left will necessarily be unplaced
     if (rawPlacements == null) {
         return true 
     }
+
+    // Check if the additional object is in no placements 
     for (const objectInstance of detectedObjectInstances) {
         if (sceneSynsets.includes(getCategoryFromLabel(objectInstance))) {
             continue
@@ -233,6 +257,7 @@ export function checkCompletelyUnplacedAdditionalObjects(conditions) {
             }
         }
         if (!objectPlaced) {
+            console.log("unplaced object:", objectInstance)
             return true
         }
     }
@@ -252,10 +277,17 @@ export function checkTransitiveUnplacedAdditionalObjects(conditions) {
      *                              even transitively
      * @returns {Boolean} true if there are unplaced additional objects, else false 
      */
+    console.log("checking unplaced")
     if (checkEmptyInitialConditions(conditions)) {
+        console.log("empty initial conditions")
+        return false 
+    }
+    console.log("checking lack of additional objects")
+    if (!checkAdditionalObjectsInList(conditions)) {
         return false 
     }
     if (checkCompletelyUnplacedAdditionalObjects(conditions)) {
+        console.log("completely unplaced objects")
         return true 
     }
     const rawPlacements = conditions.match(getPlacementsRe())
@@ -286,6 +318,7 @@ export function checkTransitiveUnplacedAdditionalObjects(conditions) {
     newNumHangingPlacements = leftoverPlacements.length
     placements = leftoverPlacements
     leftoverPlacements = []
+    console.log("need to keep checking:", currentNumHangingPlacements !== newNumHangingPlacements)
 
     // round >1: for each placement, if the second object is a key in placedPairs, put the first object as 
     //          a key in placedPairs, mapped to the second object's value. If it is not in placedPairs, 
@@ -302,10 +335,12 @@ export function checkTransitiveUnplacedAdditionalObjects(conditions) {
             }
         }
         newNumHangingPlacements = leftoverPlacements.length
+        console.log("leftover placements:", leftoverPlacements)
         placements = leftoverPlacements
         leftoverPlacements = []
     }
 
+    console.log("unplaced?:", newNumHangingPlacements !== 0)
     return (newNumHangingPlacements !== 0)
 }
 

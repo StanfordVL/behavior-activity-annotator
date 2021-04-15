@@ -38,6 +38,7 @@ export class SubmissionSection extends React.Component {
         super(props)
         this.state = { feasible: false, correct: false }
         let selectedRooms = Object.keys(JSON.parse(window.sessionStorage.getItem("room")))
+        console.log("from constructor:", selectedRooms)
         if (selectedRooms.length != 1) {
             this.state["agentStartRoom"] = "stub"
         } else {
@@ -53,6 +54,7 @@ export class SubmissionSection extends React.Component {
 
     render() {
         console.log("correctness during render:", this.state.correct)
+        console.log("agent start room right now:", this.state.agentStartRoom)
         return (
             <div>
                 <FeasibilityChecker 
@@ -313,7 +315,7 @@ export class FinalSubmit extends React.Component {
                     type="submit"
                     onClick={(event) => this.onSubmit(event)}
                     className="marginCard"
-                    disabled={!this.props.feasible || !(this.props.agentStartRoom != "stub") || !this.props.correct}        // TODO change once feasibility checking is implemented
+                    disabled={!this.props.feasible || this.props.agentStartRoom === "stub" || !this.props.correct}        // TODO change once feasibility checking is implemented
                 >
                     Submit
                 </Button>
