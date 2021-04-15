@@ -29,10 +29,6 @@ import AirTable from 'airtable'
 import Button from 'react-bootstrap/Button'
 import Modal from 'react-bootstrap/Modal'
 
-require('react-dom');
-window.React2 = require('react');
-console.log(window.React1 === window.React2);
-
 let updatedInitialConditions = '';
 let updatedGoalConditions = '';
 
