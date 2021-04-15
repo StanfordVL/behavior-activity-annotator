@@ -14,6 +14,7 @@ window.sessionStorage.setItem('allSelectedObjects', JSON.stringify({'apple': 2, 
 window.sessionStorage.setItem("room", JSON.stringify({stub: null}))
 window.sessionStorage.setItem("serverReady", JSON.stringify(false))
 window.sessionStorage.setItem("serverBusy", JSON.stringify(false))
+window.sessionStorage.setItem("room", JSON.stringify({"stub": null}))
 // TODO send a teardown and put the line below in the .then?
 window.sessionStorage.setItem("uuids", JSON.stringify([]))
 
