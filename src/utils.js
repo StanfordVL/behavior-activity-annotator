@@ -55,32 +55,42 @@ export function convertName(name) {
 }
 
 export function detectObjectInstances(code) {
+    /**
+     * Detects all object instances in code, returns list of instances.
+     * If there are no instances, returns empty list 
+     * 
+     * @param {String} code - code in which object instances are being 
+     *                        detected 
+     * @return {Array} detected object instances 
+     */
     const detectedObjectInstances = code.match(detectObjectInstanceRe)
-    return detectedObjectInstances
+    if (detectedObjectInstances === null) {
+        return []
+    } else {
+        return detectedObjectInstances
+    }
 }
 
 export function createObjectsList(initialConditions) {
     const detectedObjectInstances = detectObjectInstances(initialConditions) 
     let objectList = ''
     
-    if (detectedObjectInstances !== null) {           
-        let objectToCategory = {}
-        for (let object of detectedObjectInstances) {
-            // const category = object.replace(/[0-9]+/, '')
-            const category = getCategoryFromLabel(object)
-            if (category in objectToCategory) {
-                objectToCategory[category].add(object)
-            } else {
-                objectToCategory[category] = new Set([object])
-            }
+    let objectToCategory = {}
+    for (let object of detectedObjectInstances) {
+        // const category = object.replace(/[0-9]+/, '')
+        const category = getCategoryFromLabel(object)
+        if (category in objectToCategory) {
+            objectToCategory[category].add(object)
+        } else {
+            objectToCategory[category] = new Set([object])
         }
+    }
 
-        for (const [category, objects] of Object.entries(objectToCategory)) {
-            const sortedObjects = Array.from(objects).sort()
-            objectList += '\t'
-            objectList += sortedObjects.join(' ')
-            objectList += ` - ${category}\n`
-        }
+    for (const [category, objects] of Object.entries(objectToCategory)) {
+        const sortedObjects = Array.from(objects).sort()
+        objectList += '\t'
+        objectList += sortedObjects.join(' ')
+        objectList += ` - ${category}\n`
     }
     objectList = `(:objects\n ${objectList})`
     return objectList
@@ -208,7 +218,7 @@ export function checkEmptyInitialConditions(initialConditions) {
     return initialConditions.match("\\(:init( )+\\(inroom") !== null
 }
 
-export function checkAdditionalObjectsInList(conditions) {
+export function checkAdditionalObjectsPresent(conditions) {
     /**
      * Reports whether the conditions have any additional objects at all or not 
      * 
@@ -216,6 +226,7 @@ export function checkAdditionalObjectsInList(conditions) {
      * @returns {Boolean} true if there are additional objects in the string else false 
      */
     const detectedObjectInstances = detectObjectInstances(conditions)
+    console.log("detected object instances:", detectedObjectInstances)
     let detectedAdditionalObjectInstances = detectedObjectInstances.filter(
         detectedObjectInstance => !sceneSynsets.includes(getCategoryFromLabel(detectedObjectInstance))
     )
@@ -283,7 +294,7 @@ export function checkTransitiveUnplacedAdditionalObjects(conditions) {
         return false 
     }
     console.log("checking lack of additional objects")
-    if (!checkAdditionalObjectsInList(conditions)) {
+    if (!checkAdditionalObjectsPresent(conditions)) {
         return false 
     }
     if (checkCompletelyUnplacedAdditionalObjects(conditions)) {

@@ -36,14 +36,18 @@ let updatedGoalConditions = '';
 export class SubmissionSection extends React.Component {
     constructor(props) {
         super(props)
-        this.state = { feasible: false, correct: false }
-        let selectedRooms = Object.keys(JSON.parse(window.sessionStorage.getItem("room")))
-        console.log("from constructor:", selectedRooms)
-        if (selectedRooms.length != 1) {
-            this.state["agentStartRoom"] = "stub"
-        } else {
-            this.state["agentStartRoom"] = selectedRooms[0]
+        this.state = { 
+            feasible: false, 
+            correct: false,
+            agentStartRoom: "stub"
         }
+        // let selectedRooms = Object.keys(JSON.parse(window.sessionStorage.getItem("room")))
+        // console.log("from constructor:", selectedRooms)
+        // if (selectedRooms.length != 1) {
+        //     this.state["agentStartRoom"] = "stub"
+        // } else {
+        //     this.state["agentStartRoom"] = selectedRooms[0]
+        // }
     }
 
     onFeasibilityCheck(newFeasible) { this.setState({ feasible: newFeasible }) }
