@@ -41,13 +41,6 @@ export class SubmissionSection extends React.Component {
             correct: false,
             agentStartRoom: "stub"
         }
-        // let selectedRooms = Object.keys(JSON.parse(window.sessionStorage.getItem("room")))
-        // console.log("from constructor:", selectedRooms)
-        // if (selectedRooms.length != 1) {
-        //     this.state["agentStartRoom"] = "stub"
-        // } else {
-        //     this.state["agentStartRoom"] = selectedRooms[0]
-        // }
     }
 
     onFeasibilityCheck(newFeasible) { this.setState({ feasible: newFeasible }) }
@@ -87,6 +80,7 @@ export class FeasibilityChecker extends React.Component {
             codeCorrectnessFeedback: "",
             showCodeIncorrectMessage: false,
             showPrematureMessage: false,
+            showCodeCorrectMessage: false,
             disable: false
         }
     }
@@ -95,60 +89,59 @@ export class FeasibilityChecker extends React.Component {
 
     onClick() {
         // TODO add in blockign when server is busy 
-        // Check code correctness 
-        // let currentCodeCorrectnessFeedback = ""
+
         console.log("INITIAL CONDITIONS", updatedInitialConditions)
         console.log("GOAL CONDITIONS:", updatedGoalConditions)
 
-        // if (checkNulls(updatedInitialConditions)) {
-        //     currentCodeCorrectnessFeedback += "The initial conditions have empty field(s).\n"
-        // }
-        // if (checkTransitiveUnplacedAdditionalObjects(updatedInitialConditions)) {
-        //     currentCodeCorrectnessFeedback += "The initial conditions currently contain objects that have not been placed in relation to a scene object (even indirectly)." 
-        // }
-        // if (checkNegatedPlacements(updatedInitialConditions)) {
-        //     currentCodeCorrectnessFeedback += "The initial conditions contain negated two-object basic conditions. In the initial conditions, you can only negate one-object basic conditions."
-        // }
-        // if (checkCategoriesExist(updatedInitialConditions)) {
-        //     currentCodeCorrectnessFeedback += "The initial conditions currently contain object categories, but only object instances are allowed in initial conditions."
-        // }
-        // if (checkNulls(updatedGoalConditions)) {
-        //     currentCodeCorrectnessFeedback += "The goal conditions have empty field(s).\n"
-        // }
         let currentCodeCorrectnessFeedback = this.checkCorrectness()
-        // If incorrect, show the correctness error and end things there 
+        // If incorrect, show the correctness error, say it's infeasible, and end things there 
         if (currentCodeCorrectnessFeedback !== "") {
             this.setState({ 
                 correct: false,
+                feasible: false,
                 showCodeIncorrectMessage: true, 
                 codeCorrectnessFeedback: currentCodeCorrectnessFeedback 
             })
             this.props.onCorrectnessCheck(false)
+            this.props.onFeasibilityCheck(false)
         } 
-        // If correct, go through feasibility flow  
+        // If correct, offer to check feasibility 
         else {
-            // Check if simulators are ready
-            this.setState({ correct: true })
+            this.setState({
+                correct: true,
+                showCodeCorrectMessage: true
+            })
             this.props.onCorrectnessCheck(true)
-            console.log("pushed correctness up")
-            let serverReady = JSON.parse(window.sessionStorage.getItem("serverReady"))
-            if (serverReady) {
-                // If so, run feasibility check 
-                this.checkFeasibility()
-            } else {
-                // If not, show the premature message 
-                this.setState({ showPrematureMessage: true })
-            }
         }
     }
+
+    onLaunchFeasibilityCheckClick() {
+        // Check if simulators are ready 
+        let serverReady = JSON.parse(window.sessionStorage.getItem("serverReady"))
+        if (serverReady) {
+            // If so, run feasibility check
+            // this.onCodeCorrectHide()
+            this.checkFeasibility()
+        } else {
+            // If not, show the premature message
+            // this.onCodeCorrectHide()
+            this.setState({ showPrematureMessage: true })
+        }
+        this.onCodeCorrectHide()
+    }
+
+    onNoLaunchFeasibilityCheckClick() { this.onCodeCorrectHide() }
 
     onPrematureHide() { this.setState({ showPrematureMessage: false }) }
 
     onFeasibilityHide() { this.setState({ showInfeasibleMessage: false }) }
 
-    onCodeCorrectnessHide() { this.setState({ showCodeIncorrectMessage: false }) }
+    onCodeIncorrectHide() { this.setState({ showCodeIncorrectMessage: false }) }
+
+    onCodeCorrectHide() { this.setState({ showCodeCorrectMessage: false }) }
 
     checkCorrectness() {
+        console.log("from check correctness: code is correct (", this.state.correct, "); code is feasible (", this.state.feasible, ")")
         let currentCodeCorrectnessFeedback = ""
         if (checkNulls(updatedInitialConditions)) {
             currentCodeCorrectnessFeedback += "The initial conditions have empty field(s).\n"
@@ -169,6 +162,7 @@ export class FeasibilityChecker extends React.Component {
     }
 
     checkFeasibility() {
+        console.log("from check feasibility: code is correct (", this.state.correct, "); code is feasible (", this.state.feasible, ")")
         const conditionsPostRequest = {
             method: "POST",
             headers: {
@@ -245,15 +239,51 @@ export class FeasibilityChecker extends React.Component {
                     <Modal.Body>{this.state.feasibilityFeedback}</Modal.Body>
                 </Modal>
 
-                {/* Code correctness modal */}
+                {/* Code incorrectness modal */}
                 <Modal
                     show={this.state.showCodeIncorrectMessage}
-                    onHide={() => this.onCodeCorrectnessHide()}
+                    onHide={() => this.onCodeIncorrectHide()}
                 >
                     <Modal.Header closeButton>
                         <Modal.Title as="h5">Errors in conditions</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>{this.state.codeCorrectnessFeedback}</Modal.Body>
+                </Modal>
+
+                {/* Code correctness modal */}
+                <Modal
+                    show={this.state.showCodeCorrectMessage}
+                    onHide={() => this.onCodeCorrectHide()}
+                    backdrop="static"
+                    keyboard={false}
+                >
+                    <Modal.Header>
+                        <Modal.Title as="h5">No errors</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        {/* <Modal.Text> */}
+                            Your code is correct at the moment! Would you like to run 
+                            the final correctness checks and check feasibility? This is 
+                            a 6-12 minute process.
+                        {/* </Modal.Text> */}
+                    </Modal.Body>
+                    <Modal.Body>
+                        <Button 
+                            variant="danger" 
+                            size="sm"
+                            onClick={() => this.onNoLaunchFeasibilityCheckClick()}
+                            style={{ marginRight: "10px" }}
+                        >
+                            No
+                        </Button>
+                        <Button 
+                            variant="success" 
+                            size="sm"
+                            onClick={() => this.onLaunchFeasibilityCheckClick()}
+                        >
+                            Yes
+                        </Button>
+                    </Modal.Body>
                 </Modal>
             </div>
         )

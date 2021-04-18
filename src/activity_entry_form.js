@@ -21,13 +21,11 @@ export default class ActivityEntryForm extends React.Component {
     }
 
     onChange(event) {
-        console.log("ONCHANGE:", event.target.value.split(" ").join("_"))
         this.setState({ activityName: event.target.value.split(' ').join('_') })
     }
 
     onSubmit(event) {
         event.preventDefault()
-        console.log("ENTRY:", this.state.activityName)
         if (allActivities.includes(this.state.activityName)) {
             this.setState({ submitted: true })
             window.sessionStorage.setItem("activityName", JSON.stringify(this.state.activityName))
