@@ -11,7 +11,6 @@ import Introduction from './written_instructions'
 const activityParameters = require('./data/pack_lunch_params.json')
 // Start out with stub object selections, ensure the checker is shown as not ready and not busy, 
 window.sessionStorage.setItem('allSelectedObjects', JSON.stringify({'apple': 2, 'orange': 5})) 
-// window.sessionStorage.setItem("room", JSON.stringify({stub: null}))
 window.sessionStorage.setItem("serverReady", JSON.stringify(false))
 window.sessionStorage.setItem("serverBusy", JSON.stringify(false))
 window.sessionStorage.setItem("room", JSON.stringify({"stub": null}))
