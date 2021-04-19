@@ -373,19 +373,19 @@ export class FinalSubmit extends React.Component {
 
         // Teardown environments
         window.sessionStorage.setItem("serverReady", JSON.stringify(false))
-        // fetch(igibsonGcpVmTeardownUrl, {
-        //     method: "POST",
-        //     headers: {
-        //         "Content-Type": "application/json"
-        //     },
-        //     body: JSON.stringify({ 
-        //         "uuids": JSON.parse(window.sessionStorage.getItem("uuids")) 
-        //     })
-        // })
-        // .then(response => {
-        //     response.json()
-        //     window.sessionStorage.setItem("uuids", JSON.stringify([]))
-        // })
+        fetch(igibsonGcpVmTeardownUrl, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ 
+                "uuids": JSON.parse(window.sessionStorage.getItem("uuids")) 
+            })
+        })
+        .then(response => {
+            response.json()
+            window.sessionStorage.setItem("uuids", JSON.stringify([]))
+        })
     } // TODO Redirect!!!!!!!!!! Or give some kind of feedback
 
     render() {
