@@ -108,8 +108,29 @@ export function generateDropdownArray(labels) {
 }
 
 export function addAgentStartLine(room, code) {
-    const codeElements = code.split(" (inroom")
-    return codeElements[0] + ` (agentstart ${room}) (inroom` + codeElements.slice(1, -1).join(" (inroom")
+    /**
+     * Add agent start predicate to conditions (assumes presence of at least one inroom condition)
+     * 
+     * @param {String} room - room in which the agent should start
+     * @param {String} code - initial condition code which is being added to (must have at least one inroom)
+     * 
+     * @returns {String} new code with agentstart predicate added before inroom predicates
+     */
+    let newCode = code 
+    if (code.includes(`agentstart ${room}`)) {
+        return newCode
+    } else if (code.includes("agentstart") && !code.includes(`agentstart ${room}`)) {
+        let [pre, post] = code.split("agentstart ")
+        while (post[0] !== ")") {
+            post = post.slice(1)
+        }
+        newCode = [pre, post].join(`agentstart ${room}`)
+    }
+    else {
+        const codeElements = code.split(" (inroom")
+        newCode = codeElements[0] + ` (agentstart ${room}) (inroom` + codeElements.slice(1, -1).join(" (inroom")
+    }
+    return newCode
 }
 
 export class ObjectOptions {
