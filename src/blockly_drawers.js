@@ -179,21 +179,21 @@ export class FeasibilityChecker extends React.Component {
                 "uuids": JSON.parse(window.sessionStorage.getItem("uuids"))
             })
         }
-        // window.sessionStorage.setItem("serverBusy", JSON.stringify(true))
-        // fetch(igibsonGcpVmCheckSamplingUrl, conditionsPostRequest)     // TODO change to production URL
-        // .then(response => response.json())
-        // .then(data => {
-        //     this.setState({
-        //         feasible: data.success,
-        //         feasibilityFeedback: data.feedback,
-        //         showInfeasibleMessage: !data.success
-        //         // disable: false
-        //     })
-        //     window.sessionStorage.setItem("serverBusy", JSON.stringify(false))
-        //     this.props.onCheck(data.success)
-        // })
-        // .catch(this.setState({ disable: false }))
-        // .catch(window.sessionStorage.setItem("serverBusy", JSON.stringify(false)))
+        window.sessionStorage.setItem("serverBusy", JSON.stringify(true))
+        fetch(igibsonGcpVmCheckSamplingUrl, conditionsPostRequest)     // TODO change to production URL
+        .then(response => response.json())
+        .then(data => {
+            this.setState({
+                feasible: data.success,
+                feasibilityFeedback: data.feedback,
+                showInfeasibleMessage: !data.success
+                // disable: false
+            })
+            window.sessionStorage.setItem("serverBusy", JSON.stringify(false))
+            this.props.onCheck(data.success)
+        })
+        .catch(this.setState({ disable: false }))
+        .catch(window.sessionStorage.setItem("serverBusy", JSON.stringify(false)))
 
         // TODO fake for testing
         // this.setState({
@@ -203,18 +203,18 @@ export class FeasibilityChecker extends React.Component {
         // })
         // this.props.onFeasibilityCheck(true)
         
-        this.setState({ showPendingMessage: true })
-        this.sleep(5000).then(() => {
-            console.log("pretend got response")   
-            this.setState({
-                showPendingMessage: false,
-                feasible: true,
-                feasibilityFeedback: "Conditions approved!",
-                showInfeasibleMessage: false,
-                showFeasibleMessage: true
-            })
-            this.props.onFeasibilityCheck(true)
-        })
+//         this.setState({ showPendingMessage: true })
+//         this.sleep(5000).then(() => {
+//             console.log("pretend got response")   
+//             this.setState({
+//                 showPendingMessage: false,
+//                 feasible: true,
+//                 feasibilityFeedback: "Conditions approved!",
+//                 showInfeasibleMessage: false,
+//                 showFeasibleMessage: true
+//             })
+//             this.props.onFeasibilityCheck(true)
+//         })
     }
 
     sleep(ms) { return new Promise(resolve => setTimeout(resolve, ms))}
