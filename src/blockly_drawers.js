@@ -73,9 +73,11 @@ export class FeasibilityChecker extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
+            showPendingMessage: false,
             feasible: false,
             feasibilityFeedback: "",
             showInfeasibleMessage: false,
+            showFeasibleMessage: false,
             correct: false,
             codeCorrectnessFeedback: "",
             showCodeIncorrectMessage: false,
@@ -134,7 +136,9 @@ export class FeasibilityChecker extends React.Component {
 
     onPrematureHide() { this.setState({ showPrematureMessage: false }) }
 
-    onFeasibilityHide() { this.setState({ showInfeasibleMessage: false }) }
+    onInfeasibilityConfirmedHide() { this.setState({ showInfeasibleMessage: false }) }
+
+    onFeasibilityConfirmedHide() { this.setState({ showFeasibleMessage: false })}
 
     onCodeIncorrectHide() { this.setState({ showCodeIncorrectMessage: false }) }
 
@@ -162,7 +166,6 @@ export class FeasibilityChecker extends React.Component {
     }
 
     checkFeasibility() {
-        console.log("from check feasibility: code is correct (", this.state.correct, "); code is feasible (", this.state.feasible, ")")
         const conditionsPostRequest = {
             method: "POST",
             headers: {
@@ -176,7 +179,6 @@ export class FeasibilityChecker extends React.Component {
                 "uuids": JSON.parse(window.sessionStorage.getItem("uuids"))
             })
         }
-        // this.setState({ disable: true })
         // window.sessionStorage.setItem("serverBusy", JSON.stringify(true))
         // fetch(igibsonGcpVmCheckSamplingUrl, conditionsPostRequest)     // TODO change to production URL
         // .then(response => response.json())
@@ -190,17 +192,35 @@ export class FeasibilityChecker extends React.Component {
         //     window.sessionStorage.setItem("serverBusy", JSON.stringify(false))
         //     this.props.onCheck(data.success)
         // })
-        this.setState({
-            feasible: true,
-            feasibilityFeedback: "Conditions approved!",
-            showInfeasibleMessage: false
-        })
-        this.props.onFeasibilityCheck(true)
         // .catch(this.setState({ disable: false }))
         // .catch(window.sessionStorage.setItem("serverBusy", JSON.stringify(false)))
+
+        // TODO fake for testing
+        // this.setState({
+        //     feasible: true,
+        //     feasibilityFeedback: "Conditions approved!",
+        //     showInfeasibleMessage: false
+        // })
+        // this.props.onFeasibilityCheck(true)
+        
+        this.setState({ showPendingMessage: true })
+        this.sleep(5000).then(() => {
+            console.log("pretend got response")   
+            this.setState({
+                showPendingMessage: false,
+                feasible: true,
+                feasibilityFeedback: "Conditions approved!",
+                showInfeasibleMessage: false,
+                showFeasibleMessage: true
+            })
+            this.props.onFeasibilityCheck(true)
+        })
     }
 
+    sleep(ms) { return new Promise(resolve => setTimeout(resolve, ms))}
+
     render() {
+        console.log("from render: code correctness (", this.state.correct, "); code feasibility: (", this.state.feasible, "); agent selected (", this.state.agentStartRoom, ")")
         return (
             <div>
                 <Button
@@ -228,15 +248,43 @@ export class FeasibilityChecker extends React.Component {
                     </Modal.Body>
                 </Modal>
 
-                {/* Feasibility modal */}
+                {/* Infeasibility confirmed modal */}
                 <Modal
                     show={this.state.showInfeasibleMessage}
-                    onHide={() => this.onFeasibilityHide()}
+                    onHide={() => this.onInfeasibilityConfirmedHide()}
                 >
                     <Modal.Header closeButton>
                         <Modal.Title as="h5">Not feasible</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>{this.state.feasibilityFeedback}</Modal.Body>
+                </Modal>
+
+                {/* Feasibility confirmed modal */}
+                <Modal
+                    show={this.state.showFeasibleMessage}
+                    onHide={() => this.onFeasibilityConfirmedHide()}
+                >
+                    <Modal.Header closeButton>
+                        <Modal.Title as="h5">Feasible</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>{this.state.feasibilityFeedback}</Modal.Body>
+                </Modal>
+
+                {/* Pending modal */}
+                <Modal
+                    show={this.state.showPendingMessage}
+                    onHide={() => this.onPendingHide()}
+                    backdrop="static"
+                    keyboard={false}
+                >
+                    <Modal.Header>
+                        <Modal.Title as="h5">Feasibility checker is working</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        This message will disappear when the checker is done, and you'll get feedback. 
+                        Typically 6-10 minute process. If it takes longer than ~12 minutes, let Sanjana
+                        know. 
+                    </Modal.Body>
                 </Modal>
 
                 {/* Code incorrectness modal */}
