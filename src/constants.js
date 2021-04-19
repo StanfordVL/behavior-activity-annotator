@@ -123,7 +123,7 @@ export const rootColor = "#731D45"
 // EXTERNAL REQUESTS CONSTANTS 
 
 const airtableUrl = "https://api.airtable.com/v0/appIh5qQ5m4UMrcps"
-const igGcpVmUrl = "http://34.122.186.206:8000"                          // TODO replace with production? Static IP?
+const igGcpVmUrl = "http://35.222.179.91:8000"                          // TODO replace with production? Static IP?
 export const airtableResultsUrl = airtableUrl + "/Results"
 export const airtableSavesUrl = airtableUrl + "/Saves"
 export const igibsonGcpVmSetupUrl = igGcpVmUrl + "/setup"
