@@ -54,32 +54,42 @@ export function convertName(name) {
 }
 
 export function detectObjectInstances(code) {
+    /**
+     * Detects all object instances in code, returns list of instances.
+     * If there are no instances, returns empty list 
+     * 
+     * @param {String} code - code in which object instances are being 
+     *                        detected 
+     * @return {Array} detected object instances 
+     */
     const detectedObjectInstances = code.match(detectObjectInstanceRe)
-    return detectedObjectInstances
+    if (detectedObjectInstances === null) {
+        return []
+    } else {
+        return detectedObjectInstances
+    }
 }
 
 export function createObjectsList(initialConditions) {
     const detectedObjectInstances = detectObjectInstances(initialConditions) 
     let objectList = ''
     
-    if (detectedObjectInstances !== null) {           
-        let objectToCategory = {}
-        for (let object of detectedObjectInstances) {
-            // const category = object.replace(/[0-9]+/, '')
-            const category = getCategoryFromLabel(object)
-            if (category in objectToCategory) {
-                objectToCategory[category].add(object)
-            } else {
-                objectToCategory[category] = new Set([object])
-            }
+    let objectToCategory = {}
+    for (let object of detectedObjectInstances) {
+        // const category = object.replace(/[0-9]+/, '')
+        const category = getCategoryFromLabel(object)
+        if (category in objectToCategory) {
+            objectToCategory[category].add(object)
+        } else {
+            objectToCategory[category] = new Set([object])
         }
+    }
 
-        for (const [category, objects] of Object.entries(objectToCategory)) {
-            const sortedObjects = Array.from(objects).sort()
-            objectList += '\t'
-            objectList += sortedObjects.join(' ')
-            objectList += ` - ${category}\n`
-        }
+    for (const [category, objects] of Object.entries(objectToCategory)) {
+        const sortedObjects = Array.from(objects).sort()
+        objectList += '\t'
+        objectList += sortedObjects.join(' ')
+        objectList += ` - ${category}\n`
     }
     objectList = `(:objects\n ${objectList})`
     return objectList
@@ -99,7 +109,7 @@ export function generateDropdownArray(labels) {
 
 export function addAgentStartLine(room, code) {
     const codeElements = code.split(" (inroom")
-    return codeElements[0] + ` (agentstart ${room}) ` + codeElements.slice(1, -1).join(" (inroom")
+    return codeElements[0] + ` (agentstart ${room}) (inroom` + codeElements.slice(1, -1).join(" (inroom")
 }
 
 export class ObjectOptions {
@@ -207,21 +217,47 @@ export function checkEmptyInitialConditions(initialConditions) {
     return initialConditions.match("\\(:init( )+\\(inroom") !== null
 }
 
+export function checkAdditionalObjectsPresent(conditions) {
+    /**
+     * Reports whether the conditions have any additional objects at all or not 
+     * 
+     * @param {String} conditions - string conditions to check 
+     * @returns {Boolean} true if there are additional objects in the string else false 
+     */
+    const detectedObjectInstances = detectObjectInstances(conditions)
+    console.log("detected object instances:", detectedObjectInstances)
+    let detectedAdditionalObjectInstances = detectedObjectInstances.filter(
+        detectedObjectInstance => !sceneSynsets.includes(getCategoryFromLabel(detectedObjectInstance))
+    )
+    console.log("detected additional object instances:", detectedAdditionalObjectInstances)
+    return detectedAdditionalObjectInstances.length !== 0
+}
+
 export function checkCompletelyUnplacedAdditionalObjects(conditions) {
     /**
-     * Reports whether for every object mentioned in the conditions, if it is in any placement condition.
-     * Only guaranteed correct for initial conditions that have no categories. 
+     * Reports whether for every additional object mentioned in the conditions, if it is in any 
+     * placement condition. Only guaranteed correct for initial conditions that have no categories. 
+     * NOTE ASSUMES that there is at least one additional object in the code 
      * 
      * @param {String} conditions - string conditions being checked for additional objects that are 
      *                              not in any placement condition
      * @returns {Boolean} true if there are additional objects that are not in any placement 
      */
     const detectedObjectInstances = detectObjectInstances(conditions) 
+    console.log("detected object instances:", detectedObjectInstances)
     const rawPlacements = conditions.match(getPlacementsRe())
+    console.log("raw placements:", rawPlacements)
+
+    // If there are no placements, everything left will necessarily be unplaced
     if (rawPlacements == null) {
         return true 
     }
+
+    // Check if the additional object is in no placements 
     for (const objectInstance of detectedObjectInstances) {
+        if (sceneSynsets.includes(getCategoryFromLabel(objectInstance))) {
+            continue
+        }
         let objectPlaced = false
         for (const placement of rawPlacements) {
             if (placement.match(objectInstance) != null) {
@@ -230,6 +266,7 @@ export function checkCompletelyUnplacedAdditionalObjects(conditions) {
             }
         }
         if (!objectPlaced) {
+            console.log("unplaced object:", objectInstance)
             return true
         }
     }
@@ -249,12 +286,21 @@ export function checkTransitiveUnplacedAdditionalObjects(conditions) {
      *                              even transitively
      * @returns {Boolean} true if there are unplaced additional objects, else false 
      */
+    console.log("starting unplacement check")
+    console.log("checking empty")
     if (checkEmptyInitialConditions(conditions)) {
+        console.log("empty initial conditions")
         return false 
     }
+    console.log("checking lack of additional objects")
+    if (!checkAdditionalObjectsPresent(conditions)) {
+        return false 
+    }
+    console.log("checking completely unplaced objects")
     if (checkCompletelyUnplacedAdditionalObjects(conditions)) {
         return true 
     }
+    console.log("checking the placements themselves")
     const rawPlacements = conditions.match(getPlacementsRe())
     let placements = []
     // drop parentheses
@@ -283,6 +329,7 @@ export function checkTransitiveUnplacedAdditionalObjects(conditions) {
     newNumHangingPlacements = leftoverPlacements.length
     placements = leftoverPlacements
     leftoverPlacements = []
+    console.log("need to keep checking:", currentNumHangingPlacements !== newNumHangingPlacements)
 
     // round >1: for each placement, if the second object is a key in placedPairs, put the first object as 
     //          a key in placedPairs, mapped to the second object's value. If it is not in placedPairs, 
@@ -299,10 +346,12 @@ export function checkTransitiveUnplacedAdditionalObjects(conditions) {
             }
         }
         newNumHangingPlacements = leftoverPlacements.length
+        console.log("leftover placements:", leftoverPlacements)
         placements = leftoverPlacements
         leftoverPlacements = []
     }
 
+    console.log("unplaced?:", newNumHangingPlacements !== 0)
     return (newNumHangingPlacements !== 0)
 }
 

@@ -43,7 +43,8 @@ export default class ActivityEntryForm extends React.Component {
                     window.sessionStorage.setItem("uuids", JSON.stringify(data["uuids"]))
                     window.sessionStorage.setItem("serverReady", JSON.stringify(true))
                 })
-            } catch (error) {
+                window.sessionStorage.setItem("serverReady", JSON.stringify(true))      // TODO this is definitely wrong 
+            } catch (error) {       // TODO change to a .catch 
                 // TODO report the error to the annotator 
             } finally {
 

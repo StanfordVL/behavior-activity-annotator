@@ -36,25 +36,34 @@ let updatedGoalConditions = '';
 export class SubmissionSection extends React.Component {
     constructor(props) {
         super(props)
-        this.state = { feasible: false }
-        let selectedRooms = Object.keys(JSON.parse(window.sessionStorage.getItem("room")))
-        if (selectedRooms.length != 1) {
-            this.state["agentStartRoom"] = "stub"
-        } else {
-            this.state["agentStartRoom"] = selectedRooms[0]
+        this.state = { 
+            feasible: false, 
+            correct: false,
+            agentStartRoom: "stub"
         }
     }
 
-    onCheck(newFeasible) { this.setState({ feasible: newFeasible }) }
+    onFeasibilityCheck(newFeasible) { this.setState({ feasible: newFeasible }) }
+
+    onCorrectnessCheck(newCorrect) { this.setState({ correct: newCorrect }); console.log("updating correctness centrally") }
 
     onAgentStartSelection(agentStartRoom) { this.setState({ agentStartRoom: agentStartRoom }) }
 
     render() {
+        console.log("correctness during render:", this.state.correct)
+        console.log("agent start room right now:", this.state.agentStartRoom)
         return (
             <div>
-                <FeasibilityChecker onCheck={newFeasible => this.onCheck(newFeasible)}/>
+                <FeasibilityChecker 
+                    onFeasibilityCheck={newFeasible => this.onFeasibilityCheck(newFeasible)}
+                    onCorrectnessCheck={newCorrect => this.onCorrectnessCheck(newCorrect)}
+                />
                 <AgentStartForm onAgentStartSelection={agentStartRoom => this.onAgentStartSelection(agentStartRoom)}/>
-                <FinalSubmit agentStartRoom={this.state.agentStartRoom} feasible={this.state.feasible}/>
+                <FinalSubmit 
+                    agentStartRoom={this.state.agentStartRoom} 
+                    feasible={this.state.feasible}
+                    correct={this.state.correct}
+                />
             </div>
         )
     }
@@ -64,12 +73,16 @@ export class FeasibilityChecker extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
+            showPendingMessage: false,
             feasible: false,
             feasibilityFeedback: "",
             showInfeasibleMessage: false,
+            showFeasibleMessage: false,
+            correct: false,
             codeCorrectnessFeedback: "",
             showCodeIncorrectMessage: false,
             showPrematureMessage: false,
+            showCodeCorrectMessage: false,
             disable: false
         }
     }
@@ -78,11 +91,62 @@ export class FeasibilityChecker extends React.Component {
 
     onClick() {
         // TODO add in blockign when server is busy 
-        // Check code correctness 
-        let currentCodeCorrectnessFeedback = ""
+
         console.log("INITIAL CONDITIONS", updatedInitialConditions)
         console.log("GOAL CONDITIONS:", updatedGoalConditions)
 
+        let currentCodeCorrectnessFeedback = this.checkCorrectness()
+        // If incorrect, show the correctness error, say it's infeasible, and end things there 
+        if (currentCodeCorrectnessFeedback !== "") {
+            this.setState({ 
+                correct: false,
+                feasible: false,
+                showCodeIncorrectMessage: true, 
+                codeCorrectnessFeedback: currentCodeCorrectnessFeedback 
+            })
+            this.props.onCorrectnessCheck(false)
+            this.props.onFeasibilityCheck(false)
+        } 
+        // If correct, offer to check feasibility 
+        else {
+            this.setState({
+                correct: true,
+                showCodeCorrectMessage: true
+            })
+            this.props.onCorrectnessCheck(true)
+        }
+    }
+
+    onLaunchFeasibilityCheckClick() {
+        // Check if simulators are ready 
+        let serverReady = JSON.parse(window.sessionStorage.getItem("serverReady"))
+        if (serverReady) {
+            // If so, run feasibility check
+            // this.onCodeCorrectHide()
+            this.checkFeasibility()
+        } else {
+            // If not, show the premature message
+            // this.onCodeCorrectHide()
+            this.setState({ showPrematureMessage: true })
+        }
+        this.onCodeCorrectHide()
+    }
+
+    onNoLaunchFeasibilityCheckClick() { this.onCodeCorrectHide() }
+
+    onPrematureHide() { this.setState({ showPrematureMessage: false }) }
+
+    onInfeasibilityConfirmedHide() { this.setState({ showInfeasibleMessage: false }) }
+
+    onFeasibilityConfirmedHide() { this.setState({ showFeasibleMessage: false })}
+
+    onCodeIncorrectHide() { this.setState({ showCodeIncorrectMessage: false }) }
+
+    onCodeCorrectHide() { this.setState({ showCodeCorrectMessage: false }) }
+
+    checkCorrectness() {
+        console.log("from check correctness: code is correct (", this.state.correct, "); code is feasible (", this.state.feasible, ")")
+        let currentCodeCorrectnessFeedback = ""
         if (checkNulls(updatedInitialConditions)) {
             currentCodeCorrectnessFeedback += "The initial conditions have empty field(s).\n"
         }
@@ -98,35 +162,8 @@ export class FeasibilityChecker extends React.Component {
         if (checkNulls(updatedGoalConditions)) {
             currentCodeCorrectnessFeedback += "The goal conditions have empty field(s).\n"
         }
-
-        // If incorrect, show the correctness error and end things there 
-        if (currentCodeCorrectnessFeedback !== "") {
-            this.setState({ 
-                showCodeIncorrectMessage: true, 
-                codeCorrectnessFeedback: currentCodeCorrectnessFeedback 
-            })
-        } 
-        // If correct, go through feasibility flow  
-        else {
-            // Check if simulators are ready
-            let serverReady = JSON.parse(window.sessionStorage.getItem("serverReady"))
-            if (serverReady) {
-                // If so, run feasibility check 
-                this.checkFeasibility()
-            } else {
-                // If not, show the premature message 
-                this.setState({ showPrematureMessage: true })
-            }
-        }
+        return currentCodeCorrectnessFeedback
     }
-
-    onPrematureHide() { this.setState({ showPrematureMessage: false }) }
-
-    onFeasibilityHide() { this.setState({ showInfeasibleMessage: false }) }
-
-    onCodeCorrectnessHide() { this.setState({ showCodeIncorrectMessage: false }) }
-
-    // Server communication methods
 
     checkFeasibility() {
         const conditionsPostRequest = {
@@ -142,7 +179,6 @@ export class FeasibilityChecker extends React.Component {
                 "uuids": JSON.parse(window.sessionStorage.getItem("uuids"))
             })
         }
-        // this.setState({ disable: true })
         window.sessionStorage.setItem("serverBusy", JSON.stringify(true))
         fetch(igibsonGcpVmCheckSamplingUrl, conditionsPostRequest)     // TODO change to production URL
         .then(response => response.json())
@@ -156,11 +192,35 @@ export class FeasibilityChecker extends React.Component {
             window.sessionStorage.setItem("serverBusy", JSON.stringify(false))
             this.props.onCheck(data.success)
         })
-        // .catch(this.setState({ disable: false }))
+        .catch(this.setState({ disable: false }))
         .catch(window.sessionStorage.setItem("serverBusy", JSON.stringify(false)))
+
+        // TODO fake for testing
+        // this.setState({
+        //     feasible: true,
+        //     feasibilityFeedback: "Conditions approved!",
+        //     showInfeasibleMessage: false
+        // })
+        // this.props.onFeasibilityCheck(true)
+        
+//         this.setState({ showPendingMessage: true })
+//         this.sleep(5000).then(() => {
+//             console.log("pretend got response")   
+//             this.setState({
+//                 showPendingMessage: false,
+//                 feasible: true,
+//                 feasibilityFeedback: "Conditions approved!",
+//                 showInfeasibleMessage: false,
+//                 showFeasibleMessage: true
+//             })
+//             this.props.onFeasibilityCheck(true)
+//         })
     }
 
+    sleep(ms) { return new Promise(resolve => setTimeout(resolve, ms))}
+
     render() {
+        console.log("from render: code correctness (", this.state.correct, "); code feasibility: (", this.state.feasible, "); agent selected (", this.state.agentStartRoom, ")")
         return (
             <div>
                 <Button
@@ -188,10 +248,10 @@ export class FeasibilityChecker extends React.Component {
                     </Modal.Body>
                 </Modal>
 
-                {/* Feasibility modal */}
+                {/* Infeasibility confirmed modal */}
                 <Modal
                     show={this.state.showInfeasibleMessage}
-                    onHide={() => this.onFeasibilityHide()}
+                    onHide={() => this.onInfeasibilityConfirmedHide()}
                 >
                     <Modal.Header closeButton>
                         <Modal.Title as="h5">Not feasible</Modal.Title>
@@ -199,15 +259,79 @@ export class FeasibilityChecker extends React.Component {
                     <Modal.Body>{this.state.feasibilityFeedback}</Modal.Body>
                 </Modal>
 
-                {/* Code correctness modal */}
+                {/* Feasibility confirmed modal */}
+                <Modal
+                    show={this.state.showFeasibleMessage}
+                    onHide={() => this.onFeasibilityConfirmedHide()}
+                >
+                    <Modal.Header closeButton>
+                        <Modal.Title as="h5">Feasible</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>{this.state.feasibilityFeedback}</Modal.Body>
+                </Modal>
+
+                {/* Pending modal */}
+                <Modal
+                    show={this.state.showPendingMessage}
+                    onHide={() => this.onPendingHide()}
+                    backdrop="static"
+                    keyboard={false}
+                >
+                    <Modal.Header>
+                        <Modal.Title as="h5">Feasibility checker is working</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        This message will disappear when the checker is done, and you'll get feedback. 
+                        Typically 6-10 minute process. If it takes longer than ~12 minutes, let Sanjana
+                        know. 
+                    </Modal.Body>
+                </Modal>
+
+                {/* Code incorrectness modal */}
                 <Modal
                     show={this.state.showCodeIncorrectMessage}
-                    onHide={() => this.onCodeCorrectnessHide()}
+                    onHide={() => this.onCodeIncorrectHide()}
                 >
                     <Modal.Header closeButton>
                         <Modal.Title as="h5">Errors in conditions</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>{this.state.codeCorrectnessFeedback}</Modal.Body>
+                </Modal>
+
+                {/* Code correctness modal */}
+                <Modal
+                    show={this.state.showCodeCorrectMessage}
+                    onHide={() => this.onCodeCorrectHide()}
+                    backdrop="static"
+                    keyboard={false}
+                >
+                    <Modal.Header>
+                        <Modal.Title as="h5">No errors</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        {/* <Modal.Text> */}
+                            Your code is correct at the moment! Would you like to run 
+                            the final correctness checks and check feasibility? This is 
+                            a 6-12 minute process.
+                        {/* </Modal.Text> */}
+                    </Modal.Body>
+                    <Modal.Body>
+                        <Button 
+                            variant="danger" 
+                            size="sm"
+                            onClick={() => this.onNoLaunchFeasibilityCheckClick()}
+                            style={{ marginRight: "10px" }}
+                        >
+                            No
+                        </Button>
+                        <Button 
+                            variant="success" 
+                            size="sm"
+                            onClick={() => this.onLaunchFeasibilityCheckClick()}
+                        >
+                            Yes
+                        </Button>
+                    </Modal.Body>
                 </Modal>
             </div>
         )
@@ -273,7 +397,7 @@ export class FinalSubmit extends React.Component {
                     type="submit"
                     onClick={(event) => this.onSubmit(event)}
                     className="marginCard"
-                    disabled={!this.props.feasible || !(this.props.agentStartRoom != "stub")}        // TODO change once feasibility checking is implemented
+                    disabled={!this.props.feasible || this.props.agentStartRoom === "stub" || !this.props.correct}        // TODO change once feasibility checking is implemented
                 >
                     Submit
                 </Button>

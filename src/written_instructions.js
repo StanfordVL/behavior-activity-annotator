@@ -4,21 +4,21 @@ import Button from 'react-bootstrap/Button'
 import ActivityEntryForm from './activity_entry_form';
 import NameEntryForm from './name_entry_form'
 
-const basic_unary_condition_image = require('./block_images/basic_unary_condition.png')
-const basic_binary_condition_image = require('./block_images/basic_binary_condition.png')
-const conjunction_image = require('./block_images/conjunction.png')
-const disjunction_image = require('./block_images/disjunction.png')
-const composed_example_image = require('./block_images/implication_conjunction_composed_example.png')
-const negation_image = require('./block_images/negation.png')
-const implication_image = require('./block_images/implication.png')
-const universal_image = require('./block_images/universal.png')
-const existential_image = require('./block_images/existential.png')
-const quantified_combo_image = require('./block_images/quantified_composed_example.png')
-const forn_image = require('./block_images/forn.png')
-const forpairs_image = require('./block_images/forpairs.png')
-const fornpairs_image = require('./block_images/fornpairs.png')
-const cleantable_initial_condition = require('./block_images/cleantable_initial_conditions.png')
-const cleantable_goal_condition = require('./block_images/cleantable_goal_conditions.png')
+import basic_unary_condition_image from './block_images/basic_unary_condition.png'
+import basic_binary_condition_image from './block_images/basic_binary_condition.png'
+import conjunction_image from './block_images/conjunction.png'
+import disjunction_image from './block_images/disjunction.png'
+import composed_example_image from './block_images/implication_conjunction_composed_example.png'
+import negation_image from './block_images/negation.png'
+import implication_image from './block_images/implication.png'
+import universal_image from './block_images/universal.png'
+import existential_image from './block_images/existential.png'
+import quantified_combo_image from './block_images/quantified_composed_example.png'
+import forn_image from './block_images/forn.png'
+import forpairs_image from './block_images/forpairs.png'
+import fornpairs_image from './block_images/fornpairs.png'
+import cleantable_initial_condition from "./block_images/cleantable_initial_conditions.png"
+import cleantable_goal_condition from './block_images/cleantable_goal_conditions.png'
 
 
 export default class Introduction extends React.Component {
