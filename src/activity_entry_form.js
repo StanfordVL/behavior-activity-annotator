@@ -3,6 +3,8 @@ import Button from 'react-bootstrap/Button'
 import Form from 'react-bootstrap/Form'
 import Modal from 'react-bootstrap/Modal'
 import { allActivities, igibsonGcpVmSetupUrl } from './constants.js'
+// const uuidv4 = require("uuid")
+import { v4 as uuid } from "uuid"
 
 const activityToPreselectedScene = require("./data/activity_to_preselected_scenes.json")
 
@@ -58,10 +60,19 @@ export default class ActivityEntryForm extends React.Component {
             fetch(igibsonGcpVmSetupUrl, envsPostRequest)
             .then(response => response.json())
             .then(data => {
+                console.log("Returned scenes_ids:", data["scenes_ids"])
                 window.sessionStorage.setItem("scenes_ids", JSON.stringify(data["scenes_ids"]))
                 window.sessionStorage.setItem("serverReady", JSON.stringify(true))
             })
-            .catch(response => {console.log(response)})
+            .catch(response => {
+                console.log(response)
+                // TODO remove the slicing once done debugging 
+                const fakeIds = Array(activityToPreselectedScene[this.state.activityName].slice(0, 1).length).fill().map(() => uuid())   
+                const newScenesIds = fakeIds.map((id, i) => [activityToPreselectedScene[this.state.activityName].slice(0, 1)[i], id])
+                console.log("stub scenes_ids:", newScenesIds)
+                window.sessionStorage.setItem("scenes_ids", JSON.stringify(newScenesIds))
+                window.sessionStorage.setItem("serverReady", JSON.stringify(true))
+            })
         } else {
             this.setState({ showErrorModal: true })
         }

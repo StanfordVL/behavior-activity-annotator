@@ -51,8 +51,6 @@ export class SubmissionSection extends React.Component {
     onAgentStartSelection(agentStartRoom) { this.setState({ agentStartRoom: agentStartRoom }) }
 
     render() {
-        console.log("correctness during render:", this.state.correct)
-        console.log("agent start room right now:", this.state.agentStartRoom)
         return (
             <div>
                 <FeasibilityChecker 
@@ -146,7 +144,6 @@ export class FeasibilityChecker extends React.Component {
     onCodeCorrectHide() { this.setState({ showCodeCorrectMessage: false }) }
 
     checkCorrectness() {
-        console.log("from check correctness: code is correct (", this.state.correct, "); code is feasible (", this.state.feasible, ")")
         let currentCodeCorrectnessFeedback = ""
         if (checkNulls(updatedInitialConditions)) {
             currentCodeCorrectnessFeedback += "The initial conditions have empty field(s).\n"
@@ -189,6 +186,7 @@ export class FeasibilityChecker extends React.Component {
         fetch(igibsonGcpVmCheckSamplingUrl, conditionsPostRequest)     // TODO change to production URL
         .then(response => response.json())
         .then(data => {
+            console.log("feedback from fetch:", data.feedback)
             this.setState({
                 feasible: data.success,
                 feasibilityFeedback: data.feedback,
@@ -366,7 +364,6 @@ export class FinalSubmit extends React.Component {
     onSubmit() {
         // Add agent start term 
         updatedInitialConditions = addAgentStartLine(this.props.agentStartRoom, updatedInitialConditions)
-        console.log("with agent start:", updatedInitialConditions)
 
         // Save data to airtable 
         const submitPostRequest = {

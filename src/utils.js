@@ -246,11 +246,9 @@ export function checkAdditionalObjectsPresent(conditions) {
      * @returns {Boolean} true if there are additional objects in the string else false 
      */
     const detectedObjectInstances = detectObjectInstances(conditions)
-    console.log("detected object instances:", detectedObjectInstances)
     let detectedAdditionalObjectInstances = detectedObjectInstances.filter(
         detectedObjectInstance => !sceneSynsets.includes(getCategoryFromLabel(detectedObjectInstance))
     )
-    console.log("detected additional object instances:", detectedAdditionalObjectInstances)
     return detectedAdditionalObjectInstances.length !== 0
 }
 
@@ -265,9 +263,7 @@ export function checkCompletelyUnplacedAdditionalObjects(conditions) {
      * @returns {Boolean} true if there are additional objects that are not in any placement 
      */
     const detectedObjectInstances = detectObjectInstances(conditions) 
-    console.log("detected object instances:", detectedObjectInstances)
     const rawPlacements = conditions.match(getPlacementsRe())
-    console.log("raw placements:", rawPlacements)
 
     // If there are no placements, everything left will necessarily be unplaced
     if (rawPlacements == null) {
@@ -287,7 +283,6 @@ export function checkCompletelyUnplacedAdditionalObjects(conditions) {
             }
         }
         if (!objectPlaced) {
-            console.log("unplaced object:", objectInstance)
             return true
         }
     }
@@ -307,21 +302,15 @@ export function checkTransitiveUnplacedAdditionalObjects(conditions) {
      *                              even transitively
      * @returns {Boolean} true if there are unplaced additional objects, else false 
      */
-    console.log("starting unplacement check")
-    console.log("checking empty")
     if (checkEmptyInitialConditions(conditions)) {
-        console.log("empty initial conditions")
         return false 
     }
-    console.log("checking lack of additional objects")
     if (!checkAdditionalObjectsPresent(conditions)) {
         return false 
     }
-    console.log("checking completely unplaced objects")
     if (checkCompletelyUnplacedAdditionalObjects(conditions)) {
         return true 
     }
-    console.log("checking the placements themselves")
     const rawPlacements = conditions.match(getPlacementsRe())
     let placements = []
     // drop parentheses
@@ -350,7 +339,6 @@ export function checkTransitiveUnplacedAdditionalObjects(conditions) {
     newNumHangingPlacements = leftoverPlacements.length
     placements = leftoverPlacements
     leftoverPlacements = []
-    console.log("need to keep checking:", currentNumHangingPlacements !== newNumHangingPlacements)
 
     // round >1: for each placement, if the second object is a key in placedPairs, put the first object as 
     //          a key in placedPairs, mapped to the second object's value. If it is not in placedPairs, 
@@ -367,12 +355,10 @@ export function checkTransitiveUnplacedAdditionalObjects(conditions) {
             }
         }
         newNumHangingPlacements = leftoverPlacements.length
-        console.log("leftover placements:", leftoverPlacements)
         placements = leftoverPlacements
         leftoverPlacements = []
     }
 
-    console.log("unplaced?:", newNumHangingPlacements !== 0)
     return (newNumHangingPlacements !== 0)
 }
 
@@ -423,8 +409,8 @@ export function getReadableFeedback(feedback) {
      *                                  goal_feedback (sentence)
      *                              ]
      */
-    const [initSuccess, goalSuccess, initFeedback, goalFeedback] = feedback[0]
     console.log("Received feedback:", feedback)
+    const [initSuccess, goalSuccess, initFeedback, goalFeedback] = feedback[0]
     console.log("init succes:", initSuccess)
     console.log("typeof init success:", typeof initSuccess)
     let initFeedbackDisplay 
