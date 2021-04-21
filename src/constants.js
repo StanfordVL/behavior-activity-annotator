@@ -1,3 +1,6 @@
+import React from "react"
+import Modal from "react-bootstrap/Modal"
+
 // ACTIVITIES, ROOMS, SCENE OBJECTS CONSTANTS
 
 // export const allActivities = Object.keys(require("./data/all_activity_hierarchies.json"))
@@ -129,3 +132,35 @@ export const airtableSavesUrl = airtableUrl + "/Saves"
 export const igibsonGcpVmSetupUrl = igGcpVmUrl + "/setup"
 export const igibsonGcpVmCheckSamplingUrl = igGcpVmUrl + "/check_sampling"
 export const igibsonGcpVmTeardownUrl = igGcpVmUrl + "/teardown"
+
+
+export class ServerErrorModal extends React.Component {
+    constructor(props) { super(props) }
+
+    onHide() { this.props.onHide() }
+
+    render() {
+        return (
+            <div>
+                <Modal
+                    onHide={() => this.onHide()}
+                    show={this.props.show}
+                >
+                    <Modal.Header closeButton>
+                        <Modal.Title as="h5">Server error</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        <p>
+                            Let Sanjana know:
+                            <ul>
+                                <li>that there was a server error</li>
+                                <li>whether it happened before or after you clicked "Check feasibility" for the first time</li>
+                            </ul>
+                            Then feel free to move to the next step. 
+                        </p>
+                    </Modal.Body>
+                </Modal>
+            </div>
+        )
+    }
+}

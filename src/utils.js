@@ -128,7 +128,7 @@ export function addAgentStartLine(room, code) {
     }
     else {
         const codeElements = code.split(" (inroom")
-        newCode = codeElements[0] + ` (agentstart ${room}) (inroom` + codeElements.slice(1, -1).join(" (inroom")
+        newCode = codeElements[0] + ` (agentstart ${room}) (inroom` + codeElements.slice(1).join(" (inroom")
     }
     return newCode
 }
@@ -409,31 +409,21 @@ export function getReadableFeedback(feedback) {
      *                                  goal_feedback (sentence)
      *                              ]
      */
-    console.log("Received feedback:", feedback)
     const [initSuccess, goalSuccess, initFeedback, goalFeedback] = feedback[0]
-    console.log("init succes:", initSuccess)
-    console.log("typeof init success:", typeof initSuccess)
     let initFeedbackDisplay 
     let goalFeedbackDisplay
     if (initSuccess === "yes") {
-        console.log("There was initial success")
         initFeedbackDisplay = <p>The initial conditions are feasible!</p>
     } else if (initSuccess === "no") {
-        console.log("There was not initial success")
         initFeedbackDisplay = <div>{initFeedback.split("\n").map(part => <p>{part}</p>)}</div>
-        console.log("init feedback display:", initFeedbackDisplay)
     } else if (initSuccess === "untested") {
-        console.log("The init wasn't tested")
         initFeedbackDisplay = <p>The initial conditions have not yet been checked.</p>
     }
     if (goalSuccess === "yes") {
-        console.log("There was goal success")
         goalFeedbackDisplay = <p>The goal conditions are feasible!</p>
     } else if (goalSuccess === "no") {
-        console.log("There was not goal success")
         goalFeedbackDisplay = <div>{goalFeedback}</div>     // TODO make better feedback
     } else if (goalSuccess === "untested") {
-        console.log("The goal wasn't tested")
         goalFeedbackDisplay = <p>The goal conditions have not yet been checked.</p>
     }
 
@@ -444,6 +434,5 @@ export function getReadableFeedback(feedback) {
             <p><b>Goal conditions:</b></p>
             {goalFeedbackDisplay}
         </div>
-    console.log("Full feedback:", fullFeedback)
     return fullFeedback
 }

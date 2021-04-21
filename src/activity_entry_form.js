@@ -2,7 +2,7 @@ import React from 'react'
 import Button from 'react-bootstrap/Button'
 import Form from 'react-bootstrap/Form'
 import Modal from 'react-bootstrap/Modal'
-import { allActivities, igibsonGcpVmSetupUrl } from './constants.js'
+import { allActivities, igibsonGcpVmSetupUrl, ServerErrorModal } from './constants.js'
 // const uuidv4 = require("uuid")
 import { v4 as uuid } from "uuid"
 
@@ -14,13 +14,16 @@ export default class ActivityEntryForm extends React.Component {
         this.state = {
             activityName: "",
             showErrorModal: false,
-            submitted: false
+            submitted: false,
+            showServerErrorMessage: false,
         }
     }
 
     onErrorModalHide() {
         this.setState({ showErrorModal: false })
     }
+
+    onServerErrorMessageHide() { this.setState({ showServerErrorMessage: false }) }
 
     onChange(event) {
         this.setState({ activityName: event.target.value.split(' ').join('_') })
@@ -33,25 +36,6 @@ export default class ActivityEntryForm extends React.Component {
             window.sessionStorage.setItem("activityName", JSON.stringify(this.state.activityName))
             this.props.onSubmit(this.state.activityName)
 
-            // try {
-            //     const envsPostRequest = {
-            //         method: "POST",
-            //         headers: { "Content-Type": "application/json" },
-            //         body: JSON.stringify(activityToPreselectedScene[this.state.activityName].slice(0, 1))
-            //     }
-            //     fetch(igibsonGcpVmSetupUrl, envsPostRequest)
-            //     .then(response => response.json()) 
-            //     .then(data => {
-            //         window.sessionStorage.setItem("scenes_ids", JSON.stringify(data["scenes_ids"]))
-            //         window.sessionStorage.setItem("serverReady", JSON.stringify(true))
-            //     })
-            //     // window.sessionStorage.setItem("serverReady", JSON.stringify(true))      // TODO this is definitely wrong 
-            // } catch (error) {       // TODO change to a .catch 
-            //     // TODO report the error to the annotator 
-            // } finally {
-
-            // }
-
             const envsPostRequest = {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
@@ -60,18 +44,16 @@ export default class ActivityEntryForm extends React.Component {
             fetch(igibsonGcpVmSetupUrl, envsPostRequest)
             .then(response => response.json())
             .then(data => {
-                console.log("Returned scenes_ids:", data["scenes_ids"])
                 window.sessionStorage.setItem("scenes_ids", JSON.stringify(data["scenes_ids"]))
                 window.sessionStorage.setItem("serverReady", JSON.stringify(true))
             })
             .catch(response => {
-                console.log(response)
                 // TODO remove the slicing once done debugging 
                 const fakeIds = Array(activityToPreselectedScene[this.state.activityName].slice(0, 1).length).fill().map(() => uuid())   
                 const newScenesIds = fakeIds.map((id, i) => [activityToPreselectedScene[this.state.activityName].slice(0, 1)[i], id])
-                console.log("stub scenes_ids:", newScenesIds)
                 window.sessionStorage.setItem("scenes_ids", JSON.stringify(newScenesIds))
                 window.sessionStorage.setItem("serverReady", JSON.stringify(true))
+                this.setState({ showServerErrorMessage: true })
             })
         } else {
             this.setState({ showErrorModal: true })
@@ -109,6 +91,12 @@ export default class ActivityEntryForm extends React.Component {
                         Invalid activity name - please try again. Make sure all characters are lower-case and there are no spaces before or after the phrase. Thanks!
                     </Modal.Body>
                 </Modal>
+
+                {/* Server error message */}
+                <ServerErrorModal 
+                    show={this.state.showServerErrorMessage} 
+                    onHide={() => this.onServerErrorMessageHide()}
+                />
             </div>
         )
     }

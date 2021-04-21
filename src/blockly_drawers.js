@@ -12,7 +12,8 @@ import {
     airtableSavesUrl,
     airtableResultsUrl,
     igibsonGcpVmCheckSamplingUrl,
-    igibsonGcpVmTeardownUrl
+    igibsonGcpVmTeardownUrl,
+    ServerErrorModal
     } from './constants.js'
 import { convertName, 
          createObjectsList, 
@@ -46,7 +47,7 @@ export class SubmissionSection extends React.Component {
 
     onFeasibilityCheck(newFeasible) { this.setState({ feasible: newFeasible }) }
 
-    onCorrectnessCheck(newCorrect) { this.setState({ correct: newCorrect }); console.log("updating correctness centrally") }
+    onCorrectnessCheck(newCorrect) { this.setState({ correct: newCorrect }) }
 
     onAgentStartSelection(agentStartRoom) { this.setState({ agentStartRoom: agentStartRoom }) }
 
@@ -82,7 +83,8 @@ export class FeasibilityChecker extends React.Component {
             showCodeIncorrectMessage: false,
             showPrematureMessage: false,
             showCodeCorrectMessage: false,
-            disable: false
+            disable: false,
+            showServerErrorMessage: false
         }
     }
 
@@ -186,7 +188,6 @@ export class FeasibilityChecker extends React.Component {
         fetch(igibsonGcpVmCheckSamplingUrl, conditionsPostRequest)     // TODO change to production URL
         .then(response => response.json())
         .then(data => {
-            console.log("feedback from fetch:", data.feedback)
             this.setState({
                 feasible: data.success,
                 feasibilityFeedback: data.feedback,
@@ -198,46 +199,23 @@ export class FeasibilityChecker extends React.Component {
             window.sessionStorage.setItem("serverBusy", JSON.stringify(false))
             this.props.onFeasibilityCheck(data.success)
         })
-        // .catch(this.setState({ disable: false }))
-        // .catch(window.sessionStorage.setItem("serverBusy", JSON.stringify(false)))
         .catch(response => {
-            console.log(response)
             this.setState({ 
                 disable: false,
                 feasible: true,     // just let them submit? Send a message 
                 showInfeasibleMessage: false,
                 showFeasibleMessage: false,
-                showPendingMessage: false
+                showPendingMessage: false,
+                showServerErrorMessage: true
             })
             window.sessionStorage.setItem("serverBusy", JSON.stringify(false))
+            this.props.onFeasibilityCheck(true)
         })
-
-        // TODO fake for testing
-        // this.setState({
-        //     feasible: true,
-        //     feasibilityFeedback: "Conditions approved!",
-        //     showInfeasibleMessage: false
-        // })
-        // this.props.onFeasibilityCheck(true)
-        
-//         this.setState({ showPendingMessage: true })
-//         this.sleep(5000).then(() => {
-//             console.log("pretend got response")   
-//             this.setState({
-//                 showPendingMessage: false,
-//                 feasible: true,
-//                 feasibilityFeedback: "Conditions approved!",
-//                 showInfeasibleMessage: false,
-//                 showFeasibleMessage: true
-//             })
-//             this.props.onFeasibilityCheck(true)
-//         })
     }
 
-    sleep(ms) { return new Promise(resolve => setTimeout(resolve, ms))}
+    onServerErrorMessageHide() { this.setState({ showServerErrorMessage: false }) }
 
     render() {
-        console.log("from render: code correctness (", this.state.correct, "); code feasibility: (", this.state.feasible, "); agent selected (", this.state.agentStartRoom, ")")
         return (
             <div>
                 <Button
@@ -353,6 +331,12 @@ export class FeasibilityChecker extends React.Component {
                         </Button>
                     </Modal.Body>
                 </Modal>
+
+                {/* Server error message */}
+                <ServerErrorModal 
+                    show={this.state.showServerErrorMessage} 
+                    onHide={() => this.onServerErrorMessageHide()}
+                />
             </div>
         )
     }
@@ -409,6 +393,8 @@ export class FinalSubmit extends React.Component {
     } // TODO Redirect!!!!!!!!!! Or give some kind of feedback
 
     render() {
+        console.log("from render: code correctness (", this.props.correct, "); code feasibility: (", this.props.feasible, "); agent selected (", this.props.agentStartRoom, ")")
+
         return(
             <div>
                 <Button 
