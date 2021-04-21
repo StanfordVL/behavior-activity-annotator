@@ -23,7 +23,8 @@ import { convertName,
         checkTransitiveUnplacedAdditionalObjects,
         checkCategoriesExist,
         checkNegatedPlacements,
-        addAgentStartLine } from "./utils.js"
+        addAgentStartLine,
+        getReadableFeedback } from "./utils.js"
 import AgentStartForm from "./agent_start_selection_form"
 import AirTable from 'airtable'
 import Button from 'react-bootstrap/Button'
@@ -75,7 +76,7 @@ export class FeasibilityChecker extends React.Component {
         this.state = {
             showPendingMessage: false,
             feasible: false,
-            feasibilityFeedback: "",
+            feasibilityFeedback: [["untested", "untested", "stub", "stub"]],
             showInfeasibleMessage: false,
             showFeasibleMessage: false,
             correct: false,
@@ -166,6 +167,10 @@ export class FeasibilityChecker extends React.Component {
     }
 
     checkFeasibility() {
+        // Lock up  
+        this.setState({ showPendingMessage: true })
+
+        // Send request 
         const conditionsPostRequest = {
             method: "POST",
             headers: {
@@ -176,7 +181,8 @@ export class FeasibilityChecker extends React.Component {
                 "initialConditions": updatedInitialConditions,
                 "goalConditions": updatedGoalConditions,
                 "objectList": createObjectsList(updatedInitialConditions),
-                "uuids": JSON.parse(window.sessionStorage.getItem("uuids"))
+                // "uuids": JSON.parse(window.sessionStorage.getItem("uuids"))
+                "scenes_ids": JSON.parse(window.sessionStorage.getItem("scenes_ids"))
             })
         }
         window.sessionStorage.setItem("serverBusy", JSON.stringify(true))
@@ -186,14 +192,27 @@ export class FeasibilityChecker extends React.Component {
             this.setState({
                 feasible: data.success,
                 feasibilityFeedback: data.feedback,
-                showInfeasibleMessage: !data.success
+                showInfeasibleMessage: !data.success,
+                showFeasibleMessage: data.success,
+                showPendingMessage: false
                 // disable: false
             })
             window.sessionStorage.setItem("serverBusy", JSON.stringify(false))
-            this.props.onCheck(data.success)
+            this.props.onFeasibilityCheck(data.success)
         })
-        .catch(this.setState({ disable: false }))
-        .catch(window.sessionStorage.setItem("serverBusy", JSON.stringify(false)))
+        // .catch(this.setState({ disable: false }))
+        // .catch(window.sessionStorage.setItem("serverBusy", JSON.stringify(false)))
+        .catch(response => {
+            console.log(response)
+            this.setState({ 
+                disable: false,
+                feasible: true,     // just let them submit? Send a message 
+                showInfeasibleMessage: false,
+                showFeasibleMessage: false,
+                showPendingMessage: false
+            })
+            window.sessionStorage.setItem("serverBusy", JSON.stringify(false))
+        })
 
         // TODO fake for testing
         // this.setState({
@@ -252,22 +271,25 @@ export class FeasibilityChecker extends React.Component {
                 <Modal
                     show={this.state.showInfeasibleMessage}
                     onHide={() => this.onInfeasibilityConfirmedHide()}
+                    size="xl"
+                    backdrop="static"
                 >
                     <Modal.Header closeButton>
                         <Modal.Title as="h5">Not feasible</Modal.Title>
                     </Modal.Header>
-                    <Modal.Body>{this.state.feasibilityFeedback}</Modal.Body>
+                    <Modal.Body>{getReadableFeedback(this.state.feasibilityFeedback)}</Modal.Body>
                 </Modal>
 
                 {/* Feasibility confirmed modal */}
                 <Modal
                     show={this.state.showFeasibleMessage}
                     onHide={() => this.onFeasibilityConfirmedHide()}
+                    backdrop="static"
                 >
                     <Modal.Header closeButton>
                         <Modal.Title as="h5">Feasible</Modal.Title>
                     </Modal.Header>
-                    <Modal.Body>{this.state.feasibilityFeedback}</Modal.Body>
+                    <Modal.Body>{getReadableFeedback(this.state.feasibilityFeedback)}</Modal.Body>
                 </Modal>
 
                 {/* Pending modal */}
@@ -379,13 +401,14 @@ export class FinalSubmit extends React.Component {
                 "Content-Type": "application/json"
             },
             body: JSON.stringify({ 
-                "uuids": JSON.parse(window.sessionStorage.getItem("uuids")) 
+                "scenes_ids": JSON.parse(window.sessionStorage.getItem("scenes_ids")) 
             })
         })
         .then(response => {
             response.json()
-            window.sessionStorage.setItem("uuids", JSON.stringify([]))
+            window.sessionStorage.setItem("scenes_ids", JSON.stringify([]))
         })
+        .catch(response => {console.log(response)})
     } // TODO Redirect!!!!!!!!!! Or give some kind of feedback
 
     render() {

@@ -408,3 +408,56 @@ export function checkCategoriesExist(conditions) {
         return false 
     }
 }
+
+
+// FEASIBILITY CHECKER FEEDBACK UTILS 
+
+export function getReadableFeedback(feedback) {
+    /**
+     * Turn raw feedback from feasibility checker into human-readable feedback. 
+     * 
+     * @param {Array[N]<Array[4]<String>>} feedback - array of arrays of strings, format [
+     *                                  init_success (yes/no), 
+     *                                  goal_success (yes/no), 
+     *                                  init_feedback (sentence), 
+     *                                  goal_feedback (sentence)
+     *                              ]
+     */
+    const [initSuccess, goalSuccess, initFeedback, goalFeedback] = feedback[0]
+    console.log("Received feedback:", feedback)
+    console.log("init succes:", initSuccess)
+    console.log("typeof init success:", typeof initSuccess)
+    let initFeedbackDisplay 
+    let goalFeedbackDisplay
+    if (initSuccess === "yes") {
+        console.log("There was initial success")
+        initFeedbackDisplay = <p>The initial conditions are feasible!</p>
+    } else if (initSuccess === "no") {
+        console.log("There was not initial success")
+        initFeedbackDisplay = <div>{initFeedback.split("\n").map(part => <p>{part}</p>)}</div>
+        console.log("init feedback display:", initFeedbackDisplay)
+    } else if (initSuccess === "untested") {
+        console.log("The init wasn't tested")
+        initFeedbackDisplay = <p>The initial conditions have not yet been checked.</p>
+    }
+    if (goalSuccess === "yes") {
+        console.log("There was goal success")
+        goalFeedbackDisplay = <p>The goal conditions are feasible!</p>
+    } else if (goalSuccess === "no") {
+        console.log("There was not goal success")
+        goalFeedbackDisplay = <div>{goalFeedback}</div>     // TODO make better feedback
+    } else if (goalSuccess === "untested") {
+        console.log("The goal wasn't tested")
+        goalFeedbackDisplay = <p>The goal conditions have not yet been checked.</p>
+    }
+
+    const fullFeedback = 
+        <div>
+            <p><b>Initial conditions:</b></p>
+            {initFeedbackDisplay}
+            <p><b>Goal conditions:</b></p>
+            {goalFeedbackDisplay}
+        </div>
+    console.log("Full feedback:", fullFeedback)
+    return fullFeedback
+}

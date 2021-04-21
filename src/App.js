@@ -15,7 +15,7 @@ window.sessionStorage.setItem("serverReady", JSON.stringify(false))
 window.sessionStorage.setItem("serverBusy", JSON.stringify(false))
 window.sessionStorage.setItem("room", JSON.stringify({"stub": null}))
 // TODO send a teardown and put the line below in the .then?
-window.sessionStorage.setItem("uuids", JSON.stringify([]))
+window.sessionStorage.setItem("scenes_ids", JSON.stringify([]))
 
 
 export default class Instructions extends React.Component {
