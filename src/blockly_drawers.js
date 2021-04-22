@@ -96,9 +96,9 @@ export class FeasibilityChecker extends React.Component {
         console.log("INITIAL CONDITIONS", updatedInitialConditions)
         console.log("GOAL CONDITIONS:", updatedGoalConditions)
 
-        let currentCodeCorrectnessFeedback = this.checkCorrectness()
+        let [codeCorrect, currentCodeCorrectnessFeedback] = this.checkCorrectness()
         // If incorrect, show the correctness error, say it's infeasible, and end things there 
-        if (currentCodeCorrectnessFeedback !== "") {
+        if (!codeCorrect) {
             this.setState({ 
                 correct: false,
                 feasible: false,
@@ -146,23 +146,57 @@ export class FeasibilityChecker extends React.Component {
     onCodeCorrectHide() { this.setState({ showCodeCorrectMessage: false }) }
 
     checkCorrectness() {
-        let currentCodeCorrectnessFeedback = ""
+        let codeCorrect = true
+        let nullsInInit
+        let transitivelyUnplacedAdditionalObjectsExist
+        let negatedPlacementsInInitial
+        let categoriesInInitial
+        let nextToPresent 
+        let nullsInGoal
+
         if (checkNulls(updatedInitialConditions)) {
-            currentCodeCorrectnessFeedback += "The initial conditions have empty field(s).\n"
-        }
+            // currentCodeCorrectnessFeedback += "The initial conditions have empty field(s).\n"
+            nullsInInit = <li>Initial conditions have empty fields.</li>
+            codeCorrect = false 
+        } else {nullsInInit = <div/>}
         if (checkTransitiveUnplacedAdditionalObjects(updatedInitialConditions)) {
-            currentCodeCorrectnessFeedback += "The initial conditions currently contain objects that have not been placed in relation to a scene object (even indirectly)." 
-        }
+            // currentCodeCorrectnessFeedback += "The initial conditions currently contain objects that have not been placed in relation to a scene object (even indirectly)." 
+            transitivelyUnplacedAdditionalObjectsExist = <li>Initial conditions currently contain objects that have not been placed in relation to a scene object, even indirectly.</li>
+            codeCorrect = false 
+        } else {transitivelyUnplacedAdditionalObjectsExist = <div/>}
         if (checkNegatedPlacements(updatedInitialConditions)) {
-            currentCodeCorrectnessFeedback += "The initial conditions contain negated two-object basic conditions. In the initial conditions, you can only negate one-object basic conditions."
-        }
+            // currentCodeCorrectnessFeedback += "The initial conditions contain negated two-object basic conditions. In the initial conditions, you can only negate one-object basic conditions."
+            negatedPlacementsInInitial = <li>Initial conditions contain negated two-object basic conditions, but in initial conditions you can only negate one-object basic conditions.</li>
+            codeCorrect = false 
+        } else {negatedPlacementsInInitial = <div/>}
         if (checkCategoriesExist(updatedInitialConditions)) {
-            currentCodeCorrectnessFeedback += "The initial conditions currently contain object categories, but only object instances are allowed in initial conditions."
-        }
+            // currentCodeCorrectnessFeedback += "The initial conditions currently contain object categories, but only object instances are allowed in initial conditions."
+            categoriesInInitial = <li>Initial conditions currently contain object categories, but only object instances are allowed in initial conditions.</li>
+            codeCorrect = false 
+        } else {categoriesInInitial = <div/>}
+        const nextToMatches = updatedInitialConditions.match(/nextto/)
+        if (nextToMatches !== null) {
+            nextToPresent = <li>Initial conditions contain "next to", but "next to" is only allowed in goal conditions.</li>
+            codeCorrect = false 
+        } else {nextToPresent = <div/>}
         if (checkNulls(updatedGoalConditions)) {
-            currentCodeCorrectnessFeedback += "The goal conditions have empty field(s).\n"
-        }
-        return currentCodeCorrectnessFeedback
+            // currentCodeCorrectnessFeedback += "The goal conditions have empty field(s).\n"
+            nullsInGoal = <li>Goal conditions have empty fields.</li>
+            codeCorrect = false 
+        } else {nullsInGoal = <div/>}
+        const currentCodeCorrectnessFeedback = 
+            <div>
+                The conditions have the following problems:
+                <ul>
+                    {nullsInInit}
+                    {transitivelyUnplacedAdditionalObjectsExist}
+                    {negatedPlacementsInInitial}
+                    {categoriesInInitial}
+                    {nextToPresent}
+                    {nullsInGoal}
+                </ul>
+            </div>
+        return [codeCorrect, currentCodeCorrectnessFeedback]
     }
 
     checkFeasibility() {

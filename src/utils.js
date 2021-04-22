@@ -375,6 +375,15 @@ export function checkNegatedPlacements(conditions) {
     return negatedPlacements != null
 }
 
+// export function checkTermPresence(conditions, term) {
+//     /**
+//      * Check conditions for any instances of given term
+//      * 
+//      * @param {String} conditions 
+//      */
+
+// }
+
 export function checkCategoriesExist(conditions) {
     /**
      * Check conditions for presence of categories (i.e. objects that are not instances)
