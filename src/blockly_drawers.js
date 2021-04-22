@@ -155,22 +155,18 @@ export class FeasibilityChecker extends React.Component {
         let nullsInGoal
 
         if (checkNulls(updatedInitialConditions)) {
-            // currentCodeCorrectnessFeedback += "The initial conditions have empty field(s).\n"
             nullsInInit = <li>Initial conditions have empty fields.</li>
             codeCorrect = false 
         } else {nullsInInit = <div/>}
         if (checkTransitiveUnplacedAdditionalObjects(updatedInitialConditions)) {
-            // currentCodeCorrectnessFeedback += "The initial conditions currently contain objects that have not been placed in relation to a scene object (even indirectly)." 
             transitivelyUnplacedAdditionalObjectsExist = <li>Initial conditions currently contain objects that have not been placed in relation to a scene object, even indirectly.</li>
             codeCorrect = false 
         } else {transitivelyUnplacedAdditionalObjectsExist = <div/>}
         if (checkNegatedPlacements(updatedInitialConditions)) {
-            // currentCodeCorrectnessFeedback += "The initial conditions contain negated two-object basic conditions. In the initial conditions, you can only negate one-object basic conditions."
             negatedPlacementsInInitial = <li>Initial conditions contain negated two-object basic conditions, but in initial conditions you can only negate one-object basic conditions.</li>
             codeCorrect = false 
         } else {negatedPlacementsInInitial = <div/>}
         if (checkCategoriesExist(updatedInitialConditions)) {
-            // currentCodeCorrectnessFeedback += "The initial conditions currently contain object categories, but only object instances are allowed in initial conditions."
             categoriesInInitial = <li>Initial conditions currently contain object categories, but only object instances are allowed in initial conditions.</li>
             codeCorrect = false 
         } else {categoriesInInitial = <div/>}
@@ -180,7 +176,6 @@ export class FeasibilityChecker extends React.Component {
             codeCorrect = false 
         } else {nextToPresent = <div/>}
         if (checkNulls(updatedGoalConditions)) {
-            // currentCodeCorrectnessFeedback += "The goal conditions have empty field(s).\n"
             nullsInGoal = <li>Goal conditions have empty fields.</li>
             codeCorrect = false 
         } else {nullsInGoal = <div/>}
