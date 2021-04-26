@@ -3,9 +3,19 @@ import Modal from "react-bootstrap/Modal"
 
 // ACTIVITIES, ROOMS, SCENE OBJECTS CONSTANTS
 
-// export const allActivities = Object.keys(require("./data/all_activity_hierarchies.json"))
+const binaryPredicates = ["ontop", "nextto", "inside", "under", "touching"]
+const binaryPredicatesReadable = ["on top of", "next to", "inside", "under", "touching"]
+// export const blocklyNameToPDDLName = {
+//     'on top of': 'ontop',
+//     'next to': 'nextto'
+// }
+export const blocklyNameToPDDLName = Object.assign(
+    {}, ...binaryPredicatesReadable((readable, i) => (
+        {[readable]: binaryPredicates[i]}
+    )))
+console.log('blockly name to pddl name:', blocklyNameToPDDLName)
+
 const activitiesToRoomsObjects = require('./data/activity_to_rooms_objects.json')
-// export const allActivities = Object.keys(activitiesToRoomsObjects)
 
 export let allActivities = []
 export let allRooms = new Set()
@@ -84,7 +94,9 @@ export function getPlacementsRe(objectInstance=null) {
     if (objectInstance == null) {
         instanceRe = detectObjectInstanceRe.source
     }
-    const placementsRe =`\\((ontop|nextto|inside|under) (${instanceRe} \\??${detectObjectInstanceRe.source}|\\??${detectObjectInstanceRe.source} ${instanceRe})\\)`
+    const placementsStringSegment = binaryPredicates.join("|")
+    // const placementsRe =`\\((ontop|nextto|inside|under) (${instanceRe} \\??${detectObjectInstanceRe.source}|\\??${detectObjectInstanceRe.source} ${instanceRe})\\)`
+    const placementsRe =`\\((${placementsStringSegment}) (${instanceRe} \\??${detectObjectInstanceRe.source}|\\??${detectObjectInstanceRe.source} ${instanceRe})\\)`
     return new RegExp(placementsRe, "g")
 }
 export const initialDescriptionsRe = new RegExp(
@@ -111,12 +123,6 @@ export const kinematicDropdownGenerators = Object.assign({}, ...Object.entries(a
         {[object]: () => [['select an adjective', '']].concat(kinematicDescriptors)}
     )
 ))
-
-export const blocklyNameToPDDLName = {
-    'on top of': 'ontop',
-    'next to': 'nextto'
-}
-
 
 export const sentenceConstructorColor = "#76912F";
 export const basicSentenceColor = "#D96704";

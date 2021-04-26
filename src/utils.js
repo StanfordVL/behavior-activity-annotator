@@ -36,8 +36,6 @@ export function getPlacements(conditions, objectInstance) {
      * @param {string} objectInstance - object instance term whose placements will be detected
      * @return {list<string>} list of strings that are placements of objectInstance
      */
-    // const placementMatchString = `\\((ontop|nextto|inside|under) (${objectInstance} \\??${detectObjectInstanceRe.source}|\\??${detectObjectInstanceRe.source} ${objectInstance})\\)`
-    // const placementRegex = new RegExp(placementMatchString, 'g')
     const placements = conditions.match(getPlacementsRe(objectInstance))
     return placements
 }
