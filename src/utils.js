@@ -36,8 +36,6 @@ export function getPlacements(conditions, objectInstance) {
      * @param {string} objectInstance - object instance term whose placements will be detected
      * @return {list<string>} list of strings that are placements of objectInstance
      */
-    // const placementMatchString = `\\((ontop|nextto|inside|under) (${objectInstance} \\??${detectObjectInstanceRe.source}|\\??${detectObjectInstanceRe.source} ${objectInstance})\\)`
-    // const placementRegex = new RegExp(placementMatchString, 'g')
     const placements = conditions.match(getPlacementsRe(objectInstance))
     return placements
 }
@@ -198,6 +196,39 @@ export class ObjectOptions {
         }
         let instanceCategoryLabels = objectInstanceLabels.concat(this.getCategories().slice(1))
         return ([instanceCategoryLabels, instanceToCategory])
+    }
+
+    getInstances() {
+        const demotedRoomsMap = this.createDemotedRoomsMap()
+        let objectInstanceLabels = [["select an object", "null"]]
+        let instanceToCategory = {"null": "null"}
+
+        for (const [pureLabel, value] of Object.entries(demotedRoomsMap)) {
+            if (typeof value !== "number") {
+
+                // Create indices for each room that don't overlap, going in alphabetical
+                // order of rooms 
+                const roomsToIndices = this.getRoomIndices(demotedRoomsMap, pureLabel)
+                for (const room of Object.keys(roomsToIndices).sort()) {
+                    const instanceIndices = roomsToIndices[room]
+
+                    for (let instanceIndex of instanceIndices) {
+                        let instanceLabel = pureLabel + "_" + (instanceIndex + 1).toString() + room
+                        objectInstanceLabels.push([instanceLabel, instanceLabel])
+                        instanceToCategory[instanceLabel] = pureLabel
+                        instanceToCategory[pureLabel] = pureLabel
+                    }
+                }
+            } else {
+                for (let instanceIndex = 0; instanceIndex < value; instanceIndex++) {
+                    let instanceLabel = pureLabel + "_" + (instanceIndex + 1).toString()
+                    objectInstanceLabels.push([instanceLabel, instanceLabel])
+                    instanceToCategory[instanceLabel] = pureLabel
+                    instanceToCategory[pureLabel] = pureLabel
+                }
+            }
+        }
+        return ([objectInstanceLabels, instanceToCategory])
     }
 
     getCategories() {
@@ -374,6 +405,15 @@ export function checkNegatedPlacements(conditions) {
     const negatedPlacements = conditions.match(negatedPlacementsRe)
     return negatedPlacements != null
 }
+
+// export function checkTermPresence(conditions, term) {
+//     /**
+//      * Check conditions for any instances of given term
+//      * 
+//      * @param {String} conditions 
+//      */
+
+// }
 
 export function checkCategoriesExist(conditions) {
     /**

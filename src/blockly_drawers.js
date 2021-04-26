@@ -13,7 +13,9 @@ import {
     airtableResultsUrl,
     igibsonGcpVmCheckSamplingUrl,
     igibsonGcpVmTeardownUrl,
-    ServerErrorModal
+    ServerErrorModal,
+    initBinaryPredicatesReadable,
+    binaryPredicatesReadable
     } from './constants.js'
 import { convertName, 
          createObjectsList, 
@@ -96,9 +98,9 @@ export class FeasibilityChecker extends React.Component {
         console.log("INITIAL CONDITIONS", updatedInitialConditions)
         console.log("GOAL CONDITIONS:", updatedGoalConditions)
 
-        let currentCodeCorrectnessFeedback = this.checkCorrectness()
+        let [codeCorrect, currentCodeCorrectnessFeedback] = this.checkCorrectness()
         // If incorrect, show the correctness error, say it's infeasible, and end things there 
-        if (currentCodeCorrectnessFeedback !== "") {
+        if (!codeCorrect) {
             this.setState({ 
                 correct: false,
                 feasible: false,
@@ -146,23 +148,52 @@ export class FeasibilityChecker extends React.Component {
     onCodeCorrectHide() { this.setState({ showCodeCorrectMessage: false }) }
 
     checkCorrectness() {
-        let currentCodeCorrectnessFeedback = ""
+        let codeCorrect = true
+        let nullsInInit
+        let transitivelyUnplacedAdditionalObjectsExist
+        // let negatedPlacementsInInitial
+        // let categoriesInInitial
+        // let nextToPresent 
+        let nullsInGoal
+
         if (checkNulls(updatedInitialConditions)) {
-            currentCodeCorrectnessFeedback += "The initial conditions have empty field(s).\n"
-        }
+            nullsInInit = <li>Initial conditions have empty fields.</li>
+            codeCorrect = false 
+        } else {nullsInInit = <div/>}
         if (checkTransitiveUnplacedAdditionalObjects(updatedInitialConditions)) {
-            currentCodeCorrectnessFeedback += "The initial conditions currently contain objects that have not been placed in relation to a scene object (even indirectly)." 
-        }
-        if (checkNegatedPlacements(updatedInitialConditions)) {
-            currentCodeCorrectnessFeedback += "The initial conditions contain negated two-object basic conditions. In the initial conditions, you can only negate one-object basic conditions."
-        }
-        if (checkCategoriesExist(updatedInitialConditions)) {
-            currentCodeCorrectnessFeedback += "The initial conditions currently contain object categories, but only object instances are allowed in initial conditions."
-        }
+            transitivelyUnplacedAdditionalObjectsExist = <li>Initial conditions currently contain objects that have not been placed in relation to a scene object, even indirectly.</li>
+            codeCorrect = false 
+        } else {transitivelyUnplacedAdditionalObjectsExist = <div/>}
+        // if (checkNegatedPlacements(updatedInitialConditions)) {
+        //     negatedPlacementsInInitial = <li>Initial conditions contain negated two-object basic conditions, but in initial conditions you can only negate one-object basic conditions.</li>
+        //     codeCorrect = false 
+        // } else {negatedPlacementsInInitial = <div/>}
+        // if (checkCategoriesExist(updatedInitialConditions)) {
+        //     categoriesInInitial = <li>Initial conditions currently contain object categories, but only object instances are allowed in initial conditions.</li>
+        //     codeCorrect = false 
+        // } else {categoriesInInitial = <div/>}
+        // const nextToMatches = updatedInitialConditions.match(/nextto/)
+        // if (nextToMatches !== null) {
+        //     nextToPresent = <li>Initial conditions contain "next to", but "next to" is only allowed in goal conditions.</li>
+        //     codeCorrect = false 
+        // } else {nextToPresent = <div/>}
         if (checkNulls(updatedGoalConditions)) {
-            currentCodeCorrectnessFeedback += "The goal conditions have empty field(s).\n"
-        }
-        return currentCodeCorrectnessFeedback
+            nullsInGoal = <li>Goal conditions have empty fields.</li>
+            codeCorrect = false 
+        } else {nullsInGoal = <div/>}
+        const currentCodeCorrectnessFeedback = 
+            <div>
+                The conditions have the following problems:
+                <ul>
+                    {nullsInInit}
+                    {transitivelyUnplacedAdditionalObjectsExist}
+                    {/* {negatedPlacementsInInitial} */}
+                    {/* {categoriesInInitial} */}
+                    {/* {nextToPresent} */}
+                    {nullsInGoal}
+                </ul>
+            </div>
+        return [codeCorrect, currentCodeCorrectnessFeedback]
     }
 
     checkFeasibility() {
@@ -515,13 +546,11 @@ export default class ConditionDrawer extends React.Component {
     }
 
     getBlockTypes() {
-        let tools = [
-            basicUnarySentence,
-            basicBinarySentence,
-            negation,
-        ]
+        let tools = []
         if (this.props.drawerType === "goal") {
             tools = tools.concat([
+                basicUnarySentenceGoal,
+                basicBinarySentenceGoal,
                 implication,
                 universal,
                 existential, 
@@ -529,9 +558,13 @@ export default class ConditionDrawer extends React.Component {
                 forPairs,
                 forNPairs
             ])
+        } else {
+            tools = tools.concat([basicUnarySentenceInit, basicBinarySentenceInit])
         }
+        tools.push(negation)
         return tools
     }
+
     
     render() {
         if (this.props.drawerType === "goal") {
@@ -587,8 +620,75 @@ export default class ConditionDrawer extends React.Component {
 }
 
 
-export const basicUnarySentence = {
-    name: 'BasicUnaryCondition',
+export const basicUnarySentenceInit = {
+    name: 'BasicUnaryConditionInit',
+    category: 'Basic Conditions',
+    block: {
+      init: function (...arxs) {
+        const block = this;
+        
+        const state = {
+          allLabelsValues: [['select an object', 'null']],
+          currentObjectLabel: 'select an object',
+          currentObjectValue: 'null',
+          currentObjectCategory: 'null'
+        };
+  
+        this.setOnChange(function(changeEvent) {
+          let selectedObjectsContainer = new ObjectOptions(JSON.parse(window.sessionStorage.getItem('allSelectedObjects')))
+          let [objectInstanceLabels, instanceToCategory] = selectedObjectsContainer.getInstances()
+          state.allLabelsValues = objectInstanceLabels
+  
+          const descriptorField = block.getField('DESCRIPTOR');
+          const currentObjectValue = block.getFieldValue('OBJECT');
+          const currentDescriptorValue = block.getFieldValue('DESCRIPTOR');
+  
+          descriptorField.setValue(currentObjectValue !== state.currentObjectValue ? '' : currentDescriptorValue);
+          state.currentObjectValue = currentObjectValue;
+          state.currentObjectCategory = instanceToCategory[currentObjectValue]
+  
+        });
+  
+        this.jsonInit({
+          message0: '%1 is %2',
+          args0: [
+            {
+              type: 'field_dropdown',
+              name: 'OBJECT',
+              options: (...args) => {
+              return state.allLabelsValues;
+              },
+            },
+            {
+              type: 'field_dropdown',
+              name: 'DESCRIPTOR',
+              options: () => {
+                if (state.currentObjectCategory in dropdownGenerators) {
+                    return dropdownGenerators[state.currentObjectCategory]()
+                } else {
+                    return dropdownGenerators["null"]()
+                }
+              },
+            }
+          ],
+          output: 'Boolean',
+          colour: basicSentenceColor,
+          tooltip: 'Says Hello',
+        });
+      },
+    },
+    generator: (block) => {
+      let object = block.getFieldValue('OBJECT').toLowerCase() // || 'null';
+      object = /\d/.test(object) ? object : "?" + object
+      const adjective = String(convertName(block.getFieldValue('DESCRIPTOR')).toLowerCase()) || 'null';
+      const code = `(${adjective} ${object})`;
+      return [code, Blockly.JavaScript.ORDER_MEMBER];
+    },
+  };
+
+
+export const basicUnarySentenceGoal = {
+    name: 'BasicUnaryConditionGoal',
     category: 'Basic Conditions',
     block: {
       init: function (...arxs) {
@@ -654,8 +754,8 @@ export const basicUnarySentence = {
   };
 
 
-export const basicBinarySentence = {
-name: 'BasicBinaryCondition',
+export const basicBinarySentenceGoal = {
+name: 'BasicBinaryConditionGoal',
 category: 'Basic Conditions',
 block: {
     init: function (...arxs) {
@@ -705,7 +805,7 @@ block: {
                 if (state.currentSecondObjectCategory in kinematicDropdownGenerators) {
                     return kinematicDropdownGenerators[state.currentSecondObjectCategory]()
                 } else {
-                    return generateDropdownArray(["select an adjective", 'on top of', 'inside', 'next to', 'under'])
+                    return generateDropdownArray(["select an adjective"].concat(binaryPredicatesReadable))
                 }
             },
         },
@@ -734,6 +834,87 @@ generator: (block) => {
 },
 };
 
+export const basicBinarySentenceInit = {
+    name: "BasicBinaryConditionInit",
+    category: "Basic Conditions",
+    block: {
+        init: function (...arxs) {
+        const block = this;
+        
+        const state = {
+            allLabelsValues: [['select an object', 'null']],
+            additionalLabelsValues: [["select an object", "null"]],
+            currentSecondObjectValue: "null",
+            currentSecondObjectCategory: "null"
+        };
+    
+        this.setOnChange(function(changeEvent) {
+            let selectedObjectsContainer = new ObjectOptions(JSON.parse(window.sessionStorage.getItem('allSelectedObjects')))
+            let [objectInstanceLabels, instanceToCategory] = selectedObjectsContainer.getInstances()
+            state.allLabelsValues = objectInstanceLabels
+            state.additionalLabelsValues = [["select an object", "null"]]
+            for (const [label, value] of state.allLabelsValues) {
+                if (!(sceneSynsets.includes(getCategoryFromLabel(value))) && !(value === "null")) {
+                    state.additionalLabelsValues.push([label, value])
+                }
+            }
+    
+            const descriptorField = block.getField("DESCRIPTOR")
+            const currentSecondObjectValue = block.getFieldValue("OBJECT2")
+            const currentDescriptorValue = block.getFieldValue("DESCRIPTOR")
+    
+            descriptorField.setValue(currentSecondObjectValue !== state.currentSecondObjectValue ? "" : currentDescriptorValue)
+            state.currentSecondObjectValue = currentSecondObjectValue
+            state.currentSecondObjectCategory = instanceToCategory[currentSecondObjectValue]
+        });
+    
+        this.jsonInit({
+            message0: '%1 is %2 %3',
+            args0: [
+            {
+                type: 'field_dropdown',
+                name: 'OBJECT1',
+                options: (...args) => {
+                    return state.additionalLabelsValues
+                },
+            },
+            {
+                type: 'field_dropdown',
+                name: 'DESCRIPTOR',
+                options: () => {
+                    if (state.currentSecondObjectCategory in kinematicDropdownGenerators) {
+                        return kinematicDropdownGenerators[state.currentSecondObjectCategory]()
+                    } else {
+                        // return generateDropdownArray(["select an adjective", 'on top of', 'inside'])
+                        return generateDropdownArray(["select an adjective"].concat(initBinaryPredicatesReadable))
+                    }
+                },
+            },
+            {
+                type: 'field_dropdown',
+                name: 'OBJECT2',
+                options: (...args) => {
+                    return state.allLabelsValues;
+                }
+            }
+            ],
+            output: 'Boolean2',
+            colour: basicSentenceColor,
+            tooltip: 'Says Hello',
+        });
+        },
+    },
+    generator: (block) => {
+        let object1 = block.getFieldValue('OBJECT1').toLowerCase() || 'null';
+        object1 = /\d/.test(object1) ? object1 : "?" + object1
+        const adjective = convertName(block.getFieldValue('DESCRIPTOR').toLowerCase()) || 'null';
+        let object2 = block.getFieldValue('OBJECT2').toLowerCase() || 'null';
+        object2 = /\d/.test(object2) ? object2 : "?" + object2
+        const code = `(${adjective} ${object1} ${object2})`;
+        return [code, Blockly.JavaScript.ORDER_MEMBER];
+    },
+}
+
 
 export const conjunction = {
     name: 'Conjunction',
@@ -746,12 +927,12 @@ export const conjunction = {
                     {
                         type: 'input_value',
                         name: 'CONJUNCT1',
-                        check: "Boolean"
+                        // check: "Boolean"
                     },
                     {
                         type: 'input_value',
                         name: 'CONJUNCT2',
-                        check: "Boolean"
+                        // check: "Boolean"
                     }
                 ],
                 output: "Boolean",
@@ -922,12 +1103,12 @@ export const disjunction = {
                     {
                         type: 'input_value',
                         name: 'DISJUNCT1',
-                        check: "Boolean"
+                        // check: "Boolean"
                     },
                     {
                         type: 'input_value',
                         name: 'DISJUNCT2',
-                        check: "Boolean"
+                        // check: "Boolean"
                     }
                 ],
                 output: "Boolean",
@@ -1122,12 +1303,12 @@ export const implication = {
                     {
                         type: "input_value",
                         name: "ANTECEDENT",
-                        check: "Boolean"
+                        // check: "Boolean"
                     },
                     {
                         type: "input_value",
                         name: "CONSEQUENT",
-                        check: "Boolean"
+                        // check: "Boolean"
                     }
                 ],
                 output: "Boolean",
