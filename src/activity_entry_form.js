@@ -3,7 +3,6 @@ import Button from 'react-bootstrap/Button'
 import Form from 'react-bootstrap/Form'
 import Modal from 'react-bootstrap/Modal'
 import { allActivities, igibsonGcpVmSetupUrl, ServerErrorModal } from './constants.js'
-// const uuidv4 = require("uuid")
 import { v4 as uuid } from "uuid"
 
 const activityToPreselectedScene = require("./data/activity_to_preselected_scenes.json")

@@ -3,14 +3,12 @@ import Modal from "react-bootstrap/Modal"
 
 // ACTIVITIES, ROOMS, SCENE OBJECTS CONSTANTS
 
-const binaryPredicates = ["ontop", "nextto", "inside", "under", "touching"]
-const binaryPredicatesReadable = ["on top of", "next to", "inside", "under", "touching"]
-// export const blocklyNameToPDDLName = {
-//     'on top of': 'ontop',
-//     'next to': 'nextto'
-// }
+export const binaryPredicates = ["ontop", "nextto", "inside", "under", "touching"]
+export const binaryPredicatesReadable = ["on top of", "next to", "inside", "under", "touching"]
+export const initBinaryPredicatesReadable = ["on top"]
+
 export const blocklyNameToPDDLName = Object.assign(
-    {}, ...binaryPredicatesReadable((readable, i) => (
+    {}, ...binaryPredicatesReadable.map((readable, i) => (
         {[readable]: binaryPredicates[i]}
     )))
 console.log('blockly name to pddl name:', blocklyNameToPDDLName)

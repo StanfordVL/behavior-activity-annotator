@@ -13,7 +13,9 @@ import {
     airtableResultsUrl,
     igibsonGcpVmCheckSamplingUrl,
     igibsonGcpVmTeardownUrl,
-    ServerErrorModal
+    ServerErrorModal,
+    initBinaryPredicatesReadable,
+    binaryPredicatesReadable
     } from './constants.js'
 import { convertName, 
          createObjectsList, 
@@ -151,7 +153,7 @@ export class FeasibilityChecker extends React.Component {
         let transitivelyUnplacedAdditionalObjectsExist
         let negatedPlacementsInInitial
         let categoriesInInitial
-        let nextToPresent 
+        // let nextToPresent 
         let nullsInGoal
 
         if (checkNulls(updatedInitialConditions)) {
@@ -171,10 +173,10 @@ export class FeasibilityChecker extends React.Component {
             codeCorrect = false 
         } else {categoriesInInitial = <div/>}
         const nextToMatches = updatedInitialConditions.match(/nextto/)
-        if (nextToMatches !== null) {
-            nextToPresent = <li>Initial conditions contain "next to", but "next to" is only allowed in goal conditions.</li>
-            codeCorrect = false 
-        } else {nextToPresent = <div/>}
+        // if (nextToMatches !== null) {
+        //     nextToPresent = <li>Initial conditions contain "next to", but "next to" is only allowed in goal conditions.</li>
+        //     codeCorrect = false 
+        // } else {nextToPresent = <div/>}
         if (checkNulls(updatedGoalConditions)) {
             nullsInGoal = <li>Goal conditions have empty fields.</li>
             codeCorrect = false 
@@ -187,7 +189,7 @@ export class FeasibilityChecker extends React.Component {
                     {transitivelyUnplacedAdditionalObjectsExist}
                     {negatedPlacementsInInitial}
                     {categoriesInInitial}
-                    {nextToPresent}
+                    {/* {nextToPresent} */}
                     {nullsInGoal}
                 </ul>
             </div>
@@ -546,11 +548,11 @@ export default class ConditionDrawer extends React.Component {
     getBlockTypes() {
         let tools = [
             basicUnarySentence,
-            basicBinarySentence,
             negation,
         ]
         if (this.props.drawerType === "goal") {
             tools = tools.concat([
+                basicBinarySentenceGoal,
                 implication,
                 universal,
                 existential, 
@@ -558,9 +560,12 @@ export default class ConditionDrawer extends React.Component {
                 forPairs,
                 forNPairs
             ])
+        } else {
+            tools = tools.concat([basicBinarySentenceInit])
         }
         return tools
     }
+
     
     render() {
         if (this.props.drawerType === "goal") {
@@ -683,7 +688,7 @@ export const basicUnarySentence = {
   };
 
 
-export const basicBinarySentence = {
+export const basicBinarySentenceGoal = {
 name: 'BasicBinaryCondition',
 category: 'Basic Conditions',
 block: {
@@ -734,7 +739,7 @@ block: {
                 if (state.currentSecondObjectCategory in kinematicDropdownGenerators) {
                     return kinematicDropdownGenerators[state.currentSecondObjectCategory]()
                 } else {
-                    return generateDropdownArray(["select an adjective", 'on top of', 'inside', 'next to', 'under'])
+                    return generateDropdownArray(["select an adjective"].concat(binaryPredicatesReadable))
                 }
             },
         },
@@ -762,6 +767,87 @@ generator: (block) => {
     return [code, Blockly.JavaScript.ORDER_MEMBER];
 },
 };
+
+export const basicBinarySentenceInit = {
+    name: "BasicBinaryConditionInit",
+    category: "Basic Conditions",
+    block: {
+        init: function (...arxs) {
+        const block = this;
+        
+        const state = {
+            allLabelsValues: [['select an object', 'null']],
+            additionalLabelsValues: [["select an object", "null"]],
+            currentSecondObjectValue: "null",
+            currentSecondObjectCategory: "null"
+        };
+    
+        this.setOnChange(function(changeEvent) {
+            let selectedObjectsContainer = new ObjectOptions(JSON.parse(window.sessionStorage.getItem('allSelectedObjects')))
+            let [objectInstanceLabels, instanceToCategory] = selectedObjectsContainer.getInstancesCategories()
+            state.allLabelsValues = objectInstanceLabels
+            state.additionalLabelsValues = [["select an object", "null"]]
+            for (const [label, value] of state.allLabelsValues) {
+                if (!(sceneSynsets.includes(getCategoryFromLabel(value))) && !(value === "null")) {
+                    state.additionalLabelsValues.push([label, value])
+                }
+            }
+    
+            const descriptorField = block.getField("DESCRIPTOR")
+            const currentSecondObjectValue = block.getFieldValue("OBJECT2")
+            const currentDescriptorValue = block.getFieldValue("DESCRIPTOR")
+    
+            descriptorField.setValue(currentSecondObjectValue !== state.currentSecondObjectValue ? "" : currentDescriptorValue)
+            state.currentSecondObjectValue = currentSecondObjectValue
+            state.currentSecondObjectCategory = instanceToCategory[currentSecondObjectValue]
+        });
+    
+        this.jsonInit({
+            message0: '%1 is %2 %3',
+            args0: [
+            {
+                type: 'field_dropdown',
+                name: 'OBJECT1',
+                options: (...args) => {
+                    return state.additionalLabelsValues
+                },
+            },
+            {
+                type: 'field_dropdown',
+                name: 'DESCRIPTOR',
+                options: () => {
+                    if (state.currentSecondObjectCategory in kinematicDropdownGenerators) {
+                        return kinematicDropdownGenerators[state.currentSecondObjectCategory]()
+                    } else {
+                        // return generateDropdownArray(["select an adjective", 'on top of', 'inside'])
+                        return generateDropdownArray(["select an adjective"].concat(initBinaryPredicatesReadable))
+                    }
+                },
+            },
+            {
+                type: 'field_dropdown',
+                name: 'OBJECT2',
+                options: (...args) => {
+                    return state.allLabelsValues;
+                }
+            }
+            ],
+            output: 'Boolean',
+            colour: basicSentenceColor,
+            tooltip: 'Says Hello',
+        });
+        },
+    },
+    generator: (block) => {
+        let object1 = block.getFieldValue('OBJECT1').toLowerCase() || 'null';
+        object1 = /\d/.test(object1) ? object1 : "?" + object1
+        const adjective = convertName(block.getFieldValue('DESCRIPTOR').toLowerCase()) || 'null';
+        let object2 = block.getFieldValue('OBJECT2').toLowerCase() || 'null';
+        object2 = /\d/.test(object2) ? object2 : "?" + object2
+        const code = `(${adjective} ${object1} ${object2})`;
+        return [code, Blockly.JavaScript.ORDER_MEMBER];
+    },
+}
 
 
 export const conjunction = {
