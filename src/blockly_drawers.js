@@ -151,8 +151,8 @@ export class FeasibilityChecker extends React.Component {
         let codeCorrect = true
         let nullsInInit
         let transitivelyUnplacedAdditionalObjectsExist
-        let negatedPlacementsInInitial
-        let categoriesInInitial
+        // let negatedPlacementsInInitial
+        // let categoriesInInitial
         // let nextToPresent 
         let nullsInGoal
 
@@ -164,15 +164,15 @@ export class FeasibilityChecker extends React.Component {
             transitivelyUnplacedAdditionalObjectsExist = <li>Initial conditions currently contain objects that have not been placed in relation to a scene object, even indirectly.</li>
             codeCorrect = false 
         } else {transitivelyUnplacedAdditionalObjectsExist = <div/>}
-        if (checkNegatedPlacements(updatedInitialConditions)) {
-            negatedPlacementsInInitial = <li>Initial conditions contain negated two-object basic conditions, but in initial conditions you can only negate one-object basic conditions.</li>
-            codeCorrect = false 
-        } else {negatedPlacementsInInitial = <div/>}
-        if (checkCategoriesExist(updatedInitialConditions)) {
-            categoriesInInitial = <li>Initial conditions currently contain object categories, but only object instances are allowed in initial conditions.</li>
-            codeCorrect = false 
-        } else {categoriesInInitial = <div/>}
-        const nextToMatches = updatedInitialConditions.match(/nextto/)
+        // if (checkNegatedPlacements(updatedInitialConditions)) {
+        //     negatedPlacementsInInitial = <li>Initial conditions contain negated two-object basic conditions, but in initial conditions you can only negate one-object basic conditions.</li>
+        //     codeCorrect = false 
+        // } else {negatedPlacementsInInitial = <div/>}
+        // if (checkCategoriesExist(updatedInitialConditions)) {
+        //     categoriesInInitial = <li>Initial conditions currently contain object categories, but only object instances are allowed in initial conditions.</li>
+        //     codeCorrect = false 
+        // } else {categoriesInInitial = <div/>}
+        // const nextToMatches = updatedInitialConditions.match(/nextto/)
         // if (nextToMatches !== null) {
         //     nextToPresent = <li>Initial conditions contain "next to", but "next to" is only allowed in goal conditions.</li>
         //     codeCorrect = false 
@@ -187,8 +187,8 @@ export class FeasibilityChecker extends React.Component {
                 <ul>
                     {nullsInInit}
                     {transitivelyUnplacedAdditionalObjectsExist}
-                    {negatedPlacementsInInitial}
-                    {categoriesInInitial}
+                    {/* {negatedPlacementsInInitial} */}
+                    {/* {categoriesInInitial} */}
                     {/* {nextToPresent} */}
                     {nullsInGoal}
                 </ul>
@@ -546,10 +546,7 @@ export default class ConditionDrawer extends React.Component {
     }
 
     getBlockTypes() {
-        let tools = [
-            // basicUnarySentence,
-            // negation,
-        ]
+        let tools = []
         if (this.props.drawerType === "goal") {
             tools = tools.concat([
                 basicUnarySentenceGoal,
@@ -562,7 +559,6 @@ export default class ConditionDrawer extends React.Component {
                 forNPairs
             ])
         } else {
-            // tools = tools.concat([basicBinarySentenceInit])
             tools = tools.concat([basicUnarySentenceInit, basicBinarySentenceInit])
         }
         tools.push(negation)
@@ -902,7 +898,7 @@ export const basicBinarySentenceInit = {
                 }
             }
             ],
-            output: 'Boolean',
+            output: 'Boolean2',
             colour: basicSentenceColor,
             tooltip: 'Says Hello',
         });
@@ -931,12 +927,12 @@ export const conjunction = {
                     {
                         type: 'input_value',
                         name: 'CONJUNCT1',
-                        check: "Boolean"
+                        // check: "Boolean"
                     },
                     {
                         type: 'input_value',
                         name: 'CONJUNCT2',
-                        check: "Boolean"
+                        // check: "Boolean"
                     }
                 ],
                 output: "Boolean",
@@ -1107,12 +1103,12 @@ export const disjunction = {
                     {
                         type: 'input_value',
                         name: 'DISJUNCT1',
-                        check: "Boolean"
+                        // check: "Boolean"
                     },
                     {
                         type: 'input_value',
                         name: 'DISJUNCT2',
-                        check: "Boolean"
+                        // check: "Boolean"
                     }
                 ],
                 output: "Boolean",
@@ -1307,12 +1303,12 @@ export const implication = {
                     {
                         type: "input_value",
                         name: "ANTECEDENT",
-                        check: "Boolean"
+                        // check: "Boolean"
                     },
                     {
                         type: "input_value",
                         name: "CONSEQUENT",
-                        check: "Boolean"
+                        // check: "Boolean"
                     }
                 ],
                 output: "Boolean",
