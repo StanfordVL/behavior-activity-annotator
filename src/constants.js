@@ -11,7 +11,6 @@ export const blocklyNameToPDDLName = Object.assign(
     {}, ...binaryPredicatesReadable.map((readable, i) => (
         {[readable]: binaryPredicates[i]}
     )))
-console.log('blockly name to pddl name:', blocklyNameToPDDLName)
 
 const activitiesToRoomsObjects = require('./data/activity_to_rooms_objects.json')
 

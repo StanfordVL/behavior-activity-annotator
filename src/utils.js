@@ -194,7 +194,6 @@ export class ObjectOptions {
                 }
             }
         }
-        console.log("GOT INSTANCES CATEGORIES")
         let instanceCategoryLabels = objectInstanceLabels.concat(this.getCategories().slice(1))
         return ([instanceCategoryLabels, instanceToCategory])
     }
@@ -229,7 +228,6 @@ export class ObjectOptions {
                 }
             }
         }
-        console.log("get instances:", objectInstanceLabels)
         return ([objectInstanceLabels, instanceToCategory])
     }
 
