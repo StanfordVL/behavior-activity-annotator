@@ -547,11 +547,12 @@ export default class ConditionDrawer extends React.Component {
 
     getBlockTypes() {
         let tools = [
-            basicUnarySentence,
-            negation,
+            // basicUnarySentence,
+            // negation,
         ]
         if (this.props.drawerType === "goal") {
             tools = tools.concat([
+                basicUnarySentenceGoal,
                 basicBinarySentenceGoal,
                 implication,
                 universal,
@@ -561,8 +562,10 @@ export default class ConditionDrawer extends React.Component {
                 forNPairs
             ])
         } else {
-            tools = tools.concat([basicBinarySentenceInit])
+            // tools = tools.concat([basicBinarySentenceInit])
+            tools = tools.concat([basicUnarySentenceInit, basicBinarySentenceInit])
         }
+        tools.push(negation)
         return tools
     }
 
@@ -621,8 +624,75 @@ export default class ConditionDrawer extends React.Component {
 }
 
 
-export const basicUnarySentence = {
-    name: 'BasicUnaryCondition',
+export const basicUnarySentenceInit = {
+    name: 'BasicUnaryConditionInit',
+    category: 'Basic Conditions',
+    block: {
+      init: function (...arxs) {
+        const block = this;
+        
+        const state = {
+          allLabelsValues: [['select an object', 'null']],
+          currentObjectLabel: 'select an object',
+          currentObjectValue: 'null',
+          currentObjectCategory: 'null'
+        };
+  
+        this.setOnChange(function(changeEvent) {
+          let selectedObjectsContainer = new ObjectOptions(JSON.parse(window.sessionStorage.getItem('allSelectedObjects')))
+          let [objectInstanceLabels, instanceToCategory] = selectedObjectsContainer.getInstances()
+          state.allLabelsValues = objectInstanceLabels
+  
+          const descriptorField = block.getField('DESCRIPTOR');
+          const currentObjectValue = block.getFieldValue('OBJECT');
+          const currentDescriptorValue = block.getFieldValue('DESCRIPTOR');
+  
+          descriptorField.setValue(currentObjectValue !== state.currentObjectValue ? '' : currentDescriptorValue);
+          state.currentObjectValue = currentObjectValue;
+          state.currentObjectCategory = instanceToCategory[currentObjectValue]
+  
+        });
+  
+        this.jsonInit({
+          message0: '%1 is %2',
+          args0: [
+            {
+              type: 'field_dropdown',
+              name: 'OBJECT',
+              options: (...args) => {
+              return state.allLabelsValues;
+              },
+            },
+            {
+              type: 'field_dropdown',
+              name: 'DESCRIPTOR',
+              options: () => {
+                if (state.currentObjectCategory in dropdownGenerators) {
+                    return dropdownGenerators[state.currentObjectCategory]()
+                } else {
+                    return dropdownGenerators["null"]()
+                }
+              },
+            }
+          ],
+          output: 'Boolean',
+          colour: basicSentenceColor,
+          tooltip: 'Says Hello',
+        });
+      },
+    },
+    generator: (block) => {
+      let object = block.getFieldValue('OBJECT').toLowerCase() // || 'null';
+      object = /\d/.test(object) ? object : "?" + object
+      const adjective = String(convertName(block.getFieldValue('DESCRIPTOR')).toLowerCase()) || 'null';
+      const code = `(${adjective} ${object})`;
+      return [code, Blockly.JavaScript.ORDER_MEMBER];
+    },
+  };
+
+
+export const basicUnarySentenceGoal = {
+    name: 'BasicUnaryConditionGoal',
     category: 'Basic Conditions',
     block: {
       init: function (...arxs) {
@@ -689,7 +759,7 @@ export const basicUnarySentence = {
 
 
 export const basicBinarySentenceGoal = {
-name: 'BasicBinaryCondition',
+name: 'BasicBinaryConditionGoal',
 category: 'Basic Conditions',
 block: {
     init: function (...arxs) {
@@ -784,7 +854,7 @@ export const basicBinarySentenceInit = {
     
         this.setOnChange(function(changeEvent) {
             let selectedObjectsContainer = new ObjectOptions(JSON.parse(window.sessionStorage.getItem('allSelectedObjects')))
-            let [objectInstanceLabels, instanceToCategory] = selectedObjectsContainer.getInstancesCategories()
+            let [objectInstanceLabels, instanceToCategory] = selectedObjectsContainer.getInstances()
             state.allLabelsValues = objectInstanceLabels
             state.additionalLabelsValues = [["select an object", "null"]]
             for (const [label, value] of state.allLabelsValues) {

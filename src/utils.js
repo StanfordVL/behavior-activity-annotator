@@ -194,8 +194,43 @@ export class ObjectOptions {
                 }
             }
         }
+        console.log("GOT INSTANCES CATEGORIES")
         let instanceCategoryLabels = objectInstanceLabels.concat(this.getCategories().slice(1))
         return ([instanceCategoryLabels, instanceToCategory])
+    }
+
+    getInstances() {
+        const demotedRoomsMap = this.createDemotedRoomsMap()
+        let objectInstanceLabels = [["select an object", "null"]]
+        let instanceToCategory = {"null": "null"}
+
+        for (const [pureLabel, value] of Object.entries(demotedRoomsMap)) {
+            if (typeof value !== "number") {
+
+                // Create indices for each room that don't overlap, going in alphabetical
+                // order of rooms 
+                const roomsToIndices = this.getRoomIndices(demotedRoomsMap, pureLabel)
+                for (const room of Object.keys(roomsToIndices).sort()) {
+                    const instanceIndices = roomsToIndices[room]
+
+                    for (let instanceIndex of instanceIndices) {
+                        let instanceLabel = pureLabel + "_" + (instanceIndex + 1).toString() + room
+                        objectInstanceLabels.push([instanceLabel, instanceLabel])
+                        instanceToCategory[instanceLabel] = pureLabel
+                        instanceToCategory[pureLabel] = pureLabel
+                    }
+                }
+            } else {
+                for (let instanceIndex = 0; instanceIndex < value; instanceIndex++) {
+                    let instanceLabel = pureLabel + "_" + (instanceIndex + 1).toString()
+                    objectInstanceLabels.push([instanceLabel, instanceLabel])
+                    instanceToCategory[instanceLabel] = pureLabel
+                    instanceToCategory[pureLabel] = pureLabel
+                }
+            }
+        }
+        console.log("get instances:", objectInstanceLabels)
+        return ([objectInstanceLabels, instanceToCategory])
     }
 
     getCategories() {
