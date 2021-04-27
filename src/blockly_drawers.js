@@ -5,7 +5,8 @@ import {
     allRooms,
     sceneSynsets,
     dropdownGenerators, 
-    kinematicDropdownGenerators,
+    kinematicDropdownGeneratorsInit,
+    kinematicDropdownGeneratorsGoal,
     sentenceConstructorColor,
     basicSentenceColor,
     rootColor,
@@ -14,7 +15,7 @@ import {
     igibsonGcpVmCheckSamplingUrl,
     igibsonGcpVmTeardownUrl,
     ServerErrorModal,
-    initBinaryPredicatesReadable,
+    initBinaryPredicatesAdditionalReadable,
     binaryPredicatesReadable
     } from './constants.js'
 import { convertName, 
@@ -802,8 +803,8 @@ block: {
             type: 'field_dropdown',
             name: 'DESCRIPTOR',
             options: () => {
-                if (state.currentSecondObjectCategory in kinematicDropdownGenerators) {
-                    return kinematicDropdownGenerators[state.currentSecondObjectCategory]()
+                if (state.currentSecondObjectCategory in kinematicDropdownGeneratorsGoal) {
+                    return kinematicDropdownGeneratorsGoal[state.currentSecondObjectCategory]()
                 } else {
                     return generateDropdownArray(["select an adjective"].concat(binaryPredicatesReadable))
                 }
@@ -882,11 +883,11 @@ export const basicBinarySentenceInit = {
                 type: 'field_dropdown',
                 name: 'DESCRIPTOR',
                 options: () => {
-                    if (state.currentSecondObjectCategory in kinematicDropdownGenerators) {
-                        return kinematicDropdownGenerators[state.currentSecondObjectCategory]()
+                    if (state.currentSecondObjectCategory in kinematicDropdownGeneratorsInit) {
+                        return kinematicDropdownGeneratorsInit[state.currentSecondObjectCategory]()
                     } else {
                         // return generateDropdownArray(["select an adjective", 'on top of', 'inside'])
-                        return generateDropdownArray(["select an adjective"].concat(initBinaryPredicatesReadable))
+                        return generateDropdownArray(["select an adjective"].concat(initBinaryPredicatesAdditionalReadable))
                     }
                 },
             },

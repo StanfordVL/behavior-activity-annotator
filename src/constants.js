@@ -5,7 +5,8 @@ import Modal from "react-bootstrap/Modal"
 
 export const binaryPredicates = ["ontop", "nextto", "inside", "under", "touching"]
 export const binaryPredicatesReadable = ["on top of", "next to", "inside", "under", "touching"]
-export const initBinaryPredicatesReadable = ["on top"]
+export const initBinaryPredicatesAdditionalReadable = ["on top of"]
+export const initBinaryPredicatesSceneReadable = ["on top of", "inside"]
 
 export const blocklyNameToPDDLName = Object.assign(
     {}, ...binaryPredicatesReadable.map((readable, i) => (
@@ -115,9 +116,16 @@ export const dropdownGenerators = Object.assign({}, ...Object.entries(objToDesc)
 
 var allowedSamplings = require("./data/allowed_samplings.json")
 allowedSamplings["null"] = []
-export const kinematicDropdownGenerators = Object.assign({}, ...Object.entries(allowedSamplings).map(
+export const kinematicDropdownGeneratorsGoal = Object.assign({}, ...Object.entries(allowedSamplings).map(
     ([object, kinematicDescriptors], _) => (
         {[object]: () => [['select an adjective', '']].concat(kinematicDescriptors)}
+    )
+))
+export const kinematicDropdownGeneratorsInit = Object.assign({}, ...Object.entries(allowedSamplings).map(
+    ([object, kinematicDescriptors], _) => (
+        {[object]: () => [["select an adjective", ""]].concat(kinematicDescriptors.filter(
+            descriptor => initBinaryPredicatesSceneReadable.includes(descriptor[0])
+        ))}
     )
 ))
 
