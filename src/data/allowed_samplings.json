@@ -4,6 +4,10 @@
         [
             "on top of",
             "on top of"
+        ],
+        [
+            "touching",
+            "touching"
         ]
     ],
     "ceiling": [],
@@ -15,6 +19,10 @@
         [
             "next to",
             "next to"
+        ],
+        [
+            "touching",
+            "touching"
         ]
     ],
     "bed.n.01": [
@@ -25,6 +33,10 @@
         [
             "next to",
             "next to"
+        ],
+        [
+            "touching",
+            "touching"
         ]
     ],
     "cabinet.n.01": [
@@ -35,6 +47,10 @@
         [
             "next to",
             "next to"
+        ],
+        [
+            "touching",
+            "touching"
         ]
     ],
     "rug.n.01": [
@@ -45,6 +61,10 @@
         [
             "next to",
             "next to"
+        ],
+        [
+            "touching",
+            "touching"
         ]
     ],
     "chair.n.01": [
@@ -55,6 +75,10 @@
         [
             "next to",
             "next to"
+        ],
+        [
+            "touching",
+            "touching"
         ]
     ],
     "chest.n.02": [
@@ -69,6 +93,10 @@
         [
             "next to",
             "next to"
+        ],
+        [
+            "touching",
+            "touching"
         ]
     ],
     "table.n.02": [
@@ -83,6 +111,10 @@
         [
             "under",
             "under"
+        ],
+        [
+            "touching",
+            "touching"
         ]
     ],
     "stove.n.01": [
@@ -93,6 +125,10 @@
         [
             "next to",
             "next to"
+        ],
+        [
+            "touching",
+            "touching"
         ]
     ],
     "countertop.n.01": [
@@ -103,6 +139,10 @@
         [
             "next to",
             "next to"
+        ],
+        [
+            "touching",
+            "touching"
         ]
     ],
     "crib.n.01": [
@@ -113,6 +153,10 @@
         [
             "next to",
             "next to"
+        ],
+        [
+            "touching",
+            "touching"
         ]
     ],
     "dishwasher.n.01": [
@@ -127,12 +171,20 @@
         [
             "next to",
             "next to"
+        ],
+        [
+            "touching",
+            "touching"
         ]
     ],
     "door.n.01": [
         [
             "next to",
             "next to"
+        ],
+        [
+            "touching",
+            "touching"
         ]
     ],
     "dryer.n.01": [
@@ -147,12 +199,20 @@
         [
             "next to",
             "next to"
+        ],
+        [
+            "touching",
+            "touching"
         ]
     ],
     "floor_lamp.n.01": [
         [
             "next to",
             "next to"
+        ],
+        [
+            "touching",
+            "touching"
         ]
     ],
     "electric_refrigerator.n.01": [
@@ -167,18 +227,30 @@
         [
             "next to",
             "next to"
+        ],
+        [
+            "touching",
+            "touching"
         ]
     ],
     "grandfather_clock.n.01": [
         [
             "next to",
             "next to"
+        ],
+        [
+            "touching",
+            "touching"
         ]
     ],
     "heater.n.01": [
         [
             "next to",
             "next to"
+        ],
+        [
+            "touching",
+            "touching"
         ]
     ],
     "microwave.n.02": [
@@ -193,12 +265,20 @@
         [
             "next to",
             "next to"
+        ],
+        [
+            "touching",
+            "touching"
         ]
     ],
     "mirror.n.01": [
         [
             "next to",
             "next to"
+        ],
+        [
+            "touching",
+            "touching"
         ]
     ],
     "oven.n.01": [
@@ -213,6 +293,10 @@
         [
             "next to",
             "next to"
+        ],
+        [
+            "touching",
+            "touching"
         ]
     ],
     "piano.n.01": [
@@ -223,12 +307,20 @@
         [
             "next to",
             "next to"
+        ],
+        [
+            "touching",
+            "touching"
         ]
     ],
     "photograph.n.01": [
         [
             "next to",
             "next to"
+        ],
+        [
+            "touching",
+            "touching"
         ]
     ],
     "pool_table.n.01": [
@@ -239,12 +331,20 @@
         [
             "next to",
             "next to"
+        ],
+        [
+            "touching",
+            "touching"
         ]
     ],
     "range_hood.n.01": [
         [
             "next to",
             "next to"
+        ],
+        [
+            "touching",
+            "touching"
         ]
     ],
     "shelf.n.01": [
@@ -259,6 +359,10 @@
         [
             "next to",
             "next to"
+        ],
+        [
+            "touching",
+            "touching"
         ]
     ],
     "shower.n.01": [
@@ -269,6 +373,10 @@
         [
             "next to",
             "next to"
+        ],
+        [
+            "touching",
+            "touching"
         ]
     ],
     "sink.n.01": [
@@ -279,6 +387,10 @@
         [
             "next to",
             "next to"
+        ],
+        [
+            "touching",
+            "touching"
         ]
     ],
     "sofa.n.01": [
@@ -289,18 +401,30 @@
         [
             "next to",
             "next to"
+        ],
+        [
+            "touching",
+            "touching"
         ]
     ],
     "loudspeaker.n.01": [
         [
             "next to",
             "next to"
+        ],
+        [
+            "touching",
+            "touching"
         ]
     ],
     "television_receiver.n.01": [
         [
             "next to",
             "next to"
+        ],
+        [
+            "touching",
+            "touching"
         ]
     ],
     "stool.n.01": [
@@ -311,6 +435,10 @@
         [
             "next to",
             "next to"
+        ],
+        [
+            "touching",
+            "touching"
         ]
     ],
     "toilet.n.02": [
@@ -325,12 +453,20 @@
         [
             "next to",
             "next to"
+        ],
+        [
+            "touching",
+            "touching"
         ]
     ],
     "towel_rack.n.01": [
         [
             "next to",
             "next to"
+        ],
+        [
+            "touching",
+            "touching"
         ]
     ],
     "treadmill.n.01": [
@@ -341,6 +477,10 @@
         [
             "next to",
             "next to"
+        ],
+        [
+            "touching",
+            "touching"
         ]
     ],
     "washer.n.03": [
@@ -355,12 +495,20 @@
         [
             "next to",
             "next to"
+        ],
+        [
+            "touching",
+            "touching"
         ]
     ],
     "window.n.01": [
         [
             "next to",
             "next to"
+        ],
+        [
+            "touching",
+            "touching"
         ]
     ]
 }

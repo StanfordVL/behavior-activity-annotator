@@ -39,6 +39,7 @@ export default class ActivityEntryForm extends React.Component {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(activityToPreselectedScene[this.state.activityName].slice(0, 1))
+                // body: JSON.stringify(activityToPreselectedScene[this.state.activityName])
             }
             fetch(igibsonGcpVmSetupUrl, envsPostRequest)
             .then(response => response.json())
@@ -47,9 +48,10 @@ export default class ActivityEntryForm extends React.Component {
                 window.sessionStorage.setItem("serverReady", JSON.stringify(true))
             })
             .catch(response => {
-                // TODO remove the slicing once done debugging 
                 const fakeIds = Array(activityToPreselectedScene[this.state.activityName].slice(0, 1).length).fill().map(() => uuid())   
+                // const fakeIds = Array(activityToPreselectedScene[this.state.activityName].length).fill().map(() => uuid())   
                 const newScenesIds = fakeIds.map((id, i) => [activityToPreselectedScene[this.state.activityName].slice(0, 1)[i], id])
+                // const newScenesIds = fakeIds.map((id, i) => [activityToPreselectedScene[this.state.activityName][i], id])
                 window.sessionStorage.setItem("scenes_ids", JSON.stringify(newScenesIds))
                 window.sessionStorage.setItem("serverReady", JSON.stringify(true))
                 this.setState({ showServerErrorMessage: true })
