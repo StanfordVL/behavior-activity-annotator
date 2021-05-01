@@ -57,11 +57,12 @@ export class SubmissionSection extends React.Component {
     render() {
         return (
             <div>
+                <AgentStartForm onAgentStartSelection={agentStartRoom => this.onAgentStartSelection(agentStartRoom)}/>
                 <FeasibilityChecker 
                     onFeasibilityCheck={newFeasible => this.onFeasibilityCheck(newFeasible)}
                     onCorrectnessCheck={newCorrect => this.onCorrectnessCheck(newCorrect)}
+                    agentStartRoom={this.state.agentStartRoom}
                 />
-                <AgentStartForm onAgentStartSelection={agentStartRoom => this.onAgentStartSelection(agentStartRoom)}/>
                 <FinalSubmit 
                     agentStartRoom={this.state.agentStartRoom} 
                     feasible={this.state.feasible}
@@ -126,11 +127,9 @@ export class FeasibilityChecker extends React.Component {
         let serverReady = JSON.parse(window.sessionStorage.getItem("serverReady"))
         if (serverReady) {
             // If so, run feasibility check
-            // this.onCodeCorrectHide()
             this.checkFeasibility()
         } else {
             // If not, show the premature message
-            // this.onCodeCorrectHide()
             this.setState({ showPrematureMessage: true })
         }
         this.onCodeCorrectHide()
@@ -198,6 +197,10 @@ export class FeasibilityChecker extends React.Component {
     }
 
     checkFeasibility() {
+        // Add agent start lines 
+        let agentInitialConditions = addAgentStartLine(this.props.agentStartRoom, updatedInitialConditions)
+        console.log("with agent:", agentInitialConditions)
+
         // Lock up  
         this.setState({ showPendingMessage: true })
 
@@ -209,10 +212,9 @@ export class FeasibilityChecker extends React.Component {
             },
             body: JSON.stringify({
                 "activityName": JSON.parse(window.sessionStorage.getItem('activityName')),
-                "initialConditions": updatedInitialConditions,
+                "initialConditions": agentInitialConditions,
                 "goalConditions": updatedGoalConditions,
-                "objectList": createObjectsList(updatedInitialConditions),
-                // "uuids": JSON.parse(window.sessionStorage.getItem("uuids"))
+                "objectList": createObjectsList(agentInitialConditions),
                 "scenes_ids": JSON.parse(window.sessionStorage.getItem("scenes_ids"))
             })
         }
@@ -255,7 +257,7 @@ export class FeasibilityChecker extends React.Component {
                     variant="primary"
                     onClick={() => this.onClick()}
                     className="marginCard"
-                    disabled={this.state.disable}
+                    disabled={this.props.agentStartRoom === "stub"}
                 >
                     Check feasibility 
                 </Button>
@@ -379,7 +381,7 @@ export class FinalSubmit extends React.Component {
 
     onSubmit() {
         // Add agent start term 
-        updatedInitialConditions = addAgentStartLine(this.props.agentStartRoom, updatedInitialConditions)
+        let agentInitialConditions = addAgentStartLine(this.props.agentStartRoom, updatedInitialConditions)
 
         // Save data to airtable 
         const submitPostRequest = {
@@ -393,10 +395,10 @@ export class FinalSubmit extends React.Component {
                     "fields": { 
                         "ActivityName": JSON.parse(window.sessionStorage.getItem('activityName')),
                         "AnnotatorID": JSON.parse(window.sessionStorage.getItem('annotatorName')),
-                        "InitialConditions": updatedInitialConditions,
+                        "InitialConditions": agentInitialConditions,
                         "GoalConditions": updatedGoalConditions,
                         "FinalSave": 1,
-                        "Objects": createObjectsList(updatedInitialConditions)
+                        "Objects": createObjectsList(agentInitialConditions)
                     }
                 }]
             })
@@ -827,9 +829,13 @@ block: {
 generator: (block) => {
     let object1 = block.getFieldValue('OBJECT1').toLowerCase() || 'null';
     object1 = /\d/.test(object1) ? object1 : "?" + object1
-    const adjective = convertName(block.getFieldValue('DESCRIPTOR').toLowerCase()) || 'null';
+
     let object2 = block.getFieldValue('OBJECT2').toLowerCase() || 'null';
     object2 = /\d/.test(object2) ? object2 : "?" + object2
+
+    let adjective = convertName(block.getFieldValue('DESCRIPTOR').toLowerCase()) || 'null';
+    adjective = /floor\.n\.01/.test(object2) ? "onfloor" : adjective
+
     const code = `(${adjective} ${object1} ${object2})`;
     return [code, Blockly.JavaScript.ORDER_MEMBER];
 },
@@ -908,9 +914,13 @@ export const basicBinarySentenceInit = {
     generator: (block) => {
         let object1 = block.getFieldValue('OBJECT1').toLowerCase() || 'null';
         object1 = /\d/.test(object1) ? object1 : "?" + object1
-        const adjective = convertName(block.getFieldValue('DESCRIPTOR').toLowerCase()) || 'null';
+
         let object2 = block.getFieldValue('OBJECT2').toLowerCase() || 'null';
         object2 = /\d/.test(object2) ? object2 : "?" + object2
+
+        let adjective = convertName(block.getFieldValue('DESCRIPTOR').toLowerCase()) || 'null';
+        adjective = /floor\.n\.01/.test(object2) ? "onfloor" : adjective
+
         const code = `(${adjective} ${object1} ${object2})`;
         return [code, Blockly.JavaScript.ORDER_MEMBER];
     },

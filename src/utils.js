@@ -105,31 +105,48 @@ export function generateDropdownArray(labels) {
     return dropdownArray
 }
 
+
 export function addAgentStartLine(room, code) {
     /**
-     * Add agent start predicate to conditions (assumes presence of at least one inroom condition)
+     * Add agent start lines to <code> with agent placed in <room>.
+     * Following rules: 
+     *      If the code has no floor in the given room, add a predicate adding a 
+     *          floor with the next instance index to that room. 
+     *      Add an onfloor condition to the agent and the floor of that room
      * 
-     * @param {String} room - room in which the agent should start
-     * @param {String} code - initial condition code which is being added to (must have at least one inroom)
-     * 
-     * @returns {String} new code with agentstart predicate added before inroom predicates
+     * @param {String} room - room in which agent should be placed 
+     * @param {String} code - code to which agent start lines should be added
+     * @return {String} - copy of code with agent start lines added
      */
     let newCode = code 
-    if (code.includes(`agentstart ${room}`)) {
-        return newCode
-    } else if (code.includes("agentstart") && !code.includes(`agentstart ${room}`)) {
-        let [pre, post] = code.split("agentstart ")
-        while (post[0] !== ")") {
-            post = post.slice(1)
+    const floorInRoomRegex = new RegExp(`\\(inroom floor.n.01_[0-9]+ [a-z]+\\)`, "g")
+    const floorInRoomPlacements = floorInRoomRegex.test(newCode) ? newCode.match(floorInRoomRegex) : []
+    const roomRegex = new RegExp(room, "g")
+
+    // Go through placements 
+    let floorLabelNumbers = [0]
+    for (let floorPlacement of floorInRoomPlacements) {
+        if (roomRegex.test(floorPlacement)) {
+            console.log("FLOOR PLACEMENT:", floorPlacement)
+            const floorLabel = floorPlacement.split(" ")[1]
+            console.log("CODE ITSELF:", newCode)
+            return newCode.slice(0, -1) + ` (onfloor agent.n.01_1 ${floorLabel}))`  
+        } 
+        // Else, get its instance number 
+        else {
+            console.log("FLOOR PLACEMENT WHEN NOT IN ROOM:", floorPlacement)
+            floorLabelNumbers.push(parseInt(floorPlacement.split(" ")[1].split("_").slice(-1)))
         }
-        newCode = [pre, post].join(`agentstart ${room}`)
     }
-    else {
-        const codeElements = code.split(" (inroom")
-        newCode = codeElements[0] + ` (agentstart ${room}) (inroom` + codeElements.slice(1).join(" (inroom")
-    }
+
+    // If the agent start room doesn't have a floor, add it in 
+    const newFloorLabel = `floor.n.01_${Math.max(...floorLabelNumbers) + 1}`
+    newCode = newCode.slice(0, -1) 
+    newCode += ` (inroom ${newFloorLabel} ${room})` 
+    newCode += ` (onfloor agent.n.01_1 ${newFloorLabel}))`
     return newCode
 }
+
 
 export class ObjectOptions {
     constructor(selectedObjects) {

@@ -3,7 +3,7 @@ import Modal from "react-bootstrap/Modal"
 
 // ACTIVITIES, ROOMS, SCENE OBJECTS CONSTANTS
 
-export const binaryPredicates = ["ontop", "nextto", "inside", "under", "touching"]
+export const binaryPredicates = ["ontop", "nextto", "inside", "under", "touching", "onfloor"]
 export const binaryPredicatesReadable = ["on top of", "next to", "inside", "under", "touching"]
 export const initBinaryPredicatesAdditionalReadable = ["on top of"]
 export const initBinaryPredicatesSceneReadable = ["on top of", "inside"]
@@ -87,6 +87,7 @@ export const objectInstanceRe = new RegExp("^[A-Za-z-_]+\.n\.[0-9]+_[0-9]+$", "g
 export const objectCategoryRe = new RegExp("^[A-Za-z-_]+\.n\.[0-9]+", "g")   // also catches instances 
 export const instanceSplitRe = new RegExp("_[0-9]+$", "g")
 export const sceneObjectLabelWithRoomRe = new RegExp(objectInstanceRe.source.slice(0, -1) + " \\([A-Za-z]+\\)$", "g")
+
 export function getPlacementsRe(objectInstance=null) {
     let instanceRe = objectInstance
     if (objectInstance == null) {
