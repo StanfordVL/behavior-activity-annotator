@@ -38,20 +38,21 @@ export default class ActivityEntryForm extends React.Component {
             const envsPostRequest = {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(activityToPreselectedScene[this.state.activityName].slice(0, 1))
-                // body: JSON.stringify(activityToPreselectedScene[this.state.activityName])
+                // body: JSON.stringify(activityToPreselectedScene[this.state.activityName].slice(0, 1))
+                body: JSON.stringify(activityToPreselectedScene[this.state.activityName])
             }
             fetch(igibsonGcpVmSetupUrl, envsPostRequest)
             .then(response => response.json())
             .then(data => {
                 window.sessionStorage.setItem("scenes_ids", JSON.stringify(data["scenes_ids"]))
                 window.sessionStorage.setItem("serverReady", JSON.stringify(true))
+                console.log("SCENES IDS:", data["scenes_ids"])
             })
             .catch(response => {
-                const fakeIds = Array(activityToPreselectedScene[this.state.activityName].slice(0, 1).length).fill().map(() => uuid())   
-                // const fakeIds = Array(activityToPreselectedScene[this.state.activityName].length).fill().map(() => uuid())   
-                const newScenesIds = fakeIds.map((id, i) => [activityToPreselectedScene[this.state.activityName].slice(0, 1)[i], id])
-                // const newScenesIds = fakeIds.map((id, i) => [activityToPreselectedScene[this.state.activityName][i], id])
+                // const fakeIds = Array(activityToPreselectedScene[this.state.activityName].slice(0, 1).length).fill().map(() => uuid())   
+                const fakeIds = Array(activityToPreselectedScene[this.state.activityName].length).fill().map(() => uuid())   
+                // const newScenesIds = fakeIds.map((id, i) => [activityToPreselectedScene[this.state.activityName].slice(0, 1)[i], id])
+                const newScenesIds = fakeIds.map((id, i) => [activityToPreselectedScene[this.state.activityName][i], id])
                 window.sessionStorage.setItem("scenes_ids", JSON.stringify(newScenesIds))
                 window.sessionStorage.setItem("serverReady", JSON.stringify(true))
                 this.setState({ showServerErrorMessage: true })

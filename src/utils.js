@@ -466,7 +466,18 @@ export function getReadableFeedback(feedback) {
      *                                  goal_feedback (sentence)
      *                              ]
      */
-    const [initSuccess, goalSuccess, initFeedback, goalFeedback] = feedback[0]
+    // const numSuccess = feedback.reduce((total, res) => (res[0] === "yes" ? total + 1 : total), 0)
+    const numTrials = feedback.length
+    let numSuccess = 0
+    let earliestFailure = -1 
+    for (let [idx, result] of feedback.entries()) {
+        const success = result[0] === "yes" ? 1 : 0
+        numSuccess += success
+        if (success === 0 && earliestFailure < 0) { earliestFailure = idx }
+    }
+    if (earliestFailure < 0) { earliestFailure = 0 }
+
+    const [initSuccess, goalSuccess, initFeedback, goalFeedback] = feedback[earliestFailure]
     let initFeedbackDisplay 
     let goalFeedbackDisplay
     if (initSuccess === "yes") {
@@ -486,6 +497,10 @@ export function getReadableFeedback(feedback) {
 
     const fullFeedback = 
         <div>
+            <p>
+                Your initial and goal conditions worked in {numSuccess} out of {numTrials} scenes!
+                 If there were any failures, see feedback for one of the failed scenes. Use the guide document to interpret it.
+            </p>
             <p><b>Initial conditions:</b></p>
             {initFeedbackDisplay}
             <p><b>Goal conditions:</b></p>

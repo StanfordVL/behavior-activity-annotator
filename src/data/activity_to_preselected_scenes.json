@@ -1,385 +1,385 @@
 {
-    "defrosting_freezer": [
+    "defrosting freezer": [
         "Beechwood_0_int",
         "Benevolence_1_int",
         "Ihlen_1_int"
     ],
-    "putting_leftovers_away": [
+    "putting leftovers away": [
         "Merom_1_int",
         "Pomaria_1_int",
         "Wainscott_0_int"
     ],
-    "baking_a_chocolate_cake": [
+    "baking a chocolate cake": [
         "Ihlen_1_int",
         "Wainscott_0_int",
         "Rs_int"
     ],
-    "baking_sugar_cookies": [
+    "baking sugar cookies": [
         "Ihlen_1_int",
         "Wainscott_0_int",
         "Rs_int"
     ],
-    "serving_a_meal": [
+    "serving a meal": [
         "Wainscott_0_int",
         "Merom_1_int",
         "Beechwood_0_int"
     ],
-    "drawing_a_bath_for_child": [
+    "drawing a bath for child": [
         "Pomaria_0_int",
         "Benevolence_0_int",
         "Merom_1_int"
     ],
-    "butchering_cow": [
+    "butchering cow ": [
         "Ihlen_1_int",
         "Pomaria_1_int",
         "Wainscott_0_int"
     ],
-    "filling_radiator": [
+    "filling radiator": [
         "Ihlen_0_int",
         "Beechwood_0_int",
         "Wainscott_0_int"
     ],
-    "heating_food_up": [
+    "heating food up": [
         "Wainscott_0_int",
         "Pomaria_1_int",
         "Merom_1_int"
     ],
-    "running_bath": [
+    "running bath": [
         "Pomaria_0_int",
         "Benevolence_0_int",
         "Merom_1_int"
     ],
-    "mixing_up_baby_formula": [
+    "mixing up baby formula": [
         "Beechwood_0_int",
         "Benevolence_1_int",
         "Pomaria_1_int"
     ],
-    "preparing_a_shower_for_child": [
+    "preparing a shower for child": [
         "Wainscott_1_int",
         "Pomaria_2_int",
         "Ihlen_0_int"
     ],
-    "heating_up_baby_formula": [
+    "heating up baby formula": [
         "Beechwood_0_int",
         "Benevolence_1_int",
         "Pomaria_1_int"
     ],
-    "storing_food": [
+    "storing food": [
         "Beechwood_0_int",
         "Ihlen_1_int",
         "Pomaria_1_int"
     ],
-    "mixing_drinks": [
+    "mixing drinks": [
         "Wainscott_0_int",
         "Rs_int",
         "Benevolence_1_int"
     ],
-    "making_jam": [
+    "making jam": [
         "Wainscott_0_int",
         "Pomaria_1_int",
         "Merom_1_int"
     ],
-    "drying_dishes": [
+    "drying dishes": [
         "Pomaria_1_int",
         "Merom_1_int",
         "Ihlen_1_int"
     ],
-    "checking_tire_pressure": [
+    "checking tire pressure": [
         "Ihlen_0_int",
         "Ihlen_0_int",
         "Ihlen_0_int"
     ],
-    "canning_food": [
+    "canning food": [
         "Wainscott_0_int",
         "Pomaria_1_int",
         "Merom_1_int"
     ],
-    "maintaining_smoke_detectors": [
+    "maintaining smoke detectors": [
         "Wainscott_1_int",
         "Pomaria_2_int",
         "Merom_1_int"
     ],
-    "carving_meat": [
+    "carving meat": [
         "Ihlen_1_int",
         "Pomaria_1_int",
         "Wainscott_0_int"
     ],
-    "making_tea": [
+    "making tea": [
         "Wainscott_0_int",
         "Pomaria_1_int",
         "Merom_1_int"
     ],
-    "making_coffee": [
+    "making coffee": [
         "Wainscott_0_int",
         "Pomaria_1_int",
         "Merom_1_int"
     ],
-    "installing_smoke_detectors": [
+    "installing smoke detectors": [
         "Wainscott_1_int",
         "Pomaria_2_int",
         "Merom_1_int"
     ],
-    "sorting_groceries": [
+    "sorting groceries": [
         "Wainscott_0_int",
         "Pomaria_1_int",
         "Beechwood_0_int"
     ],
-    "thawing_frozen_food": [
+    "thawing frozen food": [
         "Wainscott_0_int",
         "Pomaria_1_int",
         "Beechwood_0_int"
     ],
-    "setting_up_candles": [
+    "setting up candles": [
         "Beechwood_0_int",
         "Ihlen_1_int",
         "Wainscott_0_int"
     ],
-    "cleaning_up_refrigerator": [
+    "cleaning up refrigerator": [
         "Wainscott_0_int",
         "Pomaria_1_int",
         "Beechwood_0_int"
     ],
-    "cleaning_bedroom": [
+    "cleaning bedroom": [
         "Wainscott_1_int",
         "Ihlen_1_int",
         "Beechwood_1_int"
     ],
-    "washing_curtains": [
+    "washing curtains": [
         "Wainscott_1_int",
         "Wainscott_1_int",
         "Wainscott_1_int"
     ],
-    "sorting_mail": [
+    "sorting mail": [
         "Merom_0_int",
         "Rs_int",
         "Wainscott_0_int"
     ],
-    "polishing_silver": [
+    "polishing silver": [
         "Wainscott_0_int",
         "Merom_1_int",
         "Rs_int"
     ],
-    "polishing_furniture": [
+    "polishing furniture": [
         "Rs_int",
         "Pomaria_1_int",
         "Ihlen_0_int"
     ],
-    "polishing_shoes": [
+    "polishing shoes": [
         "Merom_0_int",
         "Wainscott_0_int",
         "Wainscott_1_int"
     ],
-    "treating_stains": [
+    "treating stains": [
         "Wainscott_0_int",
         "Merom_1_int",
         "Rs_int"
     ],
-    "cleaning_the_pool": [
+    "cleaning the pool": [
         "Ihlen_0_int",
         "Ihlen_0_int",
         "Ihlen_0_int"
     ],
-    "cleaning_the_pond": [
+    "cleaning the pond": [
         "Ihlen_0_int",
         "Ihlen_0_int",
         "Ihlen_0_int"
     ],
-    "cleaning_the_litter_box": [
+    "cleaning the litter box": [
         "Wainscott_1_int",
         "Pomaria_2_int",
         "Merom_1_int"
     ],
-    "cleaning_barbecue_grill": [
+    "cleaning barbecue grill": [
         "Ihlen_0_int",
         "Ihlen_0_int",
         "Ihlen_0_int"
     ],
-    "cleaning_the_hot_tub": [
+    "cleaning the hot tub": [
         "Benevolence_0_int",
         "Pomaria_0_int",
         "Merom_1_int"
     ],
-    "waxing_cars_or_other_vehicles": [
+    "waxing cars or other vehicles": [
         "Ihlen_0_int",
         "Ihlen_0_int",
         "Ihlen_0_int"
     ],
-    "cleaning_high_chair": [
+    "cleaning high chair": [
         "Wainscott_0_int",
         "Merom_1_int",
         "Beechwood_0_int"
     ],
-    "cleaning_up_after_a_meal": [
+    "cleaning up after a meal": [
         "Wainscott_0_int",
         "Merom_1_int",
         "Beechwood_0_int"
     ],
-    "putting_ice_on_injury": [
+    "putting ice on injury": [
         "Merom_0_int",
         "Pomaria_0_int",
         "Wainscott_0_int"
     ],
-    "sweeping_floors": [
+    "sweeping floors": [
         "Ihlen_0_int",
         "Benevolence_2_int",
         "Pomaria_0_int"
     ],
-    "sweeping_garage": [
+    "sweeping garage": [
         "Ihlen_0_int",
         "Ihlen_0_int",
         "Ihlen_0_int"
     ],
-    "cleaning_sneakers": [
+    "cleaning sneakers": [
         "Rs_int",
         "Pomaria_1_int",
         "Beechwood_0_int"
     ],
-    "rinsing_dishes": [
+    "rinsing dishes": [
         "Ihlen_1_int",
         "Pomaria_1_int",
         "Benevolence_1_int"
     ],
-    "vacuuming_floors": [
+    "vacuuming floors": [
         "Benevolence_2_int",
         "Beechwood_1_int",
         "Ihlen_1_int"
     ],
-    "vacuuming_vehicles": [
+    "vacuuming vehicles": [
         "Ihlen_0_int",
         "Ihlen_0_int",
         "Ihlen_0_int"
     ],
-    "cleaning_oven": [
+    "cleaning oven": [
         "Wainscott_0_int",
         "Rs_int",
         "Benevolence_1_int"
     ],
-    "cleaning_floors": [
+    "cleaning floors": [
         "Merom_0_int",
         "Pomaria_0_int",
         "Wainscott_0_int"
     ],
-    "cleaning_up_the_kitchen_only": [
+    "cleaning up the kitchen only": [
         "Wainscott_0_int",
         "Merom_1_int",
         "Rs_int"
     ],
-    "cleaning_carpets": [
+    "cleaning carpets": [
         "Wainscott_1_int",
         "Pomaria_1_int",
         "Beechwood_0_int"
     ],
-    "cleaning_shoes": [
+    "cleaning shoes": [
         "Benevolence_2_int",
         "Pomaria_2_int",
         "Beechwood_1_int"
     ],
-    "cleaning_stove": [
+    "cleaning stove": [
         "Wainscott_0_int",
         "Merom_1_int",
         "Pomaria_1_int"
     ],
-    "cleaning_bathrooms": [
+    "cleaning bathrooms": [
         "Benevolence_0_int",
         "Pomaria_0_int",
         "Merom_1_int"
     ],
-    "cleaning_closet": [
+    "cleaning closet": [
         "Beechwood_1_int",
         "Beechwood_1_int",
         "Beechwood_1_int"
     ],
-    "cleaning_windows": [
+    "cleaning windows": [
         "Wainscott_0_int",
         "Merom_1_int",
         "Rs_int"
     ],
-    "cleaning_toilet": [
+    "cleaning toilet": [
         "Merom_0_int",
         "Merom_1_int",
         "Benevolence_2_int"
     ],
-    "cleaning_microwave_oven": [
+    "cleaning microwave oven": [
         "Wainscott_0_int",
         "Rs_int",
         "Benevolence_1_int"
     ],
-    "cleaning_bathtub": [
+    "cleaning bathtub": [
         "Benevolence_0_int",
         "Pomaria_0_int",
         "Merom_1_int"
     ],
-    "cleaning_table_after_clearing": [
+    "cleaning table after clearing": [
         "Wainscott_0_int",
         "Merom_1_int",
         "Beechwood_0_int"
     ],
-    "bottling_fruit": [
+    "bottling fruit": [
         "Wainscott_0_int",
         "Rs_int",
         "Benevolence_1_int"
     ],
-    "cleaning_garage": [
+    "cleaning garage": [
         "Ihlen_0_int",
         "Ihlen_0_int",
         "Ihlen_0_int"
     ],
-    "cleaning_a_car": [
+    "cleaning a car": [
         "Ihlen_0_int",
         "Ihlen_0_int",
         "Ihlen_0_int"
     ],
-    "watering_houseplant": [
+    "watering houseplant": [
         "Merom_0_int",
         "Wainscott_0_int",
         "Pomaria_2_int"
     ],
-    "smoking_fish": [
+    "smoking fish": [
         "Ihlen_1_int",
         "Pomaria_1_int",
         "Wainscott_0_int"
     ],
-    "spraying_for_bugs": [
+    "spraying for bugs": [
         "Merom_1_int",
         "Benevolence_0_int",
         "Beechwood_0_int"
     ],
-    "changing_light_bulbs": [
+    "changing light bulbs": [
         "Ihlen_1_int",
         "Benevolence_2_int",
         "Beechwood_0_int"
     ],
-    "hanging_Christmas_stockings": [
+    "hanging Christmas stockings": [
         "Rs_int",
         "Wainscott_0_int",
         "Merom_1_int"
     ],
-    "organizing_file_cabinet": [
+    "organizing file cabinet": [
         "Pomaria_0_int",
         "Beechwood_0_int",
         "Wainscott_1_int"
     ],
-    "storing_the_groceries": [
+    "storing the groceries": [
         "Beechwood_0_int",
         "Wainscott_0_int",
         "Pomaria_1_int"
     ],
-    "making_the_bed": [
+    "making the bed": [
         "Pomaria_2_int",
         "Wainscott_1_int",
         "Rs_int"
     ],
-    "sorting_laundry": [
+    "sorting laundry": [
         "Beechwood_1_int",
         "Beechwood_1_int",
         "Beechwood_1_int"
     ],
-    "unpacking_child's_bag": [
+    "unpacking child's bag": [
         "Ihlen_0_int",
         "Ihlen_1_int",
         "Benevolence_1_int"
     ],
-    "cleaning_freezer": [
+    "cleaning freezer": [
         "Wainscott_0_int",
         "Pomaria_1_int",
         "Beechwood_0_int"
@@ -389,139 +389,304 @@
         "Wainscott_0_int",
         "Pomaria_1_int"
     ],
-    "assembling_gift_baskets": [
+    "assembling gift baskets": [
         "Rs_int",
         "Merom_1_int",
         "Merom_0_int"
     ],
-    "decorating_the_Christmas_tree": [
+    "decorating the Christmas tree": [
         "Ihlen_1_int",
         "Beechwood_0_int",
         "Benevolence_1_int"
     ],
-    "organizing_school_stuff": [
+    "organizing school stuff": [
         "Benevolence_2_int",
         "Pomaria_2_int",
         "Beechwood_1_int"
     ],
-    "re-shelving_library_books": [
+    "re-shelving library books": [
         "Pomaria_1_int",
         "Rs_int",
         "Ihlen_0_int"
     ],
-    "throwing_darts": [
+    "throwing darts": [
         "Ihlen_0_int",
         "Merom_1_int",
         "Merom_0_int"
     ],
-    "laying_linoleum_floors": [
+    "laying linoleum floors": [
         "Wainscott_0_int",
         "Pomaria_1_int",
         "Benevolence_1_int"
     ],
-    "serving_hors_d_oeuvres": [
+    "serving hors d'oeuvres": [
         "Wainscott_0_int",
         "Merom_1_int",
         "Beechwood_0_int"
     ],
-    "opening_packages": [
+    "opening packages": [
         "Pomaria_2_int",
         "Benevolence_2_int",
         "Wainscott_1_int"
     ],
-    "sorting_books": [
+    "sorting books": [
         "Pomaria_1_int",
         "Rs_int",
         "Ihlen_0_int"
     ],
-    "putting_away_toys": [
+    "putting away toys": [
         "Ihlen_1_int",
         "Ihlen_0_int",
         "Benevolence_1_int"
     ],
-    "putting_away_Christmas_decorations": [
+    "putting away Christmas decorations": [
         "Rs_int",
         "Merom_1_int",
         "Wainscott_0_int"
     ],
-    "putting_dishes_away_after_cleaning": [
+    "putting dishes away after cleaning": [
         "Beechwood_0_int",
         "Ihlen_1_int",
         "Wainscott_0_int"
     ],
-    "filling_an_Easter_basket": [
+    "filling an Easter basket": [
         "Rs_int",
         "Pomaria_1_int",
         "Benevolence_1_int"
     ],
-    "putting_away_Halloween_decorations": [
-        "Benevolence_1_int",
-        "Ihlen_0_int",
-        "Ihlen_0_int"
+    "putting away Halloween decorations": [
+        "Merom_0_int",
+        "Wainscott_0_int",
+        "Benevolence_1_int"
     ],
-    "shooting_pool": [
+    "shooting pool": [
         "Wainscott_1_int",
         "Wainscott_1_int",
         "Wainscott_1_int"
     ],
-    "cleaning_out_drawers": [
+    "cleaning out drawers": [
         "Rs_int",
         "Pomaria_1_int",
         "Benevolence_1_int"
     ],
-    "clearing_the_table_after_dinner": [
+    "clearing the table after dinner": [
         "Benevolence_1_int",
         "Ihlen_0_int",
         "Beechwood_0_int"
     ],
-    "stripping_paint": [
+    "stripping paint": [
         "Merom_0_int",
         "Benevolence_0_int",
         "Pomaria_0_int"
     ],
-    "cleaning_cupboards": [
+    "cleaning cupboards": [
         "Beechwood_1_int",
         "Beechwood_1_int",
         "Beechwood_1_int"
     ],
-    "cleaning_kitchen_cupboard": [
+    "cleaning kitchen cupboard": [
         "Wainscott_0_int",
         "Merom_1_int",
         "Rs_int"
     ],
-    "washing_pots_and_pans": [
+    "washing pots and pans": [
         "Pomaria_1_int",
         "Benevolence_1_int",
         "Beechwood_0_int"
     ],
-    "washing_cars_or_other_vehicles": [
+    "washing cars or other vehicles": [
         "Ihlen_0_int",
         "Ihlen_0_int",
         "Ihlen_0_int"
     ],
-    "washing_dishes": [
+    "washing dishes": [
         "Ihlen_1_int",
         "Wainscott_0_int",
         "Merom_1_int"
     ],
-    "washing_floor": [
+    "washing floor": [
         "Ihlen_1_int",
         "Beechwood_1_int",
         "Pomaria_2_int"
     ],
-    "washing_walls": [
+    "washing walls": [
         "Wainscott_0_int",
         "Merom_1_int",
         "Wainscott_1_int"
     ],
-    "shampooing_carpet": [
+    "shampooing carpet": [
         "Benevolence_0_int",
         "Wainscott_1_int",
         "Pomaria_1_int"
     ],
-    "mopping_floors": [
+    "mopping floors": [
         "Benevolence_2_int",
         "Beechwood_0_int",
         "Ihlen_0_int"
+    ],
+    "boxing books up for storage": [
+        "Benevolence_1_int",
+        "Merom_0_int",
+        "Ihlen_0_int"
+    ],
+    "bringing in wood": [
+        "Beechwood_1_int",
+        "Ihlen_1_int",
+        "Merom_1_int"
+    ],
+    "brushing lint off clothing": [
+        "Benevolence_2_int",
+        "Beechwood_1_int",
+        "Pomaria_2_int"
+    ],
+    "chopping vegetables": [
+        "Wainscott_0_int",
+        "Rs_int",
+        "Pomaria_1_int"
+    ],
+    "collect misplaced items": [
+        "Ihlen_1_int",
+        "Merom_0_int",
+        "Benevolence_0_int"
+    ],
+    "collecting aluminum cans": [
+        "Benevolence_2_int",
+        "Pomaria_2_int",
+        "Ihlen_1_int"
+    ],
+    "emptying dishwasher": [
+        "Merom_1_int",
+        "Wainscott_0_int",
+        "Beechwood_0_int"
+    ],
+    "filling a Christmas stocking": [
+        "Rs_int",
+        "Beechwood_0_int",
+        "Benevolence_1_int"
+    ],
+    "installing a fax machine": [
+        "Merom_0_int",
+        "Pomaria_0_int",
+        "Rs_int"
+    ],
+    "installing a modem": [
+        "Rs_int",
+        "Benevolence_1_int",
+        "Benevolence_2_int"
+    ],
+    "installing a printer": [
+        "Pomaria_0_int",
+        "Wainscott_1_int",
+        "Beechwood_0_int"
+    ],
+    "installing alarms": [
+        "Merom_0_int",
+        "Benevolence_0_int",
+        "Merom_1_int"
+    ],
+    "laying tile floors": [
+        "Pomaria_1_int",
+        "Beechwood_0_int",
+        "Benevolence_2_int"
+    ],
+    "laying wood floors": [
+        "Wainscott_0_int",
+        "Pomaria_1_int",
+        "Benevolence_1_int"
+    ],
+    "loading the dishwasher": [
+        "Pomaria_1_int",
+        "Benevolence_1_int",
+        "Wainscott_0_int"
+    ],
+    "locking every door": [
+        "Merom_0_int",
+        "Rs_int",
+        "Ihlen_1_int"
+    ],
+    "locking every window": [
+        "Rs_int",
+        "Ihlen_0_int",
+        "Pomaria_2_int"
+    ],
+    "moving boxes to storage": [
+        "Benevolence_1_int",
+        "Merom_0_int",
+        "Ihlen_0_int"
+    ],
+    "opening presents": [
+        "Ihlen_1_int",
+        "Beechwood_0_int",
+        "Benevolence_1_int"
+    ],
+    "organizing boxes in garage": [
+        "Ihlen_0_int",
+        "Ihlen_0_int",
+        "Ihlen_0_int"
+    ],
+    "packing adult's bags": [
+        "Benevolence_2_int",
+        "Pomaria_2_int",
+        "Ihlen_1_int"
+    ],
+    "packing bags or suitcase": [
+        "Merom_1_int",
+        "Wainscott_0_int",
+        "Pomaria_0_int"
+    ],
+    "packing boxes for household move or trip": [
+        "Ihlen_0_int",
+        "Beechwood_0_int",
+        "Ihlen_1_int"
+    ],
+    "packing child's bag": [
+        "Benevolence_2_int",
+        "Beechwood_1_int",
+        "Wainscott_1_int"
+    ],
+    "packing food for work": [
+        "Benevolence_1_int",
+        "Beechwood_0_int",
+        "Ihlen_1_int"
+    ],
+    "packing picnics": [
+        "Ihlen_1_int",
+        "Pomaria_1_int",
+        "Wainscott_0_int"
+    ],
+    "picking up take-out food": [
+        "Beechwood_1_int",
+        "Wainscott_1_int",
+        "Merom_0_int"
+    ],
+    "preparing salad": [
+        "Ihlen_1_int",
+        "Benevolence_1_int",
+        "Pomaria_1_int"
+    ],
+    "putting up Christmas decorations inside": [
+        "Ihlen_1_int",
+        "Beechwood_0_int",
+        "Benevolence_1_int"
+    ],
+    "rearranging furniture": [
+        "Pomaria_2_int",
+        "Benevolence_2_int",
+        "Merom_1_int"
+    ],
+    "setting mousetraps": [
+        "Benevolence_2_int",
+        "Pomaria_2_int",
+        "Beechwood_1_int"
+    ],
+    "throwing away leftovers": [
+        "Merom_1_int",
+        "Rs_int",
+        "Merom_0_int"
+    ],
+    "unpacking bags or suitcase": [
+        "Ihlen_1_int",
+        "Benevolence_1_int",
+        "Beechwood_0_int"
     ]
 }
