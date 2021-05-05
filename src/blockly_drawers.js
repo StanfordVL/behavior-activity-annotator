@@ -345,6 +345,9 @@ export class FeasibilityChecker extends React.Component {
                             Your code is correct at the moment! Would you like to run 
                             the final correctness checks and check feasibility? This is 
                             a 6-12 minute process.
+                            <p>
+                                If you haven't yet saved, please press "No" and save first, then run the checker.
+                            </p>
                         {/* </Modal.Text> */}
                     </Modal.Body>
                     <Modal.Body>

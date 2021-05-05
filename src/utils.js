@@ -467,6 +467,7 @@ export function getReadableFeedback(feedback) {
      *                              ]
      */
     // const numSuccess = feedback.reduce((total, res) => (res[0] === "yes" ? total + 1 : total), 0)
+    console.log("FEEDBACK:", feedback)
     const numTrials = feedback.length
     let numSuccess = 0
     let earliestFailure = -1 
