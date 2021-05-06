@@ -44,11 +44,12 @@ export class SubmissionSection extends React.Component {
         this.state = { 
             feasible: false, 
             correct: false,
-            agentStartRoom: "stub"
+            agentStartRoom: "stub",
+            approved: 0
         }
     }
 
-    onFeasibilityCheck(newFeasible) { this.setState({ feasible: newFeasible }) }
+    onFeasibilityCheck(newFeasible, newApproved) { this.setState({ feasible: newFeasible, approved: newApproved }) }
 
     onCorrectnessCheck(newCorrect) { this.setState({ correct: newCorrect }) }
 
@@ -67,6 +68,7 @@ export class SubmissionSection extends React.Component {
                     agentStartRoom={this.state.agentStartRoom} 
                     feasible={this.state.feasible}
                     correct={this.state.correct}
+                    approved={this.state.approved}
                 />
             </div>
         )
@@ -88,7 +90,8 @@ export class FeasibilityChecker extends React.Component {
             showPrematureMessage: false,
             showCodeCorrectMessage: false,
             disable: false,
-            showServerErrorMessage: false
+            showServerErrorMessage: false,
+            approved: 0
         }
     }
 
@@ -224,6 +227,7 @@ export class FeasibilityChecker extends React.Component {
         .then(data => {
             this.setState({
                 feasible: data.success,
+                approved: 1,
                 feasibilityFeedback: data.feedback,
                 showInfeasibleMessage: !data.success,
                 showFeasibleMessage: data.success,
@@ -231,7 +235,7 @@ export class FeasibilityChecker extends React.Component {
                 // disable: false
             })
             window.sessionStorage.setItem("serverBusy", JSON.stringify(false))
-            this.props.onFeasibilityCheck(data.success)
+            this.props.onFeasibilityCheck(data.success, 1)
         })
         .catch(response => {
             this.setState({ 
@@ -240,10 +244,11 @@ export class FeasibilityChecker extends React.Component {
                 showInfeasibleMessage: false,
                 showFeasibleMessage: false,
                 showPendingMessage: false,
-                showServerErrorMessage: true
+                showServerErrorMessage: true,
+                approved: 0.5
             })
             window.sessionStorage.setItem("serverBusy", JSON.stringify(false))
-            this.props.onFeasibilityCheck(true)
+            this.props.onFeasibilityCheck(true, 0.5)
         })
     }
 
@@ -401,7 +406,8 @@ export class FinalSubmit extends React.Component {
                         "InitialConditions": agentInitialConditions,
                         "GoalConditions": updatedGoalConditions,
                         "FinalSave": 1,
-                        "Objects": createObjectsList(agentInitialConditions)
+                        "Objects": createObjectsList(agentInitialConditions),
+                        "Approved": this.props.approved
                     }
                 }]
             })

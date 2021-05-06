@@ -86,7 +86,7 @@ export const detectObjectInstanceAndCategoryRe = new RegExp("[A-Za-z-_]+\.n\.[0-
 export const objectInstanceRe = new RegExp("^[A-Za-z-_]+\.n\.[0-9]+_[0-9]+$", "g")
 export const objectCategoryRe = new RegExp("^[A-Za-z-_]+\.n\.[0-9]+", "g")   // also catches instances 
 export const instanceSplitRe = new RegExp("_[0-9]+$", "g")
-export const sceneObjectLabelWithRoomRe = new RegExp(objectInstanceRe.source.slice(0, -1) + " \\([A-Za-z]+\\)$", "g")
+export const sceneObjectLabelWithRoomRe = new RegExp(objectInstanceRe.source.slice(0, -1) + " \\([A-Za-z_]+\\)$", "g")
 
 export function getPlacementsRe(objectInstance=null) {
     let instanceRe = objectInstance
@@ -138,7 +138,7 @@ export const rootColor = "#731D45"
 // EXTERNAL REQUESTS CONSTANTS 
 
 const airtableUrl = "https://api.airtable.com/v0/apppX4DOdUUFg6r2q"
-const igGcpVmUrl = "http://34.123.89.206:8000"                          // TODO replace with production? Static IP?
+const igGcpVmUrl = "http://34.123.89.206:5000"                          // TODO replace with production? Static IP?
 export const airtableResultsUrl = airtableUrl + "/Results"
 export const airtableSavesUrl = airtableUrl + "/Saves"
 export const igibsonGcpVmSetupUrl = igGcpVmUrl + "/setup"
