@@ -25,7 +25,7 @@ export function getCategoryFromLabel(objectLabel) {
      */
     let objectCategory = objectLabel
     if (objectLabel.match(objectInstanceRe) || objectLabel.match(sceneObjectLabelWithRoomRe)) {
-        objectCategory = objectLabel.split("_").slice(0, -1).join("_")
+        objectCategory = objectLabel.split(" ")[0].split("_").slice(0, -1).join("_")
     }
     return objectCategory 
 }
@@ -472,7 +472,7 @@ export function getReadableFeedback(feedback) {
     let numSuccess = 0
     let earliestFailure = -1 
     for (let [idx, result] of feedback.entries()) {
-        const success = result[0] === "yes" ? 1 : 0
+        const success = (result[0] === "yes" && result[1] === "yes") ? 1 : 0
         numSuccess += success
         if (success === 0 && earliestFailure < 0) { earliestFailure = idx }
     }

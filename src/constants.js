@@ -86,7 +86,7 @@ export const detectObjectInstanceAndCategoryRe = new RegExp("[A-Za-z-_]+\.n\.[0-
 export const objectInstanceRe = new RegExp("^[A-Za-z-_]+\.n\.[0-9]+_[0-9]+$", "g")
 export const objectCategoryRe = new RegExp("^[A-Za-z-_]+\.n\.[0-9]+", "g")   // also catches instances 
 export const instanceSplitRe = new RegExp("_[0-9]+$", "g")
-export const sceneObjectLabelWithRoomRe = new RegExp(objectInstanceRe.source.slice(0, -1) + " \\([A-Za-z]+\\)$", "g")
+export const sceneObjectLabelWithRoomRe = new RegExp(objectInstanceRe.source.slice(0, -1) + " \\([A-Za-z_]+\\)$", "g")
 
 export function getPlacementsRe(objectInstance=null) {
     let instanceRe = objectInstance
