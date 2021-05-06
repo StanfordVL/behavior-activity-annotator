@@ -56,11 +56,12 @@ export class SubmissionSection extends React.Component {
     onAgentStartSelection(agentStartRoom) { this.setState({ agentStartRoom: agentStartRoom }) }
 
     render() {
+        console.log("approved from parent:", this.state.approved)
         return (
             <div>
                 <AgentStartForm onAgentStartSelection={agentStartRoom => this.onAgentStartSelection(agentStartRoom)}/>
                 <FeasibilityChecker 
-                    onFeasibilityCheck={newFeasible => this.onFeasibilityCheck(newFeasible)}
+                    onFeasibilityCheck={(newFeasible, newApproved) => this.onFeasibilityCheck(newFeasible, newApproved)}
                     onCorrectnessCheck={newCorrect => this.onCorrectnessCheck(newCorrect)}
                     agentStartRoom={this.state.agentStartRoom}
                 />
@@ -113,7 +114,7 @@ export class FeasibilityChecker extends React.Component {
                 codeCorrectnessFeedback: currentCodeCorrectnessFeedback 
             })
             this.props.onCorrectnessCheck(false)
-            this.props.onFeasibilityCheck(false)
+            this.props.onFeasibilityCheck(false, 0)
         } 
         // If correct, offer to check feasibility 
         else {
@@ -388,6 +389,7 @@ export class FinalSubmit extends React.Component {
     constructor(props) { super(props) }
 
     onSubmit() {
+        console.log("approved:", this.props.approved)
         // Add agent start term 
         let agentInitialConditions = addAgentStartLine(this.props.agentStartRoom, updatedInitialConditions)
 
