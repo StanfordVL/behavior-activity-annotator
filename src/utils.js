@@ -119,7 +119,7 @@ export function addAgentStartLine(room, code) {
      * @return {String} - copy of code with agent start lines added
      */
     let newCode = code 
-    const floorInRoomRegex = new RegExp(`\\(inroom floor.n.01_[0-9]+ [a-z]+\\)`, "g")
+    const floorInRoomRegex = new RegExp(`\\(inroom floor.n.01_[0-9]+ [a-z_]+\\)`, "g")
     const floorInRoomPlacements = floorInRoomRegex.test(newCode) ? newCode.match(floorInRoomRegex) : []
     const roomRegex = new RegExp(room, "g")
 
