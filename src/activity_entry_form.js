@@ -25,7 +25,7 @@ export default class ActivityEntryForm extends React.Component {
     onServerErrorMessageHide() { this.setState({ showServerErrorMessage: false }) }
 
     onChange(event) {
-        this.setState({ activityName: event.target.value.split(' ').join('_') })
+        this.setState({ activityName: event.target.value.split(' ').join('_').split("'").join("_") })
     }
 
     onSubmit(event) {
