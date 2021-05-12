@@ -45,7 +45,7 @@ export class SubmissionSection extends React.Component {
             feasible: false, 
             correct: false,
             agentStartRoom: "stub",
-            approved: 0
+            approved: -1
         }
     }
 
@@ -92,7 +92,7 @@ export class FeasibilityChecker extends React.Component {
             showCodeCorrectMessage: false,
             disable: false,
             showServerErrorMessage: false,
-            approved: 0
+            approved: -1
         }
     }
 
@@ -228,7 +228,7 @@ export class FeasibilityChecker extends React.Component {
         .then(data => {
             this.setState({
                 feasible: data.success,
-                approved: 1,
+                approved: 0.5,
                 feasibilityFeedback: data.feedback,
                 showInfeasibleMessage: !data.success,
                 showFeasibleMessage: data.success,
@@ -246,7 +246,7 @@ export class FeasibilityChecker extends React.Component {
                 showFeasibleMessage: false,
                 showPendingMessage: false,
                 showServerErrorMessage: true,
-                approved: 0.5
+                approved: 1
             })
             window.sessionStorage.setItem("serverBusy", JSON.stringify(false))
             this.props.onFeasibilityCheck(true, 0.5)
