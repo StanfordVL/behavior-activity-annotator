@@ -29,7 +29,7 @@
         "Benevolence_0_int",
         "Merom_1_int"
     ],
-    "butchering_cow": [
+    "butchering_cow_": [
         "Ihlen_1_int",
         "Pomaria_1_int",
         "Wainscott_0_int"
@@ -66,7 +66,7 @@
     ],
     "storing_food": [
         "Beechwood_0_int",
-        "Ihlen_1_int",
+        "Rs_int",
         "Pomaria_1_int"
     ],
     "mixing_drinks": [
@@ -374,7 +374,7 @@
         "Beechwood_1_int",
         "Beechwood_1_int"
     ],
-    "unpacking_child's_bag": [
+    "unpacking_child_s_bag": [
         "Ihlen_0_int",
         "Ihlen_1_int",
         "Benevolence_1_int"
@@ -391,8 +391,8 @@
     ],
     "assembling_gift_baskets": [
         "Rs_int",
-        "Merom_1_int",
-        "Merom_0_int"
+        "Pomaria_1_int",
+        "Beechwood_0_int"
     ],
     "decorating_the_Christmas_tree": [
         "Ihlen_1_int",
@@ -419,7 +419,7 @@
         "Pomaria_1_int",
         "Benevolence_1_int"
     ],
-    "serving_hors_d'oeuvres": [
+    "serving_hors_d_oeuvres": [
         "Wainscott_0_int",
         "Merom_1_int",
         "Beechwood_0_int"
@@ -486,7 +486,7 @@
     ],
     "cleaning_kitchen_cupboard": [
         "Wainscott_0_int",
-        "Merom_1_int",
+        "Pomaria_1_int",
         "Rs_int"
     ],
     "washing_pots_and_pans": [
@@ -624,7 +624,7 @@
         "Ihlen_0_int",
         "Ihlen_0_int"
     ],
-    "packing_adult's_bags": [
+    "packing_adult_s_bags": [
         "Benevolence_2_int",
         "Pomaria_2_int",
         "Ihlen_1_int"
@@ -639,7 +639,7 @@
         "Beechwood_0_int",
         "Ihlen_1_int"
     ],
-    "packing_child's_bag": [
+    "packing_child_s_bag": [
         "Benevolence_2_int",
         "Beechwood_1_int",
         "Wainscott_1_int"
