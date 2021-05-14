@@ -185,6 +185,13 @@ export class FeasibilityChecker extends React.Component {
             nullsInGoal = <li>Goal conditions have empty fields.</li>
             codeCorrect = false 
         } else {nullsInGoal = <div/>}
+        if (checkMultipleDirtyFloors(updatedInitialConditions)) {
+            multipleDirtyFloorsInit = <li>There are multiple dusty or stained floors in the initial conditions. We can't currently support this.</li>
+        }
+        if (checkMultipleDirtyFloors(updatedGoalConditions)) {
+            multipleDirtyFloorsGoal = <li>There are multiple dusty or stained floors in the goal conditions. We can't currently support this.</li>
+            codeCorrect = false
+        }
         const currentCodeCorrectnessFeedback = 
             <div>
                 The conditions have the following problems:
@@ -195,6 +202,8 @@ export class FeasibilityChecker extends React.Component {
                     {/* {categoriesInInitial} */}
                     {/* {nextToPresent} */}
                     {nullsInGoal}
+                    {multipleDirtyFloorsInit}
+                    {multipleDirtyFloorsGoal}
                 </ul>
             </div>
         return [codeCorrect, currentCodeCorrectnessFeedback]
