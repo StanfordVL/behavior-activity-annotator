@@ -1,168 +1,168 @@
 {
     "defrosting_freezer": {
+        "dining_room": {
+            "floor": 1,
+            "picture": 1,
+            "chair": 3,
+            "window": 1,
+            "table": 1
+        },
+        "living_room": {
+            "floor": 1,
+            "sofa": 1,
+            "window": 2,
+            "carpet": 1
+        },
+        "kitchen": {
+            "floor": 1,
+            "counter": 4,
+            "oven": 1,
+            "dishwasher": 1,
+            "door": 1,
+            "fridge": 1,
+            "cabinet": 11,
+            "sink": 1
+        },
         "corridor": {
             "floor": 1,
             "door": 1
-        },
-        "dining_room": {
-            "floor": 1,
-            "window": 1,
-            "picture": 1,
-            "chair": 3,
-            "table": 1
-        },
-        "living_room": {
-            "floor": 1,
-            "window": 2,
-            "carpet": 1,
-            "sofa": 1
-        },
-        "kitchen": {
-            "floor": 1,
-            "oven": 1,
-            "fridge": 1,
-            "cabinet": 11,
-            "sink": 1,
-            "door": 1,
-            "dishwasher": 1,
-            "counter": 4
         }
     },
     "putting_leftovers_away": {
-        "bathroom": {
-            "floor": 1,
-            "toilet": 1,
-            "door": 1,
-            "sink": 1,
-            "mirror": 1
-        },
         "living_room": {
             "floor": 1,
+            "coffee_table": 1,
             "window": 1,
-            "picture": 1,
-            "coffee_table": 1
+            "picture": 1
+        },
+        "bathroom": {
+            "floor": 1,
+            "door": 1,
+            "mirror": 1,
+            "toilet": 1,
+            "sink": 1
         },
         "kitchen": {
             "floor": 1,
             "window": 1,
+            "dishwasher": 1,
+            "door": 1,
             "fridge": 1,
             "cabinet": 5,
             "sink": 1,
-            "door": 1,
-            "stove": 1,
-            "dishwasher": 1
+            "stove": 1
         }
     },
     "baking_a_chocolate_cake": {
-        "bathroom": {
-            "floor": 1,
-            "toilet": 1,
-            "door": 1,
-            "sink": 1,
-            "mirror": 1
-        },
         "bedroom": {
             "floor": 1,
-            "bed": 1,
-            "window": 1,
             "door": 1,
-            "cabinet": 1
+            "bed": 1,
+            "cabinet": 1,
+            "window": 1
         },
         "living_room": {
             "floor": 1,
             "window": 2,
-            "carpet": 1,
-            "coffee_table": 1,
-            "cabinet": 1,
+            "sofa": 1,
             "picture": 1,
-            "sofa": 1
+            "carpet": 1,
+            "cabinet": 1,
+            "coffee_table": 1
+        },
+        "bathroom": {
+            "floor": 1,
+            "door": 1,
+            "mirror": 1,
+            "toilet": 1,
+            "sink": 1
         },
         "kitchen": {
             "floor": 1,
+            "counter": 1,
             "oven": 1,
             "window": 1,
+            "dishwasher": 1,
             "fridge": 1,
             "cabinet": 7,
-            "sink": 1,
-            "dishwasher": 1,
-            "counter": 1
+            "sink": 1
         }
     },
     "baking_sugar_cookies": {
-        "bathroom": {
-            "floor": 1,
-            "toilet": 1,
-            "door": 1,
-            "sink": 1,
-            "mirror": 1
-        },
         "bedroom": {
             "floor": 1,
-            "bed": 1,
-            "window": 1,
             "door": 1,
-            "cabinet": 1
+            "bed": 1,
+            "cabinet": 1,
+            "window": 1
         },
         "living_room": {
             "floor": 1,
             "window": 2,
-            "carpet": 1,
-            "coffee_table": 1,
-            "cabinet": 1,
+            "sofa": 1,
             "picture": 1,
-            "sofa": 1
+            "carpet": 1,
+            "cabinet": 1,
+            "coffee_table": 1
+        },
+        "bathroom": {
+            "floor": 1,
+            "door": 1,
+            "mirror": 1,
+            "toilet": 1,
+            "sink": 1
         },
         "kitchen": {
             "floor": 1,
+            "counter": 1,
             "oven": 1,
             "window": 1,
+            "dishwasher": 1,
             "fridge": 1,
             "cabinet": 7,
-            "sink": 1,
-            "dishwasher": 1,
-            "counter": 1
+            "sink": 1
         }
     },
     "serving_a_meal": {
-        "bathroom": {
-            "floor": 1,
-            "toilet": 1,
-            "door": 1,
-            "sink": 1,
-            "mirror": 1
-        },
-        "living_room": {
-            "floor": 1,
-            "window": 2,
-            "carpet": 1,
-            "cabinet": 1,
-            "coffee_table": 1,
-            "sofa": 1
-        },
         "dining_room": {
             "floor": 1,
             "picture": 1,
             "chair": 3,
             "table": 1
         },
+        "living_room": {
+            "floor": 1,
+            "window": 2,
+            "sofa": 1,
+            "carpet": 1,
+            "cabinet": 1,
+            "coffee_table": 1
+        },
+        "bathroom": {
+            "floor": 1,
+            "door": 1,
+            "mirror": 1,
+            "toilet": 1,
+            "sink": 1
+        },
         "kitchen": {
             "floor": 1,
             "window": 1,
+            "dishwasher": 1,
+            "door": 1,
+            "shelf": 1,
             "fridge": 1,
             "cabinet": 5,
             "sink": 1,
-            "door": 1,
-            "shelf": 1,
-            "stove": 1,
-            "dishwasher": 1
+            "stove": 1
         }
     },
     "drawing_a_bath_for_child": {
         "bathroom": {
             "floor": 1,
-            "toilet": 1,
-            "bathtub": 1,
             "door": 1,
+            "bathtub": 1,
+            "toilet": 1,
             "sink": 1
         },
         "corridor": {
@@ -171,83 +171,83 @@
         }
     },
     "butchering_cow": {
-        "bathroom": {
-            "floor": 1,
-            "toilet": 1,
-            "door": 1,
-            "sink": 1,
-            "mirror": 1
-        },
         "living_room": {
             "floor": 1,
+            "coffee_table": 1,
             "window": 1,
-            "picture": 1,
-            "coffee_table": 1
+            "picture": 1
+        },
+        "bathroom": {
+            "floor": 1,
+            "door": 1,
+            "mirror": 1,
+            "toilet": 1,
+            "sink": 1
         },
         "kitchen": {
             "floor": 1,
+            "counter": 6,
             "oven": 1,
             "window": 1,
+            "dishwasher": 1,
+            "door": 1,
             "fridge": 1,
             "cabinet": 11,
-            "sink": 1,
-            "door": 1,
-            "dishwasher": 1,
-            "counter": 6
+            "sink": 1
         }
     },
     "filling_radiator": {
-        "bathroom": {
-            "floor": 1,
-            "toilet": 1,
-            "door": 1,
-            "sink": 1,
-            "mirror": 1
-        },
         "dining_room": {
             "floor": 1,
             "picture": 1,
-            "carpet": 1,
             "chair": 3,
+            "carpet": 1,
             "table": 1
         },
         "living_room": {
             "floor": 1,
-            "carpet": 1,
-            "coffee_table": 1
+            "coffee_table": 1,
+            "carpet": 1
+        },
+        "bathroom": {
+            "floor": 1,
+            "door": 1,
+            "mirror": 1,
+            "toilet": 1,
+            "sink": 1
         }
     },
     "heating_food_up": {
-        "bathroom": {
-            "floor": 1,
-            "toilet": 1,
-            "door": 1,
-            "sink": 1,
-            "mirror": 1
-        },
         "living_room": {
             "floor": 1,
+            "coffee_table": 1,
             "window": 1,
-            "picture": 1,
-            "coffee_table": 1
+            "picture": 1
+        },
+        "bathroom": {
+            "floor": 1,
+            "door": 1,
+            "mirror": 1,
+            "toilet": 1,
+            "sink": 1
         },
         "kitchen": {
             "floor": 1,
             "window": 1,
+            "dishwasher": 1,
+            "door": 1,
             "fridge": 1,
             "cabinet": 5,
             "sink": 1,
-            "door": 1,
-            "stove": 1,
-            "dishwasher": 1
+            "stove": 1
         }
     },
     "running_bath": {
         "bathroom": {
             "floor": 1,
-            "toilet": 1,
-            "bathtub": 1,
             "door": 1,
+            "bathtub": 1,
+            "toilet": 1,
             "sink": 1
         },
         "corridor": {
@@ -256,25 +256,25 @@
         }
     },
     "mixing_up_baby_formula": {
-        "corridor": {
-            "floor": 1,
-            "door": 1
-        },
         "living_room": {
             "floor": 1,
-            "window": 1,
-            "shelf": 1
+            "shelf": 1,
+            "window": 1
         },
         "kitchen": {
             "floor": 1,
             "oven": 1,
+            "counter": 4,
+            "microwave": 1,
+            "dishwasher": 1,
+            "door": 1,
             "fridge": 1,
             "cabinet": 13,
-            "microwave": 1,
-            "sink": 1,
-            "door": 1,
-            "dishwasher": 1,
-            "counter": 4
+            "sink": 1
+        },
+        "corridor": {
+            "floor": 1,
+            "door": 1
         }
     },
     "preparing_a_shower_for_child": {
@@ -282,8 +282,8 @@
             "floor": 1,
             "mirror": 1,
             "door": 1,
-            "sink": 1,
-            "shower": 1
+            "shower": 1,
+            "sink": 1
         },
         "corridor": {
             "floor": 1,
@@ -291,218 +291,218 @@
         }
     },
     "heating_up_baby_formula": {
+        "living_room": {
+            "floor": 1,
+            "shelf": 1,
+            "window": 1
+        },
+        "kitchen": {
+            "floor": 1,
+            "oven": 1,
+            "counter": 4,
+            "microwave": 1,
+            "dishwasher": 1,
+            "door": 1,
+            "fridge": 1,
+            "cabinet": 13,
+            "sink": 1
+        },
         "corridor": {
             "floor": 1,
             "door": 1
-        },
-        "living_room": {
-            "floor": 1,
-            "window": 1,
-            "shelf": 1
-        },
-        "kitchen": {
-            "floor": 1,
-            "oven": 1,
-            "fridge": 1,
-            "cabinet": 13,
-            "microwave": 1,
-            "sink": 1,
-            "door": 1,
-            "dishwasher": 1,
-            "counter": 4
         }
     },
     "storing_food": {
-        "bathroom": {
-            "floor": 1,
-            "toilet": 1,
-            "door": 1,
-            "sink": 1,
-            "mirror": 1
-        },
         "living_room": {
             "floor": 1,
-            "window": 1,
+            "coffee_table": 1,
             "shelf": 2,
-            "coffee_table": 1
+            "window": 1
+        },
+        "bathroom": {
+            "floor": 1,
+            "door": 1,
+            "mirror": 1,
+            "toilet": 1,
+            "sink": 1
         },
         "kitchen": {
             "floor": 1,
             "oven": 1,
+            "counter": 1,
             "window": 1,
+            "microwave": 1,
+            "dishwasher": 1,
             "fridge": 1,
             "cabinet": 7,
-            "microwave": 1,
-            "sink": 1,
-            "dishwasher": 1,
-            "counter": 1
+            "sink": 1
         }
     },
     "mixing_drinks": {
         "living_room": {
             "floor": 1,
-            "window": 2,
-            "carpet": 1,
+            "sofa": 1,
             "picture": 1,
-            "sofa": 1
+            "carpet": 1,
+            "window": 2
         },
         "kitchen": {
             "floor": 1,
+            "counter": 1,
             "oven": 1,
+            "microwave": 1,
+            "dishwasher": 1,
             "fridge": 1,
             "cabinet": 7,
-            "microwave": 1,
-            "sink": 1,
-            "dishwasher": 1,
-            "counter": 1
+            "sink": 1
         }
     },
     "making_jam": {
-        "bathroom": {
-            "floor": 1,
-            "toilet": 1,
-            "door": 1,
-            "sink": 1,
-            "mirror": 1
-        },
         "living_room": {
             "floor": 1,
+            "coffee_table": 1,
             "window": 1,
-            "picture": 1,
-            "coffee_table": 1
+            "picture": 1
+        },
+        "bathroom": {
+            "floor": 1,
+            "door": 1,
+            "mirror": 1,
+            "toilet": 1,
+            "sink": 1
         },
         "kitchen": {
             "floor": 1,
             "window": 1,
+            "dishwasher": 1,
+            "door": 1,
             "fridge": 1,
             "cabinet": 5,
             "sink": 1,
-            "door": 1,
-            "stove": 1,
-            "dishwasher": 1
+            "stove": 1
         }
     },
     "drying_dishes": {
+        "living_room": {
+            "floor": 1,
+            "coffee_table": 1,
+            "window": 1,
+            "picture": 2
+        },
         "bathroom": {
             "floor": 1,
-            "toilet": 1,
             "door": 1,
-            "sink": 1,
-            "mirror": 1
+            "mirror": 1,
+            "toilet": 1,
+            "sink": 1
+        },
+        "kitchen": {
+            "floor": 1,
+            "window": 1,
+            "dishwasher": 1,
+            "door": 1,
+            "fridge": 1,
+            "cabinet": 5,
+            "sink": 1
         },
         "corridor": {
             "floor": 1,
             "door": 2
-        },
-        "living_room": {
-            "floor": 1,
-            "window": 1,
-            "picture": 2,
-            "coffee_table": 1
-        },
-        "kitchen": {
-            "floor": 1,
-            "window": 1,
-            "fridge": 1,
-            "cabinet": 5,
-            "door": 1,
-            "sink": 1,
-            "dishwasher": 1
         }
     },
     "checking_tire_pressure": {
+        "dining_room": {
+            "floor": 1,
+            "plant": 1,
+            "window": 1,
+            "picture": 1,
+            "chair": 3,
+            "carpet": 1,
+            "table": 1
+        },
+        "storage_room": {
+            "floor": 1,
+            "washer": 1,
+            "window": 1,
+            "table": 1,
+            "door": 5,
+            "shelf": 1,
+            "sink": 1,
+            "dryer": 1
+        },
         "living_room": {
             "floor": 1,
-            "carpet": 1,
-            "coffee_table": 2,
-            "door": 1,
-            "cushion": 2,
             "plant": 1,
+            "cushion": 2,
             "picture": 3,
+            "sofa_chair": 3,
+            "carpet": 1,
+            "door": 1,
             "shelf": 1,
-            "sofa_chair": 3
+            "coffee_table": 2
+        },
+        "bathroom": {
+            "floor": 1,
+            "door": 1,
+            "mirror": 1,
+            "shelf": 1,
+            "shower": 1,
+            "toilet": 1,
+            "sink": 1
         },
         "garage": {
             "floor": 1,
             "window": 1,
-            "cabinet": 1,
-            "door": 1,
             "picture": 1,
-            "shelf": 1
-        },
-        "bathroom": {
-            "floor": 1,
-            "shower": 1,
-            "sink": 1,
             "door": 1,
             "shelf": 1,
-            "toilet": 1,
-            "mirror": 1
+            "cabinet": 1
         },
         "corridor": {
             "floor": 1,
             "door": 2
-        },
-        "dining_room": {
-            "floor": 1,
-            "window": 1,
-            "carpet": 1,
-            "table": 1,
-            "chair": 3,
-            "plant": 1,
-            "picture": 1
-        },
-        "storage_room": {
-            "floor": 1,
-            "window": 1,
-            "table": 1,
-            "sink": 1,
-            "door": 5,
-            "dryer": 1,
-            "shelf": 1,
-            "washer": 1
         }
     },
     "canning_food": {
-        "bathroom": {
-            "floor": 1,
-            "toilet": 1,
-            "door": 1,
-            "sink": 1,
-            "mirror": 1
-        },
         "living_room": {
             "floor": 1,
+            "coffee_table": 1,
             "window": 1,
-            "picture": 1,
-            "coffee_table": 1
+            "picture": 1
+        },
+        "bathroom": {
+            "floor": 1,
+            "door": 1,
+            "mirror": 1,
+            "toilet": 1,
+            "sink": 1
         },
         "kitchen": {
             "floor": 1,
             "window": 1,
+            "dishwasher": 1,
+            "door": 1,
             "fridge": 1,
             "cabinet": 5,
             "sink": 1,
-            "door": 1,
-            "stove": 1,
-            "dishwasher": 1
+            "stove": 1
         }
     },
     "maintaining_smoke_detectors": {
+        "bedroom": {
+            "floor": 1,
+            "door": 2,
+            "window": 2,
+            "bed": 1,
+            "cabinet": 1
+        },
         "bathroom": {
             "floor": 1,
             "bathtub": 1,
+            "door": 2,
+            "mirror": 1,
             "cabinet": 1,
-            "door": 2,
-            "sink": 1,
-            "mirror": 1
-        },
-        "bedroom": {
-            "floor": 1,
-            "bed": 1,
-            "window": 2,
-            "door": 2,
-            "cabinet": 1
+            "sink": 1
         },
         "corridor": {
             "floor": 1,
@@ -510,96 +510,96 @@
         }
     },
     "carving_meat": {
-        "bathroom": {
-            "floor": 1,
-            "toilet": 1,
-            "door": 1,
-            "sink": 1,
-            "mirror": 1
-        },
         "living_room": {
             "floor": 1,
+            "coffee_table": 1,
             "window": 1,
-            "picture": 1,
-            "coffee_table": 1
+            "picture": 1
+        },
+        "bathroom": {
+            "floor": 1,
+            "door": 1,
+            "mirror": 1,
+            "toilet": 1,
+            "sink": 1
         },
         "kitchen": {
             "floor": 1,
+            "counter": 6,
             "oven": 1,
             "window": 1,
+            "dishwasher": 1,
+            "door": 1,
             "fridge": 1,
             "cabinet": 11,
-            "sink": 1,
-            "door": 1,
-            "dishwasher": 1,
-            "counter": 6
+            "sink": 1
         }
     },
     "making_tea": {
-        "bathroom": {
-            "floor": 1,
-            "toilet": 1,
-            "door": 1,
-            "sink": 1,
-            "mirror": 1
-        },
         "living_room": {
             "floor": 1,
+            "coffee_table": 1,
             "window": 1,
-            "picture": 1,
-            "coffee_table": 1
+            "picture": 1
+        },
+        "bathroom": {
+            "floor": 1,
+            "door": 1,
+            "mirror": 1,
+            "toilet": 1,
+            "sink": 1
         },
         "kitchen": {
             "floor": 1,
             "window": 1,
+            "dishwasher": 1,
+            "door": 1,
             "fridge": 1,
             "cabinet": 5,
             "sink": 1,
-            "door": 1,
-            "stove": 1,
-            "dishwasher": 1
+            "stove": 1
         }
     },
     "making_coffee": {
-        "bathroom": {
-            "floor": 1,
-            "toilet": 1,
-            "door": 1,
-            "sink": 1,
-            "mirror": 1
-        },
         "living_room": {
             "floor": 1,
+            "coffee_table": 1,
             "window": 1,
-            "picture": 1,
-            "coffee_table": 1
+            "picture": 1
+        },
+        "bathroom": {
+            "floor": 1,
+            "door": 1,
+            "mirror": 1,
+            "toilet": 1,
+            "sink": 1
         },
         "kitchen": {
             "floor": 1,
             "window": 1,
+            "dishwasher": 1,
+            "door": 1,
             "fridge": 1,
             "cabinet": 5,
             "sink": 1,
-            "door": 1,
-            "stove": 1,
-            "dishwasher": 1
+            "stove": 1
         }
     },
     "installing_smoke_detectors": {
+        "bedroom": {
+            "floor": 1,
+            "door": 2,
+            "window": 2,
+            "bed": 1,
+            "cabinet": 1
+        },
         "bathroom": {
             "floor": 1,
             "bathtub": 1,
+            "door": 2,
+            "mirror": 1,
             "cabinet": 1,
-            "door": 2,
-            "sink": 1,
-            "mirror": 1
-        },
-        "bedroom": {
-            "floor": 1,
-            "bed": 1,
-            "window": 2,
-            "door": 2,
-            "cabinet": 1
+            "sink": 1
         },
         "corridor": {
             "floor": 1,
@@ -607,434 +607,435 @@
         }
     },
     "sorting_groceries": {
-        "bathroom": {
-            "floor": 1,
-            "toilet": 1,
-            "door": 1,
-            "sink": 1,
-            "mirror": 1
-        },
         "living_room": {
             "floor": 1,
-            "window": 1,
-            "coffee_table": 1
+            "coffee_table": 1,
+            "window": 1
+        },
+        "bathroom": {
+            "floor": 1,
+            "door": 1,
+            "mirror": 1,
+            "toilet": 1,
+            "sink": 1
         },
         "kitchen": {
             "floor": 1,
+            "counter": 6,
             "oven": 1,
             "window": 1,
-            "fridge": 1,
-            "table": 1,
-            "cabinet": 13,
-            "microwave": 1,
             "chair": 4,
-            "sink": 1,
-            "door": 1,
-            "stove": 1,
+            "microwave": 1,
             "dishwasher": 1,
-            "counter": 6
+            "table": 1,
+            "door": 1,
+            "fridge": 1,
+            "cabinet": 13,
+            "sink": 1,
+            "stove": 1
         }
     },
     "thawing_frozen_food": {
-        "bathroom": {
-            "floor": 1,
-            "toilet": 1,
-            "door": 1,
-            "sink": 1,
-            "mirror": 1
-        },
         "living_room": {
             "floor": 1,
-            "window": 1,
-            "coffee_table": 1
+            "coffee_table": 1,
+            "window": 1
+        },
+        "bathroom": {
+            "floor": 1,
+            "door": 1,
+            "mirror": 1,
+            "toilet": 1,
+            "sink": 1
         },
         "kitchen": {
             "floor": 1,
+            "counter": 6,
             "oven": 1,
             "window": 1,
-            "fridge": 1,
-            "table": 1,
-            "cabinet": 13,
-            "microwave": 1,
             "chair": 4,
-            "sink": 1,
-            "door": 1,
-            "stove": 1,
+            "microwave": 1,
             "dishwasher": 1,
-            "counter": 6
+            "table": 1,
+            "door": 1,
+            "fridge": 1,
+            "cabinet": 13,
+            "sink": 1,
+            "stove": 1
         }
     },
     "setting_up_candles": {
-        "bathroom": {
-            "floor": 1,
-            "door": 1,
-            "sink": 1,
-            "picture": 1,
-            "toilet": 1,
-            "mirror": 1
-        },
         "dining_room": {
             "floor": 1,
             "picture": 1,
-            "carpet": 1,
             "chair": 4,
+            "carpet": 1,
             "table": 1
         },
         "living_room": {
             "floor": 1,
             "window": 2,
+            "sofa": 1,
             "carpet": 1,
             "cabinet": 1,
-            "coffee_table": 1,
-            "sofa": 1
+            "coffee_table": 1
+        },
+        "bathroom": {
+            "floor": 1,
+            "picture": 1,
+            "door": 1,
+            "mirror": 1,
+            "toilet": 1,
+            "sink": 1
         },
         "kitchen": {
             "floor": 1,
+            "counter": 7,
             "oven": 1,
             "window": 1,
-            "fridge": 1,
-            "cabinet": 11,
-            "sink": 1,
+            "dishwasher": 1,
             "door": 1,
             "shelf": 1,
-            "dishwasher": 1,
-            "counter": 7
+            "fridge": 1,
+            "cabinet": 11,
+            "sink": 1
         }
     },
     "cleaning_up_refrigerator": {
-        "bathroom": {
-            "floor": 1,
-            "toilet": 1,
-            "door": 1,
-            "sink": 1,
-            "mirror": 1
-        },
         "living_room": {
             "floor": 1,
-            "window": 1,
-            "coffee_table": 1
+            "coffee_table": 1,
+            "window": 1
+        },
+        "bathroom": {
+            "floor": 1,
+            "door": 1,
+            "mirror": 1,
+            "toilet": 1,
+            "sink": 1
         },
         "kitchen": {
             "floor": 1,
+            "counter": 6,
             "oven": 1,
             "window": 1,
-            "fridge": 1,
-            "table": 1,
-            "cabinet": 13,
-            "microwave": 1,
             "chair": 4,
-            "sink": 1,
-            "door": 1,
-            "stove": 1,
+            "microwave": 1,
             "dishwasher": 1,
-            "counter": 6
+            "table": 1,
+            "door": 1,
+            "fridge": 1,
+            "cabinet": 13,
+            "sink": 1,
+            "stove": 1
         }
     },
     "cleaning_bedroom": {
-        "corridor": {
-            "floor": 1,
-            "door": 1
-        },
         "bedroom": {
             "floor": 1,
+            "door": 2,
             "bed": 1,
-            "window": 1,
-            "door": 2
+            "window": 1
         },
         "bathroom": {
             "floor": 1,
-            "mirror": 1,
-            "sink": 1,
-            "shower": 1
-        }
-    },
-    "washing_curtains": {
-        "home_office": {
-            "floor": 1,
-            "office_chair": 1,
-            "carpet": 1,
-            "table": 1,
-            "cabinet": 2
-        },
-        "bedroom": {
-            "floor": 1,
-            "table_lamp": 2,
-            "window": 2,
-            "cabinet": 3,
-            "door": 2,
-            "bed": 1,
-            "picture": 2
-        },
-        "exercise_room": {
-            "floor": 1,
-            "window": 1,
-            "treadmill": 2,
-            "picture": 1,
-            "door": 1
-        },
-        "bathroom": {
-            "floor": 1,
-            "shower": 1,
-            "mirror": 1,
-            "sink": 2,
-            "door": 2,
-            "trash_can": 1,
-            "picture": 2,
+            "door": 1,
             "toilet": 1,
+            "sink": 2,
             "towel_rack": 1
         },
         "corridor": {
             "floor": 1,
-            "door": 6
+            "door": 1
+        }
+    },
+    "washing_curtains": {
+        "bedroom": {
+            "floor": 1,
+            "table_lamp": 2,
+            "window": 2,
+            "picture": 2,
+            "bed": 1,
+            "door": 2,
+            "cabinet": 3
+        },
+        "home_office": {
+            "floor": 1,
+            "carpet": 1,
+            "cabinet": 2,
+            "office_chair": 1,
+            "table": 1
+        },
+        "exercise_room": {
+            "floor": 1,
+            "door": 1,
+            "picture": 1,
+            "treadmill": 2,
+            "window": 1
+        },
+        "bathroom": {
+            "floor": 1,
+            "towel_rack": 1,
+            "trash_can": 1,
+            "picture": 2,
+            "door": 2,
+            "shower": 1,
+            "mirror": 1,
+            "toilet": 1,
+            "sink": 2
         },
         "playroom": {
             "floor": 1,
             "window": 3,
-            "carpet": 1,
-            "table": 2,
+            "picture": 1,
             "pool_table": 1,
             "chair": 6,
-            "picture": 1
+            "carpet": 1,
+            "table": 2
         },
         "utility_room": {
             "floor": 1,
-            "cabinet": 3,
+            "washer": 1,
             "door": 1,
+            "cabinet": 3,
             "sink": 1,
-            "dryer": 1,
-            "washer": 1
+            "dryer": 1
+        },
+        "corridor": {
+            "floor": 1,
+            "door": 6
         }
     },
     "sorting_mail": {
-        "bathroom": {
-            "floor": 1,
-            "door": 1,
-            "sink": 1,
-            "towel_rack": 1,
-            "toilet": 1,
-            "mirror": 1
-        },
         "living_room": {
             "floor": 1,
-            "window": 1,
-            "carpet": 1,
             "plant": 1,
+            "window": 1,
+            "sofa": 1,
             "picture": 1,
-            "sofa": 1
+            "carpet": 1
+        },
+        "bathroom": {
+            "floor": 1,
+            "towel_rack": 1,
+            "door": 1,
+            "mirror": 1,
+            "toilet": 1,
+            "sink": 1
         }
     },
     "polishing_silver": {
-        "bathroom": {
-            "floor": 1,
-            "toilet": 1,
-            "door": 1,
-            "sink": 1,
-            "mirror": 1
-        },
         "bedroom": {
             "floor": 1,
-            "bed": 1,
-            "window": 1,
             "door": 1,
-            "cabinet": 1
+            "bed": 1,
+            "cabinet": 1,
+            "window": 1
         },
         "living_room": {
             "floor": 1,
-            "window": 2,
-            "carpet": 1,
-            "coffee_table": 1,
-            "cabinet": 1,
             "plant": 1,
+            "window": 2,
+            "sofa": 1,
             "picture": 1,
-            "sofa": 1
+            "carpet": 1,
+            "cabinet": 1,
+            "coffee_table": 1
+        },
+        "bathroom": {
+            "floor": 1,
+            "door": 1,
+            "mirror": 1,
+            "toilet": 1,
+            "sink": 1
         },
         "kitchen": {
             "floor": 1,
             "window": 1,
+            "dishwasher": 1,
             "fridge": 1,
             "cabinet": 5,
-            "sink": 1,
-            "dishwasher": 1
+            "sink": 1
         }
     },
     "polishing_furniture": {
-        "bathroom": {
-            "floor": 1,
-            "toilet": 1,
-            "door": 1,
-            "sink": 1,
-            "mirror": 1
-        },
         "living_room": {
             "floor": 1,
-            "picture": 2,
+            "coffee_table": 1,
             "shelf": 1,
-            "coffee_table": 1
+            "picture": 2
+        },
+        "bathroom": {
+            "floor": 1,
+            "door": 1,
+            "mirror": 1,
+            "toilet": 1,
+            "sink": 1
         }
     },
     "polishing_shoes": {
         "bathroom": {
             "floor": 1,
             "door": 1,
-            "sink": 1,
-            "mirror": 1
+            "mirror": 1,
+            "sink": 1
         }
     },
     "treating_stains": {
-        "bathroom": {
-            "floor": 1,
-            "toilet": 1,
-            "door": 1,
-            "sink": 1,
-            "mirror": 1
-        },
         "bedroom": {
             "floor": 1,
-            "bed": 1,
-            "window": 1,
             "door": 1,
-            "cabinet": 1
+            "bed": 1,
+            "cabinet": 1,
+            "window": 1
         },
         "living_room": {
             "floor": 1,
-            "window": 2,
-            "carpet": 1,
-            "coffee_table": 1,
-            "cabinet": 1,
             "plant": 1,
+            "window": 2,
+            "sofa": 1,
             "picture": 1,
-            "sofa": 1
+            "carpet": 1,
+            "cabinet": 1,
+            "coffee_table": 1
+        },
+        "bathroom": {
+            "floor": 1,
+            "door": 1,
+            "mirror": 1,
+            "toilet": 1,
+            "sink": 1
         },
         "kitchen": {
             "floor": 1,
             "window": 1,
+            "dishwasher": 1,
             "fridge": 1,
             "cabinet": 5,
-            "sink": 1,
-            "dishwasher": 1
+            "sink": 1
         }
     },
     "cleaning_the_pool": {
+        "dining_room": {
+            "floor": 1,
+            "plant": 1,
+            "window": 1,
+            "picture": 1,
+            "chair": 3,
+            "carpet": 1,
+            "table": 1
+        },
+        "storage_room": {
+            "floor": 1,
+            "washer": 1,
+            "window": 1,
+            "table": 1,
+            "door": 5,
+            "shelf": 1,
+            "sink": 1,
+            "dryer": 1
+        },
         "living_room": {
             "floor": 1,
-            "carpet": 1,
-            "coffee_table": 2,
-            "door": 1,
-            "cushion": 2,
             "plant": 1,
+            "cushion": 2,
             "picture": 3,
+            "sofa_chair": 3,
+            "carpet": 1,
+            "door": 1,
             "shelf": 1,
-            "sofa_chair": 3
+            "coffee_table": 2
+        },
+        "bathroom": {
+            "floor": 1,
+            "door": 1,
+            "mirror": 1,
+            "shelf": 1,
+            "shower": 1,
+            "toilet": 1,
+            "sink": 1
         },
         "garage": {
             "floor": 1,
             "window": 1,
-            "cabinet": 1,
-            "door": 1,
             "picture": 1,
-            "shelf": 1
-        },
-        "bathroom": {
-            "floor": 1,
-            "shower": 1,
-            "sink": 1,
             "door": 1,
             "shelf": 1,
-            "toilet": 1,
-            "mirror": 1
+            "cabinet": 1
         },
         "corridor": {
             "floor": 1,
             "door": 2
-        },
-        "dining_room": {
-            "floor": 1,
-            "window": 1,
-            "carpet": 1,
-            "table": 1,
-            "chair": 3,
-            "plant": 1,
-            "picture": 1
-        },
-        "storage_room": {
-            "floor": 1,
-            "window": 1,
-            "table": 1,
-            "sink": 1,
-            "door": 5,
-            "dryer": 1,
-            "shelf": 1,
-            "washer": 1
         }
     },
     "cleaning_the_pond": {
+        "dining_room": {
+            "floor": 1,
+            "plant": 1,
+            "window": 1,
+            "picture": 1,
+            "chair": 3,
+            "carpet": 1,
+            "table": 1
+        },
+        "storage_room": {
+            "floor": 1,
+            "washer": 1,
+            "window": 1,
+            "table": 1,
+            "door": 5,
+            "shelf": 1,
+            "sink": 1,
+            "dryer": 1
+        },
         "living_room": {
             "floor": 1,
-            "carpet": 1,
-            "coffee_table": 2,
-            "door": 1,
-            "cushion": 2,
             "plant": 1,
+            "cushion": 2,
             "picture": 3,
+            "sofa_chair": 3,
+            "carpet": 1,
+            "door": 1,
             "shelf": 1,
-            "sofa_chair": 3
+            "coffee_table": 2
+        },
+        "bathroom": {
+            "floor": 1,
+            "door": 1,
+            "mirror": 1,
+            "shelf": 1,
+            "shower": 1,
+            "toilet": 1,
+            "sink": 1
         },
         "garage": {
             "floor": 1,
             "window": 1,
-            "cabinet": 1,
-            "door": 1,
             "picture": 1,
-            "shelf": 1
-        },
-        "bathroom": {
-            "floor": 1,
-            "shower": 1,
-            "sink": 1,
             "door": 1,
             "shelf": 1,
-            "toilet": 1,
-            "mirror": 1
+            "cabinet": 1
         },
         "corridor": {
             "floor": 1,
             "door": 2
-        },
-        "dining_room": {
-            "floor": 1,
-            "window": 1,
-            "carpet": 1,
-            "table": 1,
-            "chair": 3,
-            "plant": 1,
-            "picture": 1
-        },
-        "storage_room": {
-            "floor": 1,
-            "window": 1,
-            "table": 1,
-            "sink": 1,
-            "door": 5,
-            "dryer": 1,
-            "shelf": 1,
-            "washer": 1
         }
     },
     "cleaning_the_litter_box": {
+        "bedroom": {
+            "floor": 1,
+            "door": 2,
+            "window": 2,
+            "bed": 1,
+            "cabinet": 1
+        },
         "bathroom": {
             "floor": 1,
             "bathtub": 1,
+            "door": 2,
+            "mirror": 1,
             "cabinet": 1,
-            "door": 2,
-            "sink": 1,
-            "mirror": 1
-        },
-        "bedroom": {
-            "floor": 1,
-            "bed": 1,
-            "window": 2,
-            "door": 2,
-            "cabinet": 1
+            "sink": 1
         },
         "corridor": {
             "floor": 1,
@@ -1042,64 +1043,64 @@
         }
     },
     "cleaning_barbecue_grill": {
+        "dining_room": {
+            "floor": 1,
+            "plant": 1,
+            "window": 1,
+            "picture": 1,
+            "chair": 3,
+            "carpet": 1,
+            "table": 1
+        },
+        "storage_room": {
+            "floor": 1,
+            "washer": 1,
+            "window": 1,
+            "table": 1,
+            "door": 5,
+            "shelf": 1,
+            "sink": 1,
+            "dryer": 1
+        },
         "living_room": {
             "floor": 1,
-            "carpet": 1,
-            "coffee_table": 2,
-            "door": 1,
-            "cushion": 2,
             "plant": 1,
+            "cushion": 2,
             "picture": 3,
+            "sofa_chair": 3,
+            "carpet": 1,
+            "door": 1,
             "shelf": 1,
-            "sofa_chair": 3
+            "coffee_table": 2
+        },
+        "bathroom": {
+            "floor": 1,
+            "door": 1,
+            "mirror": 1,
+            "shelf": 1,
+            "shower": 1,
+            "toilet": 1,
+            "sink": 1
         },
         "garage": {
             "floor": 1,
             "window": 1,
-            "cabinet": 1,
-            "door": 1,
             "picture": 1,
-            "shelf": 1
-        },
-        "bathroom": {
-            "floor": 1,
-            "shower": 1,
-            "sink": 1,
             "door": 1,
             "shelf": 1,
-            "toilet": 1,
-            "mirror": 1
+            "cabinet": 1
         },
         "corridor": {
             "floor": 1,
             "door": 2
-        },
-        "dining_room": {
-            "floor": 1,
-            "window": 1,
-            "carpet": 1,
-            "table": 1,
-            "chair": 3,
-            "plant": 1,
-            "picture": 1
-        },
-        "storage_room": {
-            "floor": 1,
-            "window": 1,
-            "table": 1,
-            "sink": 1,
-            "door": 5,
-            "dryer": 1,
-            "shelf": 1,
-            "washer": 1
         }
     },
     "cleaning_the_hot_tub": {
         "bathroom": {
             "floor": 1,
-            "toilet": 1,
-            "bathtub": 1,
             "door": 1,
+            "bathtub": 1,
+            "toilet": 1,
             "sink": 1
         },
         "corridor": {
@@ -1108,258 +1109,258 @@
         }
     },
     "waxing_cars_or_other_vehicles": {
+        "dining_room": {
+            "floor": 1,
+            "plant": 1,
+            "window": 1,
+            "picture": 1,
+            "chair": 3,
+            "carpet": 1,
+            "table": 1
+        },
+        "storage_room": {
+            "floor": 1,
+            "washer": 1,
+            "window": 1,
+            "table": 1,
+            "door": 5,
+            "shelf": 1,
+            "sink": 1,
+            "dryer": 1
+        },
         "living_room": {
             "floor": 1,
-            "carpet": 1,
-            "coffee_table": 2,
-            "door": 1,
-            "cushion": 2,
             "plant": 1,
+            "cushion": 2,
             "picture": 3,
+            "sofa_chair": 3,
+            "carpet": 1,
+            "door": 1,
             "shelf": 1,
-            "sofa_chair": 3
+            "coffee_table": 2
+        },
+        "bathroom": {
+            "floor": 1,
+            "door": 1,
+            "mirror": 1,
+            "shelf": 1,
+            "shower": 1,
+            "toilet": 1,
+            "sink": 1
         },
         "garage": {
             "floor": 1,
             "window": 1,
-            "cabinet": 1,
-            "door": 1,
             "picture": 1,
-            "shelf": 1
-        },
-        "bathroom": {
-            "floor": 1,
-            "shower": 1,
-            "sink": 1,
             "door": 1,
             "shelf": 1,
-            "toilet": 1,
-            "mirror": 1
+            "cabinet": 1
         },
         "corridor": {
             "floor": 1,
             "door": 2
-        },
-        "dining_room": {
-            "floor": 1,
-            "window": 1,
-            "carpet": 1,
-            "table": 1,
-            "chair": 3,
-            "plant": 1,
-            "picture": 1
-        },
-        "storage_room": {
-            "floor": 1,
-            "window": 1,
-            "table": 1,
-            "sink": 1,
-            "door": 5,
-            "dryer": 1,
-            "shelf": 1,
-            "washer": 1
         }
     },
     "cleaning_high_chair": {
-        "bathroom": {
-            "floor": 1,
-            "toilet": 1,
-            "door": 1,
-            "sink": 1,
-            "mirror": 1
-        },
-        "living_room": {
-            "floor": 1,
-            "window": 2,
-            "carpet": 1,
-            "cabinet": 1,
-            "coffee_table": 1,
-            "sofa": 1
-        },
         "dining_room": {
             "floor": 1,
             "picture": 1,
             "chair": 3,
             "table": 1
         },
+        "living_room": {
+            "floor": 1,
+            "window": 2,
+            "sofa": 1,
+            "carpet": 1,
+            "cabinet": 1,
+            "coffee_table": 1
+        },
+        "bathroom": {
+            "floor": 1,
+            "door": 1,
+            "mirror": 1,
+            "toilet": 1,
+            "sink": 1
+        },
         "kitchen": {
             "floor": 1,
             "window": 1,
+            "dishwasher": 1,
+            "door": 1,
+            "shelf": 1,
             "fridge": 1,
             "cabinet": 5,
             "sink": 1,
-            "door": 1,
-            "shelf": 1,
-            "stove": 1,
-            "dishwasher": 1
+            "stove": 1
         }
     },
     "cleaning_up_after_a_meal": {
-        "bathroom": {
-            "floor": 1,
-            "toilet": 1,
-            "door": 1,
-            "sink": 1,
-            "mirror": 1
-        },
-        "living_room": {
-            "floor": 1,
-            "window": 2,
-            "carpet": 1,
-            "cabinet": 1,
-            "coffee_table": 1,
-            "sofa": 1
-        },
         "dining_room": {
             "floor": 1,
             "picture": 1,
             "chair": 3,
             "table": 1
         },
+        "living_room": {
+            "floor": 1,
+            "window": 2,
+            "sofa": 1,
+            "carpet": 1,
+            "cabinet": 1,
+            "coffee_table": 1
+        },
+        "bathroom": {
+            "floor": 1,
+            "door": 1,
+            "mirror": 1,
+            "toilet": 1,
+            "sink": 1
+        },
         "kitchen": {
             "floor": 1,
             "window": 1,
+            "dishwasher": 1,
+            "door": 1,
+            "shelf": 1,
             "fridge": 1,
             "cabinet": 5,
             "sink": 1,
-            "door": 1,
-            "shelf": 1,
-            "stove": 1,
-            "dishwasher": 1
+            "stove": 1
         }
     },
     "putting_ice_on_injury": {
         "bathroom": {
             "floor": 1,
-            "toilet": 1,
             "door": 1,
+            "toilet": 1,
             "sink": 1
         }
     },
     "sweeping_floors": {
-        "corridor": {
-            "floor": 1,
-            "door": 1
-        },
         "bathroom": {
             "floor": 1,
             "toilet": 1,
             "sink": 1
+        },
+        "corridor": {
+            "floor": 1,
+            "door": 1
         }
     },
     "sweeping_garage": {
+        "dining_room": {
+            "floor": 1,
+            "plant": 1,
+            "window": 1,
+            "picture": 1,
+            "chair": 3,
+            "carpet": 1,
+            "table": 1
+        },
+        "storage_room": {
+            "floor": 1,
+            "washer": 1,
+            "window": 1,
+            "table": 1,
+            "door": 5,
+            "shelf": 1,
+            "sink": 1,
+            "dryer": 1
+        },
         "living_room": {
             "floor": 1,
-            "carpet": 1,
-            "coffee_table": 2,
-            "door": 1,
-            "cushion": 2,
             "plant": 1,
+            "cushion": 2,
             "picture": 3,
+            "sofa_chair": 3,
+            "carpet": 1,
+            "door": 1,
             "shelf": 1,
-            "sofa_chair": 3
+            "coffee_table": 2
+        },
+        "bathroom": {
+            "floor": 1,
+            "door": 1,
+            "mirror": 1,
+            "shelf": 1,
+            "shower": 1,
+            "toilet": 1,
+            "sink": 1
         },
         "garage": {
             "floor": 1,
             "window": 1,
-            "cabinet": 1,
-            "door": 1,
             "picture": 1,
-            "shelf": 1
-        },
-        "bathroom": {
-            "floor": 1,
-            "shower": 1,
-            "sink": 1,
             "door": 1,
             "shelf": 1,
-            "toilet": 1,
-            "mirror": 1
+            "cabinet": 1
         },
         "corridor": {
             "floor": 1,
             "door": 2
-        },
-        "dining_room": {
-            "floor": 1,
-            "window": 1,
-            "carpet": 1,
-            "table": 1,
-            "chair": 3,
-            "plant": 1,
-            "picture": 1
-        },
-        "storage_room": {
-            "floor": 1,
-            "window": 1,
-            "table": 1,
-            "sink": 1,
-            "door": 5,
-            "dryer": 1,
-            "shelf": 1,
-            "washer": 1
         }
     },
     "cleaning_sneakers": {
-        "bathroom": {
-            "floor": 1,
-            "toilet": 1,
-            "door": 1,
-            "sink": 1,
-            "mirror": 1
-        },
         "living_room": {
             "floor": 1,
-            "window": 1,
+            "coffee_table": 1,
             "shelf": 2,
-            "coffee_table": 1
+            "window": 1
+        },
+        "bathroom": {
+            "floor": 1,
+            "door": 1,
+            "mirror": 1,
+            "toilet": 1,
+            "sink": 1
         },
         "kitchen": {
             "floor": 1,
+            "counter": 1,
             "oven": 1,
             "window": 1,
+            "microwave": 1,
+            "dishwasher": 1,
             "fridge": 1,
             "cabinet": 7,
-            "microwave": 1,
-            "sink": 1,
-            "dishwasher": 1,
-            "counter": 1
+            "sink": 1
         }
     },
     "rinsing_dishes": {
-        "corridor": {
-            "floor": 1,
-            "door": 1
-        },
         "living_room": {
             "floor": 1,
-            "window": 1,
-            "picture": 1
+            "picture": 1,
+            "window": 1
         },
         "kitchen": {
             "floor": 1,
+            "counter": 4,
             "oven": 1,
+            "dishwasher": 1,
+            "door": 1,
             "fridge": 1,
             "cabinet": 11,
-            "sink": 1,
-            "door": 1,
-            "dishwasher": 1,
-            "counter": 4
+            "sink": 1
+        },
+        "corridor": {
+            "floor": 1,
+            "door": 1
         }
     },
     "vacuuming_floors": {
-        "bathroom": {
-            "floor": 1,
-            "toilet": 1,
-            "mirror": 1,
-            "sink": 1,
-            "shower": 1
-        },
         "bedroom": {
             "floor": 1,
+            "door": 2,
             "bed": 1,
-            "window": 1,
-            "door": 2
+            "window": 1
+        },
+        "bathroom": {
+            "floor": 1,
+            "mirror": 1,
+            "shower": 1,
+            "toilet": 1,
+            "sink": 1
         },
         "corridor": {
             "floor": 1,
@@ -1367,181 +1368,181 @@
         }
     },
     "vacuuming_vehicles": {
+        "dining_room": {
+            "floor": 1,
+            "plant": 1,
+            "window": 1,
+            "picture": 1,
+            "chair": 3,
+            "carpet": 1,
+            "table": 1
+        },
+        "storage_room": {
+            "floor": 1,
+            "washer": 1,
+            "window": 1,
+            "table": 1,
+            "door": 5,
+            "shelf": 1,
+            "sink": 1,
+            "dryer": 1
+        },
         "living_room": {
             "floor": 1,
-            "carpet": 1,
-            "coffee_table": 2,
-            "door": 1,
-            "cushion": 2,
             "plant": 1,
+            "cushion": 2,
             "picture": 3,
+            "sofa_chair": 3,
+            "carpet": 1,
+            "door": 1,
             "shelf": 1,
-            "sofa_chair": 3
+            "coffee_table": 2
+        },
+        "bathroom": {
+            "floor": 1,
+            "door": 1,
+            "mirror": 1,
+            "shelf": 1,
+            "shower": 1,
+            "toilet": 1,
+            "sink": 1
         },
         "garage": {
             "floor": 1,
             "window": 1,
-            "cabinet": 1,
-            "door": 1,
             "picture": 1,
-            "shelf": 1
-        },
-        "bathroom": {
-            "floor": 1,
-            "shower": 1,
-            "sink": 1,
             "door": 1,
             "shelf": 1,
-            "toilet": 1,
-            "mirror": 1
+            "cabinet": 1
         },
         "corridor": {
             "floor": 1,
             "door": 2
-        },
-        "dining_room": {
-            "floor": 1,
-            "window": 1,
-            "carpet": 1,
-            "table": 1,
-            "chair": 3,
-            "plant": 1,
-            "picture": 1
-        },
-        "storage_room": {
-            "floor": 1,
-            "window": 1,
-            "table": 1,
-            "sink": 1,
-            "door": 5,
-            "dryer": 1,
-            "shelf": 1,
-            "washer": 1
         }
     },
     "cleaning_oven": {
         "living_room": {
             "floor": 1,
-            "window": 2,
-            "carpet": 1,
+            "sofa": 1,
             "picture": 1,
-            "sofa": 1
+            "carpet": 1,
+            "window": 2
         },
         "kitchen": {
             "floor": 1,
+            "counter": 1,
             "oven": 1,
+            "microwave": 1,
+            "dishwasher": 1,
             "fridge": 1,
             "cabinet": 7,
-            "microwave": 1,
-            "sink": 1,
-            "dishwasher": 1,
-            "counter": 1
+            "sink": 1
         }
     },
     "cleaning_floors": {
         "bathroom": {
             "floor": 1,
-            "toilet": 1,
             "door": 1,
+            "toilet": 1,
             "sink": 1
         }
     },
     "cleaning_up_the_kitchen_only": {
-        "bathroom": {
-            "floor": 1,
-            "toilet": 1,
-            "door": 1,
-            "sink": 1,
-            "mirror": 1
-        },
         "living_room": {
             "floor": 1,
+            "coffee_table": 1,
             "window": 1,
-            "picture": 1,
-            "coffee_table": 1
+            "picture": 1
+        },
+        "bathroom": {
+            "floor": 1,
+            "door": 1,
+            "mirror": 1,
+            "toilet": 1,
+            "sink": 1
         },
         "kitchen": {
             "floor": 1,
+            "counter": 1,
             "oven": 1,
             "window": 1,
+            "microwave": 1,
+            "dishwasher": 1,
             "fridge": 1,
             "cabinet": 7,
-            "microwave": 1,
-            "sink": 1,
-            "dishwasher": 1,
-            "counter": 1
+            "sink": 1
         }
     },
     "cleaning_carpets": {
         "bathroom": {
             "floor": 1,
             "door": 1,
+            "mirror": 1,
+            "sink": 1
+        },
+        "utility_room": {
+            "floor": 1,
+            "washer": 1,
+            "door": 1,
+            "cabinet": 2,
             "sink": 1,
-            "mirror": 1
+            "dryer": 1
         },
         "corridor": {
             "floor": 1,
             "door": 3
-        },
-        "utility_room": {
-            "floor": 1,
-            "cabinet": 2,
-            "door": 1,
-            "sink": 1,
-            "dryer": 1,
-            "washer": 1
         }
     },
     "cleaning_shoes": {
+        "bedroom": {
+            "floor": 1,
+            "door": 2,
+            "bed": 1,
+            "window": 1
+        },
+        "bathroom": {
+            "floor": 1,
+            "mirror": 1,
+            "shower": 1,
+            "toilet": 1,
+            "sink": 1
+        },
         "corridor": {
             "floor": 1,
             "door": 1
-        },
-        "bedroom": {
-            "floor": 1,
-            "bed": 1,
-            "window": 1,
-            "door": 2
-        },
-        "bathroom": {
-            "floor": 1,
-            "toilet": 1,
-            "mirror": 1,
-            "sink": 1,
-            "shower": 1
         }
     },
     "cleaning_stove": {
-        "bathroom": {
-            "floor": 1,
-            "toilet": 1,
-            "door": 1,
-            "sink": 1,
-            "mirror": 1
-        },
         "living_room": {
             "floor": 1,
+            "coffee_table": 1,
             "window": 1,
-            "picture": 1,
-            "coffee_table": 1
+            "picture": 1
+        },
+        "bathroom": {
+            "floor": 1,
+            "door": 1,
+            "mirror": 1,
+            "toilet": 1,
+            "sink": 1
         },
         "kitchen": {
             "floor": 1,
             "window": 1,
+            "dishwasher": 1,
+            "door": 1,
             "fridge": 1,
             "cabinet": 5,
             "sink": 1,
-            "door": 1,
-            "stove": 1,
-            "dishwasher": 1
+            "stove": 1
         }
     },
     "cleaning_bathrooms": {
         "bathroom": {
             "floor": 1,
-            "toilet": 1,
-            "bathtub": 1,
             "door": 1,
+            "bathtub": 1,
+            "toilet": 1,
             "sink": 1
         },
         "corridor": {
@@ -1553,138 +1554,138 @@
         "bedroom": {
             "floor": 1,
             "window": 1,
-            "cabinet": 6,
-            "door": 2,
-            "bed": 1,
             "picture": 2,
+            "bed": 1,
+            "door": 2,
+            "mirror": 2,
             "floor_lamp": 4,
-            "mirror": 2
-        },
-        "corridor": {
-            "floor": 1,
-            "door": 4,
-            "mirror": 1
-        },
-        "bathroom": {
-            "floor": 1,
-            "window": 2,
-            "carpet": 1,
-            "shower": 1,
-            "cabinet": 4,
-            "sink": 2,
-            "towel_rack": 1,
-            "door": 1,
-            "toilet": 1,
-            "counter": 2,
-            "mirror": 1
+            "cabinet": 6
         },
         "childs_room": {
             "floor": 1,
             "window": 1,
-            "cabinet": 2,
-            "door": 3,
             "bed": 1,
-            "shelf": 2
+            "door": 3,
+            "shelf": 2,
+            "cabinet": 2
+        },
+        "bathroom": {
+            "floor": 1,
+            "counter": 2,
+            "window": 2,
+            "towel_rack": 1,
+            "carpet": 1,
+            "door": 1,
+            "shower": 1,
+            "mirror": 1,
+            "toilet": 1,
+            "cabinet": 4,
+            "sink": 2
         },
         "closet": {
             "floor": 1,
-            "towel_rack": 1,
             "door": 1,
             "shelf": 2,
-            "cabinet": 1
+            "cabinet": 1,
+            "towel_rack": 1
         },
         "playroom": {
             "floor": 1,
             "table_lamp": 1,
             "window": 2,
+            "picture": 1,
+            "chair": 4,
             "carpet": 1,
             "table": 2,
-            "cabinet": 1,
-            "chair": 4,
             "door": 3,
-            "picture": 1,
-            "shelf": 4
+            "shelf": 4,
+            "cabinet": 1
         },
         "television_room": {
             "floor": 1,
-            "window": 1,
-            "cabinet": 3,
-            "door": 1,
-            "picture": 3,
-            "sofa": 1,
-            "shelf": 2,
             "tv": 1,
+            "window": 1,
+            "sofa": 1,
+            "picture": 3,
+            "door": 1,
+            "shelf": 2,
+            "mirror": 1,
+            "cabinet": 3
+        },
+        "corridor": {
+            "floor": 1,
+            "door": 4,
             "mirror": 1
         }
     },
     "cleaning_windows": {
-        "bathroom": {
-            "floor": 1,
-            "toilet": 1,
-            "door": 1,
-            "sink": 1,
-            "mirror": 1
-        },
         "bedroom": {
             "floor": 1,
-            "bed": 1,
-            "window": 1,
             "door": 1,
-            "cabinet": 1
+            "bed": 1,
+            "cabinet": 1,
+            "window": 1
         },
         "living_room": {
             "floor": 1,
-            "window": 2,
-            "carpet": 1,
-            "coffee_table": 1,
-            "cabinet": 1,
             "plant": 1,
+            "window": 2,
+            "sofa": 1,
             "picture": 1,
-            "sofa": 1
+            "carpet": 1,
+            "cabinet": 1,
+            "coffee_table": 1
+        },
+        "bathroom": {
+            "floor": 1,
+            "door": 1,
+            "mirror": 1,
+            "toilet": 1,
+            "sink": 1
         },
         "kitchen": {
             "floor": 1,
             "window": 1,
+            "dishwasher": 1,
             "fridge": 1,
             "cabinet": 5,
-            "sink": 1,
-            "dishwasher": 1
+            "sink": 1
         }
     },
     "cleaning_toilet": {
         "bathroom": {
             "floor": 1,
+            "mirror": 1,
             "toilet": 1,
-            "trash_can": 1,
             "sink": 1,
-            "mirror": 1
+            "trash_can": 1
         }
     },
     "cleaning_microwave_oven": {
         "living_room": {
             "floor": 1,
-            "window": 2,
-            "carpet": 1,
+            "sofa": 1,
             "picture": 1,
-            "sofa": 1
+            "carpet": 1,
+            "window": 2
         },
         "kitchen": {
             "floor": 1,
+            "counter": 1,
             "oven": 1,
+            "microwave": 1,
+            "dishwasher": 1,
             "fridge": 1,
             "cabinet": 7,
-            "microwave": 1,
-            "sink": 1,
-            "dishwasher": 1,
-            "counter": 1
+            "sink": 1
         }
     },
     "cleaning_bathtub": {
         "bathroom": {
             "floor": 1,
-            "toilet": 1,
-            "bathtub": 1,
             "door": 1,
+            "bathtub": 1,
+            "toilet": 1,
             "sink": 1
         },
         "corridor": {
@@ -1693,206 +1694,206 @@
         }
     },
     "cleaning_table_after_clearing": {
-        "bathroom": {
-            "floor": 1,
-            "toilet": 1,
-            "door": 1,
-            "sink": 1,
-            "mirror": 1
-        },
-        "living_room": {
-            "floor": 1,
-            "window": 2,
-            "carpet": 1,
-            "cabinet": 1,
-            "coffee_table": 1,
-            "sofa": 1
-        },
         "dining_room": {
             "floor": 1,
             "picture": 1,
             "chair": 3,
             "table": 1
         },
+        "living_room": {
+            "floor": 1,
+            "window": 2,
+            "sofa": 1,
+            "carpet": 1,
+            "cabinet": 1,
+            "coffee_table": 1
+        },
+        "bathroom": {
+            "floor": 1,
+            "door": 1,
+            "mirror": 1,
+            "toilet": 1,
+            "sink": 1
+        },
         "kitchen": {
             "floor": 1,
             "window": 1,
+            "dishwasher": 1,
+            "door": 1,
+            "shelf": 1,
             "fridge": 1,
             "cabinet": 5,
             "sink": 1,
-            "door": 1,
-            "shelf": 1,
-            "stove": 1,
-            "dishwasher": 1
+            "stove": 1
         }
     },
     "bottling_fruit": {
         "living_room": {
             "floor": 1,
-            "window": 2,
-            "carpet": 1,
+            "sofa": 1,
             "picture": 1,
-            "sofa": 1
+            "carpet": 1,
+            "window": 2
         },
         "kitchen": {
             "floor": 1,
+            "counter": 1,
             "oven": 1,
+            "microwave": 1,
+            "dishwasher": 1,
             "fridge": 1,
             "cabinet": 7,
-            "microwave": 1,
-            "sink": 1,
-            "dishwasher": 1,
-            "counter": 1
+            "sink": 1
         }
     },
     "cleaning_garage": {
+        "dining_room": {
+            "floor": 1,
+            "plant": 1,
+            "window": 1,
+            "picture": 1,
+            "chair": 3,
+            "carpet": 1,
+            "table": 1
+        },
+        "storage_room": {
+            "floor": 1,
+            "washer": 1,
+            "window": 1,
+            "table": 1,
+            "door": 5,
+            "shelf": 1,
+            "sink": 1,
+            "dryer": 1
+        },
         "living_room": {
             "floor": 1,
-            "carpet": 1,
-            "coffee_table": 2,
-            "door": 1,
-            "cushion": 2,
             "plant": 1,
+            "cushion": 2,
             "picture": 3,
+            "sofa_chair": 3,
+            "carpet": 1,
+            "door": 1,
             "shelf": 1,
-            "sofa_chair": 3
+            "coffee_table": 2
+        },
+        "bathroom": {
+            "floor": 1,
+            "door": 1,
+            "mirror": 1,
+            "shelf": 1,
+            "shower": 1,
+            "toilet": 1,
+            "sink": 1
         },
         "garage": {
             "floor": 1,
             "window": 1,
-            "cabinet": 1,
-            "door": 1,
             "picture": 1,
-            "shelf": 1
-        },
-        "bathroom": {
-            "floor": 1,
-            "shower": 1,
-            "sink": 1,
             "door": 1,
             "shelf": 1,
-            "toilet": 1,
-            "mirror": 1
+            "cabinet": 1
         },
         "corridor": {
             "floor": 1,
             "door": 2
-        },
-        "dining_room": {
-            "floor": 1,
-            "window": 1,
-            "carpet": 1,
-            "table": 1,
-            "chair": 3,
-            "plant": 1,
-            "picture": 1
-        },
-        "storage_room": {
-            "floor": 1,
-            "window": 1,
-            "table": 1,
-            "sink": 1,
-            "door": 5,
-            "dryer": 1,
-            "shelf": 1,
-            "washer": 1
         }
     },
     "cleaning_a_car": {
+        "dining_room": {
+            "floor": 1,
+            "plant": 1,
+            "window": 1,
+            "picture": 1,
+            "chair": 3,
+            "carpet": 1,
+            "table": 1
+        },
+        "storage_room": {
+            "floor": 1,
+            "washer": 1,
+            "window": 1,
+            "table": 1,
+            "door": 5,
+            "shelf": 1,
+            "sink": 1,
+            "dryer": 1
+        },
         "living_room": {
             "floor": 1,
-            "carpet": 1,
-            "coffee_table": 2,
-            "door": 1,
-            "cushion": 2,
             "plant": 1,
+            "cushion": 2,
             "picture": 3,
+            "sofa_chair": 3,
+            "carpet": 1,
+            "door": 1,
             "shelf": 1,
-            "sofa_chair": 3
+            "coffee_table": 2
+        },
+        "bathroom": {
+            "floor": 1,
+            "door": 1,
+            "mirror": 1,
+            "shelf": 1,
+            "shower": 1,
+            "toilet": 1,
+            "sink": 1
         },
         "garage": {
             "floor": 1,
             "window": 1,
-            "cabinet": 1,
-            "door": 1,
             "picture": 1,
-            "shelf": 1
-        },
-        "bathroom": {
-            "floor": 1,
-            "shower": 1,
-            "sink": 1,
             "door": 1,
             "shelf": 1,
-            "toilet": 1,
-            "mirror": 1
+            "cabinet": 1
         },
         "corridor": {
             "floor": 1,
             "door": 2
-        },
-        "dining_room": {
-            "floor": 1,
-            "window": 1,
-            "carpet": 1,
-            "table": 1,
-            "chair": 3,
-            "plant": 1,
-            "picture": 1
-        },
-        "storage_room": {
-            "floor": 1,
-            "window": 1,
-            "table": 1,
-            "sink": 1,
-            "door": 5,
-            "dryer": 1,
-            "shelf": 1,
-            "washer": 1
         }
     },
     "watering_houseplant": {
         "bathroom": {
             "floor": 1,
-            "toilet": 1,
             "door": 1,
-            "sink": 1,
-            "mirror": 1
+            "mirror": 1,
+            "toilet": 1,
+            "sink": 1
         }
     },
     "smoking_fish": {
-        "bathroom": {
-            "floor": 1,
-            "toilet": 1,
-            "door": 1,
-            "sink": 1,
-            "mirror": 1
-        },
         "living_room": {
             "floor": 1,
+            "coffee_table": 1,
             "window": 1,
-            "picture": 1,
-            "coffee_table": 1
+            "picture": 1
+        },
+        "bathroom": {
+            "floor": 1,
+            "door": 1,
+            "mirror": 1,
+            "toilet": 1,
+            "sink": 1
         },
         "kitchen": {
             "floor": 1,
+            "counter": 6,
             "oven": 1,
             "window": 1,
+            "dishwasher": 1,
+            "door": 1,
             "fridge": 1,
             "cabinet": 11,
-            "sink": 1,
-            "door": 1,
-            "dishwasher": 1,
-            "counter": 6
+            "sink": 1
         }
     },
     "spraying_for_bugs": {
         "bathroom": {
             "floor": 1,
-            "toilet": 1,
             "door": 1,
-            "sink": 1,
-            "mirror": 1
+            "mirror": 1,
+            "toilet": 1,
+            "sink": 1
         },
         "corridor": {
             "floor": 1,
@@ -1902,10 +1903,10 @@
     "changing_light_bulbs": {
         "bathroom": {
             "floor": 1,
-            "toilet": 1,
             "picture": 1,
-            "sink": 1,
-            "mirror": 1
+            "mirror": 1,
+            "toilet": 1,
+            "sink": 1
         },
         "corridor": {
             "floor": 1,
@@ -1913,45 +1914,45 @@
         }
     },
     "hanging_Christmas_stockings": {
-        "bathroom": {
-            "floor": 1,
-            "toilet": 1,
-            "door": 1,
-            "sink": 1,
-            "mirror": 1
-        },
         "bedroom": {
             "floor": 1,
-            "bed": 1,
-            "window": 1,
             "door": 1,
+            "window": 1,
+            "bed": 1,
             "cabinet": 1
+        },
+        "living_room": {
+            "floor": 1,
+            "plant": 1,
+            "window": 2,
+            "sofa": 1,
+            "picture": 1,
+            "carpet": 1,
+            "cabinet": 1,
+            "coffee_table": 1
+        },
+        "bathroom": {
+            "floor": 1,
+            "door": 1,
+            "mirror": 1,
+            "toilet": 1,
+            "sink": 1
         },
         "kitchen": {
             "floor": 1,
             "window": 1,
+            "dishwasher": 1,
             "fridge": 1,
             "cabinet": 5,
-            "sink": 1,
-            "dishwasher": 1
-        },
-        "living_room": {
-            "floor": 1,
-            "window": 2,
-            "carpet": 1,
-            "cabinet": 1,
-            "coffee_table": 1,
-            "plant": 1,
-            "picture": 1,
-            "sofa": 1
+            "sink": 1
         }
     },
     "organizing_file_cabinet": {
         "home_office": {
             "floor": 1,
+            "cabinet": 2,
             "office_chair": 1,
-            "table": 1,
-            "cabinet": 2
+            "table": 1
         },
         "bathroom": {
             "floor": 1,
@@ -1964,363 +1965,363 @@
         }
     },
     "storing_the_groceries": {
-        "bathroom": {
-            "floor": 1,
-            "toilet": 1,
-            "door": 1,
-            "sink": 1,
-            "mirror": 1
-        },
         "living_room": {
             "floor": 1,
-            "window": 1,
-            "coffee_table": 1
+            "coffee_table": 1,
+            "window": 1
+        },
+        "bathroom": {
+            "floor": 1,
+            "door": 1,
+            "mirror": 1,
+            "toilet": 1,
+            "sink": 1
         },
         "kitchen": {
             "floor": 1,
             "oven": 1,
+            "counter": 6,
             "window": 1,
-            "fridge": 1,
-            "table": 1,
-            "cabinet": 13,
-            "microwave": 1,
             "chair": 4,
-            "sink": 1,
-            "door": 1,
-            "stove": 1,
+            "microwave": 1,
             "dishwasher": 1,
-            "counter": 6
+            "table": 1,
+            "door": 1,
+            "fridge": 1,
+            "cabinet": 13,
+            "sink": 1,
+            "stove": 1
         }
     },
     "making_the_bed": {
+        "bedroom": {
+            "floor": 1,
+            "door": 1,
+            "bed": 1,
+            "cabinet": 1,
+            "window": 1
+        },
         "bathroom": {
             "floor": 1,
             "mirror": 1,
             "door": 1,
-            "sink": 1,
-            "shower": 1
-        },
-        "bedroom": {
-            "floor": 1,
-            "bed": 1,
-            "window": 1,
-            "door": 1,
-            "cabinet": 1
+            "shower": 1,
+            "sink": 1
         }
     },
     "sorting_laundry": {
         "bedroom": {
             "floor": 1,
             "window": 1,
-            "cabinet": 6,
-            "door": 2,
-            "bed": 1,
             "picture": 2,
+            "bed": 1,
+            "door": 2,
+            "mirror": 2,
             "floor_lamp": 4,
-            "mirror": 2
-        },
-        "corridor": {
-            "floor": 1,
-            "door": 4,
-            "mirror": 1
-        },
-        "bathroom": {
-            "floor": 1,
-            "window": 2,
-            "carpet": 1,
-            "shower": 1,
-            "cabinet": 4,
-            "sink": 2,
-            "towel_rack": 1,
-            "door": 1,
-            "toilet": 1,
-            "counter": 2,
-            "mirror": 1
+            "cabinet": 6
         },
         "childs_room": {
             "floor": 1,
             "window": 1,
-            "cabinet": 2,
-            "door": 3,
             "bed": 1,
-            "shelf": 2
+            "door": 3,
+            "shelf": 2,
+            "cabinet": 2
+        },
+        "bathroom": {
+            "floor": 1,
+            "counter": 2,
+            "window": 2,
+            "towel_rack": 1,
+            "carpet": 1,
+            "door": 1,
+            "shower": 1,
+            "mirror": 1,
+            "toilet": 1,
+            "cabinet": 4,
+            "sink": 2
         },
         "closet": {
             "floor": 1,
-            "towel_rack": 1,
             "door": 1,
             "shelf": 2,
-            "cabinet": 1
+            "cabinet": 1,
+            "towel_rack": 1
         },
         "playroom": {
             "floor": 1,
             "table_lamp": 1,
             "window": 2,
+            "picture": 1,
+            "chair": 4,
             "carpet": 1,
             "table": 2,
-            "cabinet": 1,
-            "chair": 4,
             "door": 3,
-            "picture": 1,
-            "shelf": 4
+            "shelf": 4,
+            "cabinet": 1
         },
         "television_room": {
             "floor": 1,
-            "window": 1,
-            "cabinet": 3,
-            "door": 1,
-            "picture": 3,
-            "sofa": 1,
-            "shelf": 2,
             "tv": 1,
+            "window": 1,
+            "sofa": 1,
+            "picture": 3,
+            "door": 1,
+            "shelf": 2,
+            "mirror": 1,
+            "cabinet": 3
+        },
+        "corridor": {
+            "floor": 1,
+            "door": 4,
             "mirror": 1
         }
     },
     "unpacking_child_s_bag": {
-        "corridor": {
-            "floor": 1,
-            "door": 1
-        },
         "dining_room": {
             "floor": 1,
-            "window": 1,
             "picture": 1,
             "chair": 3,
+            "window": 1,
             "table": 1
         },
         "living_room": {
             "floor": 1,
-            "carpet": 1,
+            "door": 1,
             "picture": 1,
+            "carpet": 1
+        },
+        "corridor": {
+            "floor": 1,
             "door": 1
         }
     },
     "cleaning_freezer": {
-        "bathroom": {
-            "floor": 1,
-            "toilet": 1,
-            "door": 1,
-            "sink": 1,
-            "mirror": 1
-        },
         "living_room": {
             "floor": 1,
-            "window": 1,
-            "coffee_table": 1
+            "coffee_table": 1,
+            "window": 1
+        },
+        "bathroom": {
+            "floor": 1,
+            "door": 1,
+            "mirror": 1,
+            "toilet": 1,
+            "sink": 1
         },
         "kitchen": {
             "floor": 1,
+            "counter": 6,
             "oven": 1,
             "window": 1,
-            "fridge": 1,
-            "table": 1,
-            "cabinet": 13,
-            "microwave": 1,
             "chair": 4,
-            "sink": 1,
-            "door": 1,
-            "stove": 1,
+            "microwave": 1,
             "dishwasher": 1,
-            "counter": 6
+            "table": 1,
+            "door": 1,
+            "fridge": 1,
+            "cabinet": 13,
+            "sink": 1,
+            "stove": 1
         }
     },
     "packing_lunches": {
-        "bathroom": {
-            "floor": 1,
-            "toilet": 1,
-            "door": 1,
-            "sink": 1,
-            "mirror": 1
-        },
         "living_room": {
             "floor": 1,
-            "window": 1,
-            "coffee_table": 1
+            "coffee_table": 1,
+            "window": 1
+        },
+        "bathroom": {
+            "floor": 1,
+            "door": 1,
+            "mirror": 1,
+            "toilet": 1,
+            "sink": 1
         },
         "kitchen": {
             "floor": 1,
             "oven": 1,
+            "counter": 6,
             "window": 1,
-            "fridge": 1,
-            "table": 1,
-            "cabinet": 13,
-            "microwave": 1,
             "chair": 4,
-            "sink": 1,
-            "door": 1,
-            "stove": 1,
+            "microwave": 1,
             "dishwasher": 1,
-            "counter": 6
+            "table": 1,
+            "door": 1,
+            "fridge": 1,
+            "cabinet": 13,
+            "sink": 1,
+            "stove": 1
         }
     },
     "assembling_gift_baskets": {
-        "bathroom": {
-            "floor": 1,
-            "toilet": 1,
-            "door": 1,
-            "sink": 1,
-            "mirror": 1
-        },
         "living_room": {
             "floor": 1,
-            "window": 1,
+            "coffee_table": 1,
             "shelf": 2,
-            "coffee_table": 1
+            "window": 1
+        },
+        "bathroom": {
+            "floor": 1,
+            "door": 1,
+            "mirror": 1,
+            "toilet": 1,
+            "sink": 1
         },
         "kitchen": {
             "floor": 1,
+            "counter": 1,
             "oven": 1,
             "window": 1,
+            "microwave": 1,
+            "dishwasher": 1,
             "fridge": 1,
             "cabinet": 7,
-            "microwave": 1,
-            "sink": 1,
-            "dishwasher": 1,
-            "counter": 1
+            "sink": 1
         }
     },
     "decorating_the_Christmas_tree": {
-        "corridor": {
-            "floor": 1,
-            "door": 1
-        },
         "dining_room": {
             "floor": 1,
-            "window": 1,
             "picture": 1,
             "chair": 3,
+            "window": 1,
             "table": 1
         },
         "living_room": {
             "floor": 1,
+            "sofa": 1,
             "window": 2,
-            "carpet": 1,
-            "sofa": 1
+            "carpet": 1
         },
         "kitchen": {
             "floor": 1,
+            "counter": 4,
             "oven": 1,
+            "dishwasher": 1,
+            "door": 1,
             "fridge": 1,
             "cabinet": 11,
-            "sink": 1,
-            "door": 1,
-            "dishwasher": 1,
-            "counter": 4
+            "sink": 1
+        },
+        "corridor": {
+            "floor": 1,
+            "door": 1
         }
     },
     "organizing_school_stuff": {
-        "bathroom": {
-            "floor": 1,
-            "door": 1,
-            "sink": 1,
-            "picture": 2,
-            "toilet": 1,
-            "towel_rack": 1
-        },
         "bedroom": {
             "floor": 1,
+            "door": 1,
             "bed": 1,
             "window": 1,
-            "door": 1,
             "table": 1
+        },
+        "bathroom": {
+            "floor": 1,
+            "towel_rack": 1,
+            "picture": 2,
+            "door": 1,
+            "toilet": 1,
+            "sink": 1
         }
     },
     "re-shelving_library_books": {
-        "bathroom": {
-            "floor": 1,
-            "toilet": 1,
-            "door": 1,
-            "sink": 1,
-            "mirror": 1
-        },
         "living_room": {
             "floor": 1,
-            "picture": 2,
+            "coffee_table": 1,
             "shelf": 1,
-            "coffee_table": 1
+            "picture": 2
+        },
+        "bathroom": {
+            "floor": 1,
+            "door": 1,
+            "mirror": 1,
+            "toilet": 1,
+            "sink": 1
         }
     },
     "throwing_darts": {
-        "bathroom": {
-            "floor": 1,
-            "toilet": 1,
-            "door": 1,
-            "sink": 1,
-            "mirror": 1
-        },
         "living_room": {
             "floor": 1,
+            "door": 1,
             "picture": 2,
             "plant": 1,
-            "carpet": 1,
-            "door": 1
+            "carpet": 1
+        },
+        "bathroom": {
+            "floor": 1,
+            "door": 1,
+            "mirror": 1,
+            "toilet": 1,
+            "sink": 1
         }
     },
     "laying_linoleum_floors": {
         "living_room": {
             "floor": 1,
-            "window": 1,
-            "picture": 1
+            "picture": 1,
+            "window": 1
         },
         "kitchen": {
             "floor": 1,
+            "counter": 4,
             "oven": 1,
+            "microwave": 1,
+            "dishwasher": 1,
+            "door": 1,
             "fridge": 1,
             "cabinet": 13,
-            "microwave": 1,
-            "sink": 1,
-            "door": 1,
-            "dishwasher": 1,
-            "counter": 4
+            "sink": 1
         }
     },
     "serving_hors_d_oeuvres": {
-        "bathroom": {
-            "floor": 1,
-            "toilet": 1,
-            "door": 1,
-            "sink": 1,
-            "mirror": 1
-        },
-        "living_room": {
-            "floor": 1,
-            "window": 2,
-            "carpet": 1,
-            "cabinet": 1,
-            "coffee_table": 1,
-            "sofa": 1
-        },
         "dining_room": {
             "floor": 1,
             "picture": 1,
             "chair": 3,
             "table": 1
         },
+        "living_room": {
+            "floor": 1,
+            "window": 2,
+            "sofa": 1,
+            "carpet": 1,
+            "cabinet": 1,
+            "coffee_table": 1
+        },
+        "bathroom": {
+            "floor": 1,
+            "door": 1,
+            "mirror": 1,
+            "toilet": 1,
+            "sink": 1
+        },
         "kitchen": {
             "floor": 1,
             "window": 1,
+            "dishwasher": 1,
+            "door": 1,
+            "shelf": 1,
             "fridge": 1,
             "cabinet": 5,
             "sink": 1,
-            "door": 1,
-            "shelf": 1,
-            "stove": 1,
-            "dishwasher": 1
+            "stove": 1
         }
     },
     "opening_packages": {
+        "bedroom": {
+            "floor": 1,
+            "door": 2,
+            "bed": 1,
+            "window": 1
+        },
         "bathroom": {
             "floor": 1,
             "mirror": 1,
+            "shower": 1,
             "window": 1,
-            "sink": 1,
-            "shower": 1
-        },
-        "bedroom": {
-            "floor": 1,
-            "bed": 1,
-            "window": 1,
-            "door": 2
+            "sink": 1
         },
         "corridor": {
             "floor": 1,
@@ -2328,253 +2329,253 @@
         }
     },
     "sorting_books": {
-        "bathroom": {
-            "floor": 1,
-            "toilet": 1,
-            "door": 1,
-            "sink": 1,
-            "mirror": 1
-        },
         "living_room": {
             "floor": 1,
-            "picture": 2,
+            "coffee_table": 1,
             "shelf": 1,
-            "coffee_table": 1
+            "picture": 2
+        },
+        "bathroom": {
+            "floor": 1,
+            "door": 1,
+            "mirror": 1,
+            "toilet": 1,
+            "sink": 1
         }
     },
     "putting_away_toys": {
-        "corridor": {
-            "floor": 1,
-            "door": 1
-        },
         "dining_room": {
             "floor": 1,
-            "window": 1,
             "picture": 1,
             "chair": 3,
+            "window": 1,
             "table": 1
         },
         "living_room": {
             "floor": 1,
-            "carpet": 1,
+            "door": 1,
             "picture": 1,
+            "carpet": 1
+        },
+        "corridor": {
+            "floor": 1,
             "door": 1
         }
     },
     "putting_away_Christmas_decorations": {
-        "bathroom": {
-            "floor": 1,
-            "toilet": 1,
-            "door": 1,
-            "sink": 1,
-            "mirror": 1
-        },
         "bedroom": {
             "floor": 1,
-            "bed": 1,
-            "window": 1,
             "door": 1,
+            "window": 1,
+            "bed": 1,
             "cabinet": 1
         },
         "living_room": {
             "floor": 1,
-            "window": 2,
-            "carpet": 1,
-            "coffee_table": 1,
-            "cabinet": 1,
             "plant": 1,
+            "window": 2,
+            "sofa": 1,
             "picture": 1,
-            "sofa": 1
+            "carpet": 1,
+            "cabinet": 1,
+            "coffee_table": 1
+        },
+        "bathroom": {
+            "floor": 1,
+            "door": 1,
+            "mirror": 1,
+            "toilet": 1,
+            "sink": 1
         },
         "kitchen": {
             "floor": 1,
             "window": 1,
+            "dishwasher": 1,
             "fridge": 1,
             "cabinet": 5,
-            "sink": 1,
-            "dishwasher": 1
+            "sink": 1
         }
     },
     "putting_dishes_away_after_cleaning": {
-        "bathroom": {
-            "floor": 1,
-            "door": 1,
-            "sink": 1,
-            "picture": 1,
-            "toilet": 1,
-            "mirror": 1
-        },
         "dining_room": {
             "floor": 1,
             "picture": 1,
-            "carpet": 1,
             "chair": 4,
+            "carpet": 1,
             "table": 1
         },
         "living_room": {
             "floor": 1,
             "window": 2,
+            "sofa": 1,
             "carpet": 1,
             "cabinet": 1,
-            "coffee_table": 1,
-            "sofa": 1
+            "coffee_table": 1
+        },
+        "bathroom": {
+            "floor": 1,
+            "picture": 1,
+            "door": 1,
+            "mirror": 1,
+            "toilet": 1,
+            "sink": 1
         },
         "kitchen": {
             "floor": 1,
+            "counter": 7,
             "oven": 1,
             "window": 1,
-            "fridge": 1,
-            "cabinet": 11,
-            "sink": 1,
+            "dishwasher": 1,
             "door": 1,
             "shelf": 1,
-            "dishwasher": 1,
-            "counter": 7
+            "fridge": 1,
+            "cabinet": 11,
+            "sink": 1
         }
     },
     "filling_an_Easter_basket": {
         "living_room": {
             "floor": 1,
-            "window": 1,
             "picture": 1,
-            "shelf": 1
+            "shelf": 1,
+            "window": 1
         },
         "kitchen": {
             "floor": 1,
+            "counter": 1,
             "oven": 1,
+            "microwave": 1,
+            "dishwasher": 1,
             "fridge": 1,
             "cabinet": 7,
-            "microwave": 1,
-            "sink": 1,
-            "dishwasher": 1,
-            "counter": 1
+            "sink": 1
         }
     },
     "putting_away_Halloween_decorations": {
         "living_room": {
             "floor": 1,
-            "window": 1,
-            "carpet": 1,
+            "sofa": 1,
             "picture": 1,
-            "sofa": 1
+            "carpet": 1,
+            "window": 1
         }
     },
     "shooting_pool": {
-        "home_office": {
-            "floor": 1,
-            "office_chair": 1,
-            "carpet": 1,
-            "table": 1,
-            "cabinet": 2
-        },
         "bedroom": {
             "floor": 1,
             "table_lamp": 2,
             "window": 2,
-            "cabinet": 3,
-            "door": 2,
+            "picture": 2,
             "bed": 1,
-            "picture": 2
+            "door": 2,
+            "cabinet": 3
+        },
+        "home_office": {
+            "floor": 1,
+            "carpet": 1,
+            "cabinet": 2,
+            "office_chair": 1,
+            "table": 1
         },
         "exercise_room": {
             "floor": 1,
-            "window": 1,
-            "treadmill": 2,
+            "door": 1,
             "picture": 1,
-            "door": 1
+            "treadmill": 2,
+            "window": 1
         },
         "bathroom": {
             "floor": 1,
-            "shower": 1,
-            "mirror": 1,
-            "sink": 2,
-            "door": 2,
+            "towel_rack": 1,
             "trash_can": 1,
             "picture": 2,
+            "door": 2,
+            "shower": 1,
+            "mirror": 1,
             "toilet": 1,
-            "towel_rack": 1
-        },
-        "corridor": {
-            "floor": 1,
-            "door": 6
+            "sink": 2
         },
         "playroom": {
             "floor": 1,
             "window": 3,
-            "carpet": 1,
-            "table": 2,
+            "picture": 1,
             "pool_table": 1,
             "chair": 6,
-            "picture": 1
+            "carpet": 1,
+            "table": 2
         },
         "utility_room": {
             "floor": 1,
-            "cabinet": 3,
+            "washer": 1,
             "door": 1,
+            "cabinet": 3,
             "sink": 1,
-            "dryer": 1,
-            "washer": 1
+            "dryer": 1
+        },
+        "corridor": {
+            "floor": 1,
+            "door": 6
         }
     },
     "cleaning_out_drawers": {
         "living_room": {
             "floor": 1,
-            "window": 1,
             "picture": 1,
-            "shelf": 1
+            "shelf": 1,
+            "window": 1
         },
         "kitchen": {
             "floor": 1,
+            "counter": 1,
             "oven": 1,
+            "microwave": 1,
+            "dishwasher": 1,
             "fridge": 1,
             "cabinet": 7,
-            "microwave": 1,
-            "sink": 1,
-            "dishwasher": 1,
-            "counter": 1
+            "sink": 1
         }
     },
     "clearing_the_table_after_dinner": {
-        "corridor": {
-            "floor": 1,
-            "door": 1
-        },
         "dining_room": {
             "floor": 1,
-            "window": 1,
             "picture": 1,
             "chair": 3,
+            "window": 1,
             "table": 1
         },
         "living_room": {
             "floor": 1,
-            "carpet": 1,
-            "shelf": 1
+            "shelf": 1,
+            "carpet": 1
+        },
+        "corridor": {
+            "floor": 1,
+            "door": 1
         }
     },
     "stripping_paint": {
         "bathroom": {
             "floor": 1,
+            "door": 1,
             "toilet": 1,
             "carpet": 1,
-            "door": 1,
             "sink": 1
         }
     },
     "cleaning_cupboards": {
-        "bathroom": {
-            "floor": 1,
-            "mirror": 1,
-            "door": 2,
-            "sink": 1,
-            "cabinet": 1
-        },
         "bedroom": {
             "floor": 1,
-            "bed": 1,
-            "window": 1,
             "door": 2,
+            "window": 1,
+            "bed": 1,
             "cabinet": 4
+        },
+        "bathroom": {
+            "floor": 1,
+            "door": 2,
+            "mirror": 1,
+            "cabinet": 1,
+            "sink": 1
         },
         "corridor": {
             "floor": 1,
@@ -2582,104 +2583,104 @@
         }
     },
     "cleaning_kitchen_cupboard": {
-        "bathroom": {
-            "floor": 1,
-            "toilet": 1,
-            "door": 1,
-            "sink": 1,
-            "mirror": 1
-        },
         "living_room": {
             "floor": 1,
+            "coffee_table": 1,
             "window": 1,
-            "picture": 1,
-            "coffee_table": 1
+            "picture": 1
+        },
+        "bathroom": {
+            "floor": 1,
+            "door": 1,
+            "mirror": 1,
+            "toilet": 1,
+            "sink": 1
         },
         "kitchen": {
             "floor": 1,
+            "counter": 1,
             "oven": 1,
             "window": 1,
+            "microwave": 1,
+            "dishwasher": 1,
             "fridge": 1,
             "cabinet": 7,
-            "microwave": 1,
-            "sink": 1,
-            "dishwasher": 1,
-            "counter": 1
+            "sink": 1
         }
     },
     "washing_pots_and_pans": {
-        "corridor": {
-            "floor": 1,
-            "door": 1
-        },
         "living_room": {
             "floor": 1,
-            "window": 1,
-            "shelf": 1
+            "shelf": 1,
+            "window": 1
         },
         "kitchen": {
             "floor": 1,
+            "counter": 4,
             "oven": 1,
+            "microwave": 1,
+            "dishwasher": 1,
+            "door": 1,
             "fridge": 1,
             "cabinet": 13,
-            "microwave": 1,
-            "sink": 1,
-            "door": 1,
-            "dishwasher": 1,
-            "counter": 4
+            "sink": 1
+        },
+        "corridor": {
+            "floor": 1,
+            "door": 1
         }
     },
     "washing_cars_or_other_vehicles": {
+        "dining_room": {
+            "floor": 1,
+            "plant": 1,
+            "window": 1,
+            "picture": 1,
+            "chair": 3,
+            "carpet": 1,
+            "table": 1
+        },
+        "storage_room": {
+            "floor": 1,
+            "washer": 1,
+            "window": 1,
+            "table": 1,
+            "door": 5,
+            "shelf": 1,
+            "sink": 1,
+            "dryer": 1
+        },
         "living_room": {
             "floor": 1,
-            "carpet": 1,
-            "coffee_table": 2,
-            "door": 1,
-            "cushion": 2,
             "plant": 1,
+            "cushion": 2,
             "picture": 3,
+            "sofa_chair": 3,
+            "carpet": 1,
+            "door": 1,
             "shelf": 1,
-            "sofa_chair": 3
+            "coffee_table": 2
+        },
+        "bathroom": {
+            "floor": 1,
+            "door": 1,
+            "mirror": 1,
+            "shelf": 1,
+            "shower": 1,
+            "toilet": 1,
+            "sink": 1
         },
         "garage": {
             "floor": 1,
             "window": 1,
-            "cabinet": 1,
-            "door": 1,
             "picture": 1,
-            "shelf": 1
-        },
-        "bathroom": {
-            "floor": 1,
-            "shower": 1,
-            "sink": 1,
             "door": 1,
             "shelf": 1,
-            "toilet": 1,
-            "mirror": 1
+            "cabinet": 1
         },
         "corridor": {
             "floor": 1,
             "door": 2
-        },
-        "dining_room": {
-            "floor": 1,
-            "window": 1,
-            "carpet": 1,
-            "table": 1,
-            "chair": 3,
-            "plant": 1,
-            "picture": 1
-        },
-        "storage_room": {
-            "floor": 1,
-            "window": 1,
-            "table": 1,
-            "sink": 1,
-            "door": 5,
-            "dryer": 1,
-            "shelf": 1,
-            "washer": 1
         }
     },
     "washing_dishes": {
@@ -2691,77 +2692,77 @@
         },
         "living_room": {
             "floor": 1,
-            "window": 2,
-            "carpet": 1,
+            "sofa": 1,
             "picture": 1,
-            "sofa": 1
+            "carpet": 1,
+            "window": 2
         },
         "kitchen": {
             "floor": 1,
+            "counter": 4,
             "oven": 1,
+            "dishwasher": 1,
+            "door": 1,
             "fridge": 1,
             "cabinet": 11,
-            "sink": 1,
-            "door": 1,
-            "dishwasher": 1,
-            "counter": 4
+            "sink": 1
         }
     },
     "washing_floor": {
-        "corridor": {
-            "floor": 1,
-            "door": 1
-        },
         "bedroom": {
             "floor": 1,
-            "bed": 1,
-            "window": 1,
             "door": 2,
+            "window": 1,
+            "bed": 1,
             "cabinet": 1
         },
         "bathroom": {
             "floor": 1,
-            "shower": 1,
             "door": 1,
-            "sink": 1,
+            "mirror": 1,
+            "shower": 1,
             "toilet": 1,
-            "mirror": 1
+            "sink": 1
+        },
+        "corridor": {
+            "floor": 1,
+            "door": 1
         }
     },
     "washing_walls": {
-        "bathroom": {
-            "floor": 1,
-            "door": 1,
-            "sink": 1,
-            "mirror": 1
-        },
         "bedroom": {
             "floor": 1,
             "table_lamp": 2,
             "window": 2,
-            "cabinet": 1,
+            "bed": 1,
             "door": 1,
-            "bed": 1
-        }
-    },
-    "shampooing_carpet": {
-        "corridor": {
-            "floor": 1,
-            "door": 2
+            "cabinet": 1
         },
         "bathroom": {
             "floor": 1,
             "door": 1,
-            "sink": 1,
-            "mirror": 1
+            "mirror": 1,
+            "sink": 1
+        }
+    },
+    "shampooing_carpet": {
+        "bathroom": {
+            "floor": 1,
+            "door": 1,
+            "mirror": 1,
+            "sink": 1
+        },
+        "corridor": {
+            "floor": 1,
+            "door": 2
         }
     },
     "mopping_floors": {
         "bathroom": {
             "floor": 1,
+            "mirror": 1,
             "toilet": 1,
-            "sink": 1,
-            "mirror": 1
+            "sink": 1
         },
         "corridor": {
             "floor": 1,
@@ -2769,32 +2770,32 @@
         }
     },
     "boxing_books_up_for_storage": {
-        "living_room": {
-            "floor": 1,
-            "carpet": 1,
-            "picture": 1,
-            "door": 1,
-            "shelf": 1
-        },
         "storage_room": {
             "floor": 1
+        },
+        "living_room": {
+            "floor": 1,
+            "door": 1,
+            "picture": 1,
+            "shelf": 1,
+            "carpet": 1
         }
     },
     "bringing_in_wood": {
-        "bathroom": {
-            "floor": 1,
-            "toilet": 1,
-            "door": 1,
-            "sink": 1,
-            "mirror": 1
-        },
         "bedroom": {
             "floor": 1,
             "window": 1,
-            "cabinet": 2,
-            "door": 2,
+            "picture": 2,
             "bed": 1,
-            "picture": 2
+            "door": 2,
+            "cabinet": 2
+        },
+        "bathroom": {
+            "floor": 1,
+            "door": 1,
+            "mirror": 1,
+            "toilet": 1,
+            "sink": 1
         },
         "corridor": {
             "floor": 1,
@@ -2802,73 +2803,73 @@
         }
     },
     "brushing_lint_off_clothing": {
+        "bedroom": {
+            "floor": 1,
+            "door": 2,
+            "bed": 1,
+            "window": 1
+        },
+        "bathroom": {
+            "floor": 1,
+            "mirror": 1,
+            "shower": 1,
+            "toilet": 1,
+            "sink": 1
+        },
         "corridor": {
             "floor": 1,
             "door": 1
-        },
-        "bedroom": {
-            "floor": 1,
-            "bed": 1,
-            "window": 1,
-            "door": 2
-        },
-        "bathroom": {
-            "floor": 1,
-            "toilet": 1,
-            "shower": 1,
-            "sink": 1,
-            "mirror": 1
         }
     },
     "chopping_vegetables": {
-        "bathroom": {
-            "floor": 1,
-            "toilet": 1,
-            "door": 1,
-            "sink": 1,
-            "mirror": 1
-        },
         "living_room": {
             "floor": 1,
+            "coffee_table": 1,
             "window": 1,
-            "picture": 1,
-            "coffee_table": 1
+            "picture": 1
+        },
+        "bathroom": {
+            "floor": 1,
+            "door": 1,
+            "mirror": 1,
+            "toilet": 1,
+            "sink": 1
         },
         "kitchen": {
             "floor": 1,
             "oven": 1,
+            "counter": 1,
             "window": 1,
+            "microwave": 1,
+            "dishwasher": 1,
             "fridge": 1,
             "cabinet": 7,
-            "microwave": 1,
-            "sink": 1,
-            "dishwasher": 1,
-            "counter": 1
+            "sink": 1
         }
     },
     "collect_misplaced_items": {
         "bathroom": {
             "floor": 1,
-            "toilet": 1,
             "door": 1,
-            "sink": 1,
-            "mirror": 1
+            "mirror": 1,
+            "toilet": 1,
+            "sink": 1
         }
     },
     "collecting_aluminum_cans": {
+        "bedroom": {
+            "floor": 1,
+            "door": 3,
+            "bed": 1,
+            "window": 1
+        },
         "bathroom": {
             "floor": 1,
             "window": 1,
+            "mirror": 1,
             "shower": 1,
-            "sink": 1,
             "toilet": 1,
-            "mirror": 1
-        },
-        "bedroom": {
-            "floor": 1,
-            "bed": 1,
-            "window": 1,
-            "door": 3
+            "sink": 1
         },
         "corridor": {
             "floor": 1,
@@ -2876,65 +2877,65 @@
         }
     },
     "emptying_dishwasher": {
-        "bathroom": {
-            "floor": 1,
-            "toilet": 1,
-            "door": 1,
-            "sink": 1,
-            "mirror": 1
-        },
-        "living_room": {
-            "floor": 1,
-            "window": 2,
-            "carpet": 1,
-            "cabinet": 1,
-            "coffee_table": 1,
-            "sofa": 1
-        },
         "dining_room": {
             "floor": 1,
             "picture": 1,
             "chair": 3,
             "table": 1
         },
+        "living_room": {
+            "floor": 1,
+            "window": 2,
+            "sofa": 1,
+            "carpet": 1,
+            "cabinet": 1,
+            "coffee_table": 1
+        },
+        "bathroom": {
+            "floor": 1,
+            "door": 1,
+            "mirror": 1,
+            "toilet": 1,
+            "sink": 1
+        },
         "kitchen": {
             "floor": 1,
             "window": 1,
+            "dishwasher": 1,
+            "door": 1,
+            "shelf": 1,
             "fridge": 1,
             "cabinet": 5,
             "sink": 1,
-            "door": 1,
-            "shelf": 1,
-            "stove": 1,
-            "dishwasher": 1
+            "stove": 1
         }
     },
     "filling_a_Christmas_stocking": {
         "living_room": {
             "floor": 1,
+            "tv": 1,
             "window": 2,
-            "carpet": 1,
             "sofa": 1,
-            "shelf": 1,
-            "tv": 1
+            "carpet": 1,
+            "shelf": 1
         },
         "kitchen": {
             "floor": 1,
+            "counter": 1,
             "oven": 1,
+            "microwave": 1,
+            "dishwasher": 1,
             "fridge": 1,
             "cabinet": 7,
-            "microwave": 1,
-            "sink": 1,
-            "dishwasher": 1,
-            "counter": 1
+            "sink": 1
         }
     },
     "installing_a_fax_machine": {
         "home_office": {
             "floor": 1,
+            "cabinet": 2,
             "office_chair": 1,
-            "table": 1,
-            "cabinet": 2
+            "table": 1
         },
         "bathroom": {
             "floor": 1,
@@ -2949,9 +2950,9 @@
     "installing_a_modem": {
         "home_office": {
             "floor": 1,
+            "cabinet": 2,
             "office_chair": 1,
-            "table": 1,
-            "cabinet": 2
+            "table": 1
         },
         "bathroom": {
             "floor": 1,
@@ -2966,9 +2967,9 @@
     "installing_a_printer": {
         "home_office": {
             "floor": 1,
+            "cabinet": 2,
             "office_chair": 1,
-            "table": 1,
-            "cabinet": 2
+            "table": 1
         },
         "bathroom": {
             "floor": 1,
@@ -2981,45 +2982,45 @@
         }
     },
     "installing_alarms": {
-        "bathroom": {
-            "floor": 1,
-            "toilet": 1,
-            "door": 1,
-            "sink": 1,
-            "mirror": 1
-        },
-        "living_room": {
-            "floor": 1,
-            "window": 2,
-            "carpet": 1,
-            "cabinet": 1,
-            "coffee_table": 1,
-            "sofa": 1
-        },
         "dining_room": {
             "floor": 1,
             "picture": 1,
             "chair": 3,
             "table": 1
         },
+        "living_room": {
+            "floor": 1,
+            "window": 2,
+            "sofa": 1,
+            "carpet": 1,
+            "cabinet": 1,
+            "coffee_table": 1
+        },
+        "bathroom": {
+            "floor": 1,
+            "door": 1,
+            "mirror": 1,
+            "toilet": 1,
+            "sink": 1
+        },
         "kitchen": {
             "floor": 1,
             "window": 1,
+            "dishwasher": 1,
+            "door": 1,
+            "shelf": 1,
             "fridge": 1,
             "cabinet": 5,
             "sink": 1,
-            "door": 1,
-            "shelf": 1,
-            "stove": 1,
-            "dishwasher": 1
+            "stove": 1
         }
     },
     "laying_tile_floors": {
         "bathroom": {
             "floor": 1,
+            "mirror": 1,
             "toilet": 1,
-            "sink": 1,
-            "mirror": 1
+            "sink": 1
         },
         "corridor": {
             "floor": 1,
@@ -3029,174 +3030,199 @@
     "laying_wood_floors": {
         "living_room": {
             "floor": 1,
-            "window": 1,
-            "picture": 1
+            "picture": 1,
+            "window": 1
         },
         "kitchen": {
             "floor": 1,
+            "counter": 4,
             "oven": 1,
+            "microwave": 1,
+            "dishwasher": 1,
+            "door": 1,
             "fridge": 1,
             "cabinet": 13,
-            "microwave": 1,
-            "sink": 1,
-            "door": 1,
-            "dishwasher": 1,
-            "counter": 4
+            "sink": 1
         }
     },
     "loading_the_dishwasher": {
         "living_room": {
             "floor": 1,
-            "window": 1,
-            "picture": 1
+            "picture": 1,
+            "window": 1
         },
         "kitchen": {
             "floor": 1,
+            "counter": 4,
             "oven": 1,
+            "microwave": 1,
+            "dishwasher": 1,
+            "door": 1,
             "fridge": 1,
             "cabinet": 13,
-            "microwave": 1,
-            "sink": 1,
-            "door": 1,
-            "dishwasher": 1,
-            "counter": 4
+            "sink": 1
         }
     },
     "locking_every_door": {
-        "bathroom": {
+        "bedroom": {
             "floor": 1,
-            "shower": 1,
-            "door": 1,
-            "sink": 1,
-            "toilet": 1,
-            "mirror": 1
-        },
-        "living_room": {
-            "floor": 1,
-            "window": 1,
-            "picture": 2,
-            "carpet": 1,
-            "sofa": 1
-        }
-    },
-    "locking_every_window": {
-        "bathroom": {
-            "floor": 1,
-            "shower": 1,
-            "door": 1,
-            "sink": 1,
-            "toilet": 1,
-            "mirror": 1
-        }
-    },
-    "moving_boxes_to_storage": {
-        "living_room": {
-            "floor": 1,
-            "carpet": 1,
-            "picture": 1,
-            "door": 1,
-            "shelf": 1
-        },
-        "storage_room": {
-            "floor": 1
-        }
-    },
-    "opening_presents": {
-        "corridor": {
-            "floor": 1,
-            "door": 1
-        },
-        "dining_room": {
-            "floor": 1,
-            "window": 1,
-            "picture": 1,
-            "chair": 3,
-            "table": 1
-        },
-        "living_room": {
-            "floor": 1,
-            "window": 2,
-            "carpet": 1,
-            "sofa": 1
-        },
-        "kitchen": {
-            "floor": 1,
-            "oven": 1,
-            "fridge": 1,
-            "cabinet": 11,
-            "sink": 1,
-            "door": 1,
-            "dishwasher": 1,
-            "counter": 4
-        }
-    },
-    "organizing_boxes_in_garage": {
-        "living_room": {
-            "floor": 1,
-            "carpet": 1,
-            "coffee_table": 2,
-            "door": 1,
-            "cushion": 2,
-            "plant": 1,
-            "picture": 3,
-            "shelf": 1,
-            "sofa_chair": 3
-        },
-        "garage": {
-            "floor": 1,
-            "window": 1,
-            "cabinet": 1,
-            "door": 1,
-            "picture": 1,
-            "shelf": 1
+            "door": 2,
+            "bed": 1,
+            "window": 1
         },
         "bathroom": {
             "floor": 1,
-            "shower": 1,
-            "sink": 1,
             "door": 1,
-            "shelf": 1,
-            "toilet": 1,
-            "mirror": 1
+            "bathtub": 1,
+            "sink": 1
         },
         "corridor": {
             "floor": 1,
             "door": 2
+        }
+    },
+    "locking_every_window": {
+        "bedroom": {
+            "floor": 1,
+            "door": 1,
+            "window": 1,
+            "bed": 1,
+            "cabinet": 1
         },
-        "dining_room": {
+        "living_room": {
+            "floor": 1,
+            "plant": 1,
+            "window": 2,
+            "sofa": 1,
+            "picture": 1,
+            "carpet": 1,
+            "cabinet": 1,
+            "coffee_table": 1
+        },
+        "bathroom": {
+            "floor": 1,
+            "door": 1,
+            "mirror": 1,
+            "toilet": 1,
+            "sink": 1
+        },
+        "kitchen": {
             "floor": 1,
             "window": 1,
-            "carpet": 1,
-            "table": 1,
+            "dishwasher": 1,
+            "fridge": 1,
+            "cabinet": 5,
+            "sink": 1
+        }
+    },
+    "moving_boxes_to_storage": {
+        "storage_room": {
+            "floor": 1
+        },
+        "living_room": {
+            "floor": 1,
+            "door": 1,
+            "picture": 1,
+            "shelf": 1,
+            "carpet": 1
+        }
+    },
+    "opening_presents": {
+        "dining_room": {
+            "floor": 1,
+            "picture": 1,
             "chair": 3,
+            "window": 1,
+            "table": 1
+        },
+        "living_room": {
+            "floor": 1,
+            "sofa": 1,
+            "window": 2,
+            "carpet": 1
+        },
+        "kitchen": {
+            "floor": 1,
+            "counter": 4,
+            "oven": 1,
+            "dishwasher": 1,
+            "door": 1,
+            "fridge": 1,
+            "cabinet": 11,
+            "sink": 1
+        },
+        "corridor": {
+            "floor": 1,
+            "door": 1
+        }
+    },
+    "organizing_boxes_in_garage": {
+        "dining_room": {
+            "floor": 1,
             "plant": 1,
-            "picture": 1
+            "window": 1,
+            "picture": 1,
+            "chair": 3,
+            "carpet": 1,
+            "table": 1
         },
         "storage_room": {
             "floor": 1,
+            "washer": 1,
             "window": 1,
             "table": 1,
-            "sink": 1,
             "door": 5,
-            "dryer": 1,
             "shelf": 1,
-            "washer": 1
+            "sink": 1,
+            "dryer": 1
+        },
+        "living_room": {
+            "floor": 1,
+            "plant": 1,
+            "cushion": 2,
+            "picture": 3,
+            "sofa_chair": 3,
+            "carpet": 1,
+            "door": 1,
+            "shelf": 1,
+            "coffee_table": 2
+        },
+        "bathroom": {
+            "floor": 1,
+            "door": 1,
+            "mirror": 1,
+            "shelf": 1,
+            "shower": 1,
+            "toilet": 1,
+            "sink": 1
+        },
+        "garage": {
+            "floor": 1,
+            "window": 1,
+            "picture": 1,
+            "door": 1,
+            "shelf": 1,
+            "cabinet": 1
+        },
+        "corridor": {
+            "floor": 1,
+            "door": 2
         }
     },
     "packing_adult_s_bags": {
+        "bedroom": {
+            "floor": 1,
+            "door": 3,
+            "bed": 1,
+            "window": 1
+        },
         "bathroom": {
             "floor": 1,
             "window": 1,
+            "mirror": 1,
             "shower": 1,
-            "sink": 1,
             "toilet": 1,
-            "mirror": 1
-        },
-        "bedroom": {
-            "floor": 1,
-            "bed": 1,
-            "window": 1,
-            "door": 3
+            "sink": 1
         },
         "corridor": {
             "floor": 1,
@@ -3204,58 +3230,58 @@
         }
     },
     "packing_bags_or_suitcase": {
-        "bathroom": {
-            "floor": 1,
-            "toilet": 1,
-            "door": 1,
-            "sink": 1
-        },
         "bedroom": {
             "floor": 1,
+            "door": 1,
             "bed": 1,
-            "window": 1,
-            "door": 1
+            "window": 1
+        },
+        "bathroom": {
+            "floor": 1,
+            "door": 1,
+            "toilet": 1,
+            "sink": 1
         }
     },
     "packing_boxes_for_household_move_or_trip": {
+        "dining_room": {
+            "floor": 1,
+            "window": 1,
+            "picture": 1,
+            "chair": 3,
+            "carpet": 1,
+            "table": 1
+        },
+        "living_room": {
+            "floor": 1,
+            "coffee_table": 1,
+            "carpet": 1
+        },
         "bathroom": {
             "floor": 1,
-            "toilet": 1,
             "door": 1,
-            "sink": 1,
-            "mirror": 1
+            "mirror": 1,
+            "toilet": 1,
+            "sink": 1
         },
         "corridor": {
             "floor": 1,
             "door": 2
-        },
-        "dining_room": {
-            "floor": 1,
-            "window": 1,
-            "carpet": 1,
-            "table": 1,
-            "chair": 3,
-            "picture": 1
-        },
-        "living_room": {
-            "floor": 1,
-            "carpet": 1,
-            "coffee_table": 1
         }
     },
     "packing_child_s_bag": {
-        "bathroom": {
-            "floor": 1,
-            "toilet": 1,
-            "door": 1,
-            "sink": 2,
-            "towel_rack": 1
-        },
         "bedroom": {
             "floor": 1,
+            "door": 2,
             "bed": 1,
-            "window": 1,
-            "door": 2
+            "window": 1
+        },
+        "bathroom": {
+            "floor": 1,
+            "door": 1,
+            "toilet": 1,
+            "sink": 2,
+            "towel_rack": 1
         },
         "corridor": {
             "floor": 1,
@@ -3263,137 +3289,137 @@
         }
     },
     "packing_food_for_work": {
-        "corridor": {
-            "floor": 1,
-            "door": 1
-        },
         "dining_room": {
             "floor": 1,
-            "window": 1,
             "picture": 1,
             "chair": 3,
+            "window": 1,
             "table": 1
         },
         "living_room": {
             "floor": 1,
+            "sofa": 1,
             "window": 2,
-            "carpet": 1,
-            "sofa": 1
+            "carpet": 1
         },
         "kitchen": {
             "floor": 1,
+            "counter": 4,
             "oven": 1,
+            "dishwasher": 1,
+            "door": 1,
             "fridge": 1,
             "cabinet": 11,
-            "sink": 1,
-            "door": 1,
-            "dishwasher": 1,
-            "counter": 4
+            "sink": 1
+        },
+        "corridor": {
+            "floor": 1,
+            "door": 1
         }
     },
     "packing_picnics": {
-        "bathroom": {
-            "floor": 1,
-            "toilet": 1,
-            "door": 1,
-            "sink": 1,
-            "mirror": 1
-        },
         "living_room": {
             "floor": 1,
+            "coffee_table": 1,
             "window": 1,
-            "picture": 1,
-            "coffee_table": 1
+            "picture": 1
+        },
+        "bathroom": {
+            "floor": 1,
+            "door": 1,
+            "mirror": 1,
+            "toilet": 1,
+            "sink": 1
         },
         "kitchen": {
             "floor": 1,
+            "counter": 6,
             "oven": 1,
             "window": 1,
+            "dishwasher": 1,
+            "door": 1,
             "fridge": 1,
             "cabinet": 11,
-            "sink": 1,
-            "door": 1,
-            "dishwasher": 1,
-            "counter": 6
+            "sink": 1
         }
     },
     "picking_up_take-out_food": {
+        "playroom": {
+            "floor": 1,
+            "window": 1,
+            "chair": 1,
+            "carpet": 1
+        },
         "bathroom": {
             "floor": 1,
             "mirror": 1,
             "door": 1,
-            "sink": 1,
-            "shower": 1
-        },
-        "playroom": {
-            "floor": 1,
-            "window": 1,
-            "carpet": 1,
-            "chair": 1
+            "shower": 1,
+            "sink": 1
         }
     },
     "preparing_salad": {
-        "corridor": {
-            "floor": 1,
-            "door": 1
-        },
         "living_room": {
             "floor": 1,
-            "window": 1,
-            "picture": 1
+            "picture": 1,
+            "window": 1
         },
         "kitchen": {
             "floor": 1,
             "oven": 1,
+            "counter": 4,
+            "dishwasher": 1,
+            "door": 1,
             "fridge": 1,
             "cabinet": 11,
-            "sink": 1,
-            "door": 1,
-            "dishwasher": 1,
-            "counter": 4
-        }
-    },
-    "putting_up_Christmas_decorations_inside": {
+            "sink": 1
+        },
         "corridor": {
             "floor": 1,
             "door": 1
-        },
+        }
+    },
+    "putting_up_Christmas_decorations_inside": {
         "dining_room": {
             "floor": 1,
-            "window": 1,
             "picture": 1,
             "chair": 3,
+            "window": 1,
             "table": 1
         },
         "living_room": {
             "floor": 1,
+            "sofa": 1,
             "window": 2,
-            "carpet": 1,
-            "sofa": 1
+            "carpet": 1
         },
         "kitchen": {
             "floor": 1,
+            "counter": 4,
             "oven": 1,
+            "dishwasher": 1,
+            "door": 1,
             "fridge": 1,
             "cabinet": 11,
-            "sink": 1,
-            "door": 1,
-            "dishwasher": 1,
-            "counter": 4
+            "sink": 1
+        },
+        "corridor": {
+            "floor": 1,
+            "door": 1
         }
     },
     "rearranging_furniture": {
-        "bathroom": {
-            "floor": 1,
-            "toilet": 1,
-            "sink": 1,
-            "mirror": 1
-        },
         "bedroom": {
             "floor": 1,
+            "door": 3,
             "bed": 1,
-            "window": 1,
-            "door": 3
+            "window": 1
+        },
+        "bathroom": {
+            "floor": 1,
+            "mirror": 1,
+            "toilet": 1,
+            "sink": 1
         },
         "corridor": {
             "floor": 1,
@@ -3401,69 +3427,69 @@
         }
     },
     "setting_mousetraps": {
-        "corridor": {
-            "floor": 1,
-            "door": 1
-        },
         "bedroom": {
             "floor": 1,
+            "door": 2,
             "bed": 1,
-            "window": 1,
-            "door": 2
+            "window": 1
         },
         "bathroom": {
             "floor": 1,
-            "toilet": 1,
             "mirror": 1,
-            "sink": 1,
-            "shower": 1
+            "shower": 1,
+            "toilet": 1,
+            "sink": 1
+        },
+        "corridor": {
+            "floor": 1,
+            "door": 1
         }
     },
     "throwing_away_leftovers": {
-        "bathroom": {
-            "floor": 1,
-            "toilet": 1,
-            "door": 1,
-            "sink": 1,
-            "mirror": 1
-        },
         "living_room": {
             "floor": 1,
-            "window": 1,
-            "carpet": 1,
-            "chair": 1,
             "plant": 1,
+            "window": 1,
+            "sofa": 1,
             "picture": 2,
-            "sofa": 1
+            "chair": 1,
+            "carpet": 1
+        },
+        "bathroom": {
+            "floor": 1,
+            "door": 1,
+            "mirror": 1,
+            "toilet": 1,
+            "sink": 1
         }
     },
     "unpacking_bags_or_suitcase": {
-        "corridor": {
+        "dining_room": {
             "floor": 1,
-            "door": 1
+            "picture": 1,
+            "chair": 3,
+            "window": 1,
+            "table": 1
         },
         "living_room": {
             "floor": 1,
+            "sofa": 1,
             "window": 2,
-            "carpet": 1,
-            "sofa": 1
-        },
-        "dining_room": {
-            "floor": 1,
-            "window": 1,
-            "picture": 1,
-            "chair": 3,
-            "table": 1
+            "carpet": 1
         },
         "kitchen": {
             "floor": 1,
+            "counter": 4,
             "oven": 1,
+            "dishwasher": 1,
+            "door": 1,
             "fridge": 1,
             "cabinet": 11,
-            "sink": 1,
-            "door": 1,
-            "dishwasher": 1,
-            "counter": 4
+            "sink": 1
+        },
+        "corridor": {
+            "floor": 1,
+            "door": 1
         }
     }
 }
