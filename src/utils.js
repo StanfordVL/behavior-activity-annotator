@@ -423,15 +423,6 @@ export function checkNegatedPlacements(conditions) {
     return negatedPlacements != null
 }
 
-// export function checkTermPresence(conditions, term) {
-//     /**
-//      * Check conditions for any instances of given term
-//      * 
-//      * @param {String} conditions 
-//      */
-
-// }
-
 export function checkCategoriesExist(conditions) {
     /**
      * Check conditions for presence of categories (i.e. objects that are not instances)
@@ -450,6 +441,16 @@ export function checkCategoriesExist(conditions) {
     } else {
         return false 
     }
+}
+
+export function checkMultipleDirtyFloors(conditions) {
+    /**
+     * Check conditions for presence of multiple positive dirty floor conditions 
+     * 
+     * @param {String} conditions - conditions being checked for presence of multiple positive dirty floor conditions
+     * @returns {Boolean} true if the conditions have multiple 
+     */
+    return false
 }
 
 

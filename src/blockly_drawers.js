@@ -27,6 +27,7 @@ import { convertName,
         checkTransitiveUnplacedAdditionalObjects,
         checkCategoriesExist,
         checkNegatedPlacements,
+        checkMultipleDirtyFloors,
         addAgentStartLine,
         getReadableFeedback } from "./utils.js"
 import AgentStartForm from "./agent_start_selection_form"
@@ -159,6 +160,8 @@ export class FeasibilityChecker extends React.Component {
         // let categoriesInInitial
         // let nextToPresent 
         let nullsInGoal
+        let multipleDirtyFloorsInit
+        let multipleDirtyFloorsGoal
 
         if (checkNulls(updatedInitialConditions)) {
             nullsInInit = <li>Initial conditions have empty fields.</li>

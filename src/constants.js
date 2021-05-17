@@ -103,6 +103,9 @@ export const initialDescriptionsRe = new RegExp(
      "g"
 )
 
+export const dirtyFloorRe = new RegExp("\\((stained|dusty) floor.n.01_[0-9]+\\)", "g")
+export const notDirtyFloorRe = new RegExp(`\\(not ${dirtyFloorRe.source}\\)`, "g")
+
 
 // BLOCK DRAWER CONSTANTS  
 
