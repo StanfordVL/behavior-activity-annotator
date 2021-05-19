@@ -24343,6 +24343,102 @@
         ],
         "hasModel": true
     },
+    "opening_packages": {
+        "name": "entity.n.01",
+        "children": [
+            {
+                "name": "physical_entity.n.01",
+                "hasModel": true,
+                "children": [
+                    {
+                        "name": "object.n.01",
+                        "hasModel": true,
+                        "children": [
+                            {
+                                "name": "whole.n.02",
+                                "hasModel": true,
+                                "children": [
+                                    {
+                                        "name": "artifact.n.01",
+                                        "hasModel": true,
+                                        "children": [
+                                            {
+                                                "name": "instrumentality.n.03",
+                                                "hasModel": true,
+                                                "children": [
+                                                    {
+                                                        "name": "container.n.01",
+                                                        "hasModel": true,
+                                                        "children": [
+                                                            {
+                                                                "name": "package.n.02",
+                                                                "hasModel": true
+                                                            }
+                                                        ]
+                                                    },
+                                                    {
+                                                        "name": "connection.n.03",
+                                                        "hasModel": true,
+                                                        "children": [
+                                                            {
+                                                                "name": "junction.n.04",
+                                                                "hasModel": true,
+                                                                "children": [
+                                                                    {
+                                                                        "name": "joint.n.05",
+                                                                        "hasModel": true,
+                                                                        "children": [
+                                                                            {
+                                                                                "name": "hinge.n.01",
+                                                                                "hasModel": true
+                                                                            }
+                                                                        ]
+                                                                    }
+                                                                ]
+                                                            }
+                                                        ]
+                                                    },
+                                                    {
+                                                        "name": "implement.n.01",
+                                                        "hasModel": true,
+                                                        "children": [
+                                                            {
+                                                                "name": "bar.n.03",
+                                                                "hasModel": true,
+                                                                "children": [
+                                                                    {
+                                                                        "name": "lever.n.01",
+                                                                        "hasModel": true,
+                                                                        "children": [
+                                                                            {
+                                                                                "name": "compound_lever.n.01",
+                                                                                "hasModel": true,
+                                                                                "children": [
+                                                                                    {
+                                                                                        "name": "scissors.n.01",
+                                                                                        "hasModel": true
+                                                                                    }
+                                                                                ]
+                                                                            }
+                                                                        ]
+                                                                    }
+                                                                ]
+                                                            }
+                                                        ]
+                                                    }
+                                                ]
+                                            }
+                                        ]
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            }
+        ],
+        "hasModel": true
+    },
     "opening_presents": {
         "name": "entity.n.01",
         "children": [
@@ -33581,6 +33677,596 @@
         ],
         "hasModel": true
     },
+    "preserving_food": {
+        "name": "entity.n.01",
+        "children": [
+            {
+                "name": "physical_entity.n.01",
+                "hasModel": true,
+                "children": [
+                    {
+                        "name": "object.n.01",
+                        "hasModel": true,
+                        "children": [
+                            {
+                                "name": "whole.n.02",
+                                "hasModel": true,
+                                "children": [
+                                    {
+                                        "name": "artifact.n.01",
+                                        "hasModel": true,
+                                        "children": [
+                                            {
+                                                "name": "instrumentality.n.03",
+                                                "hasModel": true,
+                                                "children": [
+                                                    {
+                                                        "name": "device.n.01",
+                                                        "hasModel": true,
+                                                        "children": [
+                                                            {
+                                                                "name": "support.n.10",
+                                                                "hasModel": true,
+                                                                "children": [
+                                                                    {
+                                                                        "name": "shelf.n.01",
+                                                                        "hasModel": true
+                                                                    }
+                                                                ]
+                                                            }
+                                                        ]
+                                                    },
+                                                    {
+                                                        "name": "container.n.01",
+                                                        "hasModel": true,
+                                                        "children": [
+                                                            {
+                                                                "name": "glass.n.02",
+                                                                "hasModel": true
+                                                            },
+                                                            {
+                                                                "name": "receptacle.n.01",
+                                                                "hasModel": true,
+                                                                "children": [
+                                                                    {
+                                                                        "name": "tray.n.01",
+                                                                        "hasModel": true
+                                                                    }
+                                                                ]
+                                                            },
+                                                            {
+                                                                "name": "vessel.n.03",
+                                                                "hasModel": true,
+                                                                "children": [
+                                                                    {
+                                                                        "name": "jar.n.01",
+                                                                        "hasModel": true
+                                                                    }
+                                                                ]
+                                                            },
+                                                            {
+                                                                "name": "cup.n.01",
+                                                                "hasModel": true
+                                                            },
+                                                            {
+                                                                "name": "spoon.n.01",
+                                                                "hasModel": true
+                                                            },
+                                                            {
+                                                                "name": "package.n.02",
+                                                                "hasModel": true
+                                                            },
+                                                            {
+                                                                "name": "bag.n.01",
+                                                                "hasModel": true
+                                                            }
+                                                        ]
+                                                    }
+                                                ]
+                                            },
+                                            {
+                                                "name": "strip.n.02",
+                                                "hasModel": true,
+                                                "children": [
+                                                    {
+                                                        "name": "tape.n.01",
+                                                        "hasModel": true
+                                                    }
+                                                ]
+                                            },
+                                            {
+                                                "name": "covering.n.02",
+                                                "hasModel": true,
+                                                "children": [
+                                                    {
+                                                        "name": "top.n.09",
+                                                        "hasModel": true,
+                                                        "children": [
+                                                            {
+                                                                "name": "lid.n.02",
+                                                                "hasModel": true
+                                                            }
+                                                        ]
+                                                    },
+                                                    {
+                                                        "name": "wrapping.n.01",
+                                                        "hasModel": true
+                                                    }
+                                                ]
+                                            },
+                                            {
+                                                "name": "commodity.n.01",
+                                                "hasModel": true,
+                                                "children": [
+                                                    {
+                                                        "name": "consumer_goods.n.01",
+                                                        "hasModel": true,
+                                                        "children": [
+                                                            {
+                                                                "name": "durables.n.01",
+                                                                "hasModel": true,
+                                                                "children": [
+                                                                    {
+                                                                        "name": "appliance.n.02",
+                                                                        "hasModel": true,
+                                                                        "children": [
+                                                                            {
+                                                                                "name": "home_appliance.n.01",
+                                                                                "hasModel": true,
+                                                                                "children": [
+                                                                                    {
+                                                                                        "name": "kitchen_appliance.n.01",
+                                                                                        "hasModel": true,
+                                                                                        "children": [
+                                                                                            {
+                                                                                                "name": "stove.n.01",
+                                                                                                "hasModel": true
+                                                                                            },
+                                                                                            {
+                                                                                                "name": "microwave.n.02",
+                                                                                                "hasModel": true
+                                                                                            },
+                                                                                            {
+                                                                                                "name": "oven.n.01",
+                                                                                                "hasModel": true
+                                                                                            }
+                                                                                        ]
+                                                                                    },
+                                                                                    {
+                                                                                        "name": "white_goods.n.01",
+                                                                                        "hasModel": true,
+                                                                                        "children": [
+                                                                                            {
+                                                                                                "name": "refrigerator.n.01",
+                                                                                                "hasModel": true,
+                                                                                                "children": [
+                                                                                                    {
+                                                                                                        "name": "electric_refrigerator.n.01",
+                                                                                                        "hasModel": true
+                                                                                                    }
+                                                                                                ]
+                                                                                            }
+                                                                                        ]
+                                                                                    },
+                                                                                    {
+                                                                                        "name": "vacuum.n.04",
+                                                                                        "hasModel": true
+                                                                                    }
+                                                                                ]
+                                                                            }
+                                                                        ]
+                                                                    }
+                                                                ]
+                                                            }
+                                                        ]
+                                                    }
+                                                ]
+                                            },
+                                            {
+                                                "name": "structure.n.01",
+                                                "hasModel": true,
+                                                "children": [
+                                                    {
+                                                        "name": "obstruction.n.01",
+                                                        "hasModel": true,
+                                                        "children": [
+                                                            {
+                                                                "name": "barrier.n.01",
+                                                                "hasModel": true,
+                                                                "children": [
+                                                                    {
+                                                                        "name": "movable_barrier.n.01",
+                                                                        "hasModel": true,
+                                                                        "children": [
+                                                                            {
+                                                                                "name": "door.n.01",
+                                                                                "hasModel": true
+                                                                            }
+                                                                        ]
+                                                                    }
+                                                                ]
+                                                            }
+                                                        ]
+                                                    }
+                                                ]
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "name": "natural_object.n.01",
+                                        "hasModel": true,
+                                        "children": [
+                                            {
+                                                "name": "plant_part.n.01",
+                                                "hasModel": true,
+                                                "children": [
+                                                    {
+                                                        "name": "plant_organ.n.01",
+                                                        "hasModel": true,
+                                                        "children": [
+                                                            {
+                                                                "name": "reproductive_structure.n.01",
+                                                                "hasModel": true,
+                                                                "children": [
+                                                                    {
+                                                                        "name": "fruit.n.01",
+                                                                        "hasModel": true,
+                                                                        "children": [
+                                                                            {
+                                                                                "name": "edible_fruit.n.01",
+                                                                                "hasModel": true,
+                                                                                "children": [
+                                                                                    {
+                                                                                        "name": "melon.n.01",
+                                                                                        "hasModel": true,
+                                                                                        "children": [
+                                                                                            {
+                                                                                                "name": "muskmelon.n.02",
+                                                                                                "hasModel": true,
+                                                                                                "children": [
+                                                                                                    {
+                                                                                                        "name": "cantaloup.n.02",
+                                                                                                        "hasModel": true
+                                                                                                    }
+                                                                                                ]
+                                                                                            },
+                                                                                            {
+                                                                                                "name": "watermelon.n.02",
+                                                                                                "hasModel": true
+                                                                                            }
+                                                                                        ]
+                                                                                    },
+                                                                                    {
+                                                                                        "name": "banana.n.02",
+                                                                                        "hasModel": true
+                                                                                    },
+                                                                                    {
+                                                                                        "name": "apricot.n.02",
+                                                                                        "hasModel": true
+                                                                                    },
+                                                                                    {
+                                                                                        "name": "apple.n.01",
+                                                                                        "hasModel": true
+                                                                                    },
+                                                                                    {
+                                                                                        "name": "pineapple.n.02",
+                                                                                        "hasModel": true
+                                                                                    },
+                                                                                    {
+                                                                                        "name": "date.n.08",
+                                                                                        "hasModel": true
+                                                                                    },
+                                                                                    {
+                                                                                        "name": "grape.n.01",
+                                                                                        "hasModel": true
+                                                                                    },
+                                                                                    {
+                                                                                        "name": "citrus.n.01",
+                                                                                        "hasModel": true,
+                                                                                        "children": [
+                                                                                            {
+                                                                                                "name": "lemon.n.01",
+                                                                                                "hasModel": true
+                                                                                            }
+                                                                                        ]
+                                                                                    },
+                                                                                    {
+                                                                                        "name": "pear.n.01",
+                                                                                        "hasModel": true
+                                                                                    }
+                                                                                ]
+                                                                            },
+                                                                            {
+                                                                                "name": "drupe.n.01",
+                                                                                "hasModel": true,
+                                                                                "children": [
+                                                                                    {
+                                                                                        "name": "cherry.n.03",
+                                                                                        "hasModel": true
+                                                                                    },
+                                                                                    {
+                                                                                        "name": "olive.n.04",
+                                                                                        "hasModel": true
+                                                                                    },
+                                                                                    {
+                                                                                        "name": "plum.n.02",
+                                                                                        "hasModel": true
+                                                                                    },
+                                                                                    {
+                                                                                        "name": "peach.n.03",
+                                                                                        "hasModel": true
+                                                                                    }
+                                                                                ]
+                                                                            }
+                                                                        ]
+                                                                    }
+                                                                ]
+                                                            }
+                                                        ]
+                                                    }
+                                                ]
+                                            }
+                                        ]
+                                    }
+                                ]
+                            },
+                            {
+                                "name": "ice.n.02",
+                                "hasModel": false
+                            }
+                        ]
+                    },
+                    {
+                        "name": "matter.n.03",
+                        "hasModel": true,
+                        "children": [
+                            {
+                                "name": "solid.n.01",
+                                "hasModel": true,
+                                "children": [
+                                    {
+                                        "name": "food.n.02",
+                                        "hasModel": true,
+                                        "children": [
+                                            {
+                                                "name": "produce.n.01",
+                                                "hasModel": true,
+                                                "children": [
+                                                    {
+                                                        "name": "vegetable.n.01",
+                                                        "hasModel": true,
+                                                        "children": [
+                                                            {
+                                                                "name": "legume.n.03",
+                                                                "hasModel": true,
+                                                                "children": [
+                                                                    {
+                                                                        "name": "bean.n.01",
+                                                                        "hasModel": true
+                                                                    }
+                                                                ]
+                                                            },
+                                                            {
+                                                                "name": "solanaceous_vegetable.n.01",
+                                                                "hasModel": true,
+                                                                "children": [
+                                                                    {
+                                                                        "name": "eggplant.n.01",
+                                                                        "hasModel": true
+                                                                    }
+                                                                ]
+                                                            },
+                                                            {
+                                                                "name": "cucumber.n.02",
+                                                                "hasModel": true
+                                                            },
+                                                            {
+                                                                "name": "cruciferous_vegetable.n.01",
+                                                                "hasModel": true,
+                                                                "children": [
+                                                                    {
+                                                                        "name": "broccoli.n.02",
+                                                                        "hasModel": true
+                                                                    }
+                                                                ]
+                                                            }
+                                                        ]
+                                                    }
+                                                ]
+                                            },
+                                            {
+                                                "name": "meat.n.01",
+                                                "hasModel": true,
+                                                "children": [
+                                                    {
+                                                        "name": "beef.n.02",
+                                                        "hasModel": true
+                                                    },
+                                                    {
+                                                        "name": "bird.n.02",
+                                                        "hasModel": true,
+                                                        "children": [
+                                                            {
+                                                                "name": "poultry.n.02",
+                                                                "hasModel": true,
+                                                                "children": [
+                                                                    {
+                                                                        "name": "chicken.n.01",
+                                                                        "hasModel": true
+                                                                    }
+                                                                ]
+                                                            }
+                                                        ]
+                                                    }
+                                                ]
+                                            },
+                                            {
+                                                "name": "coconut.n.01",
+                                                "hasModel": true
+                                            },
+                                            {
+                                                "name": "fish.n.02",
+                                                "hasModel": true
+                                            }
+                                        ]
+                                    }
+                                ]
+                            },
+                            {
+                                "name": "substance.n.07",
+                                "hasModel": true,
+                                "children": [
+                                    {
+                                        "name": "food.n.01",
+                                        "hasModel": true,
+                                        "children": [
+                                            {
+                                                "name": "foodstuff.n.02",
+                                                "hasModel": true,
+                                                "children": [
+                                                    {
+                                                        "name": "dairy_product.n.01",
+                                                        "hasModel": true,
+                                                        "children": [
+                                                            {
+                                                                "name": "butter.n.01",
+                                                                "hasModel": true
+                                                            },
+                                                            {
+                                                                "name": "cheese.n.01",
+                                                                "hasModel": true
+                                                            }
+                                                        ]
+                                                    },
+                                                    {
+                                                        "name": "juice.n.01",
+                                                        "hasModel": true
+                                                    },
+                                                    {
+                                                        "name": "ingredient.n.03",
+                                                        "hasModel": true,
+                                                        "children": [
+                                                            {
+                                                                "name": "flavorer.n.01",
+                                                                "hasModel": true,
+                                                                "children": [
+                                                                    {
+                                                                        "name": "sweetening.n.01",
+                                                                        "hasModel": true,
+                                                                        "children": [
+                                                                            {
+                                                                                "name": "sugar.n.01",
+                                                                                "hasModel": true
+                                                                            }
+                                                                        ]
+                                                                    },
+                                                                    {
+                                                                        "name": "spice.n.02",
+                                                                        "hasModel": true,
+                                                                        "children": [
+                                                                            {
+                                                                                "name": "ginger.n.02",
+                                                                                "hasModel": true
+                                                                            }
+                                                                        ]
+                                                                    },
+                                                                    {
+                                                                        "name": "salt.n.02",
+                                                                        "hasModel": true
+                                                                    },
+                                                                    {
+                                                                        "name": "condiment.n.01",
+                                                                        "hasModel": true,
+                                                                        "children": [
+                                                                            {
+                                                                                "name": "vinegar.n.01",
+                                                                                "hasModel": true
+                                                                            }
+                                                                        ]
+                                                                    }
+                                                                ]
+                                                            }
+                                                        ]
+                                                    },
+                                                    {
+                                                        "name": "egg.n.02",
+                                                        "hasModel": true
+                                                    }
+                                                ]
+                                            },
+                                            {
+                                                "name": "nutriment.n.01",
+                                                "hasModel": true,
+                                                "children": [
+                                                    {
+                                                        "name": "puree.n.01",
+                                                        "hasModel": true
+                                                    },
+                                                    {
+                                                        "name": "dish.n.02",
+                                                        "hasModel": true,
+                                                        "children": [
+                                                            {
+                                                                "name": "soup.n.01",
+                                                                "hasModel": true
+                                                            }
+                                                        ]
+                                                    },
+                                                    {
+                                                        "name": "dainty.n.01",
+                                                        "hasModel": true,
+                                                        "children": [
+                                                            {
+                                                                "name": "sweet.n.03",
+                                                                "hasModel": true,
+                                                                "children": [
+                                                                    {
+                                                                        "name": "confiture.n.01",
+                                                                        "hasModel": true,
+                                                                        "children": [
+                                                                            {
+                                                                                "name": "conserve.n.01",
+                                                                                "hasModel": true,
+                                                                                "children": [
+                                                                                    {
+                                                                                        "name": "jam.n.01",
+                                                                                        "hasModel": true
+                                                                                    }
+                                                                                ]
+                                                                            }
+                                                                        ]
+                                                                    }
+                                                                ]
+                                                            }
+                                                        ]
+                                                    }
+                                                ]
+                                            },
+                                            {
+                                                "name": "beverage.n.01",
+                                                "hasModel": true,
+                                                "children": [
+                                                    {
+                                                        "name": "milk.n.01",
+                                                        "hasModel": true
+                                                    }
+                                                ]
+                                            },
+                                            {
+                                                "name": "water.n.06",
+                                                "hasModel": true
+                                            }
+                                        ]
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            }
+        ],
+        "hasModel": true
+    },
     "putting_away_Christmas_decorations": {
         "name": "entity.n.01",
         "children": [
@@ -37283,6 +37969,192 @@
                                                         ]
                                                     }
                                                 ]
+                                            }
+                                        ]
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            }
+        ],
+        "hasModel": true
+    },
+    "setting_up_candles": {
+        "name": "entity.n.01",
+        "children": [
+            {
+                "name": "physical_entity.n.01",
+                "hasModel": true,
+                "children": [
+                    {
+                        "name": "object.n.01",
+                        "hasModel": true,
+                        "children": [
+                            {
+                                "name": "whole.n.02",
+                                "hasModel": true,
+                                "children": [
+                                    {
+                                        "name": "artifact.n.01",
+                                        "hasModel": true,
+                                        "children": [
+                                            {
+                                                "name": "instrumentality.n.03",
+                                                "hasModel": true,
+                                                "children": [
+                                                    {
+                                                        "name": "furnishing.n.02",
+                                                        "hasModel": true,
+                                                        "children": [
+                                                            {
+                                                                "name": "furniture.n.01",
+                                                                "hasModel": true,
+                                                                "children": [
+                                                                    {
+                                                                        "name": "table.n.02",
+                                                                        "hasModel": true,
+                                                                        "children": [
+                                                                            {
+                                                                                "name": "desk.n.01",
+                                                                                "hasModel": true
+                                                                            }
+                                                                        ]
+                                                                    }
+                                                                ]
+                                                            }
+                                                        ]
+                                                    },
+                                                    {
+                                                        "name": "device.n.01",
+                                                        "hasModel": true,
+                                                        "children": [
+                                                            {
+                                                                "name": "source_of_illumination.n.01",
+                                                                "hasModel": true,
+                                                                "children": [
+                                                                    {
+                                                                        "name": "lamp.n.01",
+                                                                        "hasModel": true,
+                                                                        "children": [
+                                                                            {
+                                                                                "name": "candle.n.01",
+                                                                                "hasModel": true
+                                                                            }
+                                                                        ]
+                                                                    }
+                                                                ]
+                                                            }
+                                                        ]
+                                                    }
+                                                ]
+                                            },
+                                            {
+                                                "name": "article.n.02",
+                                                "hasModel": true,
+                                                "children": [
+                                                    {
+                                                        "name": "ware.n.01",
+                                                        "hasModel": true,
+                                                        "children": [
+                                                            {
+                                                                "name": "tableware.n.01",
+                                                                "hasModel": true,
+                                                                "children": [
+                                                                    {
+                                                                        "name": "flatware.n.01",
+                                                                        "hasModel": true,
+                                                                        "children": [
+                                                                            {
+                                                                                "name": "plate.n.04",
+                                                                                "hasModel": true
+                                                                            }
+                                                                        ]
+                                                                    }
+                                                                ]
+                                                            }
+                                                        ]
+                                                    }
+                                                ]
+                                            }
+                                        ]
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            }
+        ],
+        "hasModel": true
+    },
+    "setting_up_toy_train_track": {
+        "name": "entity.n.01",
+        "children": [
+            {
+                "name": "physical_entity.n.01",
+                "hasModel": true,
+                "children": [
+                    {
+                        "name": "object.n.01",
+                        "hasModel": true,
+                        "children": [
+                            {
+                                "name": "whole.n.02",
+                                "hasModel": true,
+                                "children": [
+                                    {
+                                        "name": "artifact.n.01",
+                                        "hasModel": true,
+                                        "children": [
+                                            {
+                                                "name": "instrumentality.n.03",
+                                                "hasModel": true,
+                                                "children": [
+                                                    {
+                                                        "name": "container.n.01",
+                                                        "hasModel": true,
+                                                        "children": [
+                                                            {
+                                                                "name": "bag.n.01",
+                                                                "hasModel": true
+                                                            }
+                                                        ]
+                                                    },
+                                                    {
+                                                        "name": "implement.n.01",
+                                                        "hasModel": true,
+                                                        "children": [
+                                                            {
+                                                                "name": "bar.n.03",
+                                                                "hasModel": true,
+                                                                "children": [
+                                                                    {
+                                                                        "name": "lever.n.01",
+                                                                        "hasModel": true,
+                                                                        "children": [
+                                                                            {
+                                                                                "name": "compound_lever.n.01",
+                                                                                "hasModel": true,
+                                                                                "children": [
+                                                                                    {
+                                                                                        "name": "scissors.n.01",
+                                                                                        "hasModel": true
+                                                                                    }
+                                                                                ]
+                                                                            }
+                                                                        ]
+                                                                    }
+                                                                ]
+                                                            }
+                                                        ]
+                                                    }
+                                                ]
+                                            },
+                                            {
+                                                "name": "plaything.n.01",
+                                                "hasModel": true
                                             }
                                         ]
                                     }
@@ -42011,6 +42883,184 @@
                                                                         ]
                                                                     }
                                                                 ]
+                                                            }
+                                                        ]
+                                                    }
+                                                ]
+                                            }
+                                        ]
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            }
+        ],
+        "hasModel": true
+    },
+    "watering_houseplants": {
+        "name": "entity.n.01",
+        "children": [
+            {
+                "name": "physical_entity.n.01",
+                "hasModel": true,
+                "children": [
+                    {
+                        "name": "matter.n.03",
+                        "hasModel": true,
+                        "children": [
+                            {
+                                "name": "substance.n.07",
+                                "hasModel": true,
+                                "children": [
+                                    {
+                                        "name": "food.n.01",
+                                        "hasModel": true,
+                                        "children": [
+                                            {
+                                                "name": "foodstuff.n.02",
+                                                "hasModel": true,
+                                                "children": [
+                                                    {
+                                                        "name": "ingredient.n.03",
+                                                        "hasModel": true,
+                                                        "children": [
+                                                            {
+                                                                "name": "flavorer.n.01",
+                                                                "hasModel": true,
+                                                                "children": [
+                                                                    {
+                                                                        "name": "salt.n.02",
+                                                                        "hasModel": true
+                                                                    }
+                                                                ]
+                                                            }
+                                                        ]
+                                                    }
+                                                ]
+                                            },
+                                            {
+                                                "name": "water.n.06",
+                                                "hasModel": true
+                                            }
+                                        ]
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "name": "object.n.01",
+                        "hasModel": true,
+                        "children": [
+                            {
+                                "name": "whole.n.02",
+                                "hasModel": true,
+                                "children": [
+                                    {
+                                        "name": "artifact.n.01",
+                                        "hasModel": true,
+                                        "children": [
+                                            {
+                                                "name": "structure.n.01",
+                                                "hasModel": true,
+                                                "children": [
+                                                    {
+                                                        "name": "supporting_structure.n.01",
+                                                        "hasModel": true,
+                                                        "children": [
+                                                            {
+                                                                "name": "framework.n.03",
+                                                                "hasModel": true,
+                                                                "children": [
+                                                                    {
+                                                                        "name": "window.n.01",
+                                                                        "hasModel": true
+                                                                    }
+                                                                ]
+                                                            }
+                                                        ]
+                                                    }
+                                                ]
+                                            },
+                                            {
+                                                "name": "instrumentality.n.03",
+                                                "hasModel": false,
+                                                "children": [
+                                                    {
+                                                        "name": "container.n.01",
+                                                        "hasModel": false
+                                                    }
+                                                ]
+                                            },
+                                            {
+                                                "name": "commodity.n.01",
+                                                "hasModel": true,
+                                                "children": [
+                                                    {
+                                                        "name": "consumer_goods.n.01",
+                                                        "hasModel": true,
+                                                        "children": [
+                                                            {
+                                                                "name": "clothing.n.01",
+                                                                "hasModel": true,
+                                                                "children": [
+                                                                    {
+                                                                        "name": "footwear.n.01",
+                                                                        "hasModel": true,
+                                                                        "children": [
+                                                                            {
+                                                                                "name": "hosiery.n.01",
+                                                                                "hasModel": true,
+                                                                                "children": [
+                                                                                    {
+                                                                                        "name": "sock.n.01",
+                                                                                        "hasModel": true
+                                                                                    }
+                                                                                ]
+                                                                            }
+                                                                        ]
+                                                                    }
+                                                                ]
+                                                            }
+                                                        ]
+                                                    }
+                                                ]
+                                            },
+                                            {
+                                                "name": "fixture.n.01",
+                                                "hasModel": true,
+                                                "children": [
+                                                    {
+                                                        "name": "plumbing_fixture.n.01",
+                                                        "hasModel": true,
+                                                        "children": [
+                                                            {
+                                                                "name": "shower.n.01",
+                                                                "hasModel": true
+                                                            }
+                                                        ]
+                                                    }
+                                                ]
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "name": "living_thing.n.01",
+                                        "hasModel": true,
+                                        "children": [
+                                            {
+                                                "name": "organism.n.01",
+                                                "hasModel": true,
+                                                "children": [
+                                                    {
+                                                        "name": "plant.n.02",
+                                                        "hasModel": true,
+                                                        "children": [
+                                                            {
+                                                                "name": "pot_plant.n.01",
+                                                                "hasModel": true
                                                             }
                                                         ]
                                                     }
