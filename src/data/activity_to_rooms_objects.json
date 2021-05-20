@@ -3587,7 +3587,7 @@
             "sink": 1
         }
     },
-    "watering_houseplant": {
+    "watering_houseplants": {
         "living_room": {
             "floor": 1,
             "coffee_table": 1,
