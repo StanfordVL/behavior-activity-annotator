@@ -166,12 +166,7 @@ export class ServerErrorModal extends React.Component {
                     </Modal.Header>
                     <Modal.Body>
                         <p>
-                            Let the interviewer know:
-                            <ul>
-                                <li>that there was a server error</li>
-                                <li>whether it happened before or after you clicked "Check feasibility" for the first time</li>
-                            </ul>
-                            Then feel free to move to the next step. 
+                            The server is currently shut off. You can continue, but note that the feasibility checker will pass trivially and your definition is not guaranteed to be feasible in an iGibson scene. Thanks!
                         </p>
                     </Modal.Body>
                 </Modal>
