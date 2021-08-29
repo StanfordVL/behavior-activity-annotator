@@ -1,309 +1,457 @@
 import React from 'react';
 import Blockly from 'node-blockly/browser';
 import BlocklyDrawer, { Block, Category } from 'react-blockly-drawer';
-import { dropdownGenerators, 
-    blocklyNameToPDDLName,
+import { 
+    allRooms,
+    sceneSynsets,
+    dropdownGenerators, 
+    kinematicDropdownGeneratorsInit,
+    kinematicDropdownGeneratorsGoal,
     sentenceConstructorColor,
     basicSentenceColor,
-    rootColor } from './block_drawer_constants.js'
+    rootColor,
+    airtableSavesUrl,
+    airtableResultsUrl,
+    igibsonGcpVmCheckSamplingUrl,
+    igibsonGcpVmTeardownUrl,
+    ServerErrorModal,
+    initBinaryPredicatesAdditionalReadable,
+    binaryPredicatesReadable
+    } from './constants.js'
+import { convertName, 
+         createObjectsList, 
+         getCategoryFromLabel,
+         ObjectOptions,
+         generateDropdownArray,
+        checkNulls,
+        checkTransitiveUnplacedAdditionalObjects,
+        checkCategoriesExist,
+        checkNegatedPlacements,
+        checkMultipleDirtyFloors,
+        addAgentStartLine,
+        getReadableFeedback } from "./utils.js"
+import AgentStartForm from "./agent_start_selection_form"
 import AirTable from 'airtable'
 import Button from 'react-bootstrap/Button'
 import Modal from 'react-bootstrap/Modal'
 
-const staticEntities = require('./scene_objects.json')
-const sceneObjects = staticEntities.sceneObjects
-const roomsList = staticEntities.rooms
-
-
-export class ObjectOptions {
-    constructor(selectedObjects) {
-        this.selectedObjects = selectedObjects
-    }
-
-    createDemotedRoomsMap() {
-        let demotedRoomsMap = {}
-
-        for (let [category, number] of Object.entries(this.selectedObjects)) {
-            if (category.includes(' (')) {
-                let [pureLabel, room] = category.split(' (')
-                room = ' (' + room
-                if (!(pureLabel in demotedRoomsMap)) {
-                    demotedRoomsMap[pureLabel] = {}
-                }
-                demotedRoomsMap[pureLabel][room] = number
-            } else {
-                demotedRoomsMap[category] = number
-            }
-        }
-        return demotedRoomsMap
-    }
-
-    getRoomIndices(demotedRoomsMap, pureLabel) {
-        let startIndex = 0
-        let roomsToIndices = {}
-        for (let room of Object.keys(demotedRoomsMap[pureLabel]).sort()) {
-            roomsToIndices[room] = Array.from({ length: demotedRoomsMap[pureLabel][room]}, (_, i) => i + startIndex)
-            startIndex += demotedRoomsMap[pureLabel][room]
-        }
-        return roomsToIndices 
-    }
-
-    getInstancesCategories() {
-        const demotedRoomsMap = this.createDemotedRoomsMap()
-        let objectInstanceLabels = [['select an object', 'null']]
-        let instanceToCategory = {'null': 'null'}
-
-        for (const [pureLabel, value] of Object.entries(demotedRoomsMap)) {
-            if (typeof value !== "number") {
-
-                // Create indices for each room that don't overlap, going in alphabetical order of rooms
-                const roomsToIndices = this.getRoomIndices(demotedRoomsMap, pureLabel)
-                for (const room of Object.keys(roomsToIndices).sort()) {
-                    const instanceIndices = roomsToIndices[room]
-                    
-                    for (let instanceIndex of instanceIndices) {
-                        let instanceLabel = pureLabel + (instanceIndex + 1).toString() + room
-                        objectInstanceLabels.push([instanceLabel, instanceLabel])
-                        instanceToCategory[instanceLabel] = pureLabel
-                        instanceToCategory[pureLabel] = pureLabel
-                    }
-                }
-
-            } else {
-                for (let instanceIndex = 0; instanceIndex < value; instanceIndex++) {
-                    let instanceLabel = pureLabel + (instanceIndex + 1).toString()
-                    objectInstanceLabels.push([instanceLabel, instanceLabel])
-                    instanceToCategory[instanceLabel] = pureLabel
-                    instanceToCategory[pureLabel] = pureLabel
-                }
-            }
-        }
-        let instanceCategoryLabels = objectInstanceLabels.concat(this.getCategories().slice(1))
-        return ([instanceCategoryLabels, instanceToCategory])
-    }
-
-    getCategories() {
-        const demotedRoomsMap = this.createDemotedRoomsMap()
-        let categoryLabels = [['select a category', 'null']]
-        for (const [pureLabel, value] of Object.entries(demotedRoomsMap)) {
-            if (typeof value !== "number") {
-                for (const room of Object.keys(value)) {
-                    if (demotedRoomsMap[pureLabel][room] > 0) {
-                        categoryLabels.push([ pureLabel, pureLabel ])
-                        break
-                    }
-                }
-            } else {
-                if (value > 0) {
-                    categoryLabels.push([ pureLabel, pureLabel ])
-                }
-            }
-        }
-        return categoryLabels
-    }
-}
-
-
-function convertName(name) {
-    if (name in blocklyNameToPDDLName) {
-        return (blocklyNameToPDDLName[name])
-    } else {
-        return (name)
-    }
-}
-
-
-function generateDropdownArray(labels) {
-    return(labels.map(label => [label, label.toUpperCase()]))
-}
-
-
-function detectObjects(code) {
-    const detectObjectsRegex = new RegExp('[a-z_]+[0-9]+', 'g')
-    const detectedObjects = code.match(detectObjectsRegex)
-    return detectedObjects
-}
-
-
 let updatedInitialConditions = '';
 let updatedGoalConditions = '';
-// let objectsList = '';
 
 
-export class FinalSubmit extends React.Component {
+export class SubmissionSection extends React.Component {
     constructor(props) {
-        super(props);
-
-        this.state = {
-            initialReady: true,
-            goalReady: true,
-            showErrorMessage: false,
-            modalText: ""
+        super(props)
+        this.state = { 
+            feasible: false, 
+            correct: false,
+            agentStartRoom: "stub",
+            approved: -1
         }
     }
 
-    checkNulls(conditions)  {
-        return conditions.includes("null")
-    }
+    onFeasibilityCheck(newFeasible, newApproved) { this.setState({ feasible: newFeasible, approved: newApproved }) }
 
-    checkUnplacedAdditionalObjects(conditions) {
-        let options = new ObjectOptions(JSON.parse(window.sessionStorage.getItem('allSelectedObjects')))
-        let [__, instanceToCategory] = options.getInstancesCategories()
+    onCorrectnessCheck(newCorrect) { this.setState({ correct: newCorrect }) }
 
-        let allObjects = Object.keys(instanceToCategory)
-        // for (let objectInstance in allObjects) {
-        for (let i = 0; i < allObjects.length; i++) {
-            let objectInstance = allObjects[i]
-            let objectCategory = instanceToCategory[objectInstance]
-            
-            // if the object is an additional object, is mentioned, and is an instance rather than a category...
-            let isAdditionalObject = !(sceneObjects.includes(objectCategory))
-            let isMentioned = conditions.includes(objectInstance)
-            let isInstance = objectInstance !== objectCategory          // works despite parenthetical rooms because rooms only apply to sceneObjects, which are already excluded. So this is buggy, but it's relying on that detail. 
-
-            let isPlaced = false 
-            // Get all placements 
-            const placementMatchString = `\\((ontop|nextto|inside|under) (${objectInstance} \\??[a-z0-9_]*|\\??[a-z0-9_]* ${objectInstance})\\)`
-            const placementRegex = new RegExp(placementMatchString, 'g')
-            const placements = conditions.match(placementRegex)
-            if (!(placements === null)) {                
-                // For each placement, get both objects and check if either of them is a scene object
-                for (let placement of placements) {
-                    // let potentialSceneObject = placement.split(' ').pop()
-                    let potentialSceneObjects = placement.split(' ').slice(1, 3)
-                    for (let potentialSceneObject of potentialSceneObjects) {
-                        potentialSceneObject = potentialSceneObject.split(/\d/)[0]
-                        if (potentialSceneObject[0] === '?') {
-                            potentialSceneObject = potentialSceneObject.slice(1)
-                        }
-                        // if one of them is a scene object, say this additional object is placed and break out of this placement
-                        if (sceneObjects.includes(potentialSceneObject)) {
-                            isPlaced = true 
-                            break
-                        } 
-                    }
-                    // if the additional object has been shown to be placed, break out of testing placements
-                    if (isPlaced) { break }
-                }
-            }
-
-            // ...return true 
-            if (isAdditionalObject && isMentioned && isInstance && !isPlaced) {
-                console.log('UNPLACED OBJECT:', objectInstance)
-                return true 
-            }
-        }
-        return false  
-    }
-
-    // checkImproperRoot(conditions) {
-    //     const nonSingularRoot = !(conditions.split("ROOT").length == 2)
-    //     const hangingBlocks = conditions.includes(";")
-    //     return (nonSingularRoot || hangingBlocks)
-    // }
-
-    // removeRoot(conditions) {
-    //     return conditions.split('ROOT').join('')
-    // }
-
-    createObjectsList(initialConditions) {
-        const detectedObjects = detectObjects(initialConditions) 
-        let objectList = ''
-        
-        if (detectedObjects !== null) {           
-            let objectToCategory = {}
-            for (let object of detectedObjects) {
-                const category = object.replace(/[0-9]+/, '')
-                if (category in objectToCategory) {
-                    objectToCategory[category].add(object)
-                } else {
-                    objectToCategory[category] = new Set([object])
-                }
-            }
-
-            for (const [category, objects] of Object.entries(objectToCategory)) {
-                const sortedObjects = Array.from(objects).sort()
-                objectList += '\t'
-                objectList += sortedObjects.join(' ')
-                objectList += ` - ${category}\n`
-            }
-        }
-        objectList = `(:objects\n ${objectList})`
-        return objectList
-    }
-
-    onSubmit(event) {
-
-        let currentModalText = ""
-
-        console.log('INITIAL CONDITIONS:', updatedInitialConditions)
-        console.log('GOAL CONDITIONS:', updatedGoalConditions)
-
-        // Check for errors 
-        if (this.checkNulls(updatedInitialConditions)) {
-            currentModalText += "The initial conditions have empty field(s).\n"
-        }
-        if (this.checkUnplacedAdditionalObjects(updatedInitialConditions))  {
-            currentModalText += "The initial conditions have additional objects that have not been placed in relation to a scene object (on top of, next to, under, or inside) - these aren't required for goal conditions, but they are for initial conditions.\n"
-        }
-        if (this.checkNulls(updatedGoalConditions)) {
-            currentModalText += "The goal conditions have empty field(s).\n"
-        }
-        // if (this.checkImproperRoot(updatedInitialConditions)) {
-        //     currentModalText += "Some initial conditions are not packaged in a singular root block.\n"
-        // } else {
-        //     updatedInitialConditions = this.removeRoot(updatedInitialConditions)
-        // }
-        // if (this.checkImproperRoot(updatedGoalConditions)) {
-        //     currentModalText += "Some goal conditions are not packaged in a singular root block.\n"
-        // } else {
-        //     updatedGoalConditions = this.removeRoot(updatedGoalConditions)
-        // }
-
-        if (currentModalText !== "") {
-            event.preventDefault()
-            this.setState({
-                showErrorMessage: true,
-                modalText: currentModalText 
-            })
-        } else {
-            this.setState({
-                showErrorMessage: false,
-                modalText: ""
-            })
-
-            const requestOptions = {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                    "Authorization": "Bearer keyeaIvUAzmIaj3ma"
-                },
-                body:JSON.stringify({
-                    "records": [{
-                        "fields": { 
-                            "ActivityName": JSON.parse(window.sessionStorage.getItem('activityName')),
-                            "AnnotatorID": JSON.parse(window.sessionStorage.getItem('annotatorName')),
-                            "InitialConditions": updatedInitialConditions,
-                            "GoalConditions": updatedGoalConditions,
-                            "FinalSave": 1,
-                            "Objects": this.createObjectsList(updatedInitialConditions)
-                        }
-                    }]
-                })
-            }
-            fetch('https://api.airtable.com/v0/appIh5qQ5m4UMrcps/Results', requestOptions)
-            .then(response => response.json())
-
-            console.log('successfully submitted!')
-        }
-    }
-
-
-    onHide() {
-        this.setState({ showErrorMessage: false })
-    }
+    onAgentStartSelection(agentStartRoom) { this.setState({ agentStartRoom: agentStartRoom }) }
 
     render() {
+        console.log("approved from parent:", this.state.approved)
+        return (
+            <div>
+                <AgentStartForm onAgentStartSelection={agentStartRoom => this.onAgentStartSelection(agentStartRoom)}/>
+                <FeasibilityChecker 
+                    onFeasibilityCheck={(newFeasible, newApproved) => this.onFeasibilityCheck(newFeasible, newApproved)}
+                    onCorrectnessCheck={newCorrect => this.onCorrectnessCheck(newCorrect)}
+                    agentStartRoom={this.state.agentStartRoom}
+                />
+                <FinalSubmit 
+                    agentStartRoom={this.state.agentStartRoom} 
+                    feasible={this.state.feasible}
+                    correct={this.state.correct}
+                    approved={this.state.approved}
+                />
+            </div>
+        )
+    }
+}
+
+export class FeasibilityChecker extends React.Component {
+    constructor(props) {
+        super(props)
+        this.state = {
+            showPendingMessage: false,
+            feasible: false,
+            feasibilityFeedback: [["untested", "untested", "stub", "stub"]],
+            showInfeasibleMessage: false,
+            showFeasibleMessage: false,
+            correct: false,
+            codeCorrectnessFeedback: "",
+            showCodeIncorrectMessage: false,
+            showPrematureMessage: false,
+            showCodeCorrectMessage: false,
+            disable: false,
+            showServerErrorMessage: false,
+            approved: -1
+        }
+    }
+
+    // Event methods 
+
+    onClick() {
+        // TODO add in blockign when server is busy 
+
+        console.log("INITIAL CONDITIONS", updatedInitialConditions)
+        console.log("GOAL CONDITIONS:", updatedGoalConditions)
+
+        let [codeCorrect, currentCodeCorrectnessFeedback] = this.checkCorrectness()
+        // If incorrect, show the correctness error, say it's infeasible, and end things there 
+        if (!codeCorrect) {
+            this.setState({ 
+                correct: false,
+                feasible: false,
+                showCodeIncorrectMessage: true, 
+                codeCorrectnessFeedback: currentCodeCorrectnessFeedback 
+            })
+            this.props.onCorrectnessCheck(false)
+            this.props.onFeasibilityCheck(false, 0)
+        } 
+        // If correct, offer to check feasibility 
+        else {
+            this.setState({
+                correct: true,
+                showCodeCorrectMessage: true
+            })
+            this.props.onCorrectnessCheck(true)
+        }
+    }
+
+    onLaunchFeasibilityCheckClick() {
+        // Check if simulators are ready 
+        let serverReady = JSON.parse(window.sessionStorage.getItem("serverReady"))
+        if (serverReady) {
+            // If so, run feasibility check
+            this.checkFeasibility()
+        } else {
+            // If not, show the premature message
+            this.setState({ showPrematureMessage: true })
+        }
+        this.onCodeCorrectHide()
+    }
+
+    onNoLaunchFeasibilityCheckClick() { this.onCodeCorrectHide() }
+
+    onPrematureHide() { this.setState({ showPrematureMessage: false }) }
+
+    onInfeasibilityConfirmedHide() { this.setState({ showInfeasibleMessage: false }) }
+
+    onFeasibilityConfirmedHide() { this.setState({ showFeasibleMessage: false })}
+
+    onCodeIncorrectHide() { this.setState({ showCodeIncorrectMessage: false }) }
+
+    onCodeCorrectHide() { this.setState({ showCodeCorrectMessage: false }) }
+
+    checkCorrectness() {
+        let codeCorrect = true
+        let nullsInInit
+        let transitivelyUnplacedAdditionalObjectsExist
+        // let negatedPlacementsInInitial
+        // let categoriesInInitial
+        // let nextToPresent 
+        let nullsInGoal
+        let multipleDirtyFloorsInit
+        let multipleDirtyFloorsGoal
+
+        if (checkNulls(updatedInitialConditions)) {
+            nullsInInit = <li>Initial conditions have empty fields.</li>
+            codeCorrect = false 
+        } else {nullsInInit = <div/>}
+        if (checkTransitiveUnplacedAdditionalObjects(updatedInitialConditions)) {
+            transitivelyUnplacedAdditionalObjectsExist = <li>Initial conditions currently contain objects that have not been placed in relation to a scene object, even indirectly.</li>
+            codeCorrect = false 
+        } else {transitivelyUnplacedAdditionalObjectsExist = <div/>}
+        // if (checkNegatedPlacements(updatedInitialConditions)) {
+        //     negatedPlacementsInInitial = <li>Initial conditions contain negated two-object basic conditions, but in initial conditions you can only negate one-object basic conditions.</li>
+        //     codeCorrect = false 
+        // } else {negatedPlacementsInInitial = <div/>}
+        // if (checkCategoriesExist(updatedInitialConditions)) {
+        //     categoriesInInitial = <li>Initial conditions currently contain object categories, but only object instances are allowed in initial conditions.</li>
+        //     codeCorrect = false 
+        // } else {categoriesInInitial = <div/>}
+        // const nextToMatches = updatedInitialConditions.match(/nextto/)
+        // if (nextToMatches !== null) {
+        //     nextToPresent = <li>Initial conditions contain "next to", but "next to" is only allowed in goal conditions.</li>
+        //     codeCorrect = false 
+        // } else {nextToPresent = <div/>}
+        if (checkNulls(updatedGoalConditions)) {
+            nullsInGoal = <li>Goal conditions have empty fields.</li>
+            codeCorrect = false 
+        } else {nullsInGoal = <div/>}
+        if (checkMultipleDirtyFloors(updatedInitialConditions)) {
+            multipleDirtyFloorsInit = <li>There are multiple dusty or stained floors in the initial conditions. We can't currently support this.</li>
+        }
+        if (checkMultipleDirtyFloors(updatedGoalConditions)) {
+            multipleDirtyFloorsGoal = <li>There are multiple dusty or stained floors in the goal conditions. We can't currently support this.</li>
+            codeCorrect = false
+        }
+        const currentCodeCorrectnessFeedback = 
+            <div>
+                The conditions have the following problems:
+                <ul>
+                    {nullsInInit}
+                    {transitivelyUnplacedAdditionalObjectsExist}
+                    {/* {negatedPlacementsInInitial} */}
+                    {/* {categoriesInInitial} */}
+                    {/* {nextToPresent} */}
+                    {nullsInGoal}
+                    {multipleDirtyFloorsInit}
+                    {multipleDirtyFloorsGoal}
+                </ul>
+            </div>
+        return [codeCorrect, currentCodeCorrectnessFeedback]
+    }
+
+    checkFeasibility() {
+        // Add agent start lines 
+        let agentInitialConditions = addAgentStartLine(this.props.agentStartRoom, updatedInitialConditions)
+        console.log("with agent:", agentInitialConditions)
+
+        // Lock up  
+        this.setState({ showPendingMessage: true })
+
+        // Send request 
+        const conditionsPostRequest = {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                "activityName": JSON.parse(window.sessionStorage.getItem('activityName')),
+                "initialConditions": agentInitialConditions,
+                "goalConditions": updatedGoalConditions,
+                "objectList": createObjectsList(agentInitialConditions),
+                "scenes_ids": JSON.parse(window.sessionStorage.getItem("scenes_ids"))
+            })
+        }
+        window.sessionStorage.setItem("serverBusy", JSON.stringify(true))
+        fetch(igibsonGcpVmCheckSamplingUrl, conditionsPostRequest)     // TODO change to production URL
+        .then(response => response.json())
+        .then(data => {
+            this.setState({
+                feasible: data.success,
+                approved: 0.5,
+                feasibilityFeedback: data.feedback,
+                showInfeasibleMessage: !data.success,
+                showFeasibleMessage: data.success,
+                showPendingMessage: false
+                // disable: false
+            })
+            window.sessionStorage.setItem("serverBusy", JSON.stringify(false))
+            this.props.onFeasibilityCheck(data.success, 1)
+        })
+        .catch(response => {
+            this.setState({ 
+                disable: false,
+                feasible: true,     // just let them submit? Send a message 
+                showInfeasibleMessage: false,
+                showFeasibleMessage: false,
+                showPendingMessage: false,
+                showServerErrorMessage: true,
+                approved: 1
+            })
+            window.sessionStorage.setItem("serverBusy", JSON.stringify(false))
+            this.props.onFeasibilityCheck(true, 0.5)
+        })
+    }
+
+    onServerErrorMessageHide() { this.setState({ showServerErrorMessage: false }) }
+
+    render() {
+        return (
+            <div>
+                <Button
+                    size="lg"
+                    variant="primary"
+                    onClick={() => this.onClick()}
+                    className="marginCard"
+                    disabled={this.props.agentStartRoom === "stub"}
+                >
+                    Check feasibility 
+                </Button>
+
+                {/* Simulators ready modal */}
+                <Modal
+                    show={this.state.showPrematureMessage}
+                    onHide={() => this.onPrematureHide()}
+                >
+                    <Modal.Header closeButton>
+                        <Modal.Title as="h5">Feasibility checker is not ready</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        It typically takes 6-8 minutes from the time you entered your activity for the 
+                         feasibility checker to load, so try again in a couple minutes. If it's 
+                         definitely been longer than ~10 minutes, let the interviewer know. 
+                    </Modal.Body>
+                </Modal>
+
+                {/* Infeasibility confirmed modal */}
+                <Modal
+                    show={this.state.showInfeasibleMessage}
+                    onHide={() => this.onInfeasibilityConfirmedHide()}
+                    size="xl"
+                    backdrop="static"
+                >
+                    <Modal.Header closeButton>
+                        <Modal.Title as="h5">Not feasible</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>{getReadableFeedback(this.state.feasibilityFeedback)}</Modal.Body>
+                </Modal>
+
+                {/* Feasibility confirmed modal */}
+                <Modal
+                    show={this.state.showFeasibleMessage}
+                    onHide={() => this.onFeasibilityConfirmedHide()}
+                    backdrop="static"
+                >
+                    <Modal.Header closeButton>
+                        <Modal.Title as="h5">Feasible</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>{getReadableFeedback(this.state.feasibilityFeedback)}</Modal.Body>
+                </Modal>
+
+                {/* Pending modal */}
+                <Modal
+                    show={this.state.showPendingMessage}
+                    onHide={() => this.onPendingHide()}
+                    backdrop="static"
+                    keyboard={false}
+                >
+                    <Modal.Header>
+                        <Modal.Title as="h5">Feasibility checker is working</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        This message will disappear when the checker is done, and you'll get feedback. 
+                        Typically 6-10 minute process. If it takes longer than ~12 minutes, let the interviewer
+                        know. 
+                    </Modal.Body>
+                </Modal>
+
+                {/* Code incorrectness modal */}
+                <Modal
+                    show={this.state.showCodeIncorrectMessage}
+                    onHide={() => this.onCodeIncorrectHide()}
+                >
+                    <Modal.Header closeButton>
+                        <Modal.Title as="h5">Errors in conditions</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>{this.state.codeCorrectnessFeedback}</Modal.Body>
+                </Modal>
+
+                {/* Code correctness modal */}
+                <Modal
+                    show={this.state.showCodeCorrectMessage}
+                    onHide={() => this.onCodeCorrectHide()}
+                    backdrop="static"
+                    keyboard={false}
+                >
+                    <Modal.Header>
+                        <Modal.Title as="h5">No errors</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        {/* <Modal.Text> */}
+                            Your code is correct at the moment! Would you like to run 
+                            the final correctness checks and check feasibility? This is 
+                            a 6-12 minute process.
+                            <p>
+                                If you haven't yet saved, please press "No" and save first, then run the checker.
+                            </p>
+                        {/* </Modal.Text> */}
+                    </Modal.Body>
+                    <Modal.Body>
+                        <Button 
+                            variant="danger" 
+                            size="sm"
+                            onClick={() => this.onNoLaunchFeasibilityCheckClick()}
+                            style={{ marginRight: "10px" }}
+                        >
+                            No
+                        </Button>
+                        <Button 
+                            variant="success" 
+                            size="sm"
+                            onClick={() => this.onLaunchFeasibilityCheckClick()}
+                        >
+                            Yes
+                        </Button>
+                    </Modal.Body>
+                </Modal>
+
+                {/* Server error message */}
+                <ServerErrorModal 
+                    show={this.state.showServerErrorMessage} 
+                    onHide={() => this.onServerErrorMessageHide()}
+                />
+            </div>
+        )
+    }
+}
+
+export class FinalSubmit extends React.Component {
+    constructor(props) { super(props) }
+
+    onSubmit() {
+        console.log("approved:", this.props.approved)
+        // Add agent start term 
+        let agentInitialConditions = addAgentStartLine(this.props.agentStartRoom, updatedInitialConditions)
+
+        // Save data to airtable 
+        const submitPostRequest = {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": "Bearer keyeaIvUAzmIaj3ma"
+            },
+            body: JSON.stringify({
+                "records": [{
+                    "fields": { 
+                        "ActivityName": JSON.parse(window.sessionStorage.getItem('activityName')),
+                        "AnnotatorID": JSON.parse(window.sessionStorage.getItem('annotatorName')),
+                        "InitialConditions": agentInitialConditions,
+                        "GoalConditions": updatedGoalConditions,
+                        "FinalSave": 1,
+                        "Objects": createObjectsList(agentInitialConditions),
+                        "Approved": this.props.approved
+                    }
+                }]
+            })
+        }
+        fetch(airtableResultsUrl, submitPostRequest)
+        .then(response => response.json())
+        
+        console.log("successfully submitted!")
+
+        // Teardown environments
+        window.sessionStorage.setItem("serverReady", JSON.stringify(false))
+        fetch(igibsonGcpVmTeardownUrl, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ 
+                "scenes_ids": JSON.parse(window.sessionStorage.getItem("scenes_ids")) 
+            })
+        })
+        .then(response => {
+            response.json()
+            window.sessionStorage.setItem("scenes_ids", JSON.stringify([]))
+        })
+        .catch(response => {console.log(response)})
+    } // TODO Redirect!!!!!!!!!! Or give some kind of feedback
+
+    render() {
+        console.log("from render: code correctness (", this.props.correct, "); code feasibility: (", this.props.feasible, "); agent selected (", this.props.agentStartRoom, ")")
+
         return(
             <div>
                 <Button 
@@ -311,20 +459,11 @@ export class FinalSubmit extends React.Component {
                     variant="primary"
                     type="submit"
                     onClick={(event) => this.onSubmit(event)}
+                    className="marginCard"
+                    disabled={!this.props.feasible || this.props.agentStartRoom === "stub" || !this.props.correct}        // TODO change once feasibility checking is implemented
                 >
-                    Final submit 
+                    Submit
                 </Button>
-                <Modal 
-                    show={this.state.showErrorMessage}
-                    onHide={() => this.onHide()}
-                >
-                    <Modal.Header closeButton>
-                        <Modal.Title as="h5">Incomplete conditions</Modal.Title>
-                    </Modal.Header>
-                    <Modal.Body>
-                        {this.state.modalText}
-                    </Modal.Body>
-                </Modal>
             </div>
         )
     }
@@ -338,12 +477,10 @@ export default class ConditionDrawer extends React.Component {
     }
 
     onWorkspaceChange(code, workspace) {
-        console.log('WORKSPACE CHANGE')
-        console.log('TYPE:', this.props.drawerType)
         code = code.substring(0, code.length - 2)
 
         // Remove room labels 
-        for (let room of roomsList){
+        for (let room of allRooms){
             let roomString = ' (' + room + ')'
             code = code.split(roomString).join("")
         }
@@ -359,7 +496,7 @@ export default class ConditionDrawer extends React.Component {
                     room = room.slice(0, -1).split(' ').join('')
                     code = code + ` (inroom ${pureLabel} ${room})`
                 }
-                else if (sceneObjects.includes(instanceToCategory[label]) && !(sceneObjects.includes(label))) {
+                else if (sceneSynsets.includes(instanceToCategory[label]) && !(sceneSynsets.includes(label))) {
                     let room = Object.keys(JSON.parse(window.sessionStorage.getItem('room')))[0]
                     code = code + ` (inroom ${label} ${room})`
                 }
@@ -400,8 +537,8 @@ export default class ConditionDrawer extends React.Component {
             // Update code 
             updatedGoalConditions = newCode;
         }
-        
-        console.log('CODE:', code)
+
+        console.log("code: ", code)
     }
 
     onSave() {
@@ -421,29 +558,25 @@ export default class ConditionDrawer extends React.Component {
                             "AnnotatorID": JSON.parse(window.sessionStorage.getItem('annotatorName')),
                             "InitialConditions": updatedInitialConditions,
                             "GoalConditions": updatedGoalConditions,
-                            "FinalSave": 0
+                            "FinalSave": 0,
+                            "Objects": createObjectsList(updatedInitialConditions)
                         }
                     }
                 ]
             })
         }
-        fetch('https://api.airtable.com/v0/appIh5qQ5m4UMrcps/Saves', requestOptions)
+        fetch(airtableSavesUrl, requestOptions)
         .then(response => response.json())    
         
         console.log('successfully posted to airtable!')
     }
 
     getBlockTypes() {
-        let tools = [
-            basicUnarySentence,
-            basicBinarySentence,
-            // conjunction,
-            // disjunction,
-            negation,
-            // implication
-        ]
+        let tools = []
         if (this.props.drawerType === "goal") {
             tools = tools.concat([
+                basicUnarySentenceGoal,
+                basicBinarySentenceGoal,
                 implication,
                 universal,
                 existential, 
@@ -451,9 +584,13 @@ export default class ConditionDrawer extends React.Component {
                 forPairs,
                 forNPairs
             ])
+        } else {
+            tools = tools.concat([basicUnarySentenceInit, basicBinarySentenceInit])
         }
+        tools.push(negation)
         return tools
     }
+
     
     render() {
         if (this.props.drawerType === "goal") {
@@ -509,8 +646,75 @@ export default class ConditionDrawer extends React.Component {
 }
 
 
-export const basicUnarySentence = {
-    name: 'BasicUnaryCondition',
+export const basicUnarySentenceInit = {
+    name: 'BasicUnaryConditionInit',
+    category: 'Basic Conditions',
+    block: {
+      init: function (...arxs) {
+        const block = this;
+        
+        const state = {
+          allLabelsValues: [['select an object', 'null']],
+          currentObjectLabel: 'select an object',
+          currentObjectValue: 'null',
+          currentObjectCategory: 'null'
+        };
+  
+        this.setOnChange(function(changeEvent) {
+          let selectedObjectsContainer = new ObjectOptions(JSON.parse(window.sessionStorage.getItem('allSelectedObjects')))
+          let [objectInstanceLabels, instanceToCategory] = selectedObjectsContainer.getInstances()
+          state.allLabelsValues = objectInstanceLabels
+  
+          const descriptorField = block.getField('DESCRIPTOR');
+          const currentObjectValue = block.getFieldValue('OBJECT');
+          const currentDescriptorValue = block.getFieldValue('DESCRIPTOR');
+  
+          descriptorField.setValue(currentObjectValue !== state.currentObjectValue ? '' : currentDescriptorValue);
+          state.currentObjectValue = currentObjectValue;
+          state.currentObjectCategory = instanceToCategory[currentObjectValue]
+  
+        });
+  
+        this.jsonInit({
+          message0: '%1 is %2',
+          args0: [
+            {
+              type: 'field_dropdown',
+              name: 'OBJECT',
+              options: (...args) => {
+              return state.allLabelsValues;
+              },
+            },
+            {
+              type: 'field_dropdown',
+              name: 'DESCRIPTOR',
+              options: () => {
+                if (state.currentObjectCategory in dropdownGenerators) {
+                    return dropdownGenerators[state.currentObjectCategory]()
+                } else {
+                    return dropdownGenerators["null"]()
+                }
+              },
+            }
+          ],
+          output: 'Boolean',
+          colour: basicSentenceColor,
+          tooltip: 'Says Hello',
+        });
+      },
+    },
+    generator: (block) => {
+      let object = block.getFieldValue('OBJECT').toLowerCase() // || 'null';
+      object = /\d/.test(object) ? object : "?" + object
+      const adjective = String(convertName(block.getFieldValue('DESCRIPTOR')).toLowerCase()) || 'null';
+      const code = `(${adjective} ${object})`;
+      return [code, Blockly.JavaScript.ORDER_MEMBER];
+    },
+  };
+
+
+export const basicUnarySentenceGoal = {
+    name: 'BasicUnaryConditionGoal',
     category: 'Basic Conditions',
     block: {
       init: function (...arxs) {
@@ -545,7 +749,6 @@ export const basicUnarySentence = {
               type: 'field_dropdown',
               name: 'OBJECT',
               options: (...args) => {
-              //   return objectInstanceLabels
               return state.allLabelsValues;
               },
             },
@@ -553,7 +756,6 @@ export const basicUnarySentence = {
               type: 'field_dropdown',
               name: 'DESCRIPTOR',
               options: () => {
-                // return dropdownGenerators[state.currentObjectCategory]();
                 if (state.currentObjectCategory in dropdownGenerators) {
                     return dropdownGenerators[state.currentObjectCategory]()
                 } else {
@@ -578,8 +780,8 @@ export const basicUnarySentence = {
   };
 
 
-export const basicBinarySentence = {
-name: 'BasicBinaryCondition',
+export const basicBinarySentenceGoal = {
+name: 'BasicBinaryConditionGoal',
 category: 'Basic Conditions',
 block: {
     init: function (...arxs) {
@@ -587,12 +789,29 @@ block: {
     
     const state = {
         allLabelsValues: [['select an object', 'null']],
+        additionalLabelsValues: [["select an object", "null"]],
+        currentSecondObjectValue: "null",
+        currentSecondObjectCategory: "null"
     };
 
     this.setOnChange(function(changeEvent) {
         let selectedObjectsContainer = new ObjectOptions(JSON.parse(window.sessionStorage.getItem('allSelectedObjects')))
         let [objectInstanceLabels, instanceToCategory] = selectedObjectsContainer.getInstancesCategories()
         state.allLabelsValues = objectInstanceLabels
+        state.additionalLabelsValues = [["select an object", "null"]]
+        for (const [label, value] of state.allLabelsValues) {
+            if (!(sceneSynsets.includes(getCategoryFromLabel(value))) && !(value === "null")) {
+                state.additionalLabelsValues.push([label, value])
+            }
+        }
+
+        const descriptorField = block.getField("DESCRIPTOR")
+        const currentSecondObjectValue = block.getFieldValue("OBJECT2")
+        const currentDescriptorValue = block.getFieldValue("DESCRIPTOR")
+
+        descriptorField.setValue(currentSecondObjectValue !== state.currentSecondObjectValue ? "" : currentDescriptorValue)
+        state.currentSecondObjectValue = currentSecondObjectValue
+        state.currentSecondObjectCategory = instanceToCategory[currentSecondObjectValue]
     });
 
     this.jsonInit({
@@ -602,15 +821,18 @@ block: {
             type: 'field_dropdown',
             name: 'OBJECT1',
             options: (...args) => {
-            //   return objectInstanceLabels
-            return state.allLabelsValues;
+                return state.additionalLabelsValues
             },
         },
         {
             type: 'field_dropdown',
             name: 'DESCRIPTOR',
             options: () => {
-            return generateDropdownArray(['on top of', 'inside', 'next to', 'under'])
+                if (state.currentSecondObjectCategory in kinematicDropdownGeneratorsGoal) {
+                    return kinematicDropdownGeneratorsGoal[state.currentSecondObjectCategory]()
+                } else {
+                    return generateDropdownArray(["select an adjective"].concat(binaryPredicatesReadable))
+                }
             },
         },
         {
@@ -630,13 +852,102 @@ block: {
 generator: (block) => {
     let object1 = block.getFieldValue('OBJECT1').toLowerCase() || 'null';
     object1 = /\d/.test(object1) ? object1 : "?" + object1
-    const adjective = convertName(block.getFieldValue('DESCRIPTOR').toLowerCase()) || 'null';
+
     let object2 = block.getFieldValue('OBJECT2').toLowerCase() || 'null';
     object2 = /\d/.test(object2) ? object2 : "?" + object2
+
+    let adjective = convertName(block.getFieldValue('DESCRIPTOR').toLowerCase()) || 'null';
+    adjective = /floor\.n\.01/.test(object2) ? "onfloor" : adjective
+
     const code = `(${adjective} ${object1} ${object2})`;
     return [code, Blockly.JavaScript.ORDER_MEMBER];
 },
 };
+
+export const basicBinarySentenceInit = {
+    name: "BasicBinaryConditionInit",
+    category: "Basic Conditions",
+    block: {
+        init: function (...arxs) {
+        const block = this;
+        
+        const state = {
+            allLabelsValues: [['select an object', 'null']],
+            additionalLabelsValues: [["select an object", "null"]],
+            currentSecondObjectValue: "null",
+            currentSecondObjectCategory: "null"
+        };
+    
+        this.setOnChange(function(changeEvent) {
+            let selectedObjectsContainer = new ObjectOptions(JSON.parse(window.sessionStorage.getItem('allSelectedObjects')))
+            let [objectInstanceLabels, instanceToCategory] = selectedObjectsContainer.getInstances()
+            state.allLabelsValues = objectInstanceLabels
+            state.additionalLabelsValues = [["select an object", "null"]]
+            for (const [label, value] of state.allLabelsValues) {
+                if (!(sceneSynsets.includes(getCategoryFromLabel(value))) && !(value === "null")) {
+                    state.additionalLabelsValues.push([label, value])
+                }
+            }
+    
+            const descriptorField = block.getField("DESCRIPTOR")
+            const currentSecondObjectValue = block.getFieldValue("OBJECT2")
+            const currentDescriptorValue = block.getFieldValue("DESCRIPTOR")
+    
+            descriptorField.setValue(currentSecondObjectValue !== state.currentSecondObjectValue ? "" : currentDescriptorValue)
+            state.currentSecondObjectValue = currentSecondObjectValue
+            state.currentSecondObjectCategory = instanceToCategory[currentSecondObjectValue]
+        });
+    
+        this.jsonInit({
+            message0: '%1 is %2 %3',
+            args0: [
+            {
+                type: 'field_dropdown',
+                name: 'OBJECT1',
+                options: (...args) => {
+                    return state.additionalLabelsValues
+                },
+            },
+            {
+                type: 'field_dropdown',
+                name: 'DESCRIPTOR',
+                options: () => {
+                    if (state.currentSecondObjectCategory in kinematicDropdownGeneratorsInit) {
+                        return kinematicDropdownGeneratorsInit[state.currentSecondObjectCategory]()
+                    } else {
+                        // return generateDropdownArray(["select an adjective", 'on top of', 'inside'])
+                        return generateDropdownArray(["select an adjective"].concat(initBinaryPredicatesAdditionalReadable))
+                    }
+                },
+            },
+            {
+                type: 'field_dropdown',
+                name: 'OBJECT2',
+                options: (...args) => {
+                    return state.allLabelsValues;
+                }
+            }
+            ],
+            output: 'Boolean2',
+            colour: basicSentenceColor,
+            tooltip: 'Says Hello',
+        });
+        },
+    },
+    generator: (block) => {
+        let object1 = block.getFieldValue('OBJECT1').toLowerCase() || 'null';
+        object1 = /\d/.test(object1) ? object1 : "?" + object1
+
+        let object2 = block.getFieldValue('OBJECT2').toLowerCase() || 'null';
+        object2 = /\d/.test(object2) ? object2 : "?" + object2
+
+        let adjective = convertName(block.getFieldValue('DESCRIPTOR').toLowerCase()) || 'null';
+        adjective = /floor\.n\.01/.test(object2) ? "onfloor" : adjective
+
+        const code = `(${adjective} ${object1} ${object2})`;
+        return [code, Blockly.JavaScript.ORDER_MEMBER];
+    },
+}
 
 
 export const conjunction = {
@@ -650,12 +961,12 @@ export const conjunction = {
                     {
                         type: 'input_value',
                         name: 'CONJUNCT1',
-                        check: "Boolean"
+                        // check: "Boolean"
                     },
                     {
                         type: 'input_value',
                         name: 'CONJUNCT2',
-                        check: "Boolean"
+                        // check: "Boolean"
                     }
                 ],
                 output: "Boolean",
@@ -802,7 +1113,6 @@ Blockly.Blocks['conjunction'] = {
   };
 
   Blockly.JavaScript['conjunction'] = function(block) {
-    console.log(block)
     let code = "(and "
     for ( let i = 0; i < block.inputList.length; i++) {
         code += Blockly.JavaScript.valueToCode(block, block.inputList[i].name, Blockly.JavaScript.ORDER_ADDITION) || 'null'
@@ -827,12 +1137,12 @@ export const disjunction = {
                     {
                         type: 'input_value',
                         name: 'DISJUNCT1',
-                        check: "Boolean"
+                        // check: "Boolean"
                     },
                     {
                         type: 'input_value',
                         name: 'DISJUNCT2',
-                        check: "Boolean"
+                        // check: "Boolean"
                     }
                 ],
                 output: "Boolean",
@@ -979,7 +1289,6 @@ Blockly.Blocks['disjunction'] = {
   };
 
   Blockly.JavaScript['disjunction'] = function(block) {
-    console.log(block)
     let code = "(or "
     for ( let i = 0; i < block.inputList.length; i++) {
         code += Blockly.JavaScript.valueToCode(block, block.inputList[i].name, Blockly.JavaScript.ORDER_ADDITION) || 'null'
@@ -1028,12 +1337,12 @@ export const implication = {
                     {
                         type: "input_value",
                         name: "ANTECEDENT",
-                        check: "Boolean"
+                        // check: "Boolean"
                     },
                     {
                         type: "input_value",
                         name: "CONSEQUENT",
-                        check: "Boolean"
+                        // check: "Boolean"
                     }
                 ],
                 output: "Boolean",
@@ -1438,7 +1747,6 @@ Blockly.Blocks['root_block'] = {
 
 
   Blockly.JavaScript['root_block'] = function(block) {
-      console.log(block)
     //   let code = "?ROOT"
       let code = ""
       for ( let i = 0; i < block.inputList.length; i++) {

@@ -5,8 +5,8 @@ import Modal from "react-bootstrap/esm/Modal"
 import Tree from "react-d3-tree"
 import Form from "react-bootstrap/Form"
 
-const allAdditionalObjects = require('./general_hierarchy.json')
-const allActivityHierarchies = require('./all_activity_hierarchies.json')
+const allAdditionalObjects = require('./data/general_hierarchy.json')
+const allActivityHierarchies = require('./data/all_activity_hierarchies.json')
 const containerStyles = {
     width: '100%',
     height: '100vh',
@@ -36,7 +36,6 @@ export default class SmallObjectSelectionWorkspace extends React.Component {
             activityAdditionalObjects = allActivityHierarchies.assembling_gift_baskets
         } else {
             activityAdditionalObjects = allActivityHierarchies[this.props.activityName]
-            // activityAdditionalObjects = require('./pack_lunch_objects.json')
         }
         return (
             <div>
@@ -83,7 +82,8 @@ export class SmallObjectSelector extends React.Component {
     }
 
     onTreeNodeClick(nodeName) {
-        this.setState({ currentCategory: nodeName.split('.')[0] })
+        // this.setState({ currentCategory: nodeName.split('.')[0] })
+        this.setState({ currentCategory: nodeName })
     }
 
     render() {

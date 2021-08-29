@@ -2,9 +2,10 @@ import React from 'react'
 import Button from 'react-bootstrap/Button'
 import Form from 'react-bootstrap/Form'
 import Modal from 'react-bootstrap/Modal'
+import { allActivities, igibsonGcpVmSetupUrl, ServerErrorModal } from './constants.js'
+import { v4 as uuid } from "uuid"
 
-// const allActivities = require('./activity_names.json')
-const allActivities = Object.keys(require("./all_activity_hierarchies.json"))
+const activityToPreselectedScene = require("./data/activity_to_preselected_scenes.json")
 
 export default class ActivityEntryForm extends React.Component {
     constructor(props) {
@@ -12,7 +13,8 @@ export default class ActivityEntryForm extends React.Component {
         this.state = {
             activityName: "",
             showErrorModal: false,
-            submitted: false
+            submitted: false,
+            showServerErrorMessage: false,
         }
     }
 
@@ -20,20 +22,44 @@ export default class ActivityEntryForm extends React.Component {
         this.setState({ showErrorModal: false })
     }
 
+    onServerErrorMessageHide() { this.setState({ showServerErrorMessage: false }) }
+
     onChange(event) {
-        this.setState({ activityName: event.target.value.split(' ').join('_') })
+        this.setState({ activityName: event.target.value.split(' ').join('_').split("'").join("_") })
     }
 
     onSubmit(event) {
         event.preventDefault()
         if (allActivities.includes(this.state.activityName)) {
             this.setState({ submitted: true })
-            window.sessionStorage.setItem('activityName', JSON.stringify(this.state.activityName))
+            window.sessionStorage.setItem("activityName", JSON.stringify(this.state.activityName))
             this.props.onSubmit(this.state.activityName)
+
+            const envsPostRequest = {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                // body: JSON.stringify(activityToPreselectedScene[this.state.activityName].slice(0, 1))
+                body: JSON.stringify(activityToPreselectedScene[this.state.activityName])
+            }
+            fetch(igibsonGcpVmSetupUrl, envsPostRequest)
+            .then(response => response.json())
+            .then(data => {
+                window.sessionStorage.setItem("scenes_ids", JSON.stringify(data["scenes_ids"]))
+                window.sessionStorage.setItem("serverReady", JSON.stringify(true))
+                console.log("SCENES IDS:", data["scenes_ids"])
+            })
+            .catch(response => {
+                // const fakeIds = Array(activityToPreselectedScene[this.state.activityName].slice(0, 1).length).fill().map(() => uuid())   
+                const fakeIds = Array(activityToPreselectedScene[this.state.activityName].length).fill().map(() => uuid())   
+                // const newScenesIds = fakeIds.map((id, i) => [activityToPreselectedScene[this.state.activityName].slice(0, 1)[i], id])
+                const newScenesIds = fakeIds.map((id, i) => [activityToPreselectedScene[this.state.activityName][i], id])
+                window.sessionStorage.setItem("scenes_ids", JSON.stringify(newScenesIds))
+                window.sessionStorage.setItem("serverReady", JSON.stringify(true))
+                this.setState({ showServerErrorMessage: true })
+            })
         } else {
             this.setState({ showErrorModal: true })
         }
-        
     }
 
     render() {
@@ -67,6 +93,12 @@ export default class ActivityEntryForm extends React.Component {
                         Invalid activity name - please try again. Make sure all characters are lower-case and there are no spaces before or after the phrase. Thanks!
                     </Modal.Body>
                 </Modal>
+
+                {/* Server error message */}
+                <ServerErrorModal 
+                    show={this.state.showServerErrorMessage} 
+                    onHide={() => this.onServerErrorMessageHide()}
+                />
             </div>
         )
     }

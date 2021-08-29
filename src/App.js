@@ -2,25 +2,21 @@
 
 import React from 'react';
 import ReactDOM from 'react-dom'
-import AirTable from 'airtable';
-import $ from 'jquery'; 
-import AirTableError from 'airtable/build/airtable.browser'
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-import SceneObjectTable from './scene_object_table';
-import Button from 'react-bootstrap/Button'
-import Form from 'react-bootstrap/Form'
-import Card from 'react-bootstrap/Card'
-import SelectedObjectsList from './selected_objects_list';
-import { ConditionInstruction, ObjectSelectionWorkspace, ConditionWorkspace } from './instruction_sections'
-import ConditionDrawer, { FinalSubmit } from './blockly_drawers'
+import { ObjectSelectionWorkspace, ConditionWorkspace } from './instruction_sections'
 import Introduction from './written_instructions'
 
+const activityParameters = require('./data/pack_lunch_params.json')
+// Start out with stub object selections, ensure the checker is shown as not ready and not busy, 
+window.sessionStorage.setItem('allSelectedObjects', JSON.stringify({'apple': 2, 'orange': 5})) 
+window.sessionStorage.setItem("serverReady", JSON.stringify(false))
+window.sessionStorage.setItem("serverBusy", JSON.stringify(false))
+window.sessionStorage.setItem("room", JSON.stringify({"stub": null}))
+// TODO send a teardown and put the line below in the .then?
+window.sessionStorage.setItem("scenes_ids", JSON.stringify([]))
 
-let resultCodeObj;
-const activityParameters = require('./pack_lunch_params.json')
-window.sessionStorage.setItem('allSelectedObjects', JSON.stringify({'apple': 2, 'orange': 5}))
 
 export default class Instructions extends React.Component {
 

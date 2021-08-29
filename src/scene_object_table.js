@@ -6,7 +6,9 @@ import Popover from 'react-bootstrap/Popover';
 import Table from 'react-bootstrap/Table'
 import Card from 'react-bootstrap/Card'
 
-const activitiesToRoomsObjects = require('./activity_to_rooms_objects.json')
+import { getSceneSynset } from "./constants.js"
+
+const activitiesToRoomsObjects = require('./data/activity_to_rooms_objects.json')
 
 export default class SceneObjectTable extends React.Component {
     constructor(props) {
@@ -17,7 +19,6 @@ export default class SceneObjectTable extends React.Component {
     }
 
     onObjectSubmit(numObjects, objectCategory) {
-        console.log(objectCategory)
         this.props.onObjectSubmit(numObjects, objectCategory)
     }
 
@@ -61,21 +62,33 @@ export default class SceneObjectTable extends React.Component {
     }
 
     render() {
-        let sceneObjects
+        // Get scene objects for room from documentation 
+        let roomSceneObjects
         if (this.props.activityName.length !== 0 && this.props.room.length !== 0) {
-            sceneObjects = activitiesToRoomsObjects[this.props.activityName][this.props.room]
+            roomSceneObjects = activitiesToRoomsObjects[this.props.activityName][this.props.room]
         } else {
-            sceneObjects = activitiesToRoomsObjects['installing_smoke_detectors']['corridor']
+            roomSceneObjects = activitiesToRoomsObjects['installing_smoke_detectors']['corridor']
         }
-        console.log('ROOM:', this.props.room)
-        console.log('SCENE OBJECTS:', sceneObjects)
+
+        // Convert to synsets. If there are two of the same synset, add the counts.
+        let roomSceneSynsets = {}
+        for (const [roomSceneObject, numInstances] of Object.entries(roomSceneObjects)) {
+            const roomSceneSynset = getSceneSynset(roomSceneObject)
+            if (roomSceneSynset in roomSceneSynsets) {
+                roomSceneSynsets[roomSceneSynset] += numInstances
+            } else {
+                roomSceneSynsets[roomSceneSynset] = numInstances
+            }
+        }
+
+        // Make scene object table with synsets
         return ( 
             <Card className="marginCard">
                 <Card.Body>
                     <Card.Title>{this.props.room}</Card.Title>
                     <Card.Text>Note that unlike before, whatever you choose will <b>be</b>, not add to, the total. If you pick 4, you will have 4 even if you previously had 3 or 7 or any other number. You can still delete instances in the object list.
 </Card.Text>
-                    { this.createObjectTable(sceneObjects) } 
+                    { this.createObjectTable(roomSceneSynsets) } 
                 </Card.Body>
             </Card>
         )
@@ -92,10 +105,7 @@ class ObjectTableCell extends React.Component {
         }
     }
 
-    onNumberChange(event) {
-        console.log('number changed! new value:', event.target.value)
-        this.setState({ numberInput: event.target.value })
-    }
+    onNumberChange(event) { this.setState({ numberInput: event.target.value }) }
 
     onSubmit(event) {
         event.preventDefault();

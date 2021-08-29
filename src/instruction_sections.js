@@ -5,7 +5,7 @@ import SmallObjectSelectionWorkspace from './object_selector_forms';
 
 import SceneObjectTable from './scene_object_table';
 import SelectedObjectsList from './selected_objects_list'
-import ConditionDrawer, { FinalSubmit } from './blockly_drawers'
+import ConditionDrawer, { FinalSubmit, SubmissionSection } from './blockly_drawers'
 import {ConditionWritingInstructions} from './written_instructions'
 import RoomForm from './room_selection_form'
 
@@ -80,7 +80,6 @@ export class ObjectSelectionWorkspace extends React.Component {
     }
 
     render() {
-        console.log('SELECTED ROOMS:', this.state.selectedRooms)
         return (
             <div>
                 <Card className="marginCard" hidden={this.props.hidden}>
@@ -108,9 +107,9 @@ export class ObjectSelectionWorkspace extends React.Component {
                                     <Card.Text style={{ fontSize: 13}} className="text-muted">
                                         Drag to pivot, press control and drag to move around, scroll to zoom.
                                     </Card.Text>
-                                    <div className="marginCard" dangerouslySetInnerHTML={
+                                    {/* <div className="marginCard" dangerouslySetInnerHTML={
                                         { __html: "<iframe margin='20px' width='600px' height='400px' src='http://104.236.172.175:3000/' />"}
-                                    } />
+                                    } /> */}
                                     
                                     <RoomForm 
                                         onSubmit={(updatedRooms) => {this.updateSelectedRooms(updatedRooms); this.onRoomFormSubmit()}}
@@ -272,9 +271,10 @@ export class ConditionWorkspace extends React.Component {
                         <Card className="marginCard" hidden={this.state.conditionDrawersHidden}>
                             <Card.Body>
                                 <Card.Text>
-                                    Take a minute to check your work and make sure you've said what you want to say, then press submit! It won't redirect, so let Sanjana know. Thanks so much for participating, we really appreciate it :) 
+                                    Take a minute to check your work and make sure you've said what you want to say, then press submit! It won't redirect, so let the interviewer know. Thanks so much for participating, we really appreciate it :) 
                                 </Card.Text>
-                                <FinalSubmit/>
+                                {/* <FinalSubmit/> */}
+                                <SubmissionSection/>
                             </Card.Body>
                         </Card>
                     </Card.Body>

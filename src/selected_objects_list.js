@@ -4,8 +4,7 @@ import ButtonGroup from 'react-bootstrap/ButtonGroup'
 import Button from 'react-bootstrap/Button'
 import Card from 'react-bootstrap/Card'
 import { v4 as uuidv4 } from 'uuid'
-
-const sceneObjects = require('./scene_objects.json').sceneObjects
+import { sceneSynsets } from "./constants.js"
 
 
 export default class SelectedObjectsList extends React.Component {
@@ -37,7 +36,7 @@ export default class SelectedObjectsList extends React.Component {
     createSingleCategoryList(pureCategory) {
         let demotedRoomsMap = this.createDemotedRoomsMap()
         let buttonVariant
-        if (sceneObjects.includes(pureCategory)) {
+        if (sceneSynsets.includes(pureCategory)) {
             buttonVariant = "danger"
         } else {
             buttonVariant = "success"
@@ -54,7 +53,7 @@ export default class SelectedObjectsList extends React.Component {
                         </ButtonGroup>
                         {Array.from({length: demotedRoomsMap[pureCategory]}).map((_, j) => (
                             <Button key={j} variant="light" onClick={() => this.handleInstanceButtonClick(pureCategory)}>
-                                {pureCategory}{j + 1}
+                                {pureCategory}_{j + 1}
                             </Button>
                         ))}
                     </ListGroup.Item>
@@ -81,7 +80,7 @@ export default class SelectedObjectsList extends React.Component {
                                         </ButtonGroup>
                                         {roomsToIndices[room].map((instance_index, _) => (
                                             <Button key={instance_index} variant="light" onClick={() => this.handleInstanceButtonClick(pureCategory + room)}>
-                                                {pureCategory}{instance_index + 1}{room}
+                                                {pureCategory}_{instance_index + 1}{room}
                                             </Button>
                                         ))}
                                     </ListGroup.Item>
