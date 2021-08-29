@@ -33761,6 +33761,62 @@
                                                                 "hasModel": true
                                                             }
                                                         ]
+                                                    },
+                                                    {
+                                                        "name": "implement.n.01",
+                                                        "hasModel": false,
+                                                        "children": [
+                                                            {
+                                                                "name": "tool.n.01",
+                                                                "hasModel": false,
+                                                                "children": [
+                                                                    {
+                                                                        "name": "cutting_implement.n.01",
+                                                                        "hasModel": false,
+                                                                        "children": [
+                                                                            {
+                                                                                "name": "cutter.n.06",
+                                                                                "hasModel": false,
+                                                                                "children": [
+                                                                                    {
+                                                                                        "name": "edge_tool.n.01",
+                                                                                        "hasModel": false,
+                                                                                        "children": [
+                                                                                            {
+                                                                                                "name": "knife.n.01",
+                                                                                                "hasModel": false
+                                                                                            }
+                                                                                        ]
+                                                                                    }
+                                                                                ]
+                                                                            }
+                                                                        ]
+                                                                    }
+                                                                ]
+                                                            },
+                                                            {
+                                                                "name": "utensil.n.01",
+                                                                "hasModel": false,
+                                                                "children": [
+                                                                    {
+                                                                        "name": "kitchen_utensil.n.01",
+                                                                        "hasModel": false,
+                                                                        "children": [
+                                                                            {
+                                                                                "name": "cooking_utensil.n.01",
+                                                                                "hasModel": false,
+                                                                                "children": [
+                                                                                    {
+                                                                                        "name": "pan.n.01",
+                                                                                        "hasModel": false
+                                                                                    }
+                                                                                ]
+                                                                            }
+                                                                        ]
+                                                                    }
+                                                                ]
+                                                            }
+                                                        ]
                                                     }
                                                 ]
                                             },
@@ -33994,6 +34050,16 @@
                                                                                     },
                                                                                     {
                                                                                         "name": "peach.n.03",
+                                                                                        "hasModel": true
+                                                                                    }
+                                                                                ]
+                                                                            },
+                                                                            {
+                                                                                "name": "berry.n.01",
+                                                                                "hasModel": true,
+                                                                                "children": [
+                                                                                    {
+                                                                                        "name": "strawberry.n.01",
                                                                                         "hasModel": true
                                                                                     }
                                                                                 ]

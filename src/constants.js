@@ -166,7 +166,7 @@ export class ServerErrorModal extends React.Component {
                     </Modal.Header>
                     <Modal.Body>
                         <p>
-                            Let Sanjana know:
+                            Let the interviewer know:
                             <ul>
                                 <li>that there was a server error</li>
                                 <li>whether it happened before or after you clicked "Check feasibility" for the first time</li>

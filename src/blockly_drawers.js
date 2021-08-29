@@ -291,7 +291,7 @@ export class FeasibilityChecker extends React.Component {
                     <Modal.Body>
                         It typically takes 6-8 minutes from the time you entered your activity for the 
                          feasibility checker to load, so try again in a couple minutes. If it's 
-                         definitely been longer than ~10 minutes, let Sanjana know. 
+                         definitely been longer than ~10 minutes, let the interviewer know. 
                     </Modal.Body>
                 </Modal>
 
@@ -332,7 +332,7 @@ export class FeasibilityChecker extends React.Component {
                     </Modal.Header>
                     <Modal.Body>
                         This message will disappear when the checker is done, and you'll get feedback. 
-                        Typically 6-10 minute process. If it takes longer than ~12 minutes, let Sanjana
+                        Typically 6-10 minute process. If it takes longer than ~12 minutes, let the interviewer
                         know. 
                     </Modal.Body>
                 </Modal>
