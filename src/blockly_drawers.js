@@ -12,6 +12,7 @@ import {
     rootColor,
     airtableSavesUrl,
     airtableResultsUrl,
+    airtableInternalUrl,
     igibsonGcpVmCheckSamplingUrl,
     igibsonGcpVmTeardownUrl,
     ServerErrorModal,
@@ -426,7 +427,7 @@ export class FinalSubmit extends React.Component {
                 }]
             })
         }
-        fetch(airtableResultsUrl, submitPostRequest)
+        fetch(airtableInternalUrl, submitPostRequest)
         .then(response => response.json())
         
         console.log("successfully submitted!")
