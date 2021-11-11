@@ -1,6 +1,31 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## BEHAVIOR Activity Annotation Interface 
 
-## Available Scripts
+This project implements the frontend for the BEHAVIOR activity annotation interface. This interface allows you to define your own activities in a visual version of the BEHAVIOR Domain Definition Language (BDDL). You can try out [a version of this interface](https://stanfordvl.github.io/behavior-activity-annotation/) on our website!
+
+The version linked above does *not* test your definition for feasibility: meaning, it doesn't check if the definition you've created fits in iGibson scenes. This repo allows you to not only define, but check **feasibility** of definitions, i.e. to ensure that they will fit into your simulated scenes. 
+
+This repository provides the full frontend functionality, which covers everything needed to create a definition. To *check feasibility* and *save the definition*, you will need to add the following: 
+1. Backend running a simulator that can sample a BDDL definition. This can be implemented in iGibson or any other compatible simulator. 
+2. Storage database to save in-progress and completed BDDL definitions, e.g. AirTable. 
+
+### Implementing backend and storage 
+
+**Backend:** The frontend interacts with the backend by first sending scenes to initialize on different instances of the simulator, then sending BDDL definitions created on the frontend to attempt sampling in the simulator, then finally tearing down the simulators once a final definition has been submitted. To interface with the frontend at each of these, see the following instructions. They mention various URLs for interfacing with the backend, which should be defined in [`src/constants.js`](https://github.com/sanjanasrivastava/WorldStateExperiment/blob/master/src/constants.js).
+
+1. **Initialize different instances of the simulator:** This can be done by POSTing to some `SetupUrl` with information regarding the scenes to be tested. We show an example [here](https://github.com/sanjanasrivastava/WorldStateExperiment/blob/bc5d4789afea0d37f2bc8f2f23ef91d627a08fd1/src/activity_entry_form.js#L38). You can see the mapping of official BEHAVIOR activities to iGibson scenes in [`activity_to_preselected_scenes.json`](https://github.com/sanjanasrivastava/WorldStateExperiment/blob/master/src/data/activity_to_preselected_scenes.json). Custom activities (not in the [BEHAVIOR 100 activities list](https://behavior.stanford.edu/activity_list.html)) will have the same scenes as `assembling_gift_baskets` by default. You are free to add selections for particular activities. If you are not using iGibson scenes, you can make new entries in this file that provide the information your simulator needs. 
+2. **Send BDDL definitions to attempt sampling:** This can be done by POSTing definition data to some `SamplingUrl`. We show an example [here](https://github.com/sanjanasrivastava/WorldStateExperiment/blob/a411c0607bfa7dec9351a8a53b09dbe35b8af18e/src/blockly_drawers.js#L212). The frontend checks for code correctness then sends the BDDL sections to the backend through the POST to be checked for feasibility.
+3. **Tear down simulators after submitting:** This can be done once a submission is made by POSTing a teardown request to some `TeardownUrl` (making the submission final). We show an example [here](https://github.com/sanjanasrivastava/WorldStateExperiment/blob/a411c0607bfa7dec9351a8a53b09dbe35b8af18e/src/blockly_drawers.js#L393). 
+
+It is up to you how you would like to run multiple simulator instances and sample on the backend. The [iGibson 2.0 codebase](https://github.com/StanfordVL/iGibson) will be helpful here. 
+
+**Storage:** Our internal annotation process allows both unfinished and finished BDDL definitions to be saved. The frontend has `Save` buttons to save current work to a database, as well as a `Submit` button that makes a submission after checking correctness and feasibility. These can be POSTed to a database of your choosing. Save requests to storage should be implemented [here](https://github.com/sanjanasrivastava/WorldStateExperiment/blob/a411c0607bfa7dec9351a8a53b09dbe35b8af18e/src/blockly_drawers.js#L496) and submit requests to storage [here](https://github.com/sanjanasrivastava/WorldStateExperiment/blob/a411c0607bfa7dec9351a8a53b09dbe35b8af18e/src/blockly_drawers.js#L380). 
+
+It is up to you how you would like to store your data. The comments offer suggested fields that can be used to construct a full BDDL definition. 
+
+
+## Running this frontend (create-react-app basics, source: Facebook)
+
+This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app). For details on how to run it, see below: 
 
 In the project directory, you can run:
 
