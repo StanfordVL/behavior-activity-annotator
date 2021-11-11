@@ -10,11 +10,10 @@ import {
     sentenceConstructorColor,
     basicSentenceColor,
     rootColor,
-    airtableSavesUrl,
-    airtableResultsUrl,
-    airtableInternalUrl,
-    igibsonGcpVmCheckSamplingUrl,
-    igibsonGcpVmTeardownUrl,
+    SavesUrl,
+    ResultsUrl,
+    SamplingUrl,
+    TeardownUrl,
     ServerErrorModal,
     initBinaryPredicatesAdditionalReadable,
     binaryPredicatesReadable
@@ -26,8 +25,6 @@ import { convertName,
          generateDropdownArray,
         checkNulls,
         checkTransitiveUnplacedAdditionalObjects,
-        checkCategoriesExist,
-        checkNegatedPlacements,
         checkMultipleDirtyFloors,
         addAgentStartLine,
         getReadableFeedback } from "./utils.js"
@@ -157,9 +154,6 @@ export class FeasibilityChecker extends React.Component {
         let codeCorrect = true
         let nullsInInit
         let transitivelyUnplacedAdditionalObjectsExist
-        // let negatedPlacementsInInitial
-        // let categoriesInInitial
-        // let nextToPresent 
         let nullsInGoal
         let multipleDirtyFloorsInit
         let multipleDirtyFloorsGoal
@@ -172,19 +166,6 @@ export class FeasibilityChecker extends React.Component {
             transitivelyUnplacedAdditionalObjectsExist = <li>Initial conditions currently contain objects that have not been placed in relation to a scene object, even indirectly.</li>
             codeCorrect = false 
         } else {transitivelyUnplacedAdditionalObjectsExist = <div/>}
-        // if (checkNegatedPlacements(updatedInitialConditions)) {
-        //     negatedPlacementsInInitial = <li>Initial conditions contain negated two-object basic conditions, but in initial conditions you can only negate one-object basic conditions.</li>
-        //     codeCorrect = false 
-        // } else {negatedPlacementsInInitial = <div/>}
-        // if (checkCategoriesExist(updatedInitialConditions)) {
-        //     categoriesInInitial = <li>Initial conditions currently contain object categories, but only object instances are allowed in initial conditions.</li>
-        //     codeCorrect = false 
-        // } else {categoriesInInitial = <div/>}
-        // const nextToMatches = updatedInitialConditions.match(/nextto/)
-        // if (nextToMatches !== null) {
-        //     nextToPresent = <li>Initial conditions contain "next to", but "next to" is only allowed in goal conditions.</li>
-        //     codeCorrect = false 
-        // } else {nextToPresent = <div/>}
         if (checkNulls(updatedGoalConditions)) {
             nullsInGoal = <li>Goal conditions have empty fields.</li>
             codeCorrect = false 
@@ -236,7 +217,7 @@ export class FeasibilityChecker extends React.Component {
             })
         }
         window.sessionStorage.setItem("serverBusy", JSON.stringify(true))
-        fetch(igibsonGcpVmCheckSamplingUrl, conditionsPostRequest)     // TODO change to production URL
+        fetch(SamplingUrl, conditionsPostRequest)     // TODO change to production URL
         .then(response => response.json())
         .then(data => {
             this.setState({
@@ -406,35 +387,22 @@ export class FinalSubmit extends React.Component {
         // Add agent start term 
         let agentInitialConditions = addAgentStartLine(this.props.agentStartRoom, updatedInitialConditions)
 
-        // Save data to airtable 
-        const submitPostRequest = {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-                "Authorization": "Bearer keyeaIvUAzmIaj3ma"
-            },
-            body: JSON.stringify({
-                "records": [{
-                    "fields": { 
-                        "ActivityName": JSON.parse(window.sessionStorage.getItem('activityName')),
-                        "AnnotatorID": JSON.parse(window.sessionStorage.getItem('annotatorName')),
-                        "InitialConditions": agentInitialConditions,
-                        "GoalConditions": updatedGoalConditions,
-                        "FinalSave": 1,
-                        "Objects": createObjectsList(agentInitialConditions),
-                        "Approved": this.props.approved
-                    }
-                }]
-            })
-        }
-        fetch(airtableInternalUrl, submitPostRequest)
-        .then(response => response.json())
+        // TODO write a request to save the commented information to your database 
+        /*
+        "ActivityName": JSON.parse(window.sessionStorage.getItem("activityName"))
+        "AnnotatorID": JSON.parse(window.sessionStorage.getItem("annotatorName"))
+        "InitialConditions": agentInitialConditions
+        "GoalConditions": updatedGoalConditions
+        "FinalSave": 1
+        "Objects": createObjectsList(agentInitialConditions)
+        "Approved": this.props.approved
+        */
         
         console.log("successfully submitted!")
 
         // Teardown environments
         window.sessionStorage.setItem("serverReady", JSON.stringify(false))
-        fetch(igibsonGcpVmTeardownUrl, {
+        fetch(TeardownUrl, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
@@ -448,7 +416,7 @@ export class FinalSubmit extends React.Component {
             window.sessionStorage.setItem("scenes_ids", JSON.stringify([]))
         })
         .catch(response => {console.log(response)})
-    } // TODO Redirect!!!!!!!!!! Or give some kind of feedback
+    } 
 
     render() {
         console.log("from render: code correctness (", this.props.correct, "); code feasibility: (", this.props.feasible, "); agent selected (", this.props.agentStartRoom, ")")
@@ -461,7 +429,7 @@ export class FinalSubmit extends React.Component {
                     type="submit"
                     onClick={(event) => this.onSubmit(event)}
                     className="marginCard"
-                    disabled={!this.props.feasible || this.props.agentStartRoom === "stub" || !this.props.correct}        // TODO change once feasibility checking is implemented
+                    disabled={!this.props.feasible || this.props.agentStartRoom === "stub" || !this.props.correct}        
                 >
                     Submit
                 </Button>
@@ -545,31 +513,15 @@ export default class ConditionDrawer extends React.Component {
     onSave() {
         var base = new AirTable({apiKey: 'keyeaIvUAzmIaj3ma'}).base('appIh5qQ5m4UMrcps');
 
-        const requestOptions = {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': 'Bearer keyeaIvUAzmIaj3ma'
-            },
-            body:JSON.stringify({
-                "records": [
-                    {
-                        "fields": {
-                            "ActivityName": JSON.parse(window.sessionStorage.getItem('activityName')),
-                            "AnnotatorID": JSON.parse(window.sessionStorage.getItem('annotatorName')),
-                            "InitialConditions": updatedInitialConditions,
-                            "GoalConditions": updatedGoalConditions,
-                            "FinalSave": 0,
-                            "Objects": createObjectsList(updatedInitialConditions)
-                        }
-                    }
-                ]
-            })
-        }
-        fetch(airtableSavesUrl, requestOptions)
-        .then(response => response.json())    
-        
-        console.log('successfully posted to airtable!')
+        // TODO write a request to save the commented information to your database 
+        /*
+        "ActivityName": JSON.parse(window.sessionStorage.getItem("activityName"))
+        "AnnotatorID": JSON.parse(window.sessionStorage.getItem("annotatorName"))
+        "InitialConditions": agentInitialConditions
+        "GoalConditions": updatedGoalConditions
+        "FinalSave": 0
+        "Objects": createObjectsList(agentInitialConditions)
+        */         
     }
 
     getBlockTypes() {

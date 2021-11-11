@@ -34,8 +34,8 @@ const sceneObjectsNamesToSynsets = {
     "carpet": "rug.n.01",
     "chair": "chair.n.01",
     "chest": "chest.n.02",
-    "coffee_table": "table.n.02",       // "coffee_table.n.01",
-    "console_table": "table.n.02",      // "console_table.n.01",
+    "coffee_table": "table.n.02",       
+    "console_table": "table.n.02",      
     "counter": "countertop.n.01",
     "crib": "crib.n.01",
     "dishwasher": "dishwasher.n.01",
@@ -57,7 +57,7 @@ const sceneObjectsNamesToSynsets = {
     "shower": "shower.n.01",
     "sink": "sink.n.01",
     "sofa": "sofa.n.01",
-    "sofa_chair": "chair.n.01",      // TODO check
+    "sofa_chair": "chair.n.01",     
     "speaker_system": "loudspeaker.n.01",
     "stool": "stool.n.01",
     "stove": "stove.n.01", 
@@ -94,7 +94,6 @@ export function getPlacementsRe(objectInstance=null) {
         instanceRe = detectObjectInstanceRe.source
     }
     const placementsStringSegment = binaryPredicates.join("|")
-    // const placementsRe =`\\((ontop|nextto|inside|under) (${instanceRe} \\??${detectObjectInstanceRe.source}|\\??${detectObjectInstanceRe.source} ${instanceRe})\\)`
     const placementsRe =`\\((${placementsStringSegment}) (${instanceRe} \\??${detectObjectInstanceRe.source}|\\??${detectObjectInstanceRe.source} ${instanceRe})\\)`
     return new RegExp(placementsRe, "g")
 }
@@ -140,14 +139,11 @@ export const rootColor = "#731D45"
 
 // EXTERNAL REQUESTS CONSTANTS 
 
-const airtableUrl = "https://api.airtable.com/v0/apppX4DOdUUFg6r2q"
-const igGcpVmUrl = "http://34.123.89.206:8000"                          // TODO replace with production? Static IP?
-export const airtableResultsUrl = airtableUrl + "/Results"
-export const airtableInternalUrl = airtableUrl + "/InternalUse"
-export const airtableSavesUrl = airtableUrl + "/Saves"
-export const igibsonGcpVmSetupUrl = igGcpVmUrl + "/setup"
-export const igibsonGcpVmCheckSamplingUrl = igGcpVmUrl + "/check_sampling"
-export const igibsonGcpVmTeardownUrl = igGcpVmUrl + "/teardown"
+export const ResultsUrl = ""                                            // Place your URL to submit final definitions, here          
+export const SavesUrl = ""                                              // Place your URL to save non-final definitions, here 
+export const SetupUrl = ""                                                      // Place your URL to load iGibson scenes, here 
+export const SamplingUrl = ""                                                   // Place your URL to run the feasibility checker, here 
+export const TeardownUrl = ""                                                   // Place your URL to tear down any running processes here 
 
 
 export class ServerErrorModal extends React.Component {

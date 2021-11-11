@@ -8,14 +8,15 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { ObjectSelectionWorkspace, ConditionWorkspace } from './instruction_sections'
 import Introduction from './written_instructions'
 
+// Begin with placeholder activity settings
 const activityParameters = require('./data/pack_lunch_params.json')
-// Start out with stub object selections, ensure the checker is shown as not ready and not busy, 
 window.sessionStorage.setItem('allSelectedObjects', JSON.stringify({'apple': 2, 'orange': 5})) 
+window.sessionStorage.setItem("scenes_ids", JSON.stringify([]))
+
+// Ensure the checker is shown as not ready and not busy
 window.sessionStorage.setItem("serverReady", JSON.stringify(false))
 window.sessionStorage.setItem("serverBusy", JSON.stringify(false))
 window.sessionStorage.setItem("room", JSON.stringify({"stub": null}))
-// TODO send a teardown and put the line below in the .then?
-window.sessionStorage.setItem("scenes_ids", JSON.stringify([]))
 
 
 export default class Instructions extends React.Component {

@@ -2,7 +2,7 @@ import React from 'react'
 import Button from 'react-bootstrap/Button'
 import Form from 'react-bootstrap/Form'
 import Modal from 'react-bootstrap/Modal'
-import { allActivities, igibsonGcpVmSetupUrl, ServerErrorModal } from './constants.js'
+import { allActivities, SetupUrl, ServerErrorModal } from './constants.js'
 import { v4 as uuid } from "uuid"
 
 const activityToPreselectedScene = require("./data/activity_to_preselected_scenes.json")
@@ -38,10 +38,9 @@ export default class ActivityEntryForm extends React.Component {
             const envsPostRequest = {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                // body: JSON.stringify(activityToPreselectedScene[this.state.activityName].slice(0, 1))
                 body: JSON.stringify(activityToPreselectedScene[this.state.activityName])
             }
-            fetch(igibsonGcpVmSetupUrl, envsPostRequest)
+            fetch(SetupUrl, envsPostRequest)
             .then(response => response.json())
             .then(data => {
                 window.sessionStorage.setItem("scenes_ids", JSON.stringify(data["scenes_ids"]))
