@@ -29,7 +29,6 @@ import { convertName,
         addAgentStartLine,
         getReadableFeedback } from "./utils.js"
 import AgentStartForm from "./agent_start_selection_form"
-import AirTable from 'airtable'
 import Button from 'react-bootstrap/Button'
 import Modal from 'react-bootstrap/Modal'
 
@@ -55,7 +54,6 @@ export class SubmissionSection extends React.Component {
     onAgentStartSelection(agentStartRoom) { this.setState({ agentStartRoom: agentStartRoom }) }
 
     render() {
-        console.log("approved from parent:", this.state.approved)
         return (
             <div>
                 <AgentStartForm onAgentStartSelection={agentStartRoom => this.onAgentStartSelection(agentStartRoom)}/>
@@ -98,11 +96,6 @@ export class FeasibilityChecker extends React.Component {
     // Event methods 
 
     onClick() {
-        // TODO add in blockign when server is busy 
-
-        console.log("INITIAL CONDITIONS", updatedInitialConditions)
-        console.log("GOAL CONDITIONS:", updatedGoalConditions)
-
         let [codeCorrect, currentCodeCorrectnessFeedback] = this.checkCorrectness()
         // If incorrect, show the correctness error, say it's infeasible, and end things there 
         if (!codeCorrect) {
@@ -197,7 +190,6 @@ export class FeasibilityChecker extends React.Component {
     checkFeasibility() {
         // Add agent start lines 
         let agentInitialConditions = addAgentStartLine(this.props.agentStartRoom, updatedInitialConditions)
-        console.log("with agent:", agentInitialConditions)
 
         // Lock up  
         this.setState({ showPendingMessage: true })
@@ -383,7 +375,6 @@ export class FinalSubmit extends React.Component {
     constructor(props) { super(props) }
 
     onSubmit() {
-        console.log("approved:", this.props.approved)
         // Add agent start term 
         let agentInitialConditions = addAgentStartLine(this.props.agentStartRoom, updatedInitialConditions)
 
@@ -398,8 +389,6 @@ export class FinalSubmit extends React.Component {
         "Approved": this.props.approved
         */
         
-        console.log("successfully submitted!")
-
         // Teardown environments
         window.sessionStorage.setItem("serverReady", JSON.stringify(false))
         fetch(TeardownUrl, {
@@ -415,12 +404,9 @@ export class FinalSubmit extends React.Component {
             response.json()
             window.sessionStorage.setItem("scenes_ids", JSON.stringify([]))
         })
-        .catch(response => {console.log(response)})
     } 
 
     render() {
-        console.log("from render: code correctness (", this.props.correct, "); code feasibility: (", this.props.feasible, "); agent selected (", this.props.agentStartRoom, ")")
-
         return(
             <div>
                 <Button 
@@ -506,13 +492,9 @@ export default class ConditionDrawer extends React.Component {
             // Update code 
             updatedGoalConditions = newCode;
         }
-
-        console.log("code: ", code)
     }
 
     onSave() {
-        var base = new AirTable({apiKey: 'keyeaIvUAzmIaj3ma'}).base('appIh5qQ5m4UMrcps');
-
         // TODO write a request to save the commented information to your database 
         /*
         "ActivityName": JSON.parse(window.sessionStorage.getItem("activityName"))

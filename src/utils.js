@@ -127,14 +127,11 @@ export function addAgentStartLine(room, code) {
     let floorLabelNumbers = [0]
     for (let floorPlacement of floorInRoomPlacements) {
         if (roomRegex.test(floorPlacement)) {
-            console.log("FLOOR PLACEMENT:", floorPlacement)
             const floorLabel = floorPlacement.split(" ")[1]
-            console.log("CODE ITSELF:", newCode)
             return newCode.slice(0, -1) + ` (onfloor agent.n.01_1 ${floorLabel}))`  
         } 
         // Else, get its instance number 
         else {
-            console.log("FLOOR PLACEMENT WHEN NOT IN ROOM:", floorPlacement)
             floorLabelNumbers.push(parseInt(floorPlacement.split(" ")[1].split("_").slice(-1)))
         }
     }
@@ -468,7 +465,6 @@ export function getReadableFeedback(feedback) {
      *                              ]
      */
     // const numSuccess = feedback.reduce((total, res) => (res[0] === "yes" ? total + 1 : total), 0)
-    console.log("FEEDBACK:", feedback)
     const numTrials = feedback.length
     let numSuccess = 0
     let earliestFailure = -1 
