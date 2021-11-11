@@ -13,7 +13,6 @@ export default class AgentStartForm extends React.Component {
 
     constructForm() {
         let selectedRooms = Object.keys(JSON.parse(window.sessionStorage.getItem("room")))
-        // if (selectedRooms.length != 1) {
         return (
             <Card className="marginCard">
                 <Card.Body>
@@ -45,9 +44,6 @@ export default class AgentStartForm extends React.Component {
                 </Card.Body>
             </Card>
         )
-        // } else {
-        //     return (<div/>)
-        // }
     }
 
     render() {

@@ -209,7 +209,7 @@ export class FeasibilityChecker extends React.Component {
             })
         }
         window.sessionStorage.setItem("serverBusy", JSON.stringify(true))
-        fetch(SamplingUrl, conditionsPostRequest)     // TODO change to production URL
+        fetch(SamplingUrl, conditionsPostRequest)     
         .then(response => response.json())
         .then(data => {
             this.setState({
@@ -219,7 +219,6 @@ export class FeasibilityChecker extends React.Component {
                 showInfeasibleMessage: !data.success,
                 showFeasibleMessage: data.success,
                 showPendingMessage: false
-                // disable: false
             })
             window.sessionStorage.setItem("serverBusy", JSON.stringify(false))
             this.props.onFeasibilityCheck(data.success, 1)
@@ -227,7 +226,7 @@ export class FeasibilityChecker extends React.Component {
         .catch(response => {
             this.setState({ 
                 disable: false,
-                feasible: true,     // just let them submit? Send a message 
+                feasible: true,     
                 showInfeasibleMessage: false,
                 showFeasibleMessage: false,
                 showPendingMessage: false,
@@ -639,7 +638,7 @@ export const basicUnarySentenceInit = {
       },
     },
     generator: (block) => {
-      let object = block.getFieldValue('OBJECT').toLowerCase() // || 'null';
+      let object = block.getFieldValue('OBJECT').toLowerCase() 
       object = /\d/.test(object) ? object : "?" + object
       const adjective = String(convertName(block.getFieldValue('DESCRIPTOR')).toLowerCase()) || 'null';
       const code = `(${adjective} ${object})`;
@@ -706,7 +705,7 @@ export const basicUnarySentenceGoal = {
       },
     },
     generator: (block) => {
-      let object = block.getFieldValue('OBJECT').toLowerCase() // || 'null';
+      let object = block.getFieldValue('OBJECT').toLowerCase() 
       object = /\d/.test(object) ? object : "?" + object
       const adjective = String(convertName(block.getFieldValue('DESCRIPTOR')).toLowerCase()) || 'null';
       const code = `(${adjective} ${object})`;
@@ -850,7 +849,6 @@ export const basicBinarySentenceInit = {
                     if (state.currentSecondObjectCategory in kinematicDropdownGeneratorsInit) {
                         return kinematicDropdownGeneratorsInit[state.currentSecondObjectCategory]()
                     } else {
-                        // return generateDropdownArray(["select an adjective", 'on top of', 'inside'])
                         return generateDropdownArray(["select an adjective"].concat(initBinaryPredicatesAdditionalReadable))
                     }
                 },
@@ -896,12 +894,10 @@ export const conjunction = {
                     {
                         type: 'input_value',
                         name: 'CONJUNCT1',
-                        // check: "Boolean"
                     },
                     {
                         type: 'input_value',
                         name: 'CONJUNCT2',
-                        // check: "Boolean"
                     }
                 ],
                 output: "Boolean",
@@ -924,16 +920,11 @@ Blockly.Blocks['conjunction'] = {
      * @this {Blockly.Block}
      */
     init: function() {
-    //   this.setHelpUrl(Blockly.Msg['LISTS_CREATE_WITH_HELPURL']);
-    //   this.setStyle('list_blocks');
       this.setColour(sentenceConstructorColor)
       this.itemCount_ = 3;
       this.updateShape_();
       this.setOutput(true, 'Boolean');
-    //   this.setOutput(false, 'String')
-    // this.setPreviousStatement(true)
       this.setMutator(new Blockly.Mutator(['lists_create_with_item']));
-    //   this.setTooltip(Blockly.Msg['LISTS_CREATE_WITH_TOOLTIP']);
     },
     /**
      * Create XML to represent list inputs.
@@ -1034,7 +1025,6 @@ Blockly.Blocks['conjunction'] = {
           var input = this.appendValueInput('ADD' + i)
               .setAlign(Blockly.ALIGN_RIGHT);
           if (i == 0) {
-            // input.appendField(Blockly.Msg['LISTS_CREATE_WITH_INPUT_WITH']);
             input.appendField('and')
           }
         }
@@ -1072,12 +1062,10 @@ export const disjunction = {
                     {
                         type: 'input_value',
                         name: 'DISJUNCT1',
-                        // check: "Boolean"
                     },
                     {
                         type: 'input_value',
                         name: 'DISJUNCT2',
-                        // check: "Boolean"
                     }
                 ],
                 output: "Boolean",
@@ -1100,16 +1088,11 @@ Blockly.Blocks['disjunction'] = {
      * @this {Blockly.Block}
      */
     init: function() {
-    //   this.setHelpUrl(Blockly.Msg['LISTS_CREATE_WITH_HELPURL']);
-    //   this.setStyle('list_blocks');
       this.setColour(sentenceConstructorColor)
       this.itemCount_ = 3;
       this.updateShape_();
       this.setOutput(true, 'Boolean');
-    //   this.setOutput(false, 'String')
-    // this.setPreviousStatement(true)
       this.setMutator(new Blockly.Mutator(['lists_create_with_item']));
-    //   this.setTooltip(Blockly.Msg['LISTS_CREATE_WITH_TOOLTIP']);
     },
     /**
      * Create XML to represent list inputs.
@@ -1210,7 +1193,6 @@ Blockly.Blocks['disjunction'] = {
           var input = this.appendValueInput('ADD' + i)
               .setAlign(Blockly.ALIGN_RIGHT);
           if (i == 0) {
-            // input.appendField(Blockly.Msg['LISTS_CREATE_WITH_INPUT_WITH']);
             input.appendField('or')
           }
         }
@@ -1272,12 +1254,10 @@ export const implication = {
                     {
                         type: "input_value",
                         name: "ANTECEDENT",
-                        // check: "Boolean"
                     },
                     {
                         type: "input_value",
                         name: "CONSEQUENT",
-                        // check: "Boolean"
                     }
                 ],
                 output: "Boolean",
@@ -1557,16 +1537,11 @@ Blockly.Blocks['root_block'] = {
      * @this {Blockly.Block}
      */
     init: function() {
-    //   this.setHelpUrl(Blockly.Msg['LISTS_CREATE_WITH_HELPURL']);
-    //   this.setStyle('list_blocks');
       this.setColour(rootColor)
       this.itemCount_ = 3;
       this.updateShape_();
       this.setOutput(true, 'Array');
-    //   this.setOutput(false, 'String')
-    // this.setPreviousStatement(true)
       this.setMutator(new Blockly.Mutator(['lists_create_with_item']));
-    //   this.setTooltip(Blockly.Msg['LISTS_CREATE_WITH_TOOLTIP']);
     },
     /**
      * Create XML to represent list inputs.
@@ -1667,7 +1642,6 @@ Blockly.Blocks['root_block'] = {
           var input = this.appendValueInput('ADD' + i)
               .setAlign(Blockly.ALIGN_RIGHT);
           if (i == 0) {
-            // input.appendField(Blockly.Msg['LISTS_CREATE_WITH_INPUT_WITH']);
             input.appendField('toolbox')
           }
         }
@@ -1682,7 +1656,6 @@ Blockly.Blocks['root_block'] = {
 
 
   Blockly.JavaScript['root_block'] = function(block) {
-    //   let code = "?ROOT"
       let code = ""
       for ( let i = 0; i < block.inputList.length; i++) {
           code += Blockly.JavaScript.valueToCode(block, block.inputList[i].name, Blockly.JavaScript.ORDER_ADDITION) || 'null'

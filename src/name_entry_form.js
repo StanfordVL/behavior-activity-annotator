@@ -30,7 +30,6 @@ export default class NameEntryForm extends React.Component {
                         size="lg"
                         type="text"
                         placeholder="Please enter your first name"
-                        // className="marginCard"
                         style={{ marginBottom: "10px" }}
                         disabled={this.state.submitted}
                     />

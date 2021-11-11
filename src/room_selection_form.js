@@ -30,11 +30,9 @@ export default class RoomForm extends React.Component {
         window.sessionStorage.setItem("room", JSON.stringify(this.state.selectedCheckboxes))
         this.props.onSubmit(this.state.selectedCheckboxes);
 
-        // return false 
     }
 
     render() {
-        // let rooms = Object.keys(activitiesToRoomsObjects[this.props.activityName])
         let rooms
         if (this.props.activityName.length === 0) {
             rooms = ["bedroom"]
@@ -56,7 +54,6 @@ export default class RoomForm extends React.Component {
                                 inline 
                                 value={roomType}
                                 disabled={this.state.submitted}
-                                // style={{ "font-weight": "bold" }}
                             />
                         ))}
                     </div>
@@ -66,7 +63,6 @@ export default class RoomForm extends React.Component {
                         variant="outline-primary"
                         disabled={(Object.keys(this.state.selectedCheckboxes).length === 0) || this.state.submitted === true}
                         style={{ "marginTop": "10px" }}
-                        // onClick={this.onSubmit}
                     >
                         submit
                     </Button>

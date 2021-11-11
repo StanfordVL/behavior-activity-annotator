@@ -35,7 +35,6 @@ export class ObjectSelectionWorkspace extends React.Component {
     updateSelectedObjectsIncrement(numObjects, objectCategory) {
         let updatedSelectedObjects = {...this.state.allSelectedObjects};
         if (objectCategory in updatedSelectedObjects) {
-            // updatedSelectedObjects[objectCategory] += numObjects
             updatedSelectedObjects[objectCategory] = Math.max(updatedSelectedObjects[objectCategory] + numObjects, 0)
         } else {
             updatedSelectedObjects[objectCategory] = Math.max(numObjects, 0)
@@ -107,9 +106,6 @@ export class ObjectSelectionWorkspace extends React.Component {
                                     <Card.Text style={{ fontSize: 13}} className="text-muted">
                                         Drag to pivot, press control and drag to move around, scroll to zoom.
                                     </Card.Text>
-                                    {/* <div className="marginCard" dangerouslySetInnerHTML={
-                                        { __html: "<iframe margin='20px' width='600px' height='400px' src='http://104.236.172.175:3000/' />"}
-                                    } /> */}
                                     
                                     <RoomForm 
                                         onSubmit={(updatedRooms) => {this.updateSelectedRooms(updatedRooms); this.onRoomFormSubmit()}}

@@ -74,7 +74,6 @@ export function createObjectsList(initialConditions) {
     
     let objectToCategory = {}
     for (let object of detectedObjectInstances) {
-        // const category = object.replace(/[0-9]+/, '')
         const category = getCategoryFromLabel(object)
         if (category in objectToCategory) {
             objectToCategory[category].add(object)
@@ -464,7 +463,6 @@ export function getReadableFeedback(feedback) {
      *                                  goal_feedback (sentence)
      *                              ]
      */
-    // const numSuccess = feedback.reduce((total, res) => (res[0] === "yes" ? total + 1 : total), 0)
     const numTrials = feedback.length
     let numSuccess = 0
     let earliestFailure = -1 
@@ -488,7 +486,7 @@ export function getReadableFeedback(feedback) {
     if (goalSuccess === "yes") {
         goalFeedbackDisplay = <p>The goal conditions are feasible!</p>
     } else if (goalSuccess === "no") {
-        goalFeedbackDisplay = <div>{goalFeedback}</div>     // TODO make better feedback
+        goalFeedbackDisplay = <div>{goalFeedback}</div>     
     } else if (goalSuccess === "untested") {
         goalFeedbackDisplay = <p>The goal conditions have not yet been checked.</p>
     }

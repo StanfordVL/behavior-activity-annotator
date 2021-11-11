@@ -5,8 +5,7 @@ import Figure from 'react-bootstrap/Figure'
 
 export default class SceneObjectRoomSelection extends React.Component {
     constructor(props) {
-        super(props)        // this.props.sceneObjects, this.props.rooms 
-
+        super(props)      
         this.genForm = this.genForm.bind(this)
     }
 

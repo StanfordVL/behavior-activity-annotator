@@ -47,7 +47,6 @@ export default class SmallObjectSelectionWorkspace extends React.Component {
                 <Modal
                     show={this.state.showAllObjects}
                     onHide={() => this.onHide()}
-                    // backdrop="static"
                     keyboard={false}
                     size="xl"
                 >
@@ -82,7 +81,6 @@ export class SmallObjectSelector extends React.Component {
     }
 
     onTreeNodeClick(nodeName) {
-        // this.setState({ currentCategory: nodeName.split('.')[0] })
         this.setState({ currentCategory: nodeName })
     }
 
@@ -180,7 +178,6 @@ export class ObjectHierarchy extends React.Component {
                         siblings: 0.3,
                         nonSiblings: 0.5
                     }}
-                    // depthFactor={getJSONDepth() * 275}
                     depthFactor={600}
                     textLayout={{textAnchor: "start", x: 15, y: -10, transform: undefined}}
                     onNodeClick={(event) => this.props.onNodeClick(event.name)}
